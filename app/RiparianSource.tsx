@@ -6,7 +6,7 @@ type CustomSourceProps = {
   position: Position
 }
 
-export const CustomSource = ({ position }: CustomSourceProps) => {
+export const RiparianSource = ({ position }: CustomSourceProps) => {
   const [handleType, setHandleType] = useState<BaseIOTypes>()
 
   return (

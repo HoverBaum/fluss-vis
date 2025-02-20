@@ -15,7 +15,7 @@ import {
 } from '@xyflow/react'
 
 import '@xyflow/react/dist/style.css'
-import { CustomNode } from './CustomNode'
+import { RiparianNode } from './RiparianNode'
 
 const initialNodes = [
   {
@@ -44,7 +44,7 @@ export const FlowEditor = () => {
     [setEdges]
   )
 
-  const nodeTypes = useMemo(() => ({ custom: CustomNode }), [])
+  const nodeTypes = useMemo(() => ({ custom: RiparianNode }), [])
 
   return (
     <div style={{ width: '100vw', height: '100vh' }}>
