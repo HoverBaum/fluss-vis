@@ -8,6 +8,7 @@ import {
   Connection,
   Controls,
   MiniMap,
+  Position,
   ReactFlow,
   useEdgesState,
   useNodesState,
@@ -17,9 +18,27 @@ import '@xyflow/react/dist/style.css'
 import { CustomNode } from './CustomNode'
 
 const initialNodes = [
-  { id: '1', position: { x: 0, y: 0 }, data: { label: '1' } },
-  { id: '2', position: { x: 0, y: 100 }, data: { label: '2' } },
-  { id: '3', position: { x: 0, y: 200 }, type: 'custom', data: {} },
+  { id: '1', position: { x: 10, y: 10 }, data: { label: '1' } },
+  {
+    id: '2',
+    position: { x: 10, y: 100 },
+    data: { label: '2' },
+    sourcePosition: Position.Right,
+  },
+  {
+    id: '3',
+    position: { x: 10, y: 200 },
+    type: 'custom',
+    data: {},
+    sourcePosition: Position.Right,
+  },
+  {
+    id: '4',
+    position: { x: 300, y: 200 },
+    type: 'custom',
+    data: {},
+    sourcePosition: Position.Right,
+  },
 ]
 const initialEdges = [{ id: 'e1-2', source: '1', target: '2' }]
 
