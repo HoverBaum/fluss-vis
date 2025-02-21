@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { Blocks, Calculator, LucideIcon, Signature } from 'lucide-react'
+import { Blocks, Calculator, LucideIcon, Signature, Slash } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   Command,
@@ -18,7 +18,7 @@ import {
 } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
 
-export type BaseIOTypes = 'string' | 'number' | 'complex'
+export type BaseIOTypes = 'string' | 'number' | 'complex' | 'void'
 
 type Status = {
   value: BaseIOTypes
@@ -45,6 +45,11 @@ const statuses: StatusMap = {
     value: 'complex',
     label: 'Custom',
     icon: Blocks,
+  },
+  void: {
+    value: 'void',
+    label: 'Void',
+    icon: Slash,
   },
 }
 

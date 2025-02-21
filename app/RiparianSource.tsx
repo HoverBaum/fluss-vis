@@ -2,11 +2,11 @@ import { BaseIOTypes, TypePicker } from '@/components/TypePicker'
 import { Handle, Position } from '@xyflow/react'
 import { useState } from 'react'
 
-type CustomSourceProps = {
-  position: Position
+type RiparianSourceProps = {
+  id: string
 }
 
-export const RiparianSource = ({ position }: CustomSourceProps) => {
+export const RiparianSource = ({ id }: RiparianSourceProps) => {
   const [handleType, setHandleType] = useState<BaseIOTypes>()
 
   return (
@@ -16,7 +16,8 @@ export const RiparianSource = ({ position }: CustomSourceProps) => {
       </div>
       <Handle
         type="source"
-        position={position}
+        id={id}
+        position={Position.Right}
         style={{ position: 'absolute', right: '0px' }}
       />
     </div>
