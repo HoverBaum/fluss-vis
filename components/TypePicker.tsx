@@ -17,6 +17,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
+import { EdgeType } from '@/app/EdgeType'
 
 export type BaseIOTypes = 'string' | 'number' | 'custom' | 'void'
 
@@ -30,7 +31,7 @@ type StatusMap = {
   [key in BaseIOTypes]: Status
 }
 
-const statuses: StatusMap = {
+export const EdgeTypeMap: StatusMap = {
   void: {
     value: 'void',
     label: 'Void',
@@ -53,7 +54,7 @@ const statuses: StatusMap = {
   },
 }
 
-const statusArray: Status[] = Object.values(statuses)
+const statusArray: Status[] = Object.values(EdgeTypeMap)
 
 type TypePickerProps = {
   type: BaseIOTypes | undefined
@@ -62,7 +63,7 @@ type TypePickerProps = {
 
 export function TypePicker({ type, onTypeChange }: TypePickerProps) {
   const [open, setOpen] = React.useState(false)
-  const selectedType = type && statuses[type]
+  const selectedType = type && EdgeTypeMap[type]
 
   return (
     <div className="flex items-center space-x-4">
@@ -74,14 +75,7 @@ export function TypePicker({ type, onTypeChange }: TypePickerProps) {
             size="sm"
             className="w-[120px] justify-start"
           >
-            {selectedType ? (
-              <>
-                <selectedType.icon className="mr-2 h-4 w-4 shrink-0" />
-                {selectedType.label}
-              </>
-            ) : (
-              <>Select Type</>
-            )}
+            {selectedType ? <EdgeType type={type} /> : <>Select Type</>}
           </Button>
         </PopoverTrigger>
         <PopoverContent className="p-0" side="right" align="start">

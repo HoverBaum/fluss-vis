@@ -1,17 +1,32 @@
-import { BaseIOTypes } from '@/components/TypePicker'
-import { Handle, Position } from '@xyflow/react'
+import { useFlussStore } from '@/stores/FlussStoreProvider'
+import { Handle, HandleType, Position, useNodeConnections } from '@xyflow/react'
+import { useShallow } from 'zustand/react/shallow'
+import { EdgeType } from './EdgeType'
 
 type RiparianTargetProps = {
   id: string
-  dataType?: BaseIOTypes
 }
 
-export const RiparianTarget = ({ id, dataType }: RiparianTargetProps) => {
+const handleType: HandleType = 'target'
+
+export const RiparianTarget = ({ id }: RiparianTargetProps) => {
+  const connections = useNodeConnections({
+    handleType: handleType,
+    handleId: id,
+  })
+  const sourceId = connections[0]?.source
+  const sourceNodes = useFlussStore(
+    useShallow((state) => state.nodes.filter((node) => node.id === sourceId))
+  )
+  const outputType = sourceNodes[0]?.data?.outputType
+
   return (
     <div className="relative pl-2">
-      <div className="pr-2">{dataType || 'Unselected'}</div>
+      <div className="pl-1">
+        {(outputType && <EdgeType type={outputType} />) || 'Unselected'}
+      </div>
       <Handle
-        type="target"
+        type={handleType}
         position={Position.Left}
         id={id}
         style={{ position: 'absolute', left: '0px' }}

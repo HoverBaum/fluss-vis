@@ -7,7 +7,7 @@ import {
 } from '@/components/ui/card'
 import { RiparianSource } from './RiparianSource'
 import { RiparianTarget } from './RiparianTarget'
-import { NodeProps, useNodeConnections, useNodeId } from '@xyflow/react'
+import { NodeProps, useNodeId } from '@xyflow/react'
 import { FlussNode } from '@/stores/flussStore'
 
 /**
@@ -17,11 +17,6 @@ import { FlussNode } from '@/stores/flussStore'
 export const RiparianNode = ({ data }: NodeProps<FlussNode>) => {
   const { outputType } = data
   const nodeId = useNodeId()
-  const connections = useNodeConnections({
-    handleType: 'target',
-  })
-  console.log('nodeId', nodeId)
-  console.log('connections', connections)
 
   return (
     <Card className="min-w-[250px]">
