@@ -1,7 +1,12 @@
-import { useFlussStore } from '@/stores/FlussStoreProvider'
-import { Handle, HandleType, Position, useNodeConnections } from '@xyflow/react'
-import { useShallow } from 'zustand/react/shallow'
+import {
+  Handle,
+  HandleType,
+  Position,
+  useNodeConnections,
+  useNodesData,
+} from '@xyflow/react'
 import { EdgeType } from './EdgeType'
+import { FlussNodeType } from '@/stores/flussStore'
 
 type FlussNodeInputProps = {
   id: string
@@ -15,10 +20,8 @@ export const FlussNodeInput = ({ id }: FlussNodeInputProps) => {
     handleId: id,
   })
   const sourceId = connections[0]?.source
-  const sourceNodes = useFlussStore(
-    useShallow((state) => state.nodes.filter((node) => node.id === sourceId))
-  )
-  const outputType = sourceNodes[0]?.data?.outputType
+  const sourceNode = useNodesData<FlussNodeType>(sourceId)
+  const outputType = sourceNode?.data?.outputType
 
   return (
     <div className="relative pl-6">
