@@ -30,7 +30,7 @@ export const RiparianNode = () => {
       </CardHeader>
       <CardContent className="relative">
         <div className="grid grid-cols-1 absolute left-0 top-0">
-          <RiparianTarget id={`${nodeId}-input-1`} dataType="void" />
+          <RiparianTarget id={`${nodeId}-input-1`} />
         </div>
       </CardContent>
       <hr className="my-4" />

@@ -18,7 +18,7 @@ import {
 } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
 
-export type BaseIOTypes = 'string' | 'number' | 'complex' | 'void'
+export type BaseIOTypes = 'string' | 'number' | 'custom' | 'void'
 
 type Status = {
   value: BaseIOTypes
@@ -31,6 +31,11 @@ type StatusMap = {
 }
 
 const statuses: StatusMap = {
+  void: {
+    value: 'void',
+    label: 'Void',
+    icon: Slash,
+  },
   string: {
     value: 'string',
     label: 'String',
@@ -41,15 +46,10 @@ const statuses: StatusMap = {
     label: 'Number',
     icon: Calculator,
   },
-  complex: {
-    value: 'complex',
+  custom: {
+    value: 'custom',
     label: 'Custom',
     icon: Blocks,
-  },
-  void: {
-    value: 'void',
-    label: 'Void',
-    icon: Slash,
   },
 }
 
