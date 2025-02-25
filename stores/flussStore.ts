@@ -1,3 +1,4 @@
+import { nanoid } from 'nanoid'
 import { BaseIOTypes } from '@/components/TypePicker'
 import { devtools } from 'zustand/middleware'
 import {
@@ -10,6 +11,7 @@ import {
   OnEdgesChange,
   OnNodesChange,
   Position,
+  Viewport,
 } from '@xyflow/react'
 import { createStore } from 'zustand/vanilla'
 
@@ -19,6 +21,7 @@ export type FlussState = {
   name: string
   nodes: FlussNodeType[]
   edges: Edge[]
+  viewport: Viewport
 }
 
 export type FlussActions = {
@@ -26,32 +29,34 @@ export type FlussActions = {
   onNodesChange: OnNodesChange<FlussNodeType>
   onEdgesChange: OnEdgesChange
   onConnect: OnConnect
-  setNodes: (nodes: FlussNodeType[]) => void
   setEdges: (edges: Edge[]) => void
+  setNodes: (nodes: FlussNodeType[]) => void
   setOutputType: (nodeId: string, outputType: BaseIOTypes) => void
+  addNode: () => void
+  setViewport: (viewport: Viewport) => void
 }
 
 export type FlussStore = FlussState & FlussActions
 
+const createFlussNode = (position: {
+  x: number
+  y: number
+}): FlussNodeType => ({
+  id: nanoid(5),
+  position,
+  type: 'flussNode',
+  data: {},
+  sourcePosition: Position.Right,
+})
+
 export const defaultInitState: FlussState = {
   name: 'Untitled Fluss 🌊',
   nodes: [
-    {
-      id: '3',
-      position: { x: 210, y: 200 },
-      type: 'riparian',
-      data: {},
-      sourcePosition: Position.Right,
-    },
-    {
-      id: '4',
-      position: { x: 550, y: 250 },
-      type: 'riparian',
-      data: {},
-      sourcePosition: Position.Right,
-    },
+    createFlussNode({ x: 210, y: 200 }),
+    createFlussNode({ x: 550, y: 250 }),
   ],
   edges: [],
+  viewport: { x: 0, y: 0, zoom: 1 },
 }
 
 export const createFlussStore = (initState: FlussState = defaultInitState) => {
@@ -90,7 +95,24 @@ export const createFlussStore = (initState: FlussState = defaultInitState) => {
             ),
           }))
         },
+        addNode: () => {
+          set((state) => {
+            return {
+              nodes: [
+                ...state.nodes,
+                createFlussNode({
+                  x: -state.viewport.x,
+                  y: -state.viewport.y,
+                }),
+              ],
+            }
+          })
+        },
+        setViewport: (viewport) => {
+          set({ viewport })
+        },
       }),
+
       { name: 'FlussStore' }
     )
   )

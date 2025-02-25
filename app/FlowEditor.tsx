@@ -18,6 +18,8 @@ import { useTheme } from 'next-themes'
 import { useShallow } from 'zustand/react/shallow'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { FlussStore } from '@/stores/flussStore'
+import { ToolPanel } from './ToolPanel'
+import { FlowEditorViewportReporter } from './FlowEditorViewportReporter'
 
 const selector = (state: FlussStore) => ({
   nodes: state.nodes,
@@ -38,7 +40,7 @@ export const FlowEditor = () => {
     setIsMounted(true)
   }, [])
 
-  const nodeTypes = useMemo(() => ({ riparian: FlussNode }), [])
+  const nodeTypes = useMemo(() => ({ flussNode: FlussNode }), [])
 
   if (!isMounted) return null
 
@@ -55,6 +57,10 @@ export const FlowEditor = () => {
         suppressHydrationWarning
         panOnScroll
       >
+        <FlowEditorViewportReporter />
+        <Panel position="bottom-center">
+          <ToolPanel />
+        </Panel>
         <Panel position="top-center">
           <FlussTitleDisplay />
         </Panel>
