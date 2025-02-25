@@ -3,13 +3,13 @@ import { Handle, HandleType, Position, useNodeConnections } from '@xyflow/react'
 import { useShallow } from 'zustand/react/shallow'
 import { EdgeType } from './EdgeType'
 
-type RiparianTargetProps = {
+type RiparianInputProps = {
   id: string
 }
 
 const handleType: HandleType = 'target'
 
-export const RiparianTarget = ({ id }: RiparianTargetProps) => {
+export const RiparianInput = ({ id }: RiparianInputProps) => {
   const connections = useNodeConnections({
     handleType: handleType,
     handleId: id,
@@ -21,10 +21,13 @@ export const RiparianTarget = ({ id }: RiparianTargetProps) => {
   const outputType = sourceNodes[0]?.data?.outputType
 
   return (
-    <div className="relative pl-2">
-      <div className="pl-1">
-        {(outputType && <EdgeType type={outputType} />) || 'Unselected'}
-      </div>
+    <div className="relative pl-6">
+      {outputType && <EdgeType type={outputType} />}
+      {!outputType && connections.length > 0 && 'Unselected'}
+      {!outputType && connections.length === 0 && (
+        <small className="opacity-50">Unconnected</small>
+      )}
+
       <Handle
         type={handleType}
         position={Position.Left}

@@ -53,6 +53,7 @@ export const FlowEditor = () => {
         onConnect={onConnect}
         colorMode={theme as 'system' | 'light' | 'dark'}
         suppressHydrationWarning
+        panOnScroll
       >
         <Panel position="top-center">
           <FlussTitleDisplay />
