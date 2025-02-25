@@ -1,18 +1,13 @@
 'use client'
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import {
-  addEdge,
   Background,
   BackgroundVariant,
-  Connection,
   Controls,
   MiniMap,
   Panel,
-  Position,
   ReactFlow,
-  useEdgesState,
-  useNodesState,
 } from '@xyflow/react'
 
 import '@xyflow/react/dist/style.css'
@@ -20,40 +15,28 @@ import { RiparianNode } from './RiparianNode'
 import { FlussTitleDisplay } from './FlussTitleDisplay'
 import { ModeToggle } from '@/components/ModeToggle'
 import { useTheme } from 'next-themes'
+import { useShallow } from 'zustand/react/shallow'
+import { useFlussStore } from '@/stores/FlussStoreProvider'
+import { FlussStore } from '@/stores/flussStore'
 
-const initialNodes = [
-  {
-    id: '3',
-    position: { x: 210, y: 200 },
-    type: 'custom',
-    data: {},
-    sourcePosition: Position.Right,
-  },
-  {
-    id: '4',
-    position: { x: 550, y: 250 },
-    type: 'custom',
-    data: {},
-    sourcePosition: Position.Right,
-  },
-]
-const initialEdges = [{ id: 'e1-2', source: '1', target: '2' }]
+const selector = (state: FlussStore) => ({
+  nodes: state.nodes,
+  edges: state.edges,
+  onNodesChange: state.onNodesChange,
+  onEdgesChange: state.onEdgesChange,
+  onConnect: state.onConnect,
+})
 
 export const FlowEditor = () => {
-  const [nodes, , onNodesChange] = useNodesState(initialNodes)
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges)
   const [isMounted, setIsMounted] = useState(false)
   const { theme } = useTheme()
+  const { nodes, edges, onNodesChange, onEdgesChange, onConnect } =
+    useFlussStore(useShallow(selector))
 
   // Hack to make sure we know the clients theme and only render on client.
   useEffect(() => {
     setIsMounted(true)
   }, [])
-
-  const onConnect = useCallback(
-    (params: Connection) => setEdges((eds) => addEdge(params, eds)),
-    [setEdges]
-  )
 
   const nodeTypes = useMemo(() => ({ custom: RiparianNode }), [])
 

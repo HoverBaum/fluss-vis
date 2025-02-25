@@ -2,7 +2,7 @@
 
 import { type ReactNode, createContext, useRef, useContext } from 'react'
 import { useStore } from 'zustand'
-import { createFlussStore, FlussStore } from './fluss-store'
+import { createFlussStore, FlussStore } from './flussStore'
 
 export type FlussStoreApi = ReturnType<typeof createFlussStore>
 
