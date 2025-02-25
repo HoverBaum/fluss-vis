@@ -8,6 +8,7 @@ import {
   Connection,
   Controls,
   MiniMap,
+  Panel,
   Position,
   ReactFlow,
   useEdgesState,
@@ -16,6 +17,7 @@ import {
 
 import '@xyflow/react/dist/style.css'
 import { RiparianNode } from './RiparianNode'
+import { FlussTitleDisplay } from './FlussTitleDisplay'
 
 const initialNodes = [
   {
@@ -56,6 +58,9 @@ export const FlowEditor = () => {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
       >
+        <Panel position="top-center">
+          <FlussTitleDisplay />
+        </Panel>
         <Controls />
         <MiniMap />
         <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
