@@ -13,20 +13,20 @@ import {
 } from '@xyflow/react'
 import { createStore } from 'zustand/vanilla'
 
-export type FlussNode = Node<{ outputType?: BaseIOTypes }>
+export type FlussNodeType = Node<{ outputType?: BaseIOTypes }>
 
 export type FlussState = {
   name: string
-  nodes: FlussNode[]
+  nodes: FlussNodeType[]
   edges: Edge[]
 }
 
 export type FlussActions = {
   rename: (name: string) => void
-  onNodesChange: OnNodesChange<FlussNode>
+  onNodesChange: OnNodesChange<FlussNodeType>
   onEdgesChange: OnEdgesChange
   onConnect: OnConnect
-  setNodes: (nodes: FlussNode[]) => void
+  setNodes: (nodes: FlussNodeType[]) => void
   setEdges: (edges: Edge[]) => void
   setOutputType: (nodeId: string, outputType: BaseIOTypes) => void
 }

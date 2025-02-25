@@ -3,13 +3,13 @@ import { Handle, HandleType, Position, useNodeConnections } from '@xyflow/react'
 import { useShallow } from 'zustand/react/shallow'
 import { EdgeType } from './EdgeType'
 
-type RiparianInputProps = {
+type FlussNodeInputProps = {
   id: string
 }
 
 const handleType: HandleType = 'target'
 
-export const RiparianInput = ({ id }: RiparianInputProps) => {
+export const FlussNodeInput = ({ id }: FlussNodeInputProps) => {
   const connections = useNodeConnections({
     handleType: handleType,
     handleId: id,

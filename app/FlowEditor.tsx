@@ -11,7 +11,7 @@ import {
 } from '@xyflow/react'
 
 import '@xyflow/react/dist/style.css'
-import { RiparianNode } from './RiparianNode'
+import { FlussNode } from './FlussNode'
 import { FlussTitleDisplay } from './FlussTitleDisplay'
 import { ModeToggle } from '@/components/ModeToggle'
 import { useTheme } from 'next-themes'
@@ -38,7 +38,7 @@ export const FlowEditor = () => {
     setIsMounted(true)
   }, [])
 
-  const nodeTypes = useMemo(() => ({ riparian: RiparianNode }), [])
+  const nodeTypes = useMemo(() => ({ riparian: FlussNode }), [])
 
   if (!isMounted) return null
 

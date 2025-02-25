@@ -5,16 +5,17 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { RiparianOutput } from './RiparianOutput'
-import { RiparianInput } from './RiparianInput'
+import { FlussNodeOutput } from './FlussNodeOutput'
+import { FlussNodeInput } from './FlussNodeInput'
 import { NodeProps, useNodeId } from '@xyflow/react'
-import { FlussNode } from '@/stores/flussStore'
+import { FlussNodeType } from '@/stores/flussStore'
 
 /**
- * Riparian: from the Latin "ripa" meaning "Riverbank" means "something on the riverbank".
- * Like a Mill on the riverbank, our Riparians create value using the flow of data.
+ * A Node somewhere in the Fluss.
+ * A step in the process we define.
+ * Can have one or more inputs and has a single output.
  */
-export const RiparianNode = ({ data }: NodeProps<FlussNode>) => {
+export const FlussNode = ({ data }: NodeProps<FlussNodeType>) => {
   const { outputType } = data
   const nodeId = useNodeId()
 
@@ -22,19 +23,19 @@ export const RiparianNode = ({ data }: NodeProps<FlussNode>) => {
     <Card className="min-w-[250px]">
       <small className="absolute top-2 right-2">{nodeId}</small>
       <CardHeader>
-        <CardTitle className="text-xl">Riparian Node</CardTitle>
+        <CardTitle className="text-xl">Fluss Node</CardTitle>
         <CardDescription>Description here</CardDescription>
       </CardHeader>
       <CardContent className="relative">
         <div className="grid grid-cols-1 absolute left-0 top-0">
-          <RiparianInput id={`${nodeId}-input-1`} />
+          <FlussNodeInput id={`${nodeId}-input-1`} />
         </div>
       </CardContent>
-      <hr className="my-4" />
+      <hr className="my-6" />
       <CardContent className="relative min-h-14">
         <div className="grid grid-cols-1 absolute right-0 top-0">
           <div>
-            <RiparianOutput type={outputType} id={`${nodeId}-output`} />
+            <FlussNodeOutput type={outputType} id={`${nodeId}-output`} />
           </div>
         </div>
       </CardContent>

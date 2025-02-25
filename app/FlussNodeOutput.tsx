@@ -2,12 +2,12 @@ import { BaseIOTypes, TypePicker } from '@/components/TypePicker'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { Handle, Position, useNodeId } from '@xyflow/react'
 
-type RiparianOutputProps = {
+type FlussNodeOutputProps = {
   id: string
   type?: BaseIOTypes
 }
 
-export const RiparianOutput = ({ id, type }: RiparianOutputProps) => {
+export const FlussNodeOutput = ({ id, type }: FlussNodeOutputProps) => {
   const setOutputType = useFlussStore((state) => state.setOutputType)
   const nodeId = useNodeId()
 
