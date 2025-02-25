@@ -38,7 +38,7 @@ export const FlowEditor = () => {
     setIsMounted(true)
   }, [])
 
-  const nodeTypes = useMemo(() => ({ custom: RiparianNode }), [])
+  const nodeTypes = useMemo(() => ({ riparian: RiparianNode }), [])
 
   if (!isMounted) return null
 

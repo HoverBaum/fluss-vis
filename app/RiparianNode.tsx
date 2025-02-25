@@ -7,13 +7,15 @@ import {
 } from '@/components/ui/card'
 import { RiparianSource } from './RiparianSource'
 import { RiparianTarget } from './RiparianTarget'
-import { useNodeConnections, useNodeId } from '@xyflow/react'
+import { NodeProps, useNodeConnections, useNodeId } from '@xyflow/react'
+import { FlussNode } from '@/stores/flussStore'
 
 /**
  * Riparian: from the Latin "ripa" meaning "Riverbank" means "something on the riverbank".
  * Like a Mill on the riverbank, our Riparians create value using the flow of data.
  */
-export const RiparianNode = () => {
+export const RiparianNode = ({ data }: NodeProps<FlussNode>) => {
+  const { outputType } = data
   const nodeId = useNodeId()
   const connections = useNodeConnections({
     handleType: 'target',
@@ -37,7 +39,7 @@ export const RiparianNode = () => {
       <CardContent className="relative min-h-12">
         <div className="grid grid-cols-1 absolute right-0 top-0">
           <div>
-            <RiparianSource id={`${nodeId}-output`} />
+            <RiparianSource type={outputType} id={`${nodeId}-output`} />
           </div>
         </div>
       </CardContent>
