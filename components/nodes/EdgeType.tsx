@@ -1,4 +1,4 @@
-import { BaseIOTypes, EdgeTypeMap } from '@/components/TypePicker'
+import { BaseIOTypes, EdgeTypeMap } from '@/components/nodes/TypePicker'
 
 type EdgeTypeProps = {
   type: BaseIOTypes

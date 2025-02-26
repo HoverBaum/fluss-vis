@@ -11,7 +11,6 @@ import {
 } from '@xyflow/react'
 
 import '@xyflow/react/dist/style.css'
-import { FlussNode } from './FlussNode'
 import { FlussTitleDisplay } from './FlussTitleDisplay'
 import { ModeToggle } from '@/components/ModeToggle'
 import { useTheme } from 'next-themes'
@@ -20,6 +19,7 @@ import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { FlussStore } from '@/stores/flussStore'
 import { ToolPanel } from './ToolPanel'
 import { FlowEditorViewportReporter } from './FlowEditorViewportReporter'
+import { FlussNode } from '@/components/nodes/flussNode/FlussNode'
 
 const selector = (state: FlussStore) => ({
   nodes: state.nodes,

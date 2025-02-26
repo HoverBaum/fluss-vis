@@ -17,7 +17,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
-import { EdgeType } from '@/app/EdgeType'
+import { EdgeType } from '@/components/nodes/EdgeType'
 
 export type BaseIOTypes = 'string' | 'number' | 'custom' | 'void'
 

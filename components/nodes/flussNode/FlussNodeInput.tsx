@@ -5,8 +5,8 @@ import {
   useNodeConnections,
   useNodesData,
 } from '@xyflow/react'
-import { EdgeType } from './EdgeType'
 import { FlussNodeType } from '@/stores/flussStore'
+import { EdgeType } from '../EdgeType'
 
 type FlussNodeInputProps = {
   id: string

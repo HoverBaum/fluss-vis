@@ -1,5 +1,5 @@
 import { nanoid } from 'nanoid'
-import { BaseIOTypes } from '@/components/TypePicker'
+import { BaseIOTypes } from '@/components/nodes/TypePicker'
 import { devtools } from 'zustand/middleware'
 import {
   addEdge,

@@ -1,4 +1,4 @@
-import { BaseIOTypes, TypePicker } from '@/components/TypePicker'
+import { BaseIOTypes, TypePicker } from '@/components/nodes/TypePicker'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { Handle, Position, useNodeId } from '@xyflow/react'
 
