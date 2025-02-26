@@ -21,7 +21,7 @@ export const FlussNode = ({ data, selected }: NodeProps<FlussNodeType>) => {
 
   return (
     <Card className={`min-w-[250px] ${selected && 'border-foreground'}`}>
-      <small className="absolute top-2 right-2">{nodeId}</small>
+      <small className="absolute top-2 right-2 font-mono">{nodeId}</small>
       <CardHeader>
         <CardTitle className="text-xl">Fluss Node</CardTitle>
         <CardDescription>Description here</CardDescription>
