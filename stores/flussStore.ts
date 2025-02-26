@@ -12,6 +12,7 @@ import {
   OnNodesChange,
   Position,
   Viewport,
+  XYPosition,
 } from '@xyflow/react'
 import { createStore } from 'zustand/vanilla'
 
@@ -32,16 +33,13 @@ export type FlussActions = {
   setEdges: (edges: Edge[]) => void
   setNodes: (nodes: FlussNodeType[]) => void
   setOutputType: (nodeId: string, outputType: BaseIOTypes) => void
-  addNode: () => void
+  addNode: (position?: XYPosition) => void
   setViewport: (viewport: Viewport) => void
 }
 
 export type FlussStore = FlussState & FlussActions
 
-const createFlussNode = (position: {
-  x: number
-  y: number
-}): FlussNodeType => ({
+const createFlussNode = (position: XYPosition): FlussNodeType => ({
   id: nanoid(5),
   position,
   type: 'flussNode',
@@ -95,15 +93,17 @@ export const createFlussStore = (initState: FlussState = defaultInitState) => {
             ),
           }))
         },
-        addNode: () => {
+        addNode: (position?: XYPosition) => {
           set((state) => {
             return {
               nodes: [
                 ...state.nodes,
-                createFlussNode({
-                  x: -state.viewport.x,
-                  y: -state.viewport.y,
-                }),
+                createFlussNode(
+                  position || {
+                    x: -state.viewport.x,
+                    y: -state.viewport.y,
+                  }
+                ),
               ],
             }
           })
