@@ -17,7 +17,11 @@ export const FlussTitleDisplay = () => {
   }
 
   return (
-    <div className="p-2 px-4 bg-background shadow-md">
+    <div
+      className={`py-2 px-4 rounded-xl border bg-background shadow-sm ${
+        isEditing && 'py-6 px-6'
+      }`}
+    >
       {!isEditing && <span onClick={() => setIsEditing(true)}>{name}</span>}
       {isEditing && (
         <form
