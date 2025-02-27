@@ -17,6 +17,7 @@ import {
 import { createStore } from 'zustand/vanilla'
 
 export const START_NODE_ID = 'start'
+export const END_NODE_ID = 'end'
 
 export type FlussNodeData = { outputType?: BaseIOTypes }
 
@@ -60,6 +61,14 @@ export const defaultInitState: FlussState = {
       id: START_NODE_ID,
       position: { x: 50, y: 200 },
       type: 'startNode',
+      data: {},
+      sourcePosition: Position.Right,
+      deletable: false,
+    },
+    {
+      id: END_NODE_ID,
+      position: { x: 1000, y: 200 },
+      type: 'endNode',
       data: {},
       sourcePosition: Position.Right,
       deletable: false,

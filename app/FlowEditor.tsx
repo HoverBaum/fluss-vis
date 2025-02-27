@@ -21,6 +21,7 @@ import { ToolPanel } from './ToolPanel'
 import { FlowEditorViewportReporter } from './FlowEditorViewportReporter'
 import { FlussNode } from '@/components/nodes/flussNode/FlussNode'
 import { StartNode } from '@/components/nodes/startNode/StartNode'
+import { EndNode } from '@/components/nodes/endNode/EndNode'
 
 const selector = (state: FlussStore) => ({
   nodes: state.nodes,
@@ -42,7 +43,7 @@ export const FlowEditor = () => {
   }, [])
 
   const nodeTypes = useMemo(
-    () => ({ flussNode: FlussNode, startNode: StartNode }),
+    () => ({ flussNode: FlussNode, startNode: StartNode, endNode: EndNode }),
     []
   )
 
