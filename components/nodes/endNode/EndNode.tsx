@@ -3,10 +3,9 @@
 import { NodeProps, useNodeId } from '@xyflow/react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { END_NODE_ID } from '@/stores/flussStore'
-import { EndNodeType } from './EndNodeTypes'
 import { FlussNodeInput } from '../flussNode/FlussNodeInput'
 
-export const EndNode = ({ selected }: NodeProps<EndNodeType>) => {
+export const EndNode = ({ selected }: NodeProps) => {
   const nodeId = useNodeId()
 
   return (
