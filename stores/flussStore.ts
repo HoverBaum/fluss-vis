@@ -16,7 +16,11 @@ import {
 } from '@xyflow/react'
 import { createStore } from 'zustand/vanilla'
 
-export type FlussNodeType = Node<{ outputType?: BaseIOTypes }>
+export const START_NODE_ID = 'start'
+
+export type FlussNodeData = { outputType?: BaseIOTypes }
+
+export type FlussNodeType = Node<FlussNodeData>
 
 export type FlussState = {
   name: string
@@ -50,8 +54,15 @@ const createFlussNode = (position: XYPosition): FlussNodeType => ({
 export const defaultInitState: FlussState = {
   name: 'Untitled Fluss 🌊',
   nodes: [
-    createFlussNode({ x: 210, y: 200 }),
-    createFlussNode({ x: 550, y: 250 }),
+    createFlussNode({ x: 360, y: 200 }),
+    createFlussNode({ x: 700, y: 250 }),
+    {
+      id: START_NODE_ID,
+      position: { x: 50, y: 200 },
+      type: 'startNode',
+      data: {},
+      sourcePosition: Position.Right,
+    },
   ],
   edges: [],
   viewport: { x: 0, y: 0, zoom: 1 },
@@ -64,13 +75,30 @@ export const createFlussStore = (initState: FlussState = defaultInitState) => {
         ...initState,
         rename: (name: string) => set({ name }),
         onNodesChange: (changes) => {
+          // Filter out changes we want to prevent.
+          const changesToUse = changes.filter((change) => {
+            if (change.type === 'remove') {
+              if (change.id === START_NODE_ID) return false
+            }
+            return true
+          })
           set({
-            nodes: applyNodeChanges(changes, get().nodes),
+            nodes: applyNodeChanges(changesToUse, get().nodes),
           })
         },
         onEdgesChange: (changes) => {
+          // Prevent Edge deletions when undeletable nodes are selected.
+          const changesToUse = changes.filter((change) => {
+            if (change.type === 'remove') {
+              if (
+                get().nodes.find((node) => node.selected)?.id === START_NODE_ID
+              )
+                return false
+            }
+            return true
+          })
           set({
-            edges: applyEdgeChanges(changes, get().edges),
+            edges: applyEdgeChanges(changesToUse, get().edges),
           })
         },
         onConnect: (connection) => {

@@ -11,3 +11,5 @@ Fluss Viz will handle the execution of your logic and parallelize async operatio
 - Add Start node - no input and can NOT be deleted
 - Add Final node - only input
 - Export flow
+
+We probably need to switch from associating nodes with an output type to associating handles with one. Or we need more special handling of startNode, because StartNode has multiple outputs.

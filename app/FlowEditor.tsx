@@ -20,6 +20,7 @@ import { FlussStore } from '@/stores/flussStore'
 import { ToolPanel } from './ToolPanel'
 import { FlowEditorViewportReporter } from './FlowEditorViewportReporter'
 import { FlussNode } from '@/components/nodes/flussNode/FlussNode'
+import { StartNode } from '@/components/nodes/startNode/StartNode'
 
 const selector = (state: FlussStore) => ({
   nodes: state.nodes,
@@ -40,7 +41,10 @@ export const FlowEditor = () => {
     setIsMounted(true)
   }, [])
 
-  const nodeTypes = useMemo(() => ({ flussNode: FlussNode }), [])
+  const nodeTypes = useMemo(
+    () => ({ flussNode: FlussNode, startNode: StartNode }),
+    []
+  )
 
   if (!isMounted) return null
 
