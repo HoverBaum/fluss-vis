@@ -15,7 +15,7 @@ import {
 } from '@xyflow/react'
 import { createStore } from 'zustand/vanilla'
 import { FlussStepOutputType, FlussStepOutputTypeId } from '@/fluss-lib/fluss'
-import { Calculator, Signature, Slash } from 'lucide-react'
+import { Calculator, Signature, Slash, ToggleRight, User } from 'lucide-react'
 
 export const START_NODE_ID = 'start'
 export const END_NODE_ID = 'end'
@@ -113,19 +113,35 @@ export const defaultInitState: FlussState = {
       id: 'void',
       name: 'Void',
       content: 'void',
+      isPrimitive: true,
       icon: Slash,
     },
     {
       id: 'string',
       name: 'String',
       content: 'string',
+      isPrimitive: true,
       icon: Signature,
     },
     {
       id: 'number',
       name: 'Number',
       content: 'number',
+      isPrimitive: true,
       icon: Calculator,
+    },
+    {
+      id: 'boolean',
+      name: 'Boolean',
+      content: 'boolean',
+      isPrimitive: true,
+      icon: ToggleRight,
+    },
+    {
+      id: 'person',
+      name: 'Person',
+      content: '{name: string}',
+      icon: User,
     },
   ],
   viewport: { x: 0, y: 0, zoom: 1 },

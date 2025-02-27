@@ -6,6 +6,12 @@ export type FlussStepOutputType = {
   name: string
   content: string
   icon: LucideIcon
+  /**
+   * Whether this type is a primitive of TypeScript, e.g. `string`, `number`, `boolean`.
+   * Not used within the Fluss-Viz UI, but for code generation.
+   * https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#the-primitives-string-number-and-boolean
+   */
+  isPrimitive?: boolean
 }
 
 export type FlussStepId = string
