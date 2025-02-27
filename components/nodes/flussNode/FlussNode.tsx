@@ -16,14 +16,14 @@ import { FlussNodeType } from '@/stores/flussStore'
  * Can have one or more inputs and has a single output.
  */
 export const FlussNode = ({ data, selected }: NodeProps<FlussNodeType>) => {
-  const { outputTypeId: outputType } = data
+  const { outputTypeId: outputType, name } = data
   const nodeId = useNodeId()
 
   return (
     <Card className={`min-w-[250px] ${selected && 'border-foreground'}`}>
       <small className="absolute top-2 right-2 font-mono">{nodeId}</small>
       <CardHeader>
-        <CardTitle className="text-xl">Fluss Node</CardTitle>
+        <CardTitle className="text-xl">{name}</CardTitle>
         <CardDescription>Description here</CardDescription>
       </CardHeader>
       <CardContent className="relative">

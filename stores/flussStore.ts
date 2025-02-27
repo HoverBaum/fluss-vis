@@ -20,7 +20,10 @@ import { Calculator, Signature, Slash, ToggleRight, User } from 'lucide-react'
 export const START_NODE_ID = 'start'
 export const END_NODE_ID = 'end'
 
-export type FlussNodeData = { outputTypeId?: FlussStepOutputTypeId }
+export type FlussNodeData = {
+  name: string
+  outputTypeId?: FlussStepOutputTypeId
+}
 
 export type FlussNodeType = Node<FlussNodeData>
 
@@ -53,7 +56,7 @@ const createFlussNode = (
   id: nanoid(5),
   position,
   type: 'flussNode',
-  data: data || {},
+  data: data || { name: 'New Node' },
   sourcePosition: Position.Right,
 })
 
@@ -61,18 +64,24 @@ export const defaultInitState: FlussState = {
   name: 'Untitled Fluss 🌊',
   nodes: [
     {
-      ...createFlussNode({ x: 360, y: 200 }, { outputTypeId: 'string' }),
+      ...createFlussNode(
+        { x: 360, y: 200 },
+        { outputTypeId: 'string', name: 'step 1' }
+      ),
       id: 'TRqTC',
     },
     {
-      ...createFlussNode({ x: 700, y: 250 }, { outputTypeId: 'number' }),
+      ...createFlussNode(
+        { x: 700, y: 250 },
+        { outputTypeId: 'number', name: 'step 2' }
+      ),
       id: 'XyASV',
     },
     {
       id: START_NODE_ID,
       position: { x: 50, y: 200 },
       type: 'startNode',
-      data: { outputTypeId: 'string' },
+      data: { outputTypeId: 'person', name: 'Start' },
       sourcePosition: Position.Right,
       deletable: false,
     },
@@ -80,7 +89,7 @@ export const defaultInitState: FlussState = {
       id: END_NODE_ID,
       position: { x: 1000, y: 200 },
       type: 'endNode',
-      data: {},
+      data: { name: 'End' },
       sourcePosition: Position.Right,
       deletable: false,
     },
