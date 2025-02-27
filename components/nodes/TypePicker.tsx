@@ -1,7 +1,6 @@
 'use client'
 
 import * as React from 'react'
-import { Blocks, Calculator, LucideIcon, Signature, Slash } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   Command,
@@ -18,52 +17,17 @@ import {
 } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
 import { EdgeType } from '@/components/nodes/EdgeType'
-
-export type BaseIOTypes = 'string' | 'number' | 'custom' | 'void'
-
-type Status = {
-  value: BaseIOTypes
-  label: string
-  icon: LucideIcon
-}
-
-type StatusMap = {
-  [key in BaseIOTypes]: Status
-}
-
-export const EdgeTypeMap: StatusMap = {
-  void: {
-    value: 'void',
-    label: 'Void',
-    icon: Slash,
-  },
-  string: {
-    value: 'string',
-    label: 'String',
-    icon: Signature,
-  },
-  number: {
-    value: 'number',
-    label: 'Number',
-    icon: Calculator,
-  },
-  custom: {
-    value: 'custom',
-    label: 'Custom',
-    icon: Blocks,
-  },
-}
-
-const statusArray: Status[] = Object.values(EdgeTypeMap)
+import { useFlussStore } from '@/stores/FlussStoreProvider'
+import { FlussStepOutputTypeId } from '@/fluss-lib/fluss'
 
 type TypePickerProps = {
-  type: BaseIOTypes | undefined
-  onTypeChange: (type: BaseIOTypes) => void
+  typeId?: string
+  onTypeChange: (type: FlussStepOutputTypeId) => void
 }
 
-export function TypePicker({ type, onTypeChange }: TypePickerProps) {
+export function TypePicker({ typeId, onTypeChange }: TypePickerProps) {
   const [open, setOpen] = React.useState(false)
-  const selectedType = type && EdgeTypeMap[type]
+  const outputTypes = useFlussStore((state) => state.outputTypes)
 
   return (
     <div className="flex items-center space-x-4">
@@ -75,7 +39,7 @@ export function TypePicker({ type, onTypeChange }: TypePickerProps) {
             size="sm"
             className="w-[120px] justify-start"
           >
-            {selectedType ? <EdgeType type={type} /> : <>Select Type</>}
+            {typeId ? <EdgeType outputTypeId={typeId} /> : <>Select Type</>}
           </Button>
         </PopoverTrigger>
         <PopoverContent className="p-0" side="right" align="start">
@@ -89,27 +53,25 @@ export function TypePicker({ type, onTypeChange }: TypePickerProps) {
               <CommandEmpty>No results found.</CommandEmpty>
               {/* @ts-expect-error Typing Problem in Shadcn... */}
               <CommandGroup>
-                {statusArray.map((status) => (
+                {outputTypes.map((outputType) => (
                   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                   //@ts-ignore
                   <CommandItem
-                    key={status.value}
-                    value={status.value}
+                    key={outputType.id}
+                    value={outputType.id}
                     /* @ts-expect-error Typing Problem in Shadcn... */
                     onSelect={(value) => {
                       onTypeChange(value)
                       setOpen(false)
                     }}
                   >
-                    <status.icon
+                    <outputType.icon
                       className={cn(
                         'mr-2 h-4 w-4',
-                        status.value === selectedType?.value
-                          ? 'opacity-100'
-                          : 'opacity-40'
+                        outputType.id === typeId ? 'opacity-100' : 'opacity-40'
                       )}
                     />
-                    <span>{status.label}</span>
+                    <span>{outputType.name}</span>
                   </CommandItem>
                 ))}
               </CommandGroup>

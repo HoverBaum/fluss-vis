@@ -7,7 +7,7 @@ import { FlussNodeOutput } from '../flussNode/FlussNodeOutput'
 import { START_NODE_ID } from '@/stores/flussStore'
 
 export const StartNode = ({ data, selected }: NodeProps<StartNodeType>) => {
-  const { outputType } = data
+  const { outputTypeId: outputType } = data
   const nodeId = useNodeId()
 
   return (

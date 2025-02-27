@@ -16,7 +16,7 @@ import { FlussNodeType } from '@/stores/flussStore'
  * Can have one or more inputs and has a single output.
  */
 export const FlussNode = ({ data, selected }: NodeProps<FlussNodeType>) => {
-  const { outputType } = data
+  const { outputTypeId: outputType } = data
   const nodeId = useNodeId()
 
   return (

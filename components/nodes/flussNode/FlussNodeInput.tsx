@@ -21,11 +21,11 @@ export const FlussNodeInput = ({ id }: FlussNodeInputProps) => {
   })
   const sourceId = connections[0]?.source
   const sourceNode = useNodesData<FlussNodeType>(sourceId)
-  const outputType = sourceNode?.data?.outputType
+  const outputType = sourceNode?.data?.outputTypeId
 
   return (
     <div className="relative pl-6">
-      {outputType && <EdgeType type={outputType} />}
+      {outputType && <EdgeType outputTypeId={outputType} />}
       {!outputType && connections.length > 0 && 'Unselected'}
       {!outputType && connections.length === 0 && (
         <small className="opacity-50">Unconnected</small>

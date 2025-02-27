@@ -15,7 +15,7 @@ export const FlussNodeOutput = ({ id, type }: FlussNodeOutputProps) => {
     <div className="relative">
       <div className="pr-6">
         <TypePicker
-          type={type}
+          typeId={type}
           onTypeChange={(newType) => setOutputType(nodeId!, newType)}
         />
       </div>

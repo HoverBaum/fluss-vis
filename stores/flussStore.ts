@@ -1,5 +1,4 @@
 import { nanoid } from 'nanoid'
-import { BaseIOTypes } from '@/components/nodes/TypePicker'
 import { devtools } from 'zustand/middleware'
 import {
   addEdge,
@@ -15,11 +14,13 @@ import {
   XYPosition,
 } from '@xyflow/react'
 import { createStore } from 'zustand/vanilla'
+import { FlussStepOutputType, FlussStepOutputTypeId } from '@/fluss-lib/fluss'
+import { Calculator, Signature, Slash } from 'lucide-react'
 
 export const START_NODE_ID = 'start'
 export const END_NODE_ID = 'end'
 
-export type FlussNodeData = { outputType?: BaseIOTypes }
+export type FlussNodeData = { outputTypeId?: FlussStepOutputTypeId }
 
 export type FlussNodeType = Node<FlussNodeData>
 
@@ -27,6 +28,7 @@ export type FlussState = {
   name: string
   nodes: FlussNodeType[]
   edges: Edge[]
+  outputTypes: FlussStepOutputType[]
   viewport: Viewport
 }
 
@@ -37,7 +39,7 @@ export type FlussActions = {
   onConnect: OnConnect
   setEdges: (edges: Edge[]) => void
   setNodes: (nodes: FlussNodeType[]) => void
-  setOutputType: (nodeId: string, outputType: BaseIOTypes) => void
+  setOutputType: (nodeId: string, outputType: FlussStepOutputTypeId) => void
   addNode: (position?: XYPosition) => void
   setViewport: (viewport: Viewport) => void
 }
@@ -59,18 +61,18 @@ export const defaultInitState: FlussState = {
   name: 'Untitled Fluss 🌊',
   nodes: [
     {
-      ...createFlussNode({ x: 360, y: 200 }, { outputType: 'string' }),
+      ...createFlussNode({ x: 360, y: 200 }, { outputTypeId: 'string' }),
       id: 'TRqTC',
     },
     {
-      ...createFlussNode({ x: 700, y: 250 }, { outputType: 'number' }),
+      ...createFlussNode({ x: 700, y: 250 }, { outputTypeId: 'number' }),
       id: 'XyASV',
     },
     {
       id: START_NODE_ID,
       position: { x: 50, y: 200 },
       type: 'startNode',
-      data: { outputType: 'string' },
+      data: { outputTypeId: 'string' },
       sourcePosition: Position.Right,
       deletable: false,
     },
@@ -106,6 +108,26 @@ export const defaultInitState: FlussState = {
       id: 'xy-edge__XyASVXyASV-output-endend-input-1',
     },
   ],
+  outputTypes: [
+    {
+      id: 'void',
+      name: 'Void',
+      content: 'void',
+      icon: Slash,
+    },
+    {
+      id: 'string',
+      name: 'String',
+      content: 'string',
+      icon: Signature,
+    },
+    {
+      id: 'number',
+      name: 'Number',
+      content: 'number',
+      icon: Calculator,
+    },
+  ],
   viewport: { x: 0, y: 0, zoom: 1 },
 }
 
@@ -136,11 +158,11 @@ export const createFlussStore = (initState: FlussState = defaultInitState) => {
         setEdges: (edges) => {
           set({ edges })
         },
-        setOutputType: (nodeId, outputType) => {
+        setOutputType: (nodeId, outputTypeId) => {
           set((state) => ({
             nodes: state.nodes.map((node) =>
               node.id === nodeId
-                ? { ...node, data: { ...node.data, outputType } }
+                ? { ...node, data: { ...node.data, outputTypeId } }
                 : node
             ),
           }))
