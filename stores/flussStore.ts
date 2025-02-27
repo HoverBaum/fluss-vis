@@ -62,6 +62,7 @@ export const defaultInitState: FlussState = {
       type: 'startNode',
       data: {},
       sourcePosition: Position.Right,
+      deletable: false,
     },
   ],
   edges: [],
@@ -75,30 +76,13 @@ export const createFlussStore = (initState: FlussState = defaultInitState) => {
         ...initState,
         rename: (name: string) => set({ name }),
         onNodesChange: (changes) => {
-          // Filter out changes we want to prevent.
-          const changesToUse = changes.filter((change) => {
-            if (change.type === 'remove') {
-              if (change.id === START_NODE_ID) return false
-            }
-            return true
-          })
           set({
-            nodes: applyNodeChanges(changesToUse, get().nodes),
+            nodes: applyNodeChanges(changes, get().nodes),
           })
         },
         onEdgesChange: (changes) => {
-          // Prevent Edge deletions when undeletable nodes are selected.
-          const changesToUse = changes.filter((change) => {
-            if (change.type === 'remove') {
-              if (
-                get().nodes.find((node) => node.selected)?.id === START_NODE_ID
-              )
-                return false
-            }
-            return true
-          })
           set({
-            edges: applyEdgeChanges(changesToUse, get().edges),
+            edges: applyEdgeChanges(changes, get().edges),
           })
         },
         onConnect: (connection) => {
