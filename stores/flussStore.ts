@@ -20,9 +20,14 @@ import { Calculator, Signature, Slash, ToggleRight, User } from 'lucide-react'
 export const START_NODE_ID = 'start'
 export const END_NODE_ID = 'end'
 
+export type FlussEdge = {
+  name: string
+  typeId: FlussStepOutputTypeId
+}
+
 export type FlussNodeData = {
   name: string
-  outputTypeId?: FlussStepOutputTypeId
+  output?: FlussEdge
 }
 
 export type FlussNodeType = Node<FlussNodeData>
@@ -66,14 +71,14 @@ export const defaultInitState: FlussState = {
     {
       ...createFlussNode(
         { x: 360, y: 200 },
-        { outputTypeId: 'string', name: 'step 1' }
+        { output: { typeId: 'string', name: 'improved name' }, name: 'step 1' }
       ),
       id: 'TRqTC',
     },
     {
       ...createFlussNode(
         { x: 700, y: 250 },
-        { outputTypeId: 'number', name: 'step 2' }
+        { output: { typeId: 'number', name: 'magic number' }, name: 'step 2' }
       ),
       id: 'XyASV',
     },
@@ -81,7 +86,7 @@ export const defaultInitState: FlussState = {
       id: START_NODE_ID,
       position: { x: 50, y: 200 },
       type: 'startNode',
-      data: { outputTypeId: 'person', name: 'Start' },
+      data: { output: { typeId: 'person', name: 'Person' }, name: 'Start' },
       sourcePosition: Position.Right,
       deletable: false,
     },

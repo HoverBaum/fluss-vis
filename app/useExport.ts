@@ -41,12 +41,12 @@ export const useExport = () => {
     const flussFunctions: FlussFunction[] = nodes
       .filter((node) => node.id !== START_NODE_ID && node.id !== END_NODE_ID)
       .map((node) => {
-        if (!node.data.outputTypeId)
-          throw new Error(`${node.id} has no outputTypeId`)
+        if (!node.data.output?.typeId)
+          throw new Error(`${node.id} has no output TypeId`)
         return {
           stepId: node.id,
           name: nameToFunctionName(node.data.name),
-          returnType: node.data.outputTypeId,
+          returnType: node.data.output.typeId,
           arguments: [],
         }
       })
