@@ -21,7 +21,7 @@ export const FlussNodeInput = ({ id }: FlussNodeInputProps) => {
   })
   const sourceId = connections[0]?.source
   const sourceNode = useNodesData<FlussNodeType>(sourceId)
-  const outputType = sourceNode?.data?.outputTypeId
+  const outputType = sourceNode?.data?.output?.typeId
 
   return (
     <div className="relative pl-6">

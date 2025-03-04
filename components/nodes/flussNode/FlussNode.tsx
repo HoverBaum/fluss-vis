@@ -18,7 +18,6 @@ import { FlussNodeType } from '@/stores/flussStore'
 export const FlussNode = ({ data, selected }: NodeProps<FlussNodeType>) => {
   const { output, name } = data
   const nodeId = useNodeId()
-  const outputType = output?.typeId
 
   return (
     <Card className={`min-w-[250px] ${selected && 'border-foreground'}`}>
@@ -35,7 +34,7 @@ export const FlussNode = ({ data, selected }: NodeProps<FlussNodeType>) => {
       <hr className="my-6" />
       <CardContent className="relative min-h-14">
         <div className="grid grid-cols-1 absolute right-0 top-0">
-          <FlussNodeOutput type={outputType} id={`${nodeId}-output`} />
+          <FlussNodeOutput output={output} id={`${nodeId}-output`} />
         </div>
       </CardContent>
     </Card>

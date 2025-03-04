@@ -20,14 +20,14 @@ import { Calculator, Signature, Slash, ToggleRight, User } from 'lucide-react'
 export const START_NODE_ID = 'start'
 export const END_NODE_ID = 'end'
 
-export type FlussEdge = {
+export type FlussNodeOutputType = {
   name: string
   typeId: FlussStepOutputTypeId
 }
 
 export type FlussNodeData = {
   name: string
-  output?: FlussEdge
+  output?: FlussNodeOutputType
 }
 
 export type FlussNodeType = Node<FlussNodeData>
@@ -192,7 +192,16 @@ export const createFlussStore = (initState: FlussState = defaultInitState) => {
           set((state) => ({
             nodes: state.nodes.map((node) =>
               node.id === nodeId
-                ? { ...node, data: { ...node.data, outputTypeId } }
+                ? {
+                    ...node,
+                    data: {
+                      ...node.data,
+                      output: {
+                        name: node.data.output?.name || 'unnamed',
+                        typeId: outputTypeId,
+                      },
+                    },
+                  }
                 : node
             ),
           }))

@@ -1,13 +1,14 @@
-import { BaseIOTypes, TypePicker } from '@/components/nodes/TypePicker'
+import { TypePicker } from '@/components/nodes/TypePicker'
+import { FlussNodeOutputType } from '@/stores/flussStore'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { Handle, Position, useNodeId } from '@xyflow/react'
 
 type FlussNodeOutputProps = {
   id: string
-  type?: BaseIOTypes
+  output?: FlussNodeOutputType
 }
 
-export const FlussNodeOutput = ({ id, type }: FlussNodeOutputProps) => {
+export const FlussNodeOutput = ({ id, output }: FlussNodeOutputProps) => {
   const setOutputType = useFlussStore((state) => state.setOutputType)
   const nodeId = useNodeId()
 
@@ -15,7 +16,7 @@ export const FlussNodeOutput = ({ id, type }: FlussNodeOutputProps) => {
     <div className="relative">
       <div className="pr-6">
         <TypePicker
-          typeId={type}
+          typeId={output?.typeId}
           onTypeChange={(newType) => setOutputType(nodeId!, newType)}
         />
       </div>

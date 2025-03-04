@@ -7,7 +7,7 @@ import { FlussNodeOutput } from '../flussNode/FlussNodeOutput'
 import { START_NODE_ID } from '@/stores/flussStore'
 
 export const StartNode = ({ data, selected }: NodeProps<StartNodeType>) => {
-  const { outputTypeId: outputType } = data
+  const { output } = data
   const nodeId = useNodeId()
 
   return (
@@ -20,7 +20,7 @@ export const StartNode = ({ data, selected }: NodeProps<StartNodeType>) => {
       </CardHeader>
       <CardContent className="relative min-h-14">
         <div className="grid grid-cols-1 absolute right-0 top-0">
-          <FlussNodeOutput type={outputType} id={`${nodeId}-output`} />
+          <FlussNodeOutput output={output} id={`${nodeId}-output`} />
         </div>
       </CardContent>
     </Card>
