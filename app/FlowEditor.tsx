@@ -4,7 +4,9 @@ import React, { useEffect, useMemo, useState } from 'react'
 import {
   Background,
   BackgroundVariant,
+  Connection,
   Controls,
+  Edge,
   MiniMap,
   Panel,
   ReactFlow,
@@ -47,6 +49,28 @@ export const FlowEditor = () => {
     []
   )
 
+  const validateConnection = (newConnection: Connection | Edge): boolean => {
+    const sourceId = newConnection.source
+    const targetHandle = newConnection.targetHandle
+    if (!targetHandle) return true
+    // Check if there already is any connection to the same targetHandle.
+    const existingConnection = edges.find(
+      (edge) => edge.targetHandle === targetHandle
+    )
+    // No connection yet, always good to go.
+    if (!existingConnection) return true
+
+    // Next check if the new connection would be of the same type.
+    const sourceNode = nodes.find((node) => node.id === sourceId)
+    const sourceOutputType = sourceNode?.data?.output?.typeId
+    const previousType = nodes.find(
+      (node) => node.id === existingConnection.source
+    )?.data?.output?.typeId
+    if (sourceOutputType !== previousType) return false
+
+    return true
+  }
+
   if (!isMounted) return null
 
   return (
@@ -61,6 +85,7 @@ export const FlowEditor = () => {
         colorMode={theme as 'system' | 'light' | 'dark'}
         suppressHydrationWarning
         panOnScroll
+        isValidConnection={validateConnection}
       >
         <FlowEditorViewportReporter />
         <Panel position="bottom-center">
