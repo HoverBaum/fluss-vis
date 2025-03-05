@@ -25,7 +25,7 @@ export const FlussNodeOutput = ({ id, output }: FlussNodeOutputProps) => {
             type="text"
             id={`${id}-outputName`}
             placeholder=""
-            value={output?.name}
+            value={output?.name || ''}
             onChange={(e) => setOutputName(nodeId!, e.target.value)}
           />
         </div>

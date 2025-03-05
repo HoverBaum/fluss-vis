@@ -27,8 +27,9 @@ export const FlussNodeInput = ({ id }: FlussNodeInputProps) => {
   return (
     <div className="relative pl-6">
       {inputType && (
-        <span className="flex gap-1">
+        <span className="flex flex-wrap gap-1">
           <EdgeType outputTypeId={inputType} /> <span> - {input.name}</span>
+          {connections.length > 1 && <span> (+{connections.length - 1})</span>}
         </span>
       )}
       {!inputType && connections.length > 0 && 'Unselected'}

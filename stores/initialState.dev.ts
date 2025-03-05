@@ -47,7 +47,7 @@ export const devInitialState: FlussState = {
       id: END_NODE_ID,
       position: { x: 1000, y: 200 },
       type: 'endNode',
-      data: { name: 'End', inputs: [{ id: 'RjdeA' }] },
+      data: { name: 'End 🛬', inputs: [{ id: 'input-1' }] },
       sourcePosition: Position.Right,
       deletable: false,
     },
