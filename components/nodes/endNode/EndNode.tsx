@@ -2,7 +2,7 @@
 
 import { NodeProps, useNodeId } from '@xyflow/react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { END_NODE_ID } from '@/stores/flussStore'
+import { END_NODE_ID } from '@/stores/storeHelpers'
 import { FlussNodeInput } from '../flussNode/FlussNodeInput'
 
 export const EndNode = ({ selected }: NodeProps) => {

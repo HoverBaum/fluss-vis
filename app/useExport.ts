@@ -1,6 +1,6 @@
 import { FlussStepId, FlussStepOutputType } from '@/fluss-lib/fluss'
 import { nameToFunctionName } from '@/fluss-lib/nameConversion'
-import { END_NODE_ID, START_NODE_ID } from '@/stores/flussStore'
+import { END_NODE_ID, START_NODE_ID } from '@/stores/storeHelpers'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 
 type FlussFunctionArgument = {

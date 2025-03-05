@@ -4,7 +4,7 @@ import { NodeProps, useNodeId } from '@xyflow/react'
 import { StartNodeType } from './StartNodeTypes'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { FlussNodeOutput } from '../flussNode/FlussNodeOutput'
-import { START_NODE_ID } from '@/stores/flussStore'
+import { START_NODE_ID } from '@/stores/storeHelpers'
 
 export const StartNode = ({ data, selected }: NodeProps<StartNodeType>) => {
   const { output } = data
