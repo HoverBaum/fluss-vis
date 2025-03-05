@@ -16,13 +16,20 @@ import { FlussStepOutputType, FlussStepOutputTypeId } from '@/fluss-lib/fluss'
 import { devInitialState } from './initialState.dev'
 import { createFlussNode } from './storeHelpers'
 
+type NonEmptyArray<T> = [T, ...T[]]
+
 export type FlussNodeOutputType = {
   name?: string
   typeId?: FlussStepOutputTypeId
 }
 
+export type FlussNodeInputType = {
+  id: string
+}
+
 export type FlussNodeData = {
   name: string
+  inputs?: NonEmptyArray<FlussNodeInputType>
   output?: FlussNodeOutputType
 }
 

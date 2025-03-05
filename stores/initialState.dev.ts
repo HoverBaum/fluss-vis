@@ -9,14 +9,22 @@ export const devInitialState: FlussState = {
     {
       ...createFlussNode(
         { x: 360, y: 200 },
-        { output: { typeId: 'string', name: 'Improved name' }, name: 'step 1' }
+        {
+          output: { typeId: 'string', name: 'Improved name' },
+          name: 'step 1',
+          inputs: [{ id: 'cGCVg' }],
+        }
       ),
       id: 'TRqTC',
     },
     {
       ...createFlussNode(
         { x: 700, y: 250 },
-        { output: { typeId: 'number', name: 'Magic number' }, name: 'step 2' }
+        {
+          output: { typeId: 'number', name: 'Magic number' },
+          name: 'step 2',
+          inputs: [{ id: '2Hm0e' }],
+        }
       ),
       id: 'XyASV',
     },
@@ -32,7 +40,7 @@ export const devInitialState: FlussState = {
       id: END_NODE_ID,
       position: { x: 1000, y: 200 },
       type: 'endNode',
-      data: { name: 'End' },
+      data: { name: 'End', inputs: [{ id: 'RjdeA' }] },
       sourcePosition: Position.Right,
       deletable: false,
     },
@@ -42,15 +50,15 @@ export const devInitialState: FlussState = {
       source: 'start',
       sourceHandle: 'start-output',
       target: 'TRqTC',
-      targetHandle: 'TRqTC-input-1',
-      id: 'xy-edge__startstart-output-TRqTCTRqTC-input-1',
+      targetHandle: 'TRqTC-cGCVg',
+      id: 'xy-edge__startstart-output-TRqTCTRqTC-cGCVg',
     },
     {
       source: 'TRqTC',
       sourceHandle: 'TRqTC-output',
       target: 'XyASV',
-      targetHandle: 'XyASV-input-1',
-      id: 'xy-edge__TRqTCTRqTC-output-XyASVXyASV-input-1',
+      targetHandle: 'XyASV-2Hm0e',
+      id: 'xy-edge__TRqTCTRqTC-output-XyASVXyASV-2Hm0e',
     },
     {
       source: 'XyASV',

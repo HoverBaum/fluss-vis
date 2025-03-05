@@ -16,7 +16,7 @@ import { FlussNodeType } from '@/stores/flussStore'
  * Can have one or more inputs and has a single output.
  */
 export const FlussNode = ({ data, selected }: NodeProps<FlussNodeType>) => {
-  const { output, name } = data
+  const { output, name, inputs } = data
   const nodeId = useNodeId()
 
   return (
@@ -28,7 +28,10 @@ export const FlussNode = ({ data, selected }: NodeProps<FlussNodeType>) => {
       </CardHeader>
       <CardContent className="relative">
         <div className="grid grid-cols-1 absolute left-0 top-0">
-          <FlussNodeInput id={`${nodeId}-input-1`} />
+          {inputs &&
+            inputs.map((input) => (
+              <FlussNodeInput key={input.id} id={`${nodeId}-${input.id}`} />
+            ))}
         </div>
       </CardContent>
       <hr className="my-6" />
