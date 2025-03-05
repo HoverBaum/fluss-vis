@@ -9,6 +9,8 @@ import { FlussNodeOutput } from './FlussNodeOutput'
 import { FlussNodeInput } from './FlussNodeInput'
 import { NodeProps, useNodeId } from '@xyflow/react'
 import { FlussNodeType } from '@/stores/flussStore'
+import { Button } from '@/components/ui/button'
+import { useFlussStore } from '@/stores/FlussStoreProvider'
 
 /**
  * A Node somewhere in the Fluss.
@@ -18,6 +20,7 @@ import { FlussNodeType } from '@/stores/flussStore'
 export const FlussNode = ({ data, selected }: NodeProps<FlussNodeType>) => {
   const { output, name, inputs } = data
   const nodeId = useNodeId()
+  const addInput = useFlussStore((state) => state.addInput)
 
   return (
     <Card className={`min-w-[250px] ${selected && 'border-foreground'}`}>
@@ -26,12 +29,21 @@ export const FlussNode = ({ data, selected }: NodeProps<FlussNodeType>) => {
         <CardTitle className="text-xl">{name}</CardTitle>
         <CardDescription>Description here</CardDescription>
       </CardHeader>
-      <CardContent className="relative">
-        <div className="grid grid-cols-1 absolute left-0 top-0">
+      <CardContent className="pl-0 pb-0">
+        <div className="grid grid-cols-1 gap-2">
           {inputs &&
             inputs.map((input) => (
               <FlussNodeInput key={input.id} id={`${nodeId}-${input.id}`} />
             ))}
+        </div>
+        <div className="pl-6">
+          <Button
+            variant="secondary"
+            className="mt-2"
+            onClick={() => addInput(nodeId!)}
+          >
+            Add input
+          </Button>
         </div>
       </CardContent>
       <hr className="my-6" />

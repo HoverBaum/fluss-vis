@@ -15,7 +15,7 @@ export const ToolPanel = () => {
     <div className="flex gap-2">
       <Button
         size="sm"
-        variant="outline"
+        variant="secondary"
         onClick={() =>
           addNode(
             screenToFlowPosition({
@@ -29,7 +29,7 @@ export const ToolPanel = () => {
         Add Node <FilePlus2 />
       </Button>
 
-      <Button size="sm" variant="outline" onClick={flussExport}>
+      <Button size="sm" variant="secondary" onClick={flussExport}>
         Export <Download />
       </Button>
     </div>

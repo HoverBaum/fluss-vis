@@ -4,7 +4,7 @@ import { Calculator, Signature, Slash, ToggleRight, User } from 'lucide-react'
 import { createFlussNode, END_NODE_ID, START_NODE_ID } from './storeHelpers'
 
 export const devInitialState: FlussState = {
-  name: 'Untitled Fluss 🌊',
+  name: 'Dev Fluss 🌊',
   nodes: [
     {
       ...createFlussNode(
@@ -23,7 +23,14 @@ export const devInitialState: FlussState = {
         {
           output: { typeId: 'number', name: 'Magic number' },
           name: 'step 2',
-          inputs: [{ id: '2Hm0e' }],
+          inputs: [
+            {
+              id: '2Hm0e',
+            },
+            {
+              id: 'xJDez',
+            },
+          ],
         }
       ),
       id: 'XyASV',
@@ -66,6 +73,13 @@ export const devInitialState: FlussState = {
       target: 'end',
       targetHandle: 'end-input-1',
       id: 'xy-edge__XyASVXyASV-output-endend-input-1',
+    },
+    {
+      source: 'start',
+      sourceHandle: 'start-output',
+      target: 'XyASV',
+      targetHandle: 'XyASV-xJDez',
+      id: 'xy-edge__startstart-output-XyASVXyASV-xJDez',
     },
   ],
   outputTypes: [

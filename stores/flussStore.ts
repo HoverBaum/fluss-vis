@@ -1,3 +1,4 @@
+import { nanoid } from 'nanoid'
 import { devtools } from 'zustand/middleware'
 import {
   addEdge,
@@ -52,6 +53,7 @@ export type FlussActions = {
   setNodes: (nodes: FlussNodeType[]) => void
   setOutputType: (nodeId: string, outputType: FlussStepOutputTypeId) => void
   setOutputName: (nodeId: string, outputType: FlussStepOutputTypeId) => void
+  addInput: (nodeId: string) => void
   addNode: (position?: XYPosition) => void
   setViewport: (viewport: Viewport) => void
 }
@@ -147,7 +149,7 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
             ),
           }))
         },
-        addNode: (position?: XYPosition) => {
+        addNode: (position) => {
           set((state) => {
             return {
               nodes: [
@@ -161,6 +163,21 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
               ],
             }
           })
+        },
+        addInput: (nodeId) => {
+          set((state) => ({
+            nodes: state.nodes.map((node) =>
+              node.id === nodeId
+                ? {
+                    ...node,
+                    data: {
+                      ...node.data,
+                      inputs: [...(node.data.inputs || []), { id: nanoid(5) }],
+                    },
+                  }
+                : node
+            ),
+          }))
         },
         setViewport: (viewport) => {
           set({ viewport })
