@@ -21,8 +21,8 @@ export const START_NODE_ID = 'start'
 export const END_NODE_ID = 'end'
 
 export type FlussNodeOutputType = {
-  name: string
-  typeId: FlussStepOutputTypeId
+  name?: string
+  typeId?: FlussStepOutputTypeId
 }
 
 export type FlussNodeData = {
@@ -48,6 +48,7 @@ export type FlussActions = {
   setEdges: (edges: Edge[]) => void
   setNodes: (nodes: FlussNodeType[]) => void
   setOutputType: (nodeId: string, outputType: FlussStepOutputTypeId) => void
+  setOutputName: (nodeId: string, outputType: FlussStepOutputTypeId) => void
   addNode: (position?: XYPosition) => void
   setViewport: (viewport: Viewport) => void
 }
@@ -71,14 +72,14 @@ export const defaultInitState: FlussState = {
     {
       ...createFlussNode(
         { x: 360, y: 200 },
-        { output: { typeId: 'string', name: 'improved name' }, name: 'step 1' }
+        { output: { typeId: 'string', name: 'Improved name' }, name: 'step 1' }
       ),
       id: 'TRqTC',
     },
     {
       ...createFlussNode(
         { x: 700, y: 250 },
-        { output: { typeId: 'number', name: 'magic number' }, name: 'step 2' }
+        { output: { typeId: 'number', name: 'Magic number' }, name: 'step 2' }
       ),
       id: 'XyASV',
     },
@@ -197,8 +198,26 @@ export const createFlussStore = (initState: FlussState = defaultInitState) => {
                     data: {
                       ...node.data,
                       output: {
-                        name: node.data.output?.name || 'unnamed',
+                        ...node.data.output,
                         typeId: outputTypeId,
+                      },
+                    },
+                  }
+                : node
+            ),
+          }))
+        },
+        setOutputName: (nodeId, outputName) => {
+          set((state) => ({
+            nodes: state.nodes.map((node) =>
+              node.id === nodeId
+                ? {
+                    ...node,
+                    data: {
+                      ...node.data,
+                      output: {
+                        ...node.data.output,
+                        name: outputName,
                       },
                     },
                   }

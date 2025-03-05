@@ -18,8 +18,8 @@ export const StartNode = ({ data, selected }: NodeProps<StartNodeType>) => {
       <CardHeader>
         <CardTitle className="text-xl">Start 🛫</CardTitle>
       </CardHeader>
-      <CardContent className="relative min-h-14">
-        <div className="grid grid-cols-1 absolute right-0 top-0">
+      <CardContent className="pr-0">
+        <div className="flex flex-col items-end">
           <FlussNodeOutput output={output} id={`${nodeId}-output`} />
         </div>
       </CardContent>

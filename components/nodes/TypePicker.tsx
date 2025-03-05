@@ -19,6 +19,7 @@ import { cn } from '@/lib/utils'
 import { EdgeType } from '@/components/nodes/EdgeType'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { FlussStepOutputTypeId } from '@/fluss-lib/fluss'
+import { Label } from '../ui/label'
 
 type TypePickerProps = {
   typeId?: string
@@ -31,14 +32,10 @@ export function TypePicker({ typeId, onTypeChange }: TypePickerProps) {
 
   return (
     <div className="flex items-center space-x-4">
-      <p className="text-sm text-muted-foreground">Type</p>
+      <Label>Type</Label>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-          <Button
-            variant="outline"
-            size="sm"
-            className="w-[120px] justify-start"
-          >
+          <Button variant="outline" className="w-[120px] justify-start">
             {typeId ? <EdgeType outputTypeId={typeId} /> : <>Select Type</>}
           </Button>
         </PopoverTrigger>
