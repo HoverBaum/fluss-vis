@@ -30,6 +30,7 @@ export type FlussNodeInputType = {
 
 export type FlussNodeData = {
   name: string
+  description?: string
   inputs?: NonEmptyArray<FlussNodeInputType>
   output?: FlussNodeOutputType
 }

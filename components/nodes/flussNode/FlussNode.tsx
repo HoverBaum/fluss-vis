@@ -1,3 +1,5 @@
+'use client'
+
 import {
   Card,
   CardContent,
@@ -11,6 +13,7 @@ import { NodeProps, useNodeId } from '@xyflow/react'
 import { FlussNodeType } from '@/stores/flussStore'
 import { Button } from '@/components/ui/button'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
+import { useSidebar } from '@/components/ui/sidebar'
 
 /**
  * A Node somewhere in the Fluss.
@@ -21,6 +24,7 @@ export const FlussNode = ({ data, selected }: NodeProps<FlussNodeType>) => {
   const { output, name, inputs } = data
   const nodeId = useNodeId()
   const addInput = useFlussStore((state) => state.addInput)
+  const { setOpen } = useSidebar()
 
   return (
     <Card className={`min-w-[250px] ${selected && 'border-foreground'}`}>
@@ -28,6 +32,13 @@ export const FlussNode = ({ data, selected }: NodeProps<FlussNodeType>) => {
       <CardHeader>
         <CardTitle className="text-xl">{name}</CardTitle>
         <CardDescription>Description here</CardDescription>
+        <Button
+          variant="secondary"
+          className="w-24"
+          onClick={() => setOpen(true)}
+        >
+          Edit
+        </Button>
       </CardHeader>
       <CardContent className="pl-0 pb-0">
         <div className="grid grid-cols-1 gap-2">
