@@ -4,7 +4,9 @@ import React, { useEffect, useMemo, useState } from 'react'
 import {
   Background,
   BackgroundVariant,
+  Connection,
   Controls,
+  Edge,
   MiniMap,
   Panel,
   ReactFlow,
@@ -48,6 +50,17 @@ export const FlowEditor = () => {
     []
   )
 
+  const isValidConnection = (connection: Connection | Edge) => {
+    if (
+      edges.find(
+        (edge) =>
+          edge.source === connection.source && edge.target === connection.target
+      )
+    )
+      return false
+    return true
+  }
+
   if (!isMounted) return null
 
   return (
@@ -62,6 +75,7 @@ export const FlowEditor = () => {
         colorMode={theme as 'system' | 'light' | 'dark'}
         suppressHydrationWarning
         panOnScroll
+        isValidConnection={isValidConnection}
       >
         <FlowEditorViewportReporter />
         <Panel position="bottom-center">
