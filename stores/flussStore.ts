@@ -18,6 +18,7 @@ import { devInitialState } from './initialState.dev'
 import { createFlussNode } from './storeHelpers'
 
 type NonEmptyArray<T> = [T, ...T[]]
+export type FlussNodeInputId = string
 
 export type FlussNodeOutputType = {
   name?: string
@@ -25,7 +26,7 @@ export type FlussNodeOutputType = {
 }
 
 export type FlussNodeInputType = {
-  id: string
+  id: FlussNodeInputId
 }
 
 export type FlussNodeData = {
@@ -54,12 +55,13 @@ export type FlussActions = {
   setNodes: (nodes: FlussNodeType[]) => void
   setOutputType: (nodeId: string, outputType: FlussStepOutputTypeId) => void
   setOutputName: (nodeId: string, outputType: FlussStepOutputTypeId) => void
-  addInput: (nodeId: string) => void
+  addInput: (nodeId: string, inputId?: FlussNodeInputId) => void
   addNode: (position?: XYPosition) => void
   setViewport: (viewport: Viewport) => void
 }
 
 export type FlussStore = FlussState & FlussActions
+export const NEW_CONNECTION_HANDLE_IDENTIFIER = 'new-connection'
 
 export const createFlussStore = (initState: FlussState = devInitialState) => {
   return createStore<FlussStore>()(
@@ -78,6 +80,23 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
           })
         },
         onConnect: (connection) => {
+          // If the Node filling connection Handle is used, we create a new connection.
+          if (
+            connection.targetHandle !== null &&
+            connection.targetHandle.includes(NEW_CONNECTION_HANDLE_IDENTIFIER)
+          ) {
+            console.log('Dropped on Big Handle')
+            console.log(connection)
+            const newInputId: FlussNodeInputId = nanoid(5)
+            get().addInput(connection.target, newInputId)
+            get().onConnect({
+              source: connection.source,
+              sourceHandle: connection.sourceHandle,
+              target: connection.target,
+              targetHandle: `${connection.target}-${newInputId}`,
+            })
+            return
+          }
           set({
             edges: addEdge(connection, get().edges),
           })
@@ -139,7 +158,7 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
             }
           })
         },
-        addInput: (nodeId) => {
+        addInput: (nodeId, inputId) => {
           set((state) => ({
             nodes: state.nodes.map((node) =>
               node.id === nodeId
@@ -147,7 +166,10 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
                     ...node,
                     data: {
                       ...node.data,
-                      inputs: [...(node.data.inputs || []), { id: nanoid(5) }],
+                      inputs: [
+                        ...(node.data.inputs || []),
+                        { id: inputId || nanoid(5) },
+                      ],
                     },
                   }
                 : node
