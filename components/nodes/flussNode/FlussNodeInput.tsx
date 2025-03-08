@@ -42,6 +42,7 @@ export const FlussNodeInput = ({ id }: FlussNodeInputProps) => {
         position={Position.Left}
         id={id}
         style={{ position: 'absolute', left: '0px' }}
+        isConnectable={connections.length === 0}
       />
     </div>
   )

@@ -12,6 +12,8 @@ Fluss Viz will handle the execution of your logic and parallelize async operatio
 - Enable renaming of Outputs - probably name output and not inputs.
 - Enable more Inputs for FlussNodes and EndNode
 - Enable more Inputs for StartNode
+- Selected Edges should be visible in front of other nodes
+- Nodes should be able to pre-create inputs that do not disappear upon edge deletion.
 
 We probably need to switch from associating nodes with an output type to associating handles with one. Or we need more special handling of startNode, because StartNode has multiple outputs.
 

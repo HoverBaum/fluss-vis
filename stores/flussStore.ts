@@ -105,32 +105,6 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
                 : node
             ),
           }))
-          // We also need to check if we need to remove any edges.
-          const targetNodes = get()
-            .edges.filter((edge) => edge.source === nodeId)
-            .map((edge) => get().nodes.find((node) => node.id === edge.target))
-            .filter((node) => !!node)
-          targetNodes.forEach((targetNode) => {
-            const sourceNodeIdsForTarget = get()
-              .edges.filter((edge) => edge.target === targetNode.id)
-              .map((edge) => edge.source)
-            const sourceNodes = get().nodes.filter((node) =>
-              sourceNodeIdsForTarget.includes(node.id)
-            )
-            const allOutputTypes = sourceNodes.map(
-              (node) => node.data.output?.typeId
-            )
-            const uniqueOutputTypes = [...new Set(allOutputTypes)]
-            if (uniqueOutputTypes.length > 1) {
-              // Remove the edge associated with this change.
-              set({
-                edges: get().edges.filter(
-                  (edge) =>
-                    !(edge.source === nodeId && edge.target === targetNode.id)
-                ),
-              })
-            }
-          })
         },
         setOutputName: (nodeId, outputName) => {
           set((state) => ({
