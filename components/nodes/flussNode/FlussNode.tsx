@@ -21,7 +21,6 @@ import {
   NEW_CONNECTION_HANDLE_IDENTIFIER,
 } from '@/stores/flussStore'
 import { Button } from '@/components/ui/button'
-import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { useSidebar } from '@/components/ui/sidebar'
 import { useEffect } from 'react'
 
@@ -40,7 +39,6 @@ export const FlussNode = ({
   const isPotentialTarget =
     connection.inProgress && connection.fromNode.id !== nodeId
   const { output, name, inputs } = data
-  const addInput = useFlussStore((state) => state.addInput)
   const { setOpen } = useSidebar()
 
   // Update node internals when the node is a potential target, because we conditionaly render a Handle.
@@ -84,15 +82,6 @@ export const FlussNode = ({
             inputs.map((input) => (
               <FlussNodeInput key={input.id} id={`${nodeId}-${input.id}`} />
             ))}
-        </div>
-        <div className="pl-6">
-          <Button
-            variant="secondary"
-            className="mt-2"
-            onClick={() => addInput(nodeId!)}
-          >
-            Add input
-          </Button>
         </div>
       </CardContent>
       <hr className="my-6" />
