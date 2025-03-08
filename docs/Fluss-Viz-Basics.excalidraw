@@ -1,7 +1,7 @@
 {
   "type": "excalidraw",
   "version": 2,
-  "source": "https://excalidraw.com",
+  "source": "https://marketplace.visualstudio.com/items?itemName=pomdtr.excalidraw-editor",
   "elements": [
     {
       "type": "ellipse",
@@ -43,8 +43,7 @@
       ],
       "updated": 1740568148797,
       "link": null,
-      "locked": false,
-      "index": "a0"
+      "locked": false
     },
     {
       "type": "text",
@@ -80,9 +79,7 @@
       "containerId": "F6o65P5ASAnizrM27-Qtk",
       "originalText": "2",
       "lineHeight": 1.25,
-      "baseline": 19,
-      "index": "a1",
-      "autoResize": true
+      "baseline": 19
     },
     {
       "type": "ellipse",
@@ -132,8 +129,7 @@
       ],
       "updated": 1740568148797,
       "link": null,
-      "locked": false,
-      "index": "a2"
+      "locked": false
     },
     {
       "type": "text",
@@ -169,9 +165,7 @@
       "containerId": "d8XBppn-3vjDI8HW7MLGv",
       "originalText": "3",
       "lineHeight": 1.25,
-      "baseline": 19,
-      "index": "a3",
-      "autoResize": true
+      "baseline": 19
     },
     {
       "type": "ellipse",
@@ -209,8 +203,7 @@
       ],
       "updated": 1740568148797,
       "link": null,
-      "locked": false,
-      "index": "a4"
+      "locked": false
     },
     {
       "type": "text",
@@ -246,9 +239,7 @@
       "containerId": "4q-HlnimPCBShEswWp_2F",
       "originalText": "start",
       "lineHeight": 1.25,
-      "baseline": 19,
-      "index": "a5",
-      "autoResize": true
+      "baseline": 19
     },
     {
       "type": "ellipse",
@@ -290,8 +281,7 @@
       ],
       "updated": 1740568148797,
       "link": null,
-      "locked": false,
-      "index": "a6"
+      "locked": false
     },
     {
       "type": "text",
@@ -327,9 +317,7 @@
       "containerId": "phc1mIVksONDHJrlLd66n",
       "originalText": "4",
       "lineHeight": 1.25,
-      "baseline": 19,
-      "index": "a7",
-      "autoResize": true
+      "baseline": 19
     },
     {
       "type": "ellipse",
@@ -371,8 +359,7 @@
       ],
       "updated": 1740568148797,
       "link": null,
-      "locked": false,
-      "index": "a8"
+      "locked": false
     },
     {
       "type": "text",
@@ -408,9 +395,7 @@
       "containerId": "IVev5_aLl7MHtSf5BL8cF",
       "originalText": "5",
       "lineHeight": 1.25,
-      "baseline": 19,
-      "index": "a9",
-      "autoResize": true
+      "baseline": 19
     },
     {
       "type": "ellipse",
@@ -456,8 +441,7 @@
       ],
       "updated": 1740568148797,
       "link": null,
-      "locked": false,
-      "index": "aA"
+      "locked": false
     },
     {
       "type": "text",
@@ -493,9 +477,7 @@
       "containerId": "jku9_9qFh_cxRn-SHzQP4",
       "originalText": "6",
       "lineHeight": 1.25,
-      "baseline": 19,
-      "index": "aB",
-      "autoResize": true
+      "baseline": 19
     },
     {
       "type": "ellipse",
@@ -541,8 +523,7 @@
       ],
       "updated": 1740568148797,
       "link": null,
-      "locked": false,
-      "index": "aC"
+      "locked": false
     },
     {
       "type": "text",
@@ -578,9 +559,7 @@
       "containerId": "qbeXuLYdz65-1JvYV8MQv",
       "originalText": "7",
       "lineHeight": 1.25,
-      "baseline": 19,
-      "index": "aD",
-      "autoResize": true
+      "baseline": 19
     },
     {
       "type": "ellipse",
@@ -622,8 +601,7 @@
       ],
       "updated": 1740568148797,
       "link": null,
-      "locked": false,
-      "index": "aE"
+      "locked": false
     },
     {
       "type": "text",
@@ -659,9 +637,7 @@
       "containerId": "gd_61HKIyRSi297e8DtmN",
       "originalText": "8",
       "lineHeight": 1.25,
-      "baseline": 19,
-      "index": "aF",
-      "autoResize": true
+      "baseline": 19
     },
     {
       "type": "arrow",
@@ -715,8 +691,7 @@
           98.18487587500796,
           1.2102147307865607
         ]
-      ],
-      "index": "aG"
+      ]
     },
     {
       "type": "arrow",
@@ -770,8 +745,7 @@
           139.5529483314632,
           -90.34929419801398
         ]
-      ],
-      "index": "aH"
+      ]
     },
     {
       "type": "arrow",
@@ -825,8 +799,7 @@
           135.01486303544982,
           57.548114601827024
         ]
-      ],
-      "index": "aI"
+      ]
     },
     {
       "type": "arrow",
@@ -880,8 +853,7 @@
           167.859375,
           -45.36328125
         ]
-      ],
-      "index": "aJ"
+      ]
     },
     {
       "type": "arrow",
@@ -935,8 +907,7 @@
           96.3828125,
           40.85546875
         ]
-      ],
-      "index": "aK"
+      ]
     },
     {
       "type": "arrow",
@@ -990,8 +961,7 @@
           162.4296875,
           26.64453125
         ]
-      ],
-      "index": "aL"
+      ]
     },
     {
       "type": "arrow",
@@ -1045,8 +1015,7 @@
           96.0625,
           -37.5546875
         ]
-      ],
-      "index": "aM"
+      ]
     },
     {
       "type": "ellipse",
@@ -1088,8 +1057,7 @@
       ],
       "updated": 1740568148797,
       "link": null,
-      "locked": false,
-      "index": "aN"
+      "locked": false
     },
     {
       "type": "text",
@@ -1125,9 +1093,7 @@
       "containerId": "xqDkNUH2OjqfZhTSsSRlI",
       "originalText": "final",
       "lineHeight": 1.25,
-      "baseline": 19,
-      "index": "aO",
-      "autoResize": true
+      "baseline": 19
     },
     {
       "type": "arrow",
@@ -1181,8 +1147,7 @@
           830.5489221191888,
           -0.24267084834775687
         ]
-      ],
-      "index": "aP"
+      ]
     },
     {
       "type": "arrow",
@@ -1236,8 +1201,7 @@
           216.9500796757311,
           6.964230903279486
         ]
-      ],
-      "index": "aQ"
+      ]
     },
     {
       "type": "arrow",
@@ -1291,8 +1255,7 @@
           126.03382861094997,
           -177.67752420706552
         ]
-      ],
-      "index": "aR"
+      ]
     },
     {
       "type": "arrow",
@@ -1346,8 +1309,7 @@
           191.92815271349298,
           199.7552086844396
         ]
-      ],
-      "index": "aS"
+      ]
     },
     {
       "type": "arrow",
@@ -1401,8 +1363,7 @@
           418.27406121046874,
           -213.32509383950963
         ]
-      ],
-      "index": "aT"
+      ]
     },
     {
       "type": "diamond",
@@ -1448,8 +1409,7 @@
       ],
       "updated": 1740568148797,
       "link": null,
-      "locked": false,
-      "index": "aU"
+      "locked": false
     },
     {
       "type": "text",
@@ -1485,9 +1445,7 @@
       "containerId": "3LL_Jox6Gzsd6gYsdZ0wz",
       "originalText": "if",
       "lineHeight": 1.25,
-      "baseline": 19,
-      "index": "aV",
-      "autoResize": true
+      "baseline": 19
     },
     {
       "type": "ellipse",
@@ -1529,8 +1487,7 @@
       ],
       "updated": 1740568148797,
       "link": null,
-      "locked": false,
-      "index": "aW"
+      "locked": false
     },
     {
       "type": "text",
@@ -1566,9 +1523,7 @@
       "containerId": "zVxdlcAt1kWJjL2PQmHYD",
       "originalText": "1",
       "lineHeight": 1.25,
-      "baseline": 19,
-      "index": "aX",
-      "autoResize": true
+      "baseline": 19
     },
     {
       "type": "arrow",
@@ -1622,8 +1577,7 @@
           92.28866567890753,
           0.9860857916153236
         ]
-      ],
-      "index": "aY"
+      ]
     },
     {
       "type": "text",
@@ -1659,9 +1613,7 @@
       "containerId": null,
       "originalText": "No IF for now!",
       "lineHeight": 1.25,
-      "baseline": 19,
-      "index": "aZ",
-      "autoResize": true
+      "baseline": 19
     },
     {
       "type": "ellipse",
@@ -1715,8 +1667,7 @@
       ],
       "updated": 1740568148797,
       "link": null,
-      "locked": false,
-      "index": "aa"
+      "locked": false
     },
     {
       "type": "text",
@@ -1752,9 +1703,7 @@
       "containerId": "u04J6O58TP6PZopsGlJbI",
       "originalText": "Write draft",
       "lineHeight": 1.25,
-      "baseline": 12,
-      "index": "ab",
-      "autoResize": true
+      "baseline": 12
     },
     {
       "type": "ellipse",
@@ -1796,8 +1745,7 @@
       ],
       "updated": 1740568148797,
       "link": null,
-      "locked": false,
-      "index": "ac"
+      "locked": false
     },
     {
       "type": "text",
@@ -1833,9 +1781,7 @@
       "containerId": "hKEReHxleOKLNfzAQo1IC",
       "originalText": "Parent Feedback",
       "lineHeight": 1.25,
-      "baseline": 28,
-      "index": "ad",
-      "autoResize": true
+      "baseline": 28
     },
     {
       "type": "ellipse",
@@ -1877,8 +1823,7 @@
       ],
       "updated": 1740568148797,
       "link": null,
-      "locked": false,
-      "index": "ae"
+      "locked": false
     },
     {
       "type": "text",
@@ -1914,9 +1859,7 @@
       "containerId": "cF_fuQR-u8Oedz5YU24kI",
       "originalText": "Lector Feedback",
       "lineHeight": 1.25,
-      "baseline": 28,
-      "index": "af",
-      "autoResize": true
+      "baseline": 28
     },
     {
       "type": "ellipse",
@@ -1958,8 +1901,7 @@
       ],
       "updated": 1740568148797,
       "link": null,
-      "locked": false,
-      "index": "ag"
+      "locked": false
     },
     {
       "type": "text",
@@ -1995,9 +1937,7 @@
       "containerId": "KkIs7fteax-dAyT2GKDV9",
       "originalText": "...\nMore Feedback",
       "lineHeight": 1.25,
-      "baseline": 45,
-      "index": "ah",
-      "autoResize": true
+      "baseline": 45
     },
     {
       "type": "ellipse",
@@ -2051,8 +1991,7 @@
       ],
       "updated": 1740568148797,
       "link": null,
-      "locked": false,
-      "index": "ai"
+      "locked": false
     },
     {
       "type": "text",
@@ -2088,9 +2027,7 @@
       "containerId": "SfyNG0-FXg9ebIImQntDI",
       "originalText": "Improve Story",
       "lineHeight": 1.25,
-      "baseline": 28,
-      "index": "aj",
-      "autoResize": true
+      "baseline": 28
     },
     {
       "type": "arrow",
@@ -2144,8 +2081,7 @@
           257.7110846392888,
           -113.3928782347251
         ]
-      ],
-      "index": "ak"
+      ]
     },
     {
       "type": "arrow",
@@ -2199,8 +2135,7 @@
           239.8069224418528,
           -2.1702150253591745
         ]
-      ],
-      "index": "al"
+      ]
     },
     {
       "type": "arrow",
@@ -2254,8 +2189,7 @@
           267.47697774555365,
           113.39290307067559
         ]
-      ],
-      "index": "am"
+      ]
     },
     {
       "type": "arrow",
@@ -2309,8 +2243,7 @@
           298.9448720897073,
           113.3928782347251
         ]
-      ],
-      "index": "an"
+      ]
     },
     {
       "type": "arrow",
@@ -2364,8 +2297,7 @@
           283.75341658409405,
           -11.393541957308965
         ]
-      ],
-      "index": "ao"
+      ]
     },
     {
       "type": "arrow",
@@ -2419,8 +2351,7 @@
           285.9236316094532,
           -136.17993731339254
         ]
-      ],
-      "index": "ap"
+      ]
     },
     {
       "type": "ellipse",
@@ -2462,8 +2393,7 @@
       ],
       "updated": 1740568148797,
       "link": null,
-      "locked": false,
-      "index": "aq"
+      "locked": false
     },
     {
       "type": "text",
@@ -2499,9 +2429,7 @@
       "containerId": "-ZLtbuyJNSVIk5AE0O8G4",
       "originalText": "Extract datapoints",
       "lineHeight": 1.25,
-      "baseline": 28,
-      "index": "ar",
-      "autoResize": true
+      "baseline": 28
     },
     {
       "type": "arrow",
@@ -2555,8 +2483,7 @@
           170.90312935963448,
           -5.968054065812001
         ]
-      ],
-      "index": "as"
+      ]
     },
     {
       "type": "ellipse",
@@ -2594,8 +2521,7 @@
       ],
       "updated": 1740568148797,
       "link": null,
-      "locked": false,
-      "index": "at"
+      "locked": false
     },
     {
       "type": "text",
@@ -2631,9 +2557,7 @@
       "containerId": "_ctxiF0AVnX73c7Z78lA9",
       "originalText": "Brainstorm Concept",
       "lineHeight": 1.25,
-      "baseline": 28,
-      "index": "au",
-      "autoResize": true
+      "baseline": 28
     },
     {
       "type": "ellipse",
@@ -2671,8 +2595,7 @@
       ],
       "updated": 1740568148797,
       "link": null,
-      "locked": false,
-      "index": "av"
+      "locked": false
     },
     {
       "type": "text",
@@ -2708,9 +2631,7 @@
       "containerId": "O8SlZP9IHTWNJTf0gUkW0",
       "originalText": "Brainstorm Concept",
       "lineHeight": 1.25,
-      "baseline": 28,
-      "index": "aw",
-      "autoResize": true
+      "baseline": 28
     },
     {
       "type": "ellipse",
@@ -2748,8 +2669,7 @@
       ],
       "updated": 1740568148797,
       "link": null,
-      "locked": false,
-      "index": "ax"
+      "locked": false
     },
     {
       "type": "text",
@@ -2785,9 +2705,7 @@
       "containerId": "hFmpq7XV00kuxg5W0XdDR",
       "originalText": "Brainstorm Concept",
       "lineHeight": 1.25,
-      "baseline": 28,
-      "index": "ay",
-      "autoResize": true
+      "baseline": 28
     },
     {
       "type": "ellipse",
@@ -2845,8 +2763,7 @@
       ],
       "updated": 1740568148797,
       "link": null,
-      "locked": false,
-      "index": "az"
+      "locked": false
     },
     {
       "type": "text",
@@ -2882,9 +2799,7 @@
       "containerId": "iRrPnSqjtZKZtlDqbhoyY",
       "originalText": "Decide on concept",
       "lineHeight": 1.25,
-      "baseline": 28,
-      "index": "b00",
-      "autoResize": true
+      "baseline": 28
     },
     {
       "type": "arrow",
@@ -2938,8 +2853,7 @@
           201.706060077273,
           125.3430280272253
         ]
-      ],
-      "index": "b01"
+      ]
     },
     {
       "type": "arrow",
@@ -2993,8 +2907,7 @@
           189.36522875417694,
           -11.79598225502739
         ]
-      ],
-      "index": "b02"
+      ]
     },
     {
       "type": "arrow",
@@ -3048,8 +2961,7 @@
           202.30944561197984,
           -135.87292190390343
         ]
-      ],
-      "index": "b03"
+      ]
     },
     {
       "type": "arrow",
@@ -3103,8 +3015,7 @@
           149.1857090489123,
           2.472364215032029
         ]
-      ],
-      "index": "b04"
+      ]
     },
     {
       "type": "arrow",
@@ -3158,8 +3069,7 @@
           102.48635550005513,
           186.89784499544234
         ]
-      ],
-      "index": "b05"
+      ]
     },
     {
       "type": "rectangle",
@@ -3197,8 +3107,7 @@
       ],
       "updated": 1740568148797,
       "link": null,
-      "locked": false,
-      "index": "b06"
+      "locked": false
     },
     {
       "type": "text",
@@ -3234,9 +3143,7 @@
       "containerId": "4Uz_rnHgBJEa27hr1v4iC",
       "originalText": "Send title to client",
       "lineHeight": 1.25,
-      "baseline": 12,
-      "index": "b07",
-      "autoResize": true
+      "baseline": 12
     },
     {
       "type": "arrow",
@@ -3294,8 +3201,7 @@
           674.001657431192,
           -8.680803333549852
         ]
-      ],
-      "index": "b08"
+      ]
     },
     {
       "type": "ellipse",
@@ -3337,8 +3243,7 @@
       ],
       "updated": 1740568148797,
       "link": null,
-      "locked": false,
-      "index": "b09"
+      "locked": false
     },
     {
       "type": "text",
@@ -3374,9 +3279,7 @@
       "containerId": "FcVThM2aHQyJFg4HhcypE",
       "originalText": "Write Prompt for cover image",
       "lineHeight": 1.25,
-      "baseline": 45,
-      "index": "b0A",
-      "autoResize": true
+      "baseline": 45
     },
     {
       "type": "arrow",
@@ -3430,8 +3333,7 @@
           78.12714485011861,
           -136.28849028577633
         ]
-      ],
-      "index": "b0B"
+      ]
     },
     {
       "type": "ellipse",
@@ -3473,8 +3375,7 @@
       ],
       "updated": 1740568148797,
       "link": null,
-      "locked": false,
-      "index": "b0C"
+      "locked": false
     },
     {
       "type": "text",
@@ -3510,9 +3411,7 @@
       "containerId": "VPsIiMDtBLw99uHz47FO0",
       "originalText": "Create Cover Image",
       "lineHeight": 1.25,
-      "baseline": 28,
-      "index": "b0D",
-      "autoResize": true
+      "baseline": 28
     },
     {
       "type": "arrow",
@@ -3566,8 +3465,7 @@
           108.50997638630356,
           -54.68900139508302
         ]
-      ],
-      "index": "b0E"
+      ]
     },
     {
       "type": "rectangle",
@@ -3605,8 +3503,7 @@
       ],
       "updated": 1740568148797,
       "link": null,
-      "locked": false,
-      "index": "b0F"
+      "locked": false
     },
     {
       "type": "text",
@@ -3642,9 +3539,7 @@
       "containerId": "fKUetUjB3ND3yi4Kyh-0u",
       "originalText": "Send cover to client",
       "lineHeight": 1.25,
-      "baseline": 12,
-      "index": "b0G",
-      "autoResize": true
+      "baseline": 12
     },
     {
       "type": "arrow",
@@ -3698,8 +3593,7 @@
           121.53116719465666,
           -13.889256949736383
         ]
-      ],
-      "index": "b0H"
+      ]
     },
     {
       "type": "rectangle",
@@ -3737,8 +3631,7 @@
       ],
       "updated": 1740568148797,
       "link": null,
-      "locked": false,
-      "index": "b0I"
+      "locked": false
     },
     {
       "type": "text",
@@ -3774,9 +3667,7 @@
       "containerId": "CUHv0ZfGjHiJ7XvWq2yed",
       "originalText": "Send story content \nto client",
       "lineHeight": 1.25,
-      "baseline": 28,
-      "index": "b0J",
-      "autoResize": true
+      "baseline": 28
     },
     {
       "type": "arrow",
@@ -3830,8 +3721,7 @@
           121.53116719465666,
           -7.425131877477405
         ]
-      ],
-      "index": "b0K"
+      ]
     },
     {
       "type": "ellipse",
@@ -3873,8 +3763,7 @@
       ],
       "updated": 1740568148797,
       "link": null,
-      "locked": false,
-      "index": "b0L"
+      "locked": false
     },
     {
       "type": "text",
@@ -3910,9 +3799,7 @@
       "containerId": "KuAojaWNvJblumcub6YIN",
       "originalText": "Improve stories title",
       "lineHeight": 1.25,
-      "baseline": 28,
-      "index": "b0M",
-      "autoResize": true
+      "baseline": 28
     },
     {
       "type": "arrow",
@@ -3966,8 +3853,7 @@
           152.99899199814897,
           64.02082169313545
         ]
-      ],
-      "index": "b0N"
+      ]
     },
     {
       "type": "rectangle",
@@ -3996,13 +3882,12 @@
       "boundElements": [],
       "updated": 1740568148797,
       "link": null,
-      "locked": false,
-      "index": "b0O"
+      "locked": false
     },
     {
       "type": "text",
-      "version": 343,
-      "versionNonce": 1154269911,
+      "version": 344,
+      "versionNonce": 1118882621,
       "isDeleted": false,
       "id": "r9qMygUAB5VxcYnBDa8Se",
       "fillStyle": "solid",
@@ -4015,14 +3900,14 @@
       "y": -1801.9920770147605,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
-      "width": 109.0709054458955,
+      "width": 66.7265625,
       "height": 45,
       "seed": 177174171,
       "groupIds": [],
       "frameId": null,
       "roundness": null,
       "boundElements": [],
-      "updated": 1740568173745,
+      "updated": 1741467725685,
       "link": null,
       "locked": false,
       "fontSize": 36,
@@ -4033,9 +3918,7 @@
       "containerId": null,
       "originalText": "Title",
       "lineHeight": 1.25,
-      "baseline": 34,
-      "index": "b0P",
-      "autoResize": false
+      "baseline": 34
     },
     {
       "type": "text",
@@ -4071,9 +3954,7 @@
       "containerId": null,
       "originalText": "Description of what this node does in the process",
       "lineHeight": 1.25,
-      "baseline": 44,
-      "index": "b0Q",
-      "autoResize": true
+      "baseline": 44
     },
     {
       "type": "line",
@@ -4117,8 +3998,7 @@
           314.9579436850943,
           0
         ]
-      ],
-      "index": "b0R"
+      ]
     },
     {
       "type": "ellipse",
@@ -4152,8 +4032,7 @@
       ],
       "updated": 1740568148797,
       "link": null,
-      "locked": false,
-      "index": "b0S"
+      "locked": false
     },
     {
       "type": "text",
@@ -4189,9 +4068,7 @@
       "containerId": null,
       "originalText": "Inferred Input Type",
       "lineHeight": 1.25,
-      "baseline": 19,
-      "index": "b0T",
-      "autoResize": true
+      "baseline": 19
     },
     {
       "type": "rectangle",
@@ -4225,8 +4102,7 @@
       ],
       "updated": 1740568148797,
       "link": null,
-      "locked": false,
-      "index": "b0U"
+      "locked": false
     },
     {
       "type": "text",
@@ -4262,9 +4138,7 @@
       "containerId": "VyJ4Y5gQalrenPWcy_RVx",
       "originalText": "ADD INPUT",
       "lineHeight": 1.25,
-      "baseline": 19,
-      "index": "b0V",
-      "autoResize": true
+      "baseline": 19
     },
     {
       "type": "line",
@@ -4308,8 +4182,7 @@
           314.9579436850943,
           0
         ]
-      ],
-      "index": "b0W"
+      ]
     },
     {
       "type": "text",
@@ -4345,9 +4218,7 @@
       "containerId": null,
       "originalText": "Output Type",
       "lineHeight": 1.25,
-      "baseline": 19,
-      "index": "b0X",
-      "autoResize": true
+      "baseline": 19
     },
     {
       "type": "ellipse",
@@ -4385,8 +4256,7 @@
       ],
       "updated": 1740568148797,
       "link": null,
-      "locked": false,
-      "index": "b0Y"
+      "locked": false
     },
     {
       "type": "arrow",
@@ -4435,8 +4305,7 @@
           150.60515198601536,
           -149.22927124115267
         ]
-      ],
-      "index": "b0Z"
+      ]
     },
     {
       "type": "arrow",
@@ -4485,8 +4354,7 @@
           154.00238839308372,
           -35.73892700235842
         ]
-      ],
-      "index": "b0a"
+      ]
     },
     {
       "type": "text",
@@ -4522,9 +4390,7 @@
       "containerId": null,
       "originalText": "Outputs can be connected \nto multiple nodes",
       "lineHeight": 1.25,
-      "baseline": 44,
-      "index": "b0b",
-      "autoResize": true
+      "baseline": 44
     },
     {
       "type": "arrow",
@@ -4573,8 +4439,7 @@
           211.58554549289101,
           147.53065303761832
         ]
-      ],
-      "index": "b0c"
+      ]
     },
     {
       "type": "text",
@@ -4615,9 +4480,7 @@
       "containerId": null,
       "originalText": "Each Input only\ntakes one connection",
       "lineHeight": 1.25,
-      "baseline": 44,
-      "index": "b0d",
-      "autoResize": true
+      "baseline": 44
     },
     {
       "type": "rectangle",
@@ -4646,8 +4509,7 @@
       "boundElements": [],
       "updated": 1740568148797,
       "link": null,
-      "locked": false,
-      "index": "b0e"
+      "locked": false
     },
     {
       "type": "text",
@@ -4683,9 +4545,7 @@
       "containerId": null,
       "originalText": "StartNode",
       "lineHeight": 1.25,
-      "baseline": 34,
-      "index": "b0f",
-      "autoResize": true
+      "baseline": 34
     },
     {
       "type": "text",
@@ -4721,9 +4581,7 @@
       "containerId": null,
       "originalText": "Description of what this node does in the process",
       "lineHeight": 1.25,
-      "baseline": 44,
-      "index": "b0g",
-      "autoResize": true
+      "baseline": 44
     },
     {
       "type": "line",
@@ -4767,8 +4625,7 @@
           314.9579436850943,
           0
         ]
-      ],
-      "index": "b0h"
+      ]
     },
     {
       "type": "text",
@@ -4804,9 +4661,7 @@
       "containerId": null,
       "originalText": "Input Type",
       "lineHeight": 1.25,
-      "baseline": 19,
-      "index": "b0i",
-      "autoResize": true
+      "baseline": 19
     },
     {
       "type": "ellipse",
@@ -4835,8 +4690,7 @@
       "boundElements": [],
       "updated": 1740568148797,
       "link": null,
-      "locked": false,
-      "index": "b0j"
+      "locked": false
     },
     {
       "type": "text",
@@ -4872,9 +4726,7 @@
       "containerId": null,
       "originalText": "There is always a single StartNode",
       "lineHeight": 1.25,
-      "baseline": 19,
-      "index": "b0k",
-      "autoResize": true
+      "baseline": 19
     },
     {
       "type": "text",
@@ -4910,9 +4762,7 @@
       "containerId": null,
       "originalText": "???",
       "lineHeight": 1.25,
-      "baseline": 52,
-      "index": "b0l",
-      "autoResize": true
+      "baseline": 52
     },
     {
       "type": "rectangle",
@@ -4941,13 +4791,12 @@
       "boundElements": [],
       "updated": 1740568148797,
       "link": null,
-      "locked": false,
-      "index": "b0m"
+      "locked": false
     },
     {
       "type": "text",
-      "version": 576,
-      "versionNonce": 308827671,
+      "version": 577,
+      "versionNonce": 369251091,
       "isDeleted": false,
       "id": "KAhw74d-y-SxegaenOvAt",
       "fillStyle": "solid",
@@ -4960,14 +4809,14 @@
       "y": -945.5172673899982,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
-      "width": 190.47905395682756,
+      "width": 160.962890625,
       "height": 45,
       "seed": 189763643,
       "groupIds": [],
       "frameId": null,
       "roundness": null,
       "boundElements": [],
-      "updated": 1740568180998,
+      "updated": 1741467725686,
       "link": null,
       "locked": false,
       "fontSize": 36,
@@ -4978,9 +4827,7 @@
       "containerId": null,
       "originalText": "END Node",
       "lineHeight": 1.25,
-      "baseline": 34,
-      "index": "b0n",
-      "autoResize": false
+      "baseline": 34
     },
     {
       "type": "line",
@@ -5024,8 +4871,7 @@
           314.9579436850943,
           0
         ]
-      ],
-      "index": "b0o"
+      ]
     },
     {
       "type": "ellipse",
@@ -5054,8 +4900,7 @@
       "boundElements": [],
       "updated": 1740568148797,
       "link": null,
-      "locked": false,
-      "index": "b0p"
+      "locked": false
     },
     {
       "type": "text",
@@ -5091,9 +4936,7 @@
       "containerId": null,
       "originalText": "Inferred Input Type",
       "lineHeight": 1.25,
-      "baseline": 19,
-      "index": "b0q",
-      "autoResize": true
+      "baseline": 19
     },
     {
       "type": "text",
@@ -5129,9 +4972,7 @@
       "containerId": null,
       "originalText": "Since we don't have any IFs,\nthere is only a single End Node\nper flow.",
       "lineHeight": 1.25,
-      "baseline": 69,
-      "index": "b0r",
-      "autoResize": true
+      "baseline": 69
     },
     {
       "type": "text",
@@ -5167,9 +5008,7 @@
       "containerId": null,
       "originalText": "Input Type",
       "lineHeight": 1.25,
-      "baseline": 19,
-      "index": "b0s",
-      "autoResize": true
+      "baseline": 19
     },
     {
       "type": "ellipse",
@@ -5198,8 +5037,7 @@
       "boundElements": [],
       "updated": 1740568148797,
       "link": null,
-      "locked": false,
-      "index": "b0t"
+      "locked": false
     },
     {
       "type": "text",
@@ -5235,9 +5073,7 @@
       "containerId": null,
       "originalText": "?? Can specify multiple Inputs\nand hands all of the out again\nWould break conventions....",
       "lineHeight": 1.25,
-      "baseline": 69,
-      "index": "b0u",
-      "autoResize": true
+      "baseline": 69
     },
     {
       "type": "rectangle",
@@ -5271,8 +5107,7 @@
       ],
       "updated": 1740568148797,
       "link": null,
-      "locked": false,
-      "index": "b0v"
+      "locked": false
     },
     {
       "type": "text",
@@ -5308,9 +5143,7 @@
       "containerId": "Syc8VUbtck8QzQoh1oKti",
       "originalText": "ADD INPUT",
       "lineHeight": 1.25,
-      "baseline": 19,
-      "index": "b0w",
-      "autoResize": true
+      "baseline": 19
     },
     {
       "type": "rectangle",
@@ -5339,13 +5172,12 @@
       "boundElements": [],
       "updated": 1740568148797,
       "link": null,
-      "locked": false,
-      "index": "b0x"
+      "locked": false
     },
     {
       "type": "text",
-      "version": 588,
-      "versionNonce": 1119110071,
+      "version": 589,
+      "versionNonce": 5135261,
       "isDeleted": false,
       "id": "RaZGgaRdF-v0rjWnhYoXp",
       "fillStyle": "solid",
@@ -5358,14 +5190,14 @@
       "y": -1332.6574962986501,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
-      "width": 211.72236621939695,
+      "width": 154.96875,
       "height": 45,
       "seed": 1676242357,
       "groupIds": [],
       "frameId": null,
       "roundness": null,
       "boundElements": [],
-      "updated": 1740568175941,
+      "updated": 1741467725687,
       "link": null,
       "locked": false,
       "fontSize": 36,
@@ -5376,9 +5208,7 @@
       "containerId": null,
       "originalText": "Start Node",
       "lineHeight": 1.25,
-      "baseline": 34,
-      "index": "b0y",
-      "autoResize": false
+      "baseline": 34
     },
     {
       "type": "line",
@@ -5422,13 +5252,12 @@
           314.9579436850943,
           0
         ]
-      ],
-      "index": "b0z"
+      ]
     },
     {
       "type": "text",
-      "version": 554,
-      "versionNonce": 18513401,
+      "version": 555,
+      "versionNonce": 923564211,
       "isDeleted": false,
       "id": "HPclP24qtHN5R0iCELICC",
       "fillStyle": "solid",
@@ -5441,14 +5270,14 @@
       "y": -1164.4922647093795,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "#1e1e1e",
-      "width": 133.89358218132068,
+      "width": 86.9140625,
       "height": 25,
       "seed": 1465970133,
       "groupIds": [],
       "frameId": null,
       "roundness": null,
       "boundElements": [],
-      "updated": 1740568430547,
+      "updated": 1741467725687,
       "link": null,
       "locked": false,
       "fontSize": 20,
@@ -5459,9 +5288,7 @@
       "containerId": null,
       "originalText": "Input Type",
       "lineHeight": 1.25,
-      "baseline": 19,
-      "index": "b10",
-      "autoResize": false
+      "baseline": 19
     },
     {
       "type": "ellipse",
@@ -5490,8 +5317,7 @@
       "boundElements": [],
       "updated": 1740568148797,
       "link": null,
-      "locked": false,
-      "index": "b11"
+      "locked": false
     },
     {
       "type": "text",
@@ -5527,14 +5353,12 @@
       "containerId": null,
       "originalText": "Description of what this node does in the process",
       "lineHeight": 1.25,
-      "baseline": 44,
-      "index": "b12",
-      "autoResize": true
+      "baseline": 44
     },
     {
       "type": "text",
-      "version": 654,
-      "versionNonce": 1996940055,
+      "version": 655,
+      "versionNonce": 1754980349,
       "isDeleted": false,
       "id": "GORElrq5awIamJxk5CLr3",
       "fillStyle": "solid",
@@ -5547,14 +5371,14 @@
       "y": -1320,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "#b2f2bb",
-      "width": 387.8046875,
+      "width": 292.666015625,
       "height": 75,
       "seed": 705011579,
       "groupIds": [],
       "frameId": null,
       "roundness": null,
       "boundElements": [],
-      "updated": 1740568154910,
+      "updated": 1741467725687,
       "link": null,
       "locked": false,
       "fontSize": 20,
@@ -5565,126 +5389,119 @@
       "containerId": null,
       "originalText": "There is a single Start Node for each Fluss. It can specify any number of inputs required for the flow.",
       "lineHeight": 1.25,
-      "baseline": 19,
-      "index": "b13",
-      "autoResize": false
+      "baseline": 69
     },
     {
-      "id": "NnoidlwhYvOIA6VwSvmGz",
       "type": "text",
-      "x": -1727.3058412114121,
-      "y": -1282.5001087931503,
-      "width": 396.7713018112572,
-      "height": 175,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "#ffc9c9",
+      "version": 411,
+      "versionNonce": 721480275,
+      "isDeleted": false,
+      "id": "NnoidlwhYvOIA6VwSvmGz",
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
       "roughness": 1,
       "opacity": 100,
+      "angle": 0,
+      "x": -1727.3058412114121,
+      "y": -1282.5001087931503,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "#ffc9c9",
+      "width": 334.375,
+      "height": 175,
+      "seed": 2141320855,
       "groupIds": [],
       "frameId": null,
-      "index": "b14",
       "roundness": null,
-      "seed": 2141320855,
-      "version": 410,
-      "versionNonce": 2111239063,
-      "isDeleted": false,
-      "boundElements": null,
-      "updated": 1740569176145,
+      "boundElements": [],
+      "updated": 1741467725687,
       "link": null,
       "locked": false,
-      "text": "Or should we have multiple Input Nodes?\nIn this approach we would probably\nexecute every node in parallel that has\nall inputs resolved. Nodes could also\nhave no inputs.\nThe run function of a Fluss would then\ntake a single object for all Inputs.",
       "fontSize": 20,
       "fontFamily": 5,
+      "text": "Or should we have multiple Input Nodes?\nIn this approach we would probably\nexecute every node in parallel that has\nall inputs resolved. Nodes could also\nhave no inputs.\nThe run function of a Fluss would then\ntake a single object for all Inputs.",
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
       "originalText": "Or should we have multiple Input Nodes? In this approach we would probably execute every node in parallel that has all inputs resolved. Nodes could also have no inputs.\nThe run function of a Fluss would then take a single object for all Inputs.",
-      "autoResize": false,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "baseline": 169
     },
     {
-      "id": "_iRnWCiWtxpoClDYLmylQ",
       "type": "text",
-      "x": -1769.1321181779524,
-      "y": -1758.2197819247172,
-      "width": 307.8159306588431,
-      "height": 325,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "#ffc9c9",
+      "version": 374,
+      "versionNonce": 832034909,
+      "isDeleted": false,
+      "id": "_iRnWCiWtxpoClDYLmylQ",
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
       "roughness": 1,
       "opacity": 100,
+      "angle": 0,
+      "x": -1769.1321181779524,
+      "y": -1758.2197819247172,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "#ffc9c9",
+      "width": 234.794921875,
+      "height": 325,
+      "seed": 1173755033,
       "groupIds": [],
       "frameId": null,
-      "index": "b16",
       "roundness": null,
-      "seed": 1173755033,
-      "version": 373,
-      "versionNonce": 707019447,
-      "isDeleted": false,
-      "boundElements": null,
-      "updated": 1740569152161,
+      "boundElements": [],
+      "updated": 1741467725688,
       "link": null,
       "locked": false,
-      "text": "Do Nodes need at least one\ninput?\nLike a trigger?\nBenefits:\n- Explicit control flow, things\nneed a trigger from a central\nstarting point\n\nCaveats\n- Things need to be linked to\nstart, no way to start things\nlater in the flow without an\narrow to them",
       "fontSize": 20,
       "fontFamily": 5,
+      "text": "Do Nodes need at least one\ninput?\nLike a trigger?\nBenefits:\n- Explicit control flow, things\nneed a trigger from a central\nstarting point\n\nCaveats\n- Things need to be linked to\nstart, no way to start things\nlater in the flow without an\narrow to them",
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
       "originalText": "Do Nodes need at least one input?\nLike a trigger?\nBenefits:\n- Explicit control flow, things need a trigger from a central starting point\n\nCaveats\n- Things need to be linked to start, no way to start things later in the flow without an arrow to them",
-      "autoResize": false,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "baseline": 319
     },
     {
-      "id": "ZQeObqxpDKSohH9F8whJB",
       "type": "text",
-      "x": -1708.7085945434233,
-      "y": -1038.4572573714427,
-      "width": 291.0358664426274,
-      "height": 100,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "#ffc9c9",
+      "version": 138,
+      "versionNonce": 917907443,
+      "isDeleted": false,
+      "id": "ZQeObqxpDKSohH9F8whJB",
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
       "roughness": 1,
       "opacity": 100,
+      "angle": 0,
+      "x": -1708.7085945434233,
+      "y": -1038.4572573714427,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "#ffc9c9",
+      "width": 208.837890625,
+      "height": 100,
+      "seed": 180416535,
       "groupIds": [],
       "frameId": null,
-      "index": "b17",
       "roundness": null,
-      "seed": 180416535,
-      "version": 137,
-      "versionNonce": 1626447703,
-      "isDeleted": false,
-      "boundElements": null,
-      "updated": 1740569451490,
+      "boundElements": [],
+      "updated": 1741467725688,
       "link": null,
       "locked": false,
-      "text": "Maybe we should have a\nStartNode, just to signify\nthe start and then multiple\nInput nodes for inputs???",
       "fontSize": 20,
       "fontFamily": 5,
+      "text": "Maybe we should have a\nStartNode, just to signify\nthe start and then multiple\nInput nodes for inputs???",
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
       "originalText": "Maybe we should have a StartNode, just to signify the start and then multiple Input nodes for inputs???",
-      "autoResize": false,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "baseline": 94
     }
   ],
   "appState": {
     "gridSize": 20,
-    "gridStep": 5,
-    "gridModeEnabled": false,
     "viewBackgroundColor": "#ffffff"
   },
   "files": {}

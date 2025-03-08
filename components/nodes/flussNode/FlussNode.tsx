@@ -77,10 +77,13 @@ export const FlussNode = ({
         </Button>
       </CardHeader>
       <CardContent className="pl-0 pb-0">
+        {(!inputs || inputs?.length === 0) && (
+          <small className="pl-6">No inputs.</small>
+        )}
         <div className="grid grid-cols-1 gap-2">
           {inputs &&
             inputs.map((input) => (
-              <FlussNodeInput key={input.id} id={`${nodeId}-${input.id}`} />
+              <FlussNodeInput key={input.id} id={input.id} />
             ))}
         </div>
       </CardContent>

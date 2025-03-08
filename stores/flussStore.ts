@@ -17,7 +17,6 @@ import { FlussStepOutputType, FlussStepOutputTypeId } from '@/fluss-lib/fluss'
 import { devInitialState } from './initialState.dev'
 import { createFlussNode } from './storeHelpers'
 
-type NonEmptyArray<T> = [T, ...T[]]
 export type FlussNodeInputId = string
 
 export type FlussNodeOutputType = {
@@ -32,7 +31,7 @@ export type FlussNodeInputType = {
 export type FlussNodeData = {
   name: string
   description?: string
-  inputs?: NonEmptyArray<FlussNodeInputType>
+  inputs?: FlussNodeInputType[]
   output?: FlussNodeOutputType
 }
 
@@ -56,6 +55,7 @@ export type FlussActions = {
   setOutputType: (nodeId: string, outputType: FlussStepOutputTypeId) => void
   setOutputName: (nodeId: string, outputType: FlussStepOutputTypeId) => void
   addInput: (nodeId: string, inputId?: FlussNodeInputId) => void
+  removeInput: (nodeId: string, inputId: FlussNodeInputId) => void
   addNode: (position?: XYPosition) => void
   setViewport: (viewport: Viewport) => void
 }
@@ -75,6 +75,13 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
           })
         },
         onEdgesChange: (changes) => {
+          changes.forEach((change) => {
+            if (change.type === 'remove') {
+              const edge = get().edges.find((e) => e.id === change.id)
+              if (edge && edge.targetHandle)
+                get().removeInput(edge.target, edge.targetHandle)
+            }
+          })
           set({
             edges: applyEdgeChanges(changes, get().edges),
           })
@@ -85,10 +92,9 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
             connection.targetHandle !== null &&
             connection.targetHandle.includes(NEW_CONNECTION_HANDLE_IDENTIFIER)
           ) {
-            console.log('Dropped on Big Handle')
-            console.log(connection)
             const newInputId: FlussNodeInputId = nanoid(5)
             get().addInput(connection.target, newInputId)
+
             get().onConnect({
               source: connection.source,
               sourceHandle: connection.sourceHandle,
@@ -168,8 +174,29 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
                       ...node.data,
                       inputs: [
                         ...(node.data.inputs || []),
-                        { id: inputId || nanoid(5) },
+                        {
+                          id:
+                            `${node.id}-${inputId}` ||
+                            `${node.id}-${nanoid(5)}`,
+                        },
                       ],
+                    },
+                  }
+                : node
+            ),
+          }))
+        },
+        removeInput: (nodeId, inputId) => {
+          set((state) => ({
+            nodes: state.nodes.map((node) =>
+              node.id === nodeId
+                ? {
+                    ...node,
+                    data: {
+                      ...node.data,
+                      inputs: node.data.inputs?.filter(
+                        (input) => input.id !== inputId
+                      ),
                     },
                   }
                 : node

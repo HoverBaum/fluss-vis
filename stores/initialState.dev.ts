@@ -12,7 +12,7 @@ export const devInitialState: FlussState = {
         {
           output: { typeId: 'string', name: 'Improved name' },
           name: 'step 1',
-          inputs: [{ id: 'cGCVg' }],
+          inputs: [{ id: 'TRqTC-cGCVg' }],
         }
       ),
       id: 'TRqTC',
@@ -25,10 +25,10 @@ export const devInitialState: FlussState = {
           name: 'step 2',
           inputs: [
             {
-              id: '2Hm0e',
+              id: 'XyASV-2Hm0e',
             },
             {
-              id: 'xJDez',
+              id: 'XyASV-xJDez',
             },
           ],
         }
@@ -47,7 +47,7 @@ export const devInitialState: FlussState = {
       id: END_NODE_ID,
       position: { x: 1000, y: 200 },
       type: 'endNode',
-      data: { name: 'End 🛬', inputs: [{ id: 'input-1' }] },
+      data: { name: 'End 🛬', inputs: [{ id: `${END_NODE_ID}-input-1` }] },
       sourcePosition: Position.Right,
       deletable: false,
     },
@@ -61,25 +61,25 @@ export const devInitialState: FlussState = {
       id: 'xy-edge__startstart-output-TRqTCTRqTC-cGCVg',
     },
     {
+      source: 'start',
+      sourceHandle: 'start-output',
+      target: 'XyASV',
+      targetHandle: 'XyASV-2Hm0e',
+      id: 'xy-edge__startstart-output-XyASVXyASV-2Hm0e',
+    },
+    {
       source: 'TRqTC',
       sourceHandle: 'TRqTC-output',
       target: 'XyASV',
-      targetHandle: 'XyASV-2Hm0e',
-      id: 'xy-edge__TRqTCTRqTC-output-XyASVXyASV-2Hm0e',
+      targetHandle: 'XyASV-xJDez',
+      id: 'xy-edge__TRqTCTRqTC-output-XyASVXyASV-xJDez',
     },
     {
       source: 'XyASV',
       sourceHandle: 'XyASV-output',
       target: 'end',
-      targetHandle: 'end-input-1',
-      id: 'xy-edge__XyASVXyASV-output-endend-input-1',
-    },
-    {
-      source: 'start',
-      sourceHandle: 'start-output',
-      target: 'XyASV',
-      targetHandle: 'XyASV-xJDez',
-      id: 'xy-edge__startstart-output-XyASVXyASV-xJDez',
+      targetHandle: 'end-end-input-1',
+      id: 'xy-edge__XyASVXyASV-output-endend-end-input-1',
     },
   ],
   outputTypes: [
