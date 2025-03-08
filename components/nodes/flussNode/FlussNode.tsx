@@ -60,10 +60,9 @@ export const FlussNode = ({
           isConnectableStart={false}
           className="!w-full !h-full !absolute !top-0 !left-2 hover:!left-0 !opacity-0 hover:!opacity-100 hover:!border-foreground !z-10 !transform-none !rounded-md !bg-transparent !grid !place-items-center !backdrop-blur-sm"
         >
-          <p className="bg-card p-4">Drop to add Input</p>
+          Drop to add Input
         </Handle>
       )}
-
       <small className="absolute top-2 right-2 font-mono">{nodeId}</small>
       <CardHeader>
         <CardTitle className="text-xl">{name}</CardTitle>
