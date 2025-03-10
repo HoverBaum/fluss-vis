@@ -49,6 +49,7 @@ export const FlussNode = ({
 
   return (
     <Card
+      onDoubleClick={() => setOpen(true)}
       className={`min-w-[250px] relative ${selected && 'border-foreground'}`}
     >
       {isPotentialTarget && (
@@ -67,13 +68,6 @@ export const FlussNode = ({
       <CardHeader>
         <CardTitle className="text-xl">{name}</CardTitle>
         <CardDescription>{description || 'No description'}</CardDescription>
-        <Button
-          variant="secondary"
-          className="w-24"
-          onClick={() => setOpen(true)}
-        >
-          Edit
-        </Button>
       </CardHeader>
       <CardContent className="pl-0 pb-0">
         {(!inputs || inputs?.length === 0) && (
