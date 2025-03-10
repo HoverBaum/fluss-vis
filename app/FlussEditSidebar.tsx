@@ -1,16 +1,21 @@
 'use client'
 
+import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarHeader,
+  useSidebar,
 } from '@/components/ui/sidebar'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
+import { X } from 'lucide-react'
 
 export const FlussEditSidebar = () => {
+  const { toggleSidebar } = useSidebar()
   const selectedNode = useFlussStore((state) =>
     state.nodes.find((node) => node.selected)
   )
@@ -59,6 +64,12 @@ export const FlussEditSidebar = () => {
           </SidebarGroup>
         )}
       </SidebarContent>
+      <SidebarFooter>
+        <Button className="w-full" onClick={toggleSidebar}>
+          <X />
+          Close
+        </Button>
+      </SidebarFooter>
     </Sidebar>
   )
 }
