@@ -1,3 +1,4 @@
+import { produce } from 'immer'
 import { nanoid } from 'nanoid'
 import { devtools } from 'zustand/middleware'
 import {
@@ -206,19 +207,14 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
           }))
         },
         setNodeName: (nodeId, name) => {
-          set((state) => ({
-            nodes: state.nodes.map((node) =>
-              node.id === nodeId
-                ? {
-                    ...node,
-                    data: {
-                      ...node.data,
-                      name,
-                    },
-                  }
-                : node
-            ),
-          }))
+          set(
+            produce((state: FlussStore) => {
+              const nodeIndex = state.nodes.findIndex(
+                (node) => node.id === nodeId
+              )
+              if (nodeIndex !== -1) state.nodes[nodeIndex].data.name = name
+            })
+          )
         },
         setNodeDescription: (nodeId, description) => {
           set((state) => ({
