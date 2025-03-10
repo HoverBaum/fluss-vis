@@ -1,6 +1,12 @@
 'use client'
 
-import { Sidebar, SidebarContent, SidebarHeader } from '@/components/ui/sidebar'
+import { Input } from '@/components/ui/input'
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarHeader,
+} from '@/components/ui/sidebar'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 
 export const FlussEditSidebar = () => {
@@ -8,23 +14,29 @@ export const FlussEditSidebar = () => {
     state.nodes.find((node) => node.selected)
   )
   const nodeData = selectedNode?.data
+  const setNodeName = useFlussStore((state) => state.setNodeName)
 
   return (
     <Sidebar side="right">
       <SidebarHeader>
         <h2 className="font-bold">Editor</h2>
       </SidebarHeader>
-      <SidebarContent className="p-2">
-        {!selectedNode && <p>Select a node to start editing</p>}
+      <SidebarContent>
+        <SidebarGroup>
+          {!selectedNode && <p>Select a node to start editing</p>}
+        </SidebarGroup>
 
         {nodeData && (
-          <div>
+          <SidebarGroup>
             <h3 className="font-bold text-lg">
               {nodeData.name} -{' '}
               <small className="font-normal">{selectedNode.id}</small>
             </h3>
-            <p>{nodeData.description}</p>
-          </div>
+            <Input
+              value={nodeData.name}
+              onChange={(e) => setNodeName(selectedNode.id, e.target.value)}
+            />
+          </SidebarGroup>
         )}
       </SidebarContent>
     </Sidebar>

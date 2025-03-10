@@ -54,6 +54,8 @@ export type FlussActions = {
   setNodes: (nodes: FlussNodeType[]) => void
   setOutputType: (nodeId: string, outputType: FlussStepOutputTypeId) => void
   setOutputName: (nodeId: string, outputType: FlussStepOutputTypeId) => void
+  setNodeName: (nodeId: string, name: string) => void
+  setNodeDescription: (nodeId: string, description: string) => void
   addInput: (nodeId: string, inputId?: FlussNodeInputId) => void
   removeInput: (nodeId: string, inputId: FlussNodeInputId) => void
   addNode: (position?: XYPosition) => void
@@ -197,6 +199,36 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
                       inputs: node.data.inputs?.filter(
                         (input) => input.id !== inputId
                       ),
+                    },
+                  }
+                : node
+            ),
+          }))
+        },
+        setNodeName: (nodeId, name) => {
+          set((state) => ({
+            nodes: state.nodes.map((node) =>
+              node.id === nodeId
+                ? {
+                    ...node,
+                    data: {
+                      ...node.data,
+                      name,
+                    },
+                  }
+                : node
+            ),
+          }))
+        },
+        setNodeDescription: (nodeId, description) => {
+          set((state) => ({
+            nodes: state.nodes.map((node) =>
+              node.id === nodeId
+                ? {
+                    ...node,
+                    data: {
+                      ...node.data,
+                      description,
                     },
                   }
                 : node
