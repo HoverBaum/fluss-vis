@@ -1,6 +1,7 @@
 'use client'
 
 import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import {
   Sidebar,
   SidebarContent,
@@ -15,6 +16,7 @@ export const FlussEditSidebar = () => {
   )
   const nodeData = selectedNode?.data
   const setNodeName = useFlussStore((state) => state.setNodeName)
+  const setNodeDescription = useFlussStore((state) => state.setNodeDescription)
 
   return (
     <Sidebar side="right">
@@ -32,10 +34,28 @@ export const FlussEditSidebar = () => {
               {nodeData.name} -{' '}
               <small className="font-normal">{selectedNode.id}</small>
             </h3>
-            <Input
-              value={nodeData.name}
-              onChange={(e) => setNodeName(selectedNode.id, e.target.value)}
-            />
+
+            <div className="grid w-full max-w-sm items-center gap-1 my-2">
+              <Label htmlFor="nameEdit">Name</Label>
+              <Input
+                value={nodeData.name}
+                id="nameEdit"
+                className="bg-background"
+                onChange={(e) => setNodeName(selectedNode.id, e.target.value)}
+              />
+            </div>
+
+            <div className="grid w-full max-w-sm items-center gap-1 my-2">
+              <Label htmlFor="descriptionEdit">Description</Label>
+              <Input
+                value={nodeData.description || ''}
+                id="descriptionEdit"
+                className="bg-background"
+                onChange={(e) =>
+                  setNodeDescription(selectedNode.id, e.target.value)
+                }
+              />
+            </div>
           </SidebarGroup>
         )}
       </SidebarContent>

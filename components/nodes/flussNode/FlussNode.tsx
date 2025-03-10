@@ -38,7 +38,7 @@ export const FlussNode = ({
   const connection = useConnection()
   const isPotentialTarget =
     connection.inProgress && connection.fromNode.id !== nodeId
-  const { output, name, inputs } = data
+  const { output, name, description, inputs } = data
   const { setOpen } = useSidebar()
 
   // Update node internals when the node is a potential target, because we conditionaly render a Handle.
@@ -66,7 +66,7 @@ export const FlussNode = ({
       <small className="absolute top-2 right-2 font-mono">{nodeId}</small>
       <CardHeader>
         <CardTitle className="text-xl">{name}</CardTitle>
-        <CardDescription>Description here</CardDescription>
+        <CardDescription>{description || 'No description'}</CardDescription>
         <Button
           variant="secondary"
           className="w-24"
