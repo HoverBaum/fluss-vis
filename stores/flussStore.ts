@@ -32,7 +32,7 @@ export type FlussNodeInputType = {
 export type FlussNodeData = {
   name: string
   description?: string
-  inputs?: FlussNodeInputType[]
+  inputs: FlussNodeInputType[]
   output?: FlussNodeOutputType
 }
 
@@ -117,40 +117,26 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
           set({ edges })
         },
         setOutputType: (nodeId, outputTypeId) => {
-          set((state) => ({
-            nodes: state.nodes.map((node) =>
-              node.id === nodeId
-                ? {
-                    ...node,
-                    data: {
-                      ...node.data,
-                      output: {
-                        ...node.data.output,
-                        typeId: outputTypeId,
-                      },
-                    },
-                  }
-                : node
-            ),
-          }))
+          set(
+            produce((state: FlussStore) => {
+              const node = state.nodes.find((node) => node.id === nodeId)
+              if (node) {
+                if (!node.data.output) node.data.output = {}
+                node.data.output.typeId = outputTypeId
+              }
+            })
+          )
         },
         setOutputName: (nodeId, outputName) => {
-          set((state) => ({
-            nodes: state.nodes.map((node) =>
-              node.id === nodeId
-                ? {
-                    ...node,
-                    data: {
-                      ...node.data,
-                      output: {
-                        ...node.data.output,
-                        name: outputName,
-                      },
-                    },
-                  }
-                : node
-            ),
-          }))
+          set(
+            produce((state: FlussStore) => {
+              const node = state.nodes.find((node) => node.id === nodeId)
+              if (node) {
+                if (!node.data.output) node.data.output = {}
+                node.data.output.name = outputName
+              }
+            })
+          )
         },
         addNode: (position) => {
           set((state) => {
@@ -168,68 +154,48 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
           })
         },
         addInput: (nodeId, inputId) => {
-          set((state) => ({
-            nodes: state.nodes.map((node) =>
-              node.id === nodeId
-                ? {
-                    ...node,
-                    data: {
-                      ...node.data,
-                      inputs: [
-                        ...(node.data.inputs || []),
-                        {
-                          id:
-                            `${node.id}-${inputId}` ||
-                            `${node.id}-${nanoid(5)}`,
-                        },
-                      ],
-                    },
-                  }
-                : node
-            ),
-          }))
+          set(
+            produce((state: FlussStore) => {
+              const node = state.nodes.find((node) => node.id === nodeId)
+              if (node) {
+                node.data.inputs.push({
+                  id: `${node.id}-${inputId}` || `${node.id}-${nanoid(5)}`,
+                })
+              }
+            })
+          )
         },
         removeInput: (nodeId, inputId) => {
-          set((state) => ({
-            nodes: state.nodes.map((node) =>
-              node.id === nodeId
-                ? {
-                    ...node,
-                    data: {
-                      ...node.data,
-                      inputs: node.data.inputs?.filter(
-                        (input) => input.id !== inputId
-                      ),
-                    },
-                  }
-                : node
-            ),
-          }))
+          set(
+            produce((state: FlussStore) => {
+              const node = state.nodes.find((node) => node.id === nodeId)
+              if (node) {
+                node.data.inputs = node.data.inputs.filter(
+                  (input) => input.id !== inputId
+                )
+              }
+            })
+          )
         },
         setNodeName: (nodeId, name) => {
           set(
             produce((state: FlussStore) => {
-              const nodeIndex = state.nodes.findIndex(
-                (node) => node.id === nodeId
-              )
-              if (nodeIndex !== -1) state.nodes[nodeIndex].data.name = name
+              const node = state.nodes.find((node) => node.id === nodeId)
+              if (node) {
+                node.data.name = name
+              }
             })
           )
         },
         setNodeDescription: (nodeId, description) => {
-          set((state) => ({
-            nodes: state.nodes.map((node) =>
-              node.id === nodeId
-                ? {
-                    ...node,
-                    data: {
-                      ...node.data,
-                      description,
-                    },
-                  }
-                : node
-            ),
-          }))
+          set(
+            produce((state: FlussStore) => {
+              const node = state.nodes.find((node) => node.id === nodeId)
+              if (node) {
+                node.data.description = description
+              }
+            })
+          )
         },
         setViewport: (viewport) => {
           set({ viewport })
