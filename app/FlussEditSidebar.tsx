@@ -13,15 +13,20 @@ import {
 } from '@/components/ui/sidebar'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { X } from 'lucide-react'
+import { useEffect } from 'react'
 
 export const FlussEditSidebar = () => {
-  const { toggleSidebar } = useSidebar()
+  const { toggleSidebar, setOpen } = useSidebar()
   const selectedNode = useFlussStore((state) =>
     state.nodes.find((node) => node.selected)
   )
   const nodeData = selectedNode?.data
   const setNodeName = useFlussStore((state) => state.setNodeName)
   const setNodeDescription = useFlussStore((state) => state.setNodeDescription)
+
+  useEffect(() => {
+    if (!selectedNode) setOpen(false)
+  }, [selectedNode, setOpen])
 
   return (
     <Sidebar side="right">

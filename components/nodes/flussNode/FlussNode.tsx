@@ -20,7 +20,6 @@ import {
   FlussNodeType,
   NEW_CONNECTION_HANDLE_IDENTIFIER,
 } from '@/stores/flussStore'
-import { Button } from '@/components/ui/button'
 import { useSidebar } from '@/components/ui/sidebar'
 import { useEffect } from 'react'
 
@@ -67,7 +66,9 @@ export const FlussNode = ({
       <small className="absolute top-2 right-2 font-mono">{nodeId}</small>
       <CardHeader>
         <CardTitle className="text-xl">{name}</CardTitle>
-        <CardDescription>{description || 'No description'}</CardDescription>
+        <CardDescription>
+          {description || 'Double click node to edit'}
+        </CardDescription>
       </CardHeader>
       <CardContent className="pl-0 pb-0">
         {(!inputs || inputs?.length === 0) && (

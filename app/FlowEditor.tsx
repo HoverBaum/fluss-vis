@@ -9,7 +9,6 @@ import {
   Edge,
   MiniMap,
   Panel,
-  Position,
   ReactFlow,
 } from '@xyflow/react'
 
@@ -25,7 +24,6 @@ import { FlowEditorViewportReporter } from './FlowEditorViewportReporter'
 import { FlussNode } from '@/components/nodes/flussNode/FlussNode'
 import { StartNode } from '@/components/nodes/startNode/StartNode'
 import { EndNode } from '@/components/nodes/endNode/EndNode'
-import { CustomSidebarTrigger } from '@/components/CustomSidebarTrigger'
 
 const selector = (state: FlussStore) => ({
   nodes: state.nodes,
@@ -87,7 +85,6 @@ export const FlowEditor = () => {
         </Panel>
         <Panel position="top-right" className="flex gap-2">
           <ModeToggle />
-          <CustomSidebarTrigger siedebarPosition={Position.Right} />
         </Panel>
         <Controls />
         <MiniMap />
