@@ -73,7 +73,14 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
         ...initState,
         rename: (name: string) => set({ name }),
         onNodesChange: (changes) => {
-          set({ nodes: applyNodeChanges(changes, get().nodes) })
+          // apllyNodeChanges changes elements and then creates a new array, making it incompatible with immer.
+          // see: https://github.com/xyflow/xyflow/issues/4253
+          const updatedNodes = applyNodeChanges(
+            changes,
+            // Break out of immers immutability with a deep clone.
+            structuredClone(get().nodes)
+          )
+          set({ nodes: updatedNodes })
         },
         onEdgesChange: (changes) => {
           changes.forEach((change) => {
