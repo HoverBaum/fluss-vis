@@ -83,9 +83,10 @@ export const devInitialState: FlussState = {
       type: 'endNode',
       data: {
         name: 'End 🛬',
+        description: 'End of the Fluss',
         inputs: [
           {
-            id: 'end-XECT6',
+            id: 'end-EpoqZ',
           },
         ],
       },
@@ -112,8 +113,8 @@ export const devInitialState: FlussState = {
       source: 'XyASV',
       sourceHandle: 'XyASV-output',
       target: 'end',
-      targetHandle: 'end-XECT6',
-      id: 'xy-edge__XyASVXyASV-output-endend-XECT6',
+      targetHandle: 'end-EpoqZ',
+      id: 'xy-edge__XyASVXyASV-output-endend-EpoqZ',
     },
   ],
   outputTypes: [
