@@ -1,4 +1,5 @@
 import { IconName } from 'lucide-react/dynamic'
+import { NotEmptyArray } from './helperTypes'
 
 export type FlussStepOutputTypeId = string
 export type FlussStepOutputType = {
@@ -21,22 +22,39 @@ export type FlussStepInputId = string
 export type FlussStepOutput = {
   id: FlussStepOutputId
   name: string
-  type: FlussStepOutputType
+  type: FlussStepOutputTypeId
 }
 
 export type FlussStepInput = {
   id: FlussStepInputId
-  source: FlussStepOutputId
 }
 
-export type FlussStep = {
+export type FlussStepDefault = {
+  type: 'step'
   id: FlussStepId
-  title: string
-  describe: string
-  type: 'start' | 'end' | 'step'
+  name: string
+  description: string
   output: FlussStepOutput
   inputs: FlussStepInput[]
 }
+
+export type FlussStepStart = {
+  type: 'start'
+  id: FlussStepId
+  name: string
+  description: string
+  outputs: NotEmptyArray<FlussStepOutput>
+}
+
+export type FlussStepEnd = {
+  type: 'end'
+  id: FlussStepId
+  name: string
+  description: string
+  inputs: FlussStepInput[]
+}
+
+export type FlussStep = FlussStepStart | FlussStepEnd | FlussStepDefault
 
 export type FlussConfig = {
   steps: FlussStep[]

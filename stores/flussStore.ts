@@ -14,32 +14,33 @@ import {
   XYPosition,
 } from '@xyflow/react'
 import { createStore } from 'zustand/vanilla'
-import { FlussStepOutputType, FlussStepOutputTypeId } from '@/fluss-lib/fluss'
+import {
+  FlussStep,
+  FlussStepInput,
+  FlussStepInputId,
+  FlussStepOutputType,
+  FlussStepOutputTypeId,
+} from '@/fluss-lib/fluss'
 import { devInitialState } from './initialState.dev'
 import { createFlussNode } from './storeHelpers'
-
-export type FlussNodeInputId = string
 
 export type FlussNodeOutputType = {
   name?: string
   typeId?: FlussStepOutputTypeId
 }
 
-export type FlussNodeInputType = {
-  id: FlussNodeInputId
-}
-
 export type FlussNodeData = {
   name: string
   description?: string
-  inputs: FlussNodeInputType[]
+  inputs: FlussStepInput[]
   output?: FlussNodeOutputType
 }
 
-export type FlussNodeType = Node<FlussNodeData>
+export type FlussNodeType = Node<FlussStep>
 
 export type FlussState = {
   name: string
+  // Here I want a union type with start nodes.
   nodes: FlussNodeType[]
   edges: Edge[]
   outputTypes: FlussStepOutputType[]
@@ -57,8 +58,8 @@ export type FlussActions = {
   setOutputName: (nodeId: string, outputType: FlussStepOutputTypeId) => void
   setNodeName: (nodeId: string, name: string) => void
   setNodeDescription: (nodeId: string, description: string) => void
-  addInput: (nodeId: string, inputId?: FlussNodeInputId) => void
-  removeInput: (nodeId: string, inputId: FlussNodeInputId) => void
+  addInput: (nodeId: string, inputId?: FlussStepInputId) => void
+  removeInput: (nodeId: string, inputId: FlussStepInputId) => void
   addNode: (position?: XYPosition) => void
   setViewport: (viewport: Viewport) => void
 }
@@ -98,7 +99,7 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
             connection.targetHandle !== null &&
             connection.targetHandle.includes(NEW_CONNECTION_HANDLE_IDENTIFIER)
           ) {
-            const newInputId: FlussNodeInputId = nanoid(5)
+            const newInputId: FlussStepInputId = nanoid(5)
             get().addInput(connection.target, newInputId)
 
             // Escape the execution to make sure internal updates after adding a handler happen.
@@ -126,9 +127,8 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
           set(
             produce((state: FlussStore) => {
               const node = state.nodes.find((node) => node.id === nodeId)
-              if (node) {
-                if (!node.data.output) node.data.output = {}
-                node.data.output.typeId = outputTypeId
+              if (node && node.data.type === 'step') {
+                node.data.output.id = outputTypeId
               }
             })
           )
@@ -137,8 +137,7 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
           set(
             produce((state: FlussStore) => {
               const node = state.nodes.find((node) => node.id === nodeId)
-              if (node) {
-                if (!node.data.output) node.data.output = {}
+              if (node && node.data.type === 'step') {
                 node.data.output.name = outputName
               }
             })
@@ -163,7 +162,7 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
           set(
             produce((state: FlussStore) => {
               const node = state.nodes.find((node) => node.id === nodeId)
-              if (node) {
+              if (node && node.data.type !== 'start') {
                 node.data.inputs.push({
                   id: inputId
                     ? `${node.id}-${inputId}`
@@ -178,6 +177,7 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
             produce((state: FlussStore) => {
               const node = state.nodes.find((node) => node.id === nodeId)
               if (node) {
+                if (node.data.type === 'start') return
                 node.data.inputs = node.data.inputs.filter(
                   (input) => input.id !== inputId
                 )

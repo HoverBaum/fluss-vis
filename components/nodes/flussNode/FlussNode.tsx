@@ -11,17 +11,16 @@ import { FlussNodeOutput } from './FlussNodeOutput'
 import { FlussNodeInput } from './FlussNodeInput'
 import {
   Handle,
+  Node,
   NodeProps,
   Position,
   useConnection,
   useUpdateNodeInternals,
 } from '@xyflow/react'
-import {
-  FlussNodeType,
-  NEW_CONNECTION_HANDLE_IDENTIFIER,
-} from '@/stores/flussStore'
+import { NEW_CONNECTION_HANDLE_IDENTIFIER } from '@/stores/flussStore'
 import { useSidebar } from '@/components/ui/sidebar'
 import { useEffect } from 'react'
+import { FlussStepDefault } from '@/fluss-lib/fluss'
 
 /**
  * A Node somewhere in the Fluss.
@@ -32,7 +31,7 @@ export const FlussNode = ({
   data,
   selected,
   id: nodeId,
-}: NodeProps<FlussNodeType>) => {
+}: NodeProps<Node<FlussStepDefault>>) => {
   const updateNodeInternals = useUpdateNodeInternals()
   const connection = useConnection()
   const isPotentialTarget =

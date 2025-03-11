@@ -1,12 +1,5 @@
 import { Position } from '@xyflow/react'
 import { FlussState } from './flussStore'
-import {
-  Calculator,
-  Languages,
-  Signature,
-  Slash,
-  ToggleRight,
-} from 'lucide-react'
 import { END_NODE_ID, START_NODE_ID } from './storeHelpers'
 
 export const devInitialState: FlussState = {
@@ -20,8 +13,11 @@ export const devInitialState: FlussState = {
       },
       type: 'flussNode',
       data: {
+        type: 'step',
+        id: 'TRqTC',
         output: {
-          typeId: 'number',
+          id: 'Ki3pb',
+          type: 'number',
           name: 'Squared number',
         },
         name: 'Square number',
@@ -38,17 +34,20 @@ export const devInitialState: FlussState = {
       },
       type: 'flussNode',
       data: {
+        type: 'step',
+        id: 'XyASV',
         output: {
-          typeId: 'string',
+          id: 'VQJps',
+          type: 'string',
           name: 'Written equation',
         },
         name: 'Create string',
         inputs: [
           {
-            id: 'XyASV-B2xbU',
+            id: 'XyASV-XNqwk',
           },
           {
-            id: 'XyASV-IxTuQ',
+            id: 'XyASV-0-b8k',
           },
         ],
         description:
@@ -64,12 +63,17 @@ export const devInitialState: FlussState = {
       },
       type: 'startNode',
       data: {
-        output: {
-          typeId: 'locale',
-          name: 'Locale',
-        },
-        name: 'Start',
-        inputs: [],
+        type: 'start',
+        id: START_NODE_ID,
+        outputs: [
+          {
+            id: 'qs56w',
+            type: 'locale',
+            name: 'Locale',
+          },
+        ],
+        name: 'Start 🛫',
+        description: 'Start of the Fluss.',
       },
       sourcePosition: Position.Right,
       deletable: false,
@@ -82,6 +86,8 @@ export const devInitialState: FlussState = {
       },
       type: 'endNode',
       data: {
+        type: 'end',
+        id: END_NODE_ID,
         name: 'End 🛬',
         description: 'End of the Fluss',
         inputs: [
@@ -96,25 +102,25 @@ export const devInitialState: FlussState = {
   ],
   edges: [
     {
-      source: 'start',
-      sourceHandle: 'start-output',
-      target: 'XyASV',
-      targetHandle: 'XyASV-B2xbU',
-      id: 'xy-edge__startstart-output-XyASVXyASV-B2xbU',
-    },
-    {
-      source: 'TRqTC',
-      sourceHandle: 'TRqTC-output',
-      target: 'XyASV',
-      targetHandle: 'XyASV-IxTuQ',
-      id: 'xy-edge__TRqTCTRqTC-output-XyASVXyASV-IxTuQ',
-    },
-    {
       source: 'XyASV',
       sourceHandle: 'XyASV-output',
       target: 'end',
       targetHandle: 'end-EpoqZ',
       id: 'xy-edge__XyASVXyASV-output-endend-EpoqZ',
+    },
+    {
+      source: 'start',
+      sourceHandle: 'qs56w',
+      target: 'XyASV',
+      targetHandle: 'XyASV-XNqwk',
+      id: 'xy-edge__startqs56w-XyASVXyASV-XNqwk',
+    },
+    {
+      source: 'TRqTC',
+      sourceHandle: 'TRqTC-output',
+      target: 'XyASV',
+      targetHandle: 'XyASV-0-b8k',
+      id: 'xy-edge__TRqTCTRqTC-output-XyASVXyASV-0-b8k',
     },
   ],
   outputTypes: [

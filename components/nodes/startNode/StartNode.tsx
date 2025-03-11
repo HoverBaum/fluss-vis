@@ -1,14 +1,22 @@
 'use client'
 
-import { NodeProps, useNodeId } from '@xyflow/react'
-import { StartNodeType } from './StartNodeTypes'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Node, NodeProps } from '@xyflow/react'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 import { FlussNodeOutput } from '../flussNode/FlussNodeOutput'
 import { START_NODE_ID } from '@/stores/storeHelpers'
+import { FlussStepStart } from '@/fluss-lib/fluss'
 
-export const StartNode = ({ data, selected }: NodeProps<StartNodeType>) => {
-  const { output } = data
-  const nodeId = useNodeId()
+export const StartNode = ({
+  data,
+  selected,
+}: NodeProps<Node<FlussStepStart>>) => {
+  const { outputs, name, description } = data
 
   return (
     <Card className={`min-w-[250px] ${selected && 'border-foreground'}`}>
@@ -16,11 +24,14 @@ export const StartNode = ({ data, selected }: NodeProps<StartNodeType>) => {
         {START_NODE_ID}
       </small>
       <CardHeader>
-        <CardTitle className="text-xl">Start 🛫</CardTitle>
+        <CardTitle className="text-xl">{name}</CardTitle>
+        <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent className="pr-0">
         <div className="flex flex-col items-end">
-          <FlussNodeOutput output={output} id={`${nodeId}-output`} />
+          {outputs.map((output) => (
+            <FlussNodeOutput key={output.id} output={output} id={output.id} />
+          ))}
         </div>
       </CardContent>
     </Card>

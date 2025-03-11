@@ -45,10 +45,11 @@ const fluss = flussFromConfig(flussConfig)
 fluss.run({
   name: 'Run name'
   inputs: {
-    storyPrompt: 'pirates saving a princess'
+    locale: 'de'
   },
   stepFunctions: {
-    createDraft: (storyPrompt: string) => 'Great story 🪄'
+    squareNumber: (numberToSquare: number) => Math.square(numberToSquare),
+    createString: ....
   }
 })
 ```
