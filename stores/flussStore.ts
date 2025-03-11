@@ -18,11 +18,12 @@ import {
   FlussStep,
   FlussStepInput,
   FlussStepInputId,
+  FlussStepOutputId,
   FlussStepOutputType,
   FlussStepOutputTypeId,
 } from '@/fluss-lib/fluss'
 import { devInitialState } from './initialState.dev'
-import { createFlussNode } from './storeHelpers'
+import { createFlussNode, START_NODE_ID } from './storeHelpers'
 
 export type FlussNodeOutputType = {
   name?: string
@@ -54,12 +55,21 @@ export type FlussActions = {
   onConnect: OnConnect
   setEdges: (edges: Edge[]) => void
   setNodes: (nodes: FlussNodeType[]) => void
-  setOutputType: (nodeId: string, outputType: FlussStepOutputTypeId) => void
-  setOutputName: (nodeId: string, outputType: FlussStepOutputTypeId) => void
+  setOutputType: (
+    nodeId: string,
+    outputId: FlussStepOutputId,
+    outputType: FlussStepOutputTypeId
+  ) => void
+  setOutputName: (
+    nodeId: string,
+    outputId: FlussStepOutputId,
+    outputType: FlussStepOutputTypeId
+  ) => void
   setNodeName: (nodeId: string, name: string) => void
   setNodeDescription: (nodeId: string, description: string) => void
   addInput: (nodeId: string, inputId?: FlussStepInputId) => void
   removeInput: (nodeId: string, inputId: FlussStepInputId) => void
+  addFlussParameter: () => void
   addNode: (position?: XYPosition) => void
   setViewport: (viewport: Viewport) => void
 }
@@ -123,22 +133,30 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
         setEdges: (edges) => {
           set({ edges })
         },
-        setOutputType: (nodeId, outputTypeId) => {
+        setOutputType: (nodeId, outputId, outputTypeId) => {
           set(
             produce((state: FlussStore) => {
               const node = state.nodes.find((node) => node.id === nodeId)
-              if (node && node.data.type === 'step') {
-                node.data.output.id = outputTypeId
+              if (node) {
+                const output = node.data.outputs.find(
+                  (output) => output.id === outputId
+                )
+                if (output) {
+                  output.type = outputTypeId
+                }
               }
             })
           )
         },
-        setOutputName: (nodeId, outputName) => {
+        setOutputName: (nodeId, outputId, outputName) => {
           set(
             produce((state: FlussStore) => {
               const node = state.nodes.find((node) => node.id === nodeId)
-              if (node && node.data.type === 'step') {
-                node.data.output.name = outputName
+              if (node) {
+                const output = node.data.outputs.find(
+                  (output) => output.id === outputId
+                )
+                if (output) output.name = outputName
               }
             })
           )
@@ -201,6 +219,20 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
               const node = state.nodes.find((node) => node.id === nodeId)
               if (node) {
                 node.data.description = description
+              }
+            })
+          )
+        },
+        addFlussParameter: () => {
+          set(
+            produce((state: FlussStore) => {
+              const node = state.nodes.find((node) => node.id === START_NODE_ID)
+              if (node && node.data.type === 'start') {
+                node.data.outputs.push({
+                  id: nanoid(5),
+                  name: 'Unnamed',
+                  type: 'void',
+                })
               }
             })
           )

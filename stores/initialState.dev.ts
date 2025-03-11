@@ -1,6 +1,5 @@
 import { Position } from '@xyflow/react'
 import { FlussState } from './flussStore'
-import { END_NODE_ID, START_NODE_ID } from './storeHelpers'
 
 export const devInitialState: FlussState = {
   name: 'Dev Fluss 🌊',
@@ -15,16 +14,26 @@ export const devInitialState: FlussState = {
       data: {
         type: 'step',
         id: 'TRqTC',
-        output: {
-          id: 'Ki3pb',
-          type: 'number',
-          name: 'Squared number',
-        },
+        outputs: [
+          {
+            id: 'Ki3pb',
+            type: 'number',
+            name: 'Squared number',
+          },
+        ],
         name: 'Square number',
-        inputs: [],
+        inputs: [
+          {
+            id: 'TRqTC-wzsOw',
+          },
+        ],
         description: 'Takes a number and returns that number squared.',
       },
       sourcePosition: Position.Right,
+      measured: {
+        width: 275,
+        height: 321,
+      },
     },
     {
       id: 'XyASV',
@@ -36,27 +45,33 @@ export const devInitialState: FlussState = {
       data: {
         type: 'step',
         id: 'XyASV',
-        output: {
-          id: 'VQJps',
-          type: 'string',
-          name: 'Written equation',
-        },
+        outputs: [
+          {
+            id: 'VQJps',
+            type: 'string',
+            name: 'Written equation',
+          },
+        ],
         name: 'Create string',
         inputs: [
           {
             id: 'XyASV-XNqwk',
           },
           {
-            id: 'XyASV-0-b8k',
+            id: 'XyASV-TNZj8',
           },
         ],
         description:
           "Turns a number and it's squared result into a locale specific string.",
       },
       sourcePosition: Position.Right,
+      measured: {
+        width: 275,
+        height: 353,
+      },
     },
     {
-      id: START_NODE_ID,
+      id: 'start',
       position: {
         x: 82,
         y: 158,
@@ -64,12 +79,17 @@ export const devInitialState: FlussState = {
       type: 'startNode',
       data: {
         type: 'start',
-        id: START_NODE_ID,
+        id: 'start',
         outputs: [
           {
             id: 'qs56w',
             type: 'locale',
             name: 'Locale',
+          },
+          {
+            id: 'nZEBo',
+            name: 'Base number',
+            type: 'number',
           },
         ],
         name: 'Start 🛫',
@@ -77,9 +97,14 @@ export const devInitialState: FlussState = {
       },
       sourcePosition: Position.Right,
       deletable: false,
+      measured: {
+        width: 250,
+        height: 404,
+      },
+      selected: false,
     },
     {
-      id: END_NODE_ID,
+      id: 'end',
       position: {
         x: 1124,
         y: 368,
@@ -87,27 +112,25 @@ export const devInitialState: FlussState = {
       type: 'endNode',
       data: {
         type: 'end',
-        id: END_NODE_ID,
+        id: 'end',
         name: 'End 🛬',
         description: 'End of the Fluss',
         inputs: [
           {
-            id: 'end-EpoqZ',
+            id: 'end-IMC3S',
           },
         ],
+        outputs: [],
       },
       sourcePosition: Position.Right,
       deletable: false,
+      measured: {
+        width: 275,
+        height: 152,
+      },
     },
   ],
   edges: [
-    {
-      source: 'XyASV',
-      sourceHandle: 'XyASV-output',
-      target: 'end',
-      targetHandle: 'end-EpoqZ',
-      id: 'xy-edge__XyASVXyASV-output-endend-EpoqZ',
-    },
     {
       source: 'start',
       sourceHandle: 'qs56w',
@@ -116,11 +139,25 @@ export const devInitialState: FlussState = {
       id: 'xy-edge__startqs56w-XyASVXyASV-XNqwk',
     },
     {
+      source: 'XyASV',
+      sourceHandle: 'VQJps',
+      target: 'end',
+      targetHandle: 'end-IMC3S',
+      id: 'xy-edge__XyASVVQJps-endend-IMC3S',
+    },
+    {
       source: 'TRqTC',
-      sourceHandle: 'TRqTC-output',
+      sourceHandle: 'Ki3pb',
       target: 'XyASV',
-      targetHandle: 'XyASV-0-b8k',
-      id: 'xy-edge__TRqTCTRqTC-output-XyASVXyASV-0-b8k',
+      targetHandle: 'XyASV-TNZj8',
+      id: 'xy-edge__TRqTCKi3pb-XyASVXyASV-TNZj8',
+    },
+    {
+      source: 'start',
+      sourceHandle: 'nZEBo',
+      target: 'TRqTC',
+      targetHandle: 'TRqTC-wzsOw',
+      id: 'xy-edge__startnZEBo-TRqTCTRqTC-wzsOw',
     },
   ],
   outputTypes: [

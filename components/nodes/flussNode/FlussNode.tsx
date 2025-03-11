@@ -36,7 +36,7 @@ export const FlussNode = ({
   const connection = useConnection()
   const isPotentialTarget =
     connection.inProgress && connection.fromNode.id !== nodeId
-  const { output, name, description, inputs } = data
+  const { outputs, name, description, inputs } = data
   const { setOpen } = useSidebar()
 
   // Update node internals when the node is a potential target, because we conditionaly render a Handle.
@@ -83,7 +83,7 @@ export const FlussNode = ({
       <hr className="my-6" />
       <CardContent className="pr-0">
         <div className="flex flex-col items-end">
-          <FlussNodeOutput output={output} id={`${nodeId}-output`} />
+          <FlussNodeOutput output={outputs[0]} />
         </div>
       </CardContent>
     </Card>

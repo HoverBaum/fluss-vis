@@ -1,5 +1,5 @@
 import { IconName } from 'lucide-react/dynamic'
-import { NotEmptyArray } from './helperTypes'
+import { ArrayOneElement, ArrayNotEmpty, ArrayEmpty } from './helperTypes'
 
 export type FlussStepOutputTypeId = string
 export type FlussStepOutputType = {
@@ -34,7 +34,7 @@ export type FlussStepDefault = {
   id: FlussStepId
   name: string
   description: string
-  output: FlussStepOutput
+  outputs: ArrayOneElement<FlussStepOutput>
   inputs: FlussStepInput[]
 }
 
@@ -43,7 +43,7 @@ export type FlussStepStart = {
   id: FlussStepId
   name: string
   description: string
-  outputs: NotEmptyArray<FlussStepOutput>
+  outputs: ArrayNotEmpty<FlussStepOutput>
 }
 
 export type FlussStepEnd = {
@@ -51,6 +51,7 @@ export type FlussStepEnd = {
   id: FlussStepId
   name: string
   description: string
+  outputs: ArrayEmpty
   inputs: FlussStepInput[]
 }
 

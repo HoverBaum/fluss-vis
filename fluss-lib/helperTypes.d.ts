@@ -1,1 +1,5 @@
-export type NotEmptyArray<T> = [T, ...T[]]
+export type ArrayNotEmpty<T> = [T, ...T[]]
+
+export type ArrayOneElement<T> = [T]
+
+export type ArrayEmpty = []

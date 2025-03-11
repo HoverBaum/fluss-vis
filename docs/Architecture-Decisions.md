@@ -1,5 +1,15 @@
 # Architecture decisions
 
+## 2025-03-11 Every Node has outputs
+
+To write easier code in some places (mainly the store) and not always have to do type checks: each node will have outputs. To ensure the outputs still conform to:
+
+- At least one, possibly more for the Start
+- Exactly one for Steps
+- None for End
+
+We introduce helper types which enforce these constraints on the arrays.
+
 ## 2025-03-08 Only one connection per handle
 
 Each input/target handle will only allow one incoming connection!

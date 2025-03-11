@@ -11,6 +11,6 @@ export const outputFromStep = (
     case 'start':
       return step.outputs.find((output) => output.id === id)
     case 'step':
-      return step.output
+      return step.outputs[0]
   }
 }

@@ -1,17 +1,15 @@
 import { TypePicker } from '@/components/nodes/TypePicker'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { FlussNodeOutputType } from '@/stores/flussStore'
+import { FlussStepOutput } from '@/fluss-lib/fluss'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { Handle, Position, useNodeId } from '@xyflow/react'
 
 type FlussNodeOutputProps = {
-  // ID for this Output.
-  id: string
-  output?: FlussNodeOutputType
+  output: FlussStepOutput
 }
 
-export const FlussNodeOutput = ({ id, output }: FlussNodeOutputProps) => {
+export const FlussNodeOutput = ({ output }: FlussNodeOutputProps) => {
   const nodeId = useNodeId()
   const setOutputType = useFlussStore((state) => state.setOutputType)
   const setOutputName = useFlussStore((state) => state.setOutputName)
@@ -20,24 +18,24 @@ export const FlussNodeOutput = ({ id, output }: FlussNodeOutputProps) => {
     <div className="relative">
       <div className="pr-6 flex flex-col items-end">
         <div className="grid w-full max-w-sm items-center gap-1.5 mb-2">
-          <Label htmlFor={`${id}-outputName`}>Output Name</Label>
+          <Label htmlFor={`${output.id}-outputName`}>Output Name</Label>
           <Input
             type="text"
-            id={`${id}-outputName`}
+            id={`${output.id}-outputName`}
             placeholder=""
             value={output?.name || ''}
-            onChange={(e) => setOutputName(nodeId!, e.target.value)}
+            onChange={(e) => setOutputName(nodeId!, output.id, e.target.value)}
           />
         </div>
 
         <TypePicker
-          typeId={output?.typeId}
-          onTypeChange={(newType) => setOutputType(nodeId!, newType)}
+          typeId={output.type}
+          onTypeChange={(newType) => setOutputType(nodeId!, output.id, newType)}
         />
       </div>
       <Handle
         type="source"
-        id={id}
+        id={output.id}
         position={Position.Right}
         style={{ position: 'absolute', right: '0px' }}
       />
