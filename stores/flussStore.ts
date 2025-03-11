@@ -94,12 +94,17 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
             const newInputId: FlussNodeInputId = nanoid(5)
             get().addInput(connection.target, newInputId)
 
-            get().onConnect({
-              source: connection.source,
-              sourceHandle: connection.sourceHandle,
-              target: connection.target,
-              targetHandle: `${connection.target}-${newInputId}`,
-            })
+            // Escape the execution to make sure internal updates after adding a handler happen.
+            setTimeout(
+              () =>
+                get().onConnect({
+                  source: connection.source,
+                  sourceHandle: connection.sourceHandle,
+                  target: connection.target,
+                  targetHandle: `${connection.target}-${newInputId}`,
+                }),
+              1
+            )
             return
           }
           set({ edges: addEdge(connection, get().edges) })
