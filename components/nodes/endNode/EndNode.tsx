@@ -23,7 +23,7 @@ export const EndNode = ({ selected, data }: NodeProps<FlussNodeType>) => {
         <div className="grid grid-cols-1 gap-2">
           {inputs &&
             inputs.map((input) => (
-              <FlussNodeInput key={input.id} id={`${nodeId}-${input.id}`} />
+              <FlussNodeInput key={input.id} id={input.id} />
             ))}
         </div>
         <div className="pl-6">

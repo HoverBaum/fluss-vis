@@ -42,7 +42,7 @@ export const devInitialState: FlussState = {
           typeId: 'string',
           name: 'Written equation',
         },
-        name: 'Output string',
+        name: 'Create string',
         inputs: [
           {
             id: 'XyASV-B2xbU',
@@ -85,7 +85,7 @@ export const devInitialState: FlussState = {
         name: 'End 🛬',
         inputs: [
           {
-            id: 'end-undefined',
+            id: 'end-XECT6',
           },
         ],
       },
@@ -112,8 +112,8 @@ export const devInitialState: FlussState = {
       source: 'XyASV',
       sourceHandle: 'XyASV-output',
       target: 'end',
-      targetHandle: 'end-end-undefined',
-      id: 'xy-edge__XyASVXyASV-output-endend-end-undefined',
+      targetHandle: 'end-XECT6',
+      id: 'xy-edge__XyASVXyASV-output-endend-XECT6',
     },
   ],
   outputTypes: [

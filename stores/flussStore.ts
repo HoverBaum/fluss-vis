@@ -159,7 +159,9 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
               const node = state.nodes.find((node) => node.id === nodeId)
               if (node) {
                 node.data.inputs.push({
-                  id: `${node.id}-${inputId}` || `${node.id}-${nanoid(5)}`,
+                  id: inputId
+                    ? `${node.id}-${inputId}`
+                    : `${node.id}-${nanoid(5)}`,
                 })
               }
             })
