@@ -73,9 +73,11 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
         ...initState,
         rename: (name: string) => set({ name }),
         onNodesChange: (changes) => {
-          set({
-            nodes: applyNodeChanges(changes, get().nodes),
-          })
+          set(
+            produce((state: FlussStore) =>
+              applyNodeChanges(changes, state.nodes)
+            )
+          )
         },
         onEdgesChange: (changes) => {
           changes.forEach((change) => {
@@ -85,9 +87,11 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
                 get().removeInput(edge.target, edge.targetHandle)
             }
           })
-          set({
-            edges: applyEdgeChanges(changes, get().edges),
-          })
+          set(
+            produce((state: FlussStore) =>
+              applyEdgeChanges(changes, state.edges)
+            )
+          )
         },
         onConnect: (connection) => {
           // If the Node filling connection Handle is used, we create a new connection.
@@ -106,9 +110,7 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
             })
             return
           }
-          set({
-            edges: addEdge(connection, get().edges),
-          })
+          set(produce((state: FlussStore) => addEdge(connection, state.edges)))
         },
         setNodes: (nodes) => {
           set({ nodes })
