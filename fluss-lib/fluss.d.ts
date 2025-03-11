@@ -1,11 +1,11 @@
-import { LucideIcon } from 'lucide-react'
+import { IconName } from 'lucide-react/dynamic'
 
 export type FlussStepOutputTypeId = string
 export type FlussStepOutputType = {
   id: FlussStepOutputTypeId
   name: string
   content: string
-  icon: LucideIcon
+  icon: IconName
   /**
    * Whether this type is a primitive of TypeScript, e.g. `string`, `number`, `boolean`.
    * Not used within the Fluss-Viz UI, but for code generation.

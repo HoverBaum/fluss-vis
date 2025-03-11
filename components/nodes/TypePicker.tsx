@@ -1,6 +1,7 @@
 'use client'
 
 import * as React from 'react'
+import { DynamicIcon } from 'lucide-react/dynamic'
 import { Button } from '@/components/ui/button'
 import {
   Command,
@@ -40,15 +41,10 @@ export function TypePicker({ typeId, onTypeChange }: TypePickerProps) {
           </Button>
         </PopoverTrigger>
         <PopoverContent className="p-0" side="right" align="start">
-          {/* @ts-expect-error Typing Problem in Shadcn... */}
           <Command>
-            {/* @ts-expect-error Typing Problem in Shadcn... */}
             <CommandInput placeholder="Select Type…" />
-            {/* @ts-expect-error Typing Problem in Shadcn... */}
             <CommandList>
-              {/* @ts-expect-error Typing Problem in Shadcn... */}
               <CommandEmpty>No results found.</CommandEmpty>
-              {/* @ts-expect-error Typing Problem in Shadcn... */}
               <CommandGroup>
                 {outputTypes.map((outputType) => (
                   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -56,13 +52,13 @@ export function TypePicker({ typeId, onTypeChange }: TypePickerProps) {
                   <CommandItem
                     key={outputType.id}
                     value={outputType.id}
-                    /* @ts-expect-error Typing Problem in Shadcn... */
                     onSelect={(value) => {
                       onTypeChange(value)
                       setOpen(false)
                     }}
                   >
-                    <outputType.icon
+                    <DynamicIcon
+                      name={outputType.icon}
                       className={cn(
                         'mr-2 h-4 w-4',
                         outputType.id === typeId ? 'opacity-100' : 'opacity-40'

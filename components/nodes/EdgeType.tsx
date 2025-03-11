@@ -1,5 +1,6 @@
 import { FlussStepOutputTypeId } from '@/fluss-lib/fluss'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
+import { DynamicIcon } from 'lucide-react/dynamic'
 
 type EdgeTypeProps = {
   outputTypeId: FlussStepOutputTypeId
@@ -16,7 +17,7 @@ export const EdgeType = ({ outputTypeId }: EdgeTypeProps) => {
 
   return (
     <span className="flex items-center">
-      <outputType.icon className="mr-2 h-4 w-4" />
+      <DynamicIcon name={outputType.icon} className="mr-2 h-4 w-4" />
       {outputType.name}
     </span>
   )
