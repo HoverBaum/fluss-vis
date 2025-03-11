@@ -31,12 +31,14 @@ export const FlussEditSidebar = () => {
   return (
     <Sidebar side="right">
       <SidebarHeader>
-        <h2 className="font-bold">Editor</h2>
+        <h2 className="font-bold text-xl">Node Editor</h2>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarGroup>
-          {!selectedNode && <p>Select a node to start editing</p>}
-        </SidebarGroup>
+        {!selectedNode && (
+          <SidebarGroup>
+            <p>Select a node to start editing</p>
+          </SidebarGroup>
+        )}
 
         {nodeData && (
           <SidebarGroup>

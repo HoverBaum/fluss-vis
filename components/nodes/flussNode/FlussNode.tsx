@@ -49,7 +49,7 @@ export const FlussNode = ({
   return (
     <Card
       onDoubleClick={() => setOpen(true)}
-      className={`min-w-[250px] relative ${selected && 'border-foreground'}`}
+      className={`w-[275px] relative ${selected && 'border-foreground'}`}
     >
       {isPotentialTarget && (
         <Handle
