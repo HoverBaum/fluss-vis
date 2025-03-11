@@ -34,11 +34,13 @@ export const EndNode = ({ selected, data }: NodeProps<FlussNodeType>) => {
   // Update node internals when the node is a potential target, because we conditionaly render a Handle.
   // https://reactflow.dev/api-reference/hooks/use-update-node-internals
   useEffect(() => {
-    if (nodeId) updateNodeInternals(nodeId)
+    if (nodeId) {
+      updateNodeInternals(nodeId)
+    }
   }, [isPotentialTarget, nodeId, updateNodeInternals])
 
   return (
-    <Card className={`min-w-[250px] ${selected && 'border-foreground'}`}>
+    <Card className={`w-[275px] ${selected && 'border-foreground'}`}>
       {isPotentialTarget && (
         <Handle
           id={`${nodeId}-${NEW_CONNECTION_HANDLE_IDENTIFIER}`}
