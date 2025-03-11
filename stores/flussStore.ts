@@ -252,6 +252,12 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
                 if (newOutputs.length > 0) {
                   node.data.outputs =
                     newOutputs as ArrayNotEmpty<FlussStepOutput>
+                  // Remove all associated edges.
+                  state.edges = state.edges.filter(
+                    (edge) =>
+                      edge.source !== START_NODE_ID ||
+                      edge.sourceHandle !== outputId
+                  )
                 }
               }
             })
