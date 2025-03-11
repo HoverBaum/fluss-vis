@@ -18,12 +18,14 @@ import {
   FlussStep,
   FlussStepInput,
   FlussStepInputId,
+  FlussStepOutput,
   FlussStepOutputId,
   FlussStepOutputType,
   FlussStepOutputTypeId,
 } from '@/fluss-lib/fluss'
 import { devInitialState } from './initialState.dev'
 import { createFlussNode, START_NODE_ID } from './storeHelpers'
+import { ArrayNotEmpty } from '@/fluss-lib/helperTypes'
 
 export type FlussNodeOutputType = {
   name?: string
@@ -70,6 +72,7 @@ export type FlussActions = {
   addInput: (nodeId: string, inputId?: FlussStepInputId) => void
   removeInput: (nodeId: string, inputId: FlussStepInputId) => void
   addFlussParameter: () => void
+  removeFlussParameter: (outputId: FlussStepOutputId) => void
   addNode: (position?: XYPosition) => void
   setViewport: (viewport: Viewport) => void
 }
@@ -233,6 +236,23 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
                   name: 'Unnamed',
                   type: 'void',
                 })
+              }
+            })
+          )
+        },
+        removeFlussParameter: (outputId) => {
+          set(
+            produce((state: FlussStore) => {
+              const node = state.nodes.find((node) => node.id === START_NODE_ID)
+              if (node && node.data.type === 'start') {
+                const newOutputs = node.data.outputs.filter(
+                  (output) => output.id !== outputId
+                )
+                // Start Node must have at least one output.
+                if (newOutputs.length > 0) {
+                  node.data.outputs =
+                    newOutputs as ArrayNotEmpty<FlussStepOutput>
+                }
               }
             })
           )
