@@ -2,6 +2,7 @@
 
 import {
   Handle,
+  Node,
   NodeProps,
   Position,
   useConnection,
@@ -17,19 +18,19 @@ import {
 } from '@/components/ui/card'
 import { END_NODE_ID } from '@/stores/storeHelpers'
 import { FlussNodeInput } from '../flussNode/FlussNodeInput'
-import {
-  FlussNodeType,
-  NEW_CONNECTION_HANDLE_IDENTIFIER,
-} from '@/stores/flussStore'
+import { NEW_CONNECTION_HANDLE_IDENTIFIER } from '@/stores/flussStore'
 import { useEffect } from 'react'
+import { useSidebar } from '@/components/ui/sidebar'
+import { FlussStepEnd } from '@/fluss-lib/fluss'
 
-export const EndNode = ({ selected, data }: NodeProps<FlussNodeType>) => {
+export const EndNode = ({ selected, data }: NodeProps<Node<FlussStepEnd>>) => {
   const updateNodeInternals = useUpdateNodeInternals()
   const nodeId = useNodeId()
   const connection = useConnection()
   const isPotentialTarget =
     connection.inProgress && connection.fromNode.id !== nodeId
   const { name, inputs, description } = data
+  const { setOpen } = useSidebar()
 
   // Update node internals when the node is a potential target, because we conditionaly render a Handle.
   // https://reactflow.dev/api-reference/hooks/use-update-node-internals
@@ -40,7 +41,10 @@ export const EndNode = ({ selected, data }: NodeProps<FlussNodeType>) => {
   }, [isPotentialTarget, nodeId, updateNodeInternals])
 
   return (
-    <Card className={`w-[275px] ${selected && 'border-foreground'}`}>
+    <Card
+      className={`w-[275px] ${selected && 'border-foreground'}`}
+      onDoubleClick={() => setOpen(true)}
+    >
       {isPotentialTarget && (
         <Handle
           id={`${nodeId}-${NEW_CONNECTION_HANDLE_IDENTIFIER}`}
