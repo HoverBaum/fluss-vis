@@ -8,12 +8,11 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { FlussNodeOutput } from '../flussNode/FlussNodeOutput'
 import { START_NODE_ID } from '@/stores/storeHelpers'
 import { FlussStepStart } from '@/fluss-lib/fluss'
 import { Button } from '@/components/ui/button'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
-import { Trash } from 'lucide-react'
+import { StartNodeOutput } from './StartNodeOutput'
 
 export const StartNode = ({
   data,
@@ -21,9 +20,6 @@ export const StartNode = ({
 }: NodeProps<Node<FlussStepStart>>) => {
   const { outputs, name, description } = data
   const addFlussParameter = useFlussStore((state) => state.addFlussParameter)
-  const removeFlussParameter = useFlussStore(
-    (state) => state.removeFlussParameter
-  )
 
   return (
     <Card className={`min-w-[250px] ${selected && 'border-foreground'}`}>
@@ -38,17 +34,10 @@ export const StartNode = ({
         <div className="flex flex-col items-end gap-4">
           {outputs.map((output, index) => (
             <div key={output.id}>
-              <div className="flex flex-row items-center gap-4">
-                <Button
-                  variant="secondary"
-                  size="icon"
-                  onClick={() => removeFlussParameter(output.id)}
-                  disabled={outputs.length === 1}
-                >
-                  <Trash />
-                </Button>
-                <FlussNodeOutput output={output} />
-              </div>
+              <StartNodeOutput
+                output={output}
+                canBeRemoved={outputs.length > 1}
+              />
               {index < outputs.length - 1 && <hr className="mt-4" />}
             </div>
           ))}
