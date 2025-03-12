@@ -1,4 +1,4 @@
-import { X } from 'lucide-react'
+import { Trash2 } from 'lucide-react'
 import { Button } from './ui/button'
 
 type ButtonXProps = {
@@ -7,7 +7,11 @@ type ButtonXProps = {
   disabled?: boolean
 }
 
-export const ButtonX = ({ onClick, isInvisible, disabled }: ButtonXProps) => {
+export const ButtonRemove = ({
+  onClick,
+  isInvisible,
+  disabled,
+}: ButtonXProps) => {
   return (
     <Button
       disabled={disabled}
@@ -15,7 +19,7 @@ export const ButtonX = ({ onClick, isInvisible, disabled }: ButtonXProps) => {
       variant="ghost"
       onClick={onClick}
     >
-      <X size={8} />
+      <Trash2 size={8} />
     </Button>
   )
 }

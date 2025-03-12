@@ -11,7 +11,7 @@ import { EdgeType } from '../EdgeType'
 import { outputFromStep } from '@/fluss-lib/nodeOperations'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { useState } from 'react'
-import { ButtonX } from '@/components/ButtonX'
+import { ButtonRemove } from '@/components/ButtonRemove'
 
 type FlussNodeInputProps = {
   id: string
@@ -55,7 +55,7 @@ export const FlussNodeInput = ({ id }: FlussNodeInputProps) => {
           <small className="opacity-50">Unconnected</small>
         )}
 
-        <ButtonX
+        <ButtonRemove
           onClick={() => removeInput(nodeId!, id)}
           isInvisible={!isHovered}
         />

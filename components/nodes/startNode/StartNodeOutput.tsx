@@ -2,7 +2,7 @@ import { FlussStepOutput } from '@/fluss-lib/fluss'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { FlussNodeOutput } from '../flussNode/FlussNodeOutput'
 import { useState } from 'react'
-import { ButtonX } from '@/components/ButtonX'
+import { ButtonRemove } from '@/components/ButtonRemove'
 
 type StartNodeOutputProps = {
   output: FlussStepOutput
@@ -24,7 +24,7 @@ export const StartNodeOutput = ({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <ButtonX
+      <ButtonRemove
         onClick={() => removeFlussParameter(output.id)}
         isInvisible={!isHovered}
         disabled={!canBeRemoved}
