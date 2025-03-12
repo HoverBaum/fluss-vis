@@ -10,9 +10,8 @@ import { FlussNodeType } from '@/stores/flussStore'
 import { EdgeType } from '../EdgeType'
 import { outputFromStep } from '@/fluss-lib/nodeOperations'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
-import { X } from 'lucide-react'
-import { Button } from '@/components/ui/button'
 import { useState } from 'react'
+import { ButtonX } from '@/components/ButtonX'
 
 type FlussNodeInputProps = {
   id: string
@@ -56,13 +55,10 @@ export const FlussNodeInput = ({ id }: FlussNodeInputProps) => {
           <small className="opacity-50">Unconnected</small>
         )}
 
-        <Button
-          className={`w-8 h-8 opacity-0 ${isHovered && 'opacity-100'}`}
-          variant="ghost"
+        <ButtonX
           onClick={() => removeInput(nodeId!, id)}
-        >
-          <X size={8} />
-        </Button>
+          isInvisible={!isHovered}
+        />
       </div>
 
       <Handle

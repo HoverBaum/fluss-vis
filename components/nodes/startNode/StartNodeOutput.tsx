@@ -1,9 +1,8 @@
-import { Button } from '@/components/ui/button'
 import { FlussStepOutput } from '@/fluss-lib/fluss'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
-import { Trash } from 'lucide-react'
 import { FlussNodeOutput } from '../flussNode/FlussNodeOutput'
 import { useState } from 'react'
+import { ButtonX } from '@/components/ButtonX'
 
 type StartNodeOutputProps = {
   output: FlussStepOutput
@@ -25,16 +24,11 @@ export const StartNodeOutput = ({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <Button
-        className={`opacity-0 ${isHovered && 'opacity-100'}`}
-        variant="secondary"
-        size="icon"
+      <ButtonX
         onClick={() => removeFlussParameter(output.id)}
+        isInvisible={!isHovered}
         disabled={!canBeRemoved}
-      >
-        <Trash />
-      </Button>
-
+      />
       <FlussNodeOutput output={output} />
     </div>
   )
