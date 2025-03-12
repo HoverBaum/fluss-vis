@@ -205,6 +205,15 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
               }
             })
           )
+          // Also remove all associated edges.
+          set(
+            produce((state: FlussStore) => {
+              state.edges = state.edges.filter(
+                (edge) =>
+                  edge.target !== nodeId || edge.targetHandle !== inputId
+              )
+            })
+          )
         },
         setNodeName: (nodeId, name) => {
           set(
