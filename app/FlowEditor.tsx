@@ -49,14 +49,18 @@ export const FlowEditor = () => {
     []
   )
 
+  // Prevent connection when source handle is already connectd to target.
   const isValidConnection = (connection: Connection | Edge) => {
-    if (
-      edges.find(
-        (edge) =>
-          edge.source === connection.source && edge.target === connection.target
-      )
+    const existingConnection = edges.find(
+      (edge) =>
+        edge.source === connection.source &&
+        edge.target === connection.target &&
+        edge.sourceHandle === connection.sourceHandle
     )
+    if (existingConnection) {
       return false
+    }
+
     return true
   }
 
