@@ -24,6 +24,7 @@ import { FlowEditorViewportReporter } from './FlowEditorViewportReporter'
 import { FlussNode } from '@/components/nodes/flussNode/FlussNode'
 import { StartNode } from '@/components/nodes/startNode/StartNode'
 import { EndNode } from '@/components/nodes/endNode/EndNode'
+import { FlussEdge } from '@/components/FlussEdge'
 
 const selector = (state: FlussStore) => ({
   nodes: state.nodes,
@@ -46,6 +47,12 @@ export const FlowEditor = () => {
 
   const nodeTypes = useMemo(
     () => ({ flussNode: FlussNode, startNode: StartNode, endNode: EndNode }),
+    []
+  )
+  const edgeTypes = useMemo(
+    () => ({
+      flussEdge: FlussEdge,
+    }),
     []
   )
 
@@ -72,6 +79,7 @@ export const FlowEditor = () => {
         nodes={nodes}
         edges={edges}
         nodeTypes={nodeTypes}
+        edgeTypes={edgeTypes}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
@@ -79,6 +87,10 @@ export const FlowEditor = () => {
         suppressHydrationWarning
         panOnScroll
         isValidConnection={isValidConnection}
+        elevateEdgesOnSelect
+        defaultEdgeOptions={{
+          type: 'flussEdge',
+        }}
       >
         <FlowEditorViewportReporter />
         <Panel position="bottom-center">
