@@ -11,8 +11,9 @@ import {
   SidebarHeader,
   useSidebar,
 } from '@/components/ui/sidebar'
+import { Textarea } from '@/components/ui/textarea'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
-import { X } from 'lucide-react'
+import { ArrowRightFromLine } from 'lucide-react'
 import { useEffect } from 'react'
 
 export const FlussEditSidebar = () => {
@@ -31,8 +32,11 @@ export const FlussEditSidebar = () => {
 
   return (
     <Sidebar side="right">
-      <SidebarHeader>
+      <SidebarHeader className="flex  flex-row justify-between items-center">
         <h2 className="font-bold text-xl">Node Editor</h2>
+        <Button size="icon" variant="ghost" onClick={toggleSidebar}>
+          <ArrowRightFromLine />
+        </Button>
       </SidebarHeader>
       <SidebarContent>
         {!selectedNode && (
@@ -60,13 +64,14 @@ export const FlussEditSidebar = () => {
 
             <div className="grid w-full max-w-sm items-center gap-1 my-2">
               <Label htmlFor="descriptionEdit">Description</Label>
-              <Input
+              <Textarea
                 value={nodeData.description || ''}
                 id="descriptionEdit"
                 className="bg-background"
                 onChange={(e) =>
                   setNodeDescription(selectedNode.id, e.target.value)
                 }
+                rows={3}
               />
             </div>
           </SidebarGroup>
@@ -81,10 +86,9 @@ export const FlussEditSidebar = () => {
         >
           Delete Node
         </Button>
-        <Button className="w-full" onClick={toggleSidebar}>
-          <X />
-          Close
-        </Button>
+        <small className="w-full text-center opacity-75">
+          Click outside a node to close.
+        </small>
       </SidebarFooter>
     </Sidebar>
   )
