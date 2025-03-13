@@ -18,6 +18,7 @@ import {
 } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import { useTheme } from 'next-themes'
 import { codeMock } from './codeMock'
+import { toast } from 'sonner'
 
 SyntaxHighlighter.registerLanguage('typescript', ts)
 
@@ -64,9 +65,10 @@ export const Export = () => {
             className="w-full"
             onClick={() => {
               navigator.clipboard.writeText(codeToCopy)
+              toast('Copied to clipboard')
             }}
           >
-            <Copy />
+            <Copy /> Copy Code
           </Button>
         </DialogFooter>
       </DialogContent>
