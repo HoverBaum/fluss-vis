@@ -3,13 +3,12 @@
 import { Button } from '@/components/ui/button'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { useReactFlow } from '@xyflow/react'
-import { useExport } from './useExport'
-import { Download, FilePlus2 } from 'lucide-react'
+import { FilePlus2 } from 'lucide-react'
+import { Export } from './Export'
 
 export const ToolPanel = () => {
   const { screenToFlowPosition } = useReactFlow()
   const addNode = useFlussStore((state) => state.addNode)
-  const { flussExport } = useExport()
 
   return (
     <div className="flex gap-2">
@@ -29,9 +28,7 @@ export const ToolPanel = () => {
         Add Node <FilePlus2 />
       </Button>
 
-      <Button size="sm" variant="secondary" onClick={flussExport}>
-        Export <Download />
-      </Button>
+      <Export />
     </div>
   )
 }
