@@ -74,6 +74,7 @@ export type FlussActions = {
   addFlussParameter: () => void
   removeFlussParameter: (outputId: FlussStepOutputId) => void
   addNode: (position?: XYPosition) => void
+  removeNode: (nodeId: string) => void
   setViewport: (viewport: Viewport) => void
 }
 
@@ -99,7 +100,7 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
         onEdgesChange: (changes) => {
           changes.forEach((change) => {
             if (change.type === 'remove') {
-              const edge = get().edges.find((e) => e.id === change.id)
+              const edge = get().edges.find((edge) => edge.id === change.id)
               if (edge && edge.targetHandle)
                 get().removeInput(edge.target, edge.targetHandle)
             }
@@ -178,6 +179,17 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
               ],
             }
           })
+        },
+        removeNode: (nodeId) => {
+          get().onNodesChange([{ id: nodeId, type: 'remove' }])
+          // Also remove all connected Edges.
+          // onEdgesChange hanldes the removal of Inputs.
+          const affectedEdges = get().edges.filter(
+            (edge) => edge.source === nodeId || edge.target === nodeId
+          )
+          get().onEdgesChange(
+            affectedEdges.map((edge) => ({ ...edge, type: 'remove' }))
+          )
         },
         addInput: (nodeId, inputId) => {
           set(

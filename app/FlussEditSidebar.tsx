@@ -23,6 +23,7 @@ export const FlussEditSidebar = () => {
   const nodeData = selectedNode?.data
   const setNodeName = useFlussStore((state) => state.setNodeName)
   const setNodeDescription = useFlussStore((state) => state.setNodeDescription)
+  const removeNode = useFlussStore((state) => state.removeNode)
 
   useEffect(() => {
     if (!selectedNode) setOpen(false)
@@ -72,6 +73,14 @@ export const FlussEditSidebar = () => {
         )}
       </SidebarContent>
       <SidebarFooter>
+        <Button
+          className="w-full hover:bg-red-500 hover:text-white"
+          variant="secondary"
+          disabled={!selectedNode}
+          onClick={() => selectedNode && removeNode(selectedNode.id)}
+        >
+          Delete Node
+        </Button>
         <Button className="w-full" onClick={toggleSidebar}>
           <X />
           Close
