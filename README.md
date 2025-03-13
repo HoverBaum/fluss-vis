@@ -9,8 +9,10 @@ Fluss Viz will handle the execution of your logic and parallelize async operatio
 
 # Plan
 - Export flow
+- EditSidebar should be able to edit output and remove inputs.
 - Nodes should be able to pre-create inputs that do not disappear upon edge deletion.
-- Handle IDs should not contain node IDs! Or this whole id should be the output and inputId in the state.
+- Handle IDs should not contain node IDs! Or this whole id should be the output and inputId in the state. Remove indirect coupling of needing same logic in different places. Maybe just longer ids.
+- Left Sidebar with global settings: display ids, highlighted edges to front, permanently show remove buttons.
 
 
 ## Ideas

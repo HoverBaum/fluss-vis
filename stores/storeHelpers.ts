@@ -10,16 +10,17 @@ export const createFlussNode = (
   position: XYPosition,
   data?: FlussStep
 ): FlussNodeType => {
-  // Make sure that each new node has at least a name.
+  const id = nanoid(5)
+
   const nodeData = data || {
     type: 'step',
-    id: nanoid(5),
+    id,
     description: '',
     name: 'New Node',
     inputs: [],
     outputs: [
       {
-        id: nanoid(5),
+        id: nanoid(10),
         name: 'Unnamed',
         type: 'void',
       },
@@ -27,7 +28,7 @@ export const createFlussNode = (
   }
 
   return {
-    id: nanoid(5),
+    id,
     position,
     type: 'flussNode',
     data: nodeData,
