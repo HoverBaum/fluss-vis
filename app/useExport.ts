@@ -7,8 +7,8 @@ import {
   FlussStepOutput,
 } from '@/fluss-lib/fluss'
 import {
-  stringToCamelCase,
   stringToPascalCase,
+  stringToValidIdentifier,
 } from '@/fluss-lib/nameConversion'
 import { END_NODE_ID } from '@/stores/storeHelpers'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
@@ -45,7 +45,9 @@ export const useExport = () => {
   const edges = useFlussStore((store) => store.edges)
   const outputTypes = useFlussStore((store) => store.outputTypes)
   const flussName = useFlussStore((store) => store.name)
-  const flussNamePascalCase = stringToPascalCase(flussName)
+  const flussNamePascalCase = stringToPascalCase(
+    stringToValidIdentifier(flussName)
+  )
 
   const runResultTypeName = `${flussNamePascalCase}RunResult`
 
@@ -93,7 +95,7 @@ ${node.data.inputs
     )
     if (!PopulatedInput)
       throw new Error(`No populated input found for ${input.id}`)
-    return `  ${stringToCamelCase(PopulatedInput.output.name)}: ${
+    return `  ${stringToValidIdentifier(PopulatedInput.output.name)}: ${
       PopulatedInput.output.type
     }`
   })
@@ -143,7 +145,7 @@ ${node.data.inputs
         return {
           stepId: node.id,
           stepName: nodeData.name,
-          functionName: stringToCamelCase(nodeData.name),
+          functionName: stringToValidIdentifier(nodeData.name),
           returnType:
             // TODO: add type for end node!
             nodeData.outputs.length === 1 ? nodeData.outputs[0].type : `any`,
@@ -158,7 +160,7 @@ ${node.data.inputs
               return {
                 source: input.edge.source,
                 sourceOutput: input.output.id,
-                name: stringToCamelCase(input.output.name),
+                name: stringToValidIdentifier(input.output.name),
                 type,
               }
             }),
