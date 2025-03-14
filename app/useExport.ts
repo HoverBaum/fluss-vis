@@ -10,11 +10,17 @@ import {
   stringToPascalCase,
   stringToValidIdentifier,
 } from '@/fluss-lib/nameConversion'
-import { END_NODE_ID } from '@/stores/storeHelpers'
+import { END_NODE_ID, START_NODE_ID } from '@/stores/storeHelpers'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { Edge, Node } from '@xyflow/react'
 
 type PopulatedInput = {
+  // The outputs name as a valid idnetifier.
+  identifier: string
+  // The outputs name as a save identifier, including the edges sourceId to guard against name collisions.
+  saveIdentifier: string
+  // TypeScript identifier for this type. PascalCase for custom types and lowercase for primatives.
+  typeName: string
   edge: Edge
   output: FlussStepOutput
   inputId: string
@@ -51,6 +57,7 @@ export const useExport = () => {
   )
 
   const runResultTypeName = `${flussNamePascalCase}RunResult`
+  const runParamsTypeName = `${flussNamePascalCase}RunParams`
 
   const createTypescriptTypes = (outputTypes: FlussStepOutputType[]) => {
     return (
@@ -62,6 +69,34 @@ export const useExport = () => {
         })
         .join('\n')
     )
+  }
+
+  const createParamString = (
+    flussFunctions: FlussFunction[],
+    populatedInputs: PopulatedInput[]
+  ): string => {
+    return `type ${runParamsTypeName} = {
+  inputs: {
+    ${populatedInputs
+      .filter((populatedInput) => populatedInput.edge.source === START_NODE_ID)
+      .map((populatedInput) => {
+        return `${populatedInput.identifier}: ${populatedInput.typeName}`
+      })
+      .join('\n    ')}
+  }
+  stepFunctions: {
+    ${flussFunctions
+      .filter((flussFunction) => flussFunction.stepId !== END_NODE_ID)
+      .map((flussFunction) => {
+        return `${flussFunction.functionName}: (args: {${flussFunction.arguments
+          .map((argument) => {
+            return `${argument.name}: ${argument.type}`
+          })
+          .join(', ')}}) => ${flussFunction.returnType}`
+      })
+      .join('\n    ')}
+  }
+}`
   }
 
   // NEXT: also add the arguments to the functions.
@@ -131,10 +166,19 @@ ${node.data.inputs
           throw new Error(
             `No output found for output ${edgeForInput.sourceHandle}`
           )
+        const typeName = outputTypes.find(
+          (outputType) => outputType.id === output.type
+        )?.typeName
+        if (!typeName) throw new Error(`No type found for ${output.type}`)
         return {
           ...input,
+          identifier: stringToValidIdentifier(output.name),
+          saveIdentifier: `${stringToValidIdentifier(output.name)}_${
+            edgeForInput.source
+          }`,
           edge: edgeForInput,
           output,
+          typeName,
         }
       })
     console.log('populatedInputs', populatedInputs)
@@ -167,13 +211,15 @@ ${node.data.inputs
             }),
         }
       })
-
     console.log('flussFunctions', flussFunctions)
 
     let code = ''
     const typeScriptTypes = createTypescriptTypes(outputTypes)
     console.log(typeScriptTypes)
     code += typeScriptTypes + '\n\n'
+
+    const paramTypeString = createParamString(flussFunctions, populatedInputs)
+    code += paramTypeString + '\n\n'
 
     const endNode = nodes.find((node) => node.id === END_NODE_ID)
     if (!endNode || endNode.data.type !== 'end')
