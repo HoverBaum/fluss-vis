@@ -4,11 +4,19 @@ import {
   FlussStepId,
   FlussStepOutputType,
   FlussStepOutputId,
+  FlussStepOutput,
 } from '@/fluss-lib/fluss'
 import { stringToCamelCase } from '@/fluss-lib/nameConversion'
 import { END_NODE_ID } from '@/stores/storeHelpers'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
-import { Node } from '@xyflow/react'
+import { Edge, Node } from '@xyflow/react'
+
+type PopulatedInput = {
+  edge: Edge
+  output: FlussStepOutput
+  inputId: string
+  nodeId: string
+}
 
 type FlussFunctionArgument = {
   source: FlussStepId
@@ -66,17 +74,30 @@ export const useExport = () => {
   //   console.log(flussFunctions)
   // }
 
-  const createReturnType = (node: Node<FlussStepEnd>) => {
+  const createReturnType = (
+    node: Node<FlussStepEnd>,
+    populatedInputs: PopulatedInput[]
+  ) => {
     return `type RunFlussResult = {
 ${node.data.inputs
-  .map((input) => `  ${stringToCamelCase(input.id)};`)
+  .map((input) => {
+    const PopulatedInput = populatedInputs.find(
+      (populatedInput) => populatedInput.inputId === input.id
+    )
+    if (!PopulatedInput)
+      throw new Error(`No populated input found for ${input.id}`)
+    return `  ${stringToCamelCase(PopulatedInput.output.name)}: ${
+      PopulatedInput.output.type
+    }`
+  })
   .join('\n')}
 }`
   }
 
   const flussExport = () => {
+    console.log('new export....')
     const allOutputs = nodes.flatMap((node) => node.data.outputs)
-    const populatedInputs = nodes
+    const populatedInputs: PopulatedInput[] = nodes
       .filter((node) => node.data.type !== 'start')
       .flatMap((node) =>
         (node as Node<FlussStepDefault | FlussStepEnd>).data.inputs.map(
@@ -139,8 +160,6 @@ ${node.data.inputs
     console.log('flussFunctions', flussFunctions)
 
     let code = ''
-    console.log('exporting…')
-    console.log('outputTypes', outputTypes)
     const typeScriptTypes = createTypescriptTypes(outputTypes)
     console.log(typeScriptTypes)
     code += typeScriptTypes + '\n\n'
@@ -148,7 +167,10 @@ ${node.data.inputs
     const endNode = nodes.find((node) => node.id === END_NODE_ID)
     if (!endNode || endNode.data.type !== 'end')
       throw new Error('No end node found')
-    const returnType = createReturnType(endNode as Node<FlussStepEnd>)
+    const returnType = createReturnType(
+      endNode as Node<FlussStepEnd>,
+      populatedInputs
+    )
     console.log('returnType', returnType)
     code += returnType + '\n\n'
 
