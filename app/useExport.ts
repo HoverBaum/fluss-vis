@@ -6,7 +6,10 @@ import {
   FlussStepOutputId,
   FlussStepOutput,
 } from '@/fluss-lib/fluss'
-import { stringToCamelCase } from '@/fluss-lib/nameConversion'
+import {
+  stringToCamelCase,
+  stringToPascalCase,
+} from '@/fluss-lib/nameConversion'
 import { END_NODE_ID } from '@/stores/storeHelpers'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { Edge, Node } from '@xyflow/react'
@@ -41,6 +44,10 @@ export const useExport = () => {
   const nodes = useFlussStore((store) => store.nodes)
   const edges = useFlussStore((store) => store.edges)
   const outputTypes = useFlussStore((store) => store.outputTypes)
+  const flussName = useFlussStore((store) => store.name)
+  const flussNamePascalCase = stringToPascalCase(flussName)
+
+  const runResultTypeName = `${flussNamePascalCase}RunResult`
 
   const createTypescriptTypes = (outputTypes: FlussStepOutputType[]) => {
     return (
@@ -78,7 +85,7 @@ export const useExport = () => {
     node: Node<FlussStepEnd>,
     populatedInputs: PopulatedInput[]
   ) => {
-    return `type RunFlussResult = {
+    return `type ${runResultTypeName} = {
 ${node.data.inputs
   .map((input) => {
     const PopulatedInput = populatedInputs.find(
@@ -96,6 +103,7 @@ ${node.data.inputs
 
   const flussExport = () => {
     console.log('new export....')
+
     const allOutputs = nodes.flatMap((node) => node.data.outputs)
     const populatedInputs: PopulatedInput[] = nodes
       .filter((node) => node.data.type !== 'start')
