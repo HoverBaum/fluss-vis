@@ -79,7 +79,7 @@ export const FlussEditSidebar = () => {
       </SidebarContent>
       <SidebarFooter>
         <Button
-          className="w-full hover:bg-red-500 hover:text-white"
+          className="w-full hover:bg-destructive hover:text-destructive-foreground"
           variant="secondary"
           disabled={!selectedNode}
           onClick={() => selectedNode && removeNode(selectedNode.id)}
