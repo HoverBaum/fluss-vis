@@ -41,6 +41,7 @@ type FlussFunction = {
 }
 
 export const useExport = () => {
+  const store = useFlussStore((store) => store)
   const nodes = useFlussStore((store) => store.nodes)
   const edges = useFlussStore((store) => store.edges)
   const outputTypes = useFlussStore((store) => store.outputTypes)
@@ -183,6 +184,9 @@ ${node.data.inputs
     )
     console.log('returnType', returnType)
     code += returnType + '\n\n'
+
+    const storeString = JSON.stringify(store, null, 2)
+    code += `export const store = ${storeString}\n\n`
 
     return code
   }

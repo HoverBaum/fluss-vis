@@ -37,7 +37,7 @@ export const Export = () => {
           Export <Download />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-lg">
+      <DialogContent className="sm:max-w-2xl">
         <DialogHeader>
           <DialogTitle>Fluss Export</DialogTitle>
           <DialogDescription>
@@ -46,7 +46,7 @@ export const Export = () => {
           </DialogDescription>
         </DialogHeader>
 
-        <div>
+        <div className="overflow-scroll w-full">
           <SyntaxHighlighter
             className="max-h-80 border-2 border-border"
             language="typescript"
