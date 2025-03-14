@@ -64,7 +64,7 @@ export function TypePicker({ typeId, onTypeChange }: TypePickerProps) {
                         outputType.id === typeId ? 'opacity-100' : 'opacity-40'
                       )}
                     />
-                    <span>{outputType.name}</span>
+                    <span>{outputType.displayName}</span>
                   </CommandItem>
                 ))}
               </CommandGroup>

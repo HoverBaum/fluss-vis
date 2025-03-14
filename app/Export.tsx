@@ -17,19 +17,21 @@ import {
   a11yLight,
 } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import { useTheme } from 'next-themes'
-import { codeMock } from './codeMock'
 import { toast } from 'sonner'
+import { useExport } from './useExport'
+import { useState } from 'react'
 
 SyntaxHighlighter.registerLanguage('typescript', ts)
 
 export const Export = () => {
+  const [codeToCopy, setCodeToCopy] = useState('')
   const { theme, systemTheme } = useTheme()
   const isDark =
     theme === 'dark' || (theme === 'system' && systemTheme === 'dark')
-  const codeToCopy = codeMock
+  const { flussExport } = useExport()
 
   return (
-    <Dialog>
+    <Dialog onOpenChange={(open) => open && setCodeToCopy(flussExport())}>
       <DialogTrigger asChild>
         <Button size="sm" variant="secondary">
           Export <Download />
@@ -40,13 +42,13 @@ export const Export = () => {
           <DialogTitle>Fluss Export</DialogTitle>
           <DialogDescription>
             Copy the code below to use this fluss. We recommend saving this as
-            fluss.ts.
+            *.fluss.ts.
           </DialogDescription>
         </DialogHeader>
 
         <div>
           <SyntaxHighlighter
-            className="max-h-80"
+            className="max-h-80 border-2 border-border"
             language="typescript"
             style={isDark ? a11yDark : a11yLight}
           >

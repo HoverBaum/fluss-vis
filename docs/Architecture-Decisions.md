@@ -1,5 +1,11 @@
 # Architecture decisions
 
+## 2025-03-14 Outputs are postfixed with _nodeId
+
+In the created code, Results/Outputs are always postfixed with _id of their producing node.
+This ensure uniqueness of variable names.
+It enables users to use the same name twice without creating a conflict.
+
 ## 2025-03-11 Every Node has outputs
 
 To write easier code in some places (mainly the store) and not always have to do type checks: each node will have outputs. To ensure the outputs still conform to:

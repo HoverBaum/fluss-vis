@@ -4,7 +4,8 @@ import { ArrayOneElement, ArrayNotEmpty, ArrayEmpty } from './helperTypes'
 export type FlussStepOutputTypeId = string
 export type FlussStepOutputType = {
   id: FlussStepOutputTypeId
-  name: string
+  typeName: string
+  displayName: string
   content: string
   icon: IconName
   /**
