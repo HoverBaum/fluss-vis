@@ -39,6 +39,7 @@ type FlussFunctionArgument = {
 type FlussFunction = {
   stepId: FlussStepId
   stepName: string
+  description: string
   // camelCase name of the function for this step.
   functionName: string
   // TypeScript type of the return value of this function.
@@ -71,6 +72,10 @@ export const useExport = () => {
     )
   }
 
+  /**
+   * Creates a TypeScript type definition for the parameters of the run function.
+   * Identation here for dev readability.
+   */
   const createParamString = (
     flussFunctions: FlussFunction[],
     populatedInputs: PopulatedInput[]
@@ -88,7 +93,8 @@ export const useExport = () => {
     ${flussFunctions
       .filter((flussFunction) => flussFunction.stepId !== END_NODE_ID)
       .map((flussFunction) => {
-        return `${flussFunction.functionName}: (args: {${flussFunction.arguments
+        return `// ${flussFunction.description}
+    ${flussFunction.functionName}: (args: {${flussFunction.arguments
           .map((argument) => {
             return `${argument.name}: ${argument.type}`
           })
@@ -98,26 +104,6 @@ export const useExport = () => {
   }
 }`
   }
-
-  // NEXT: also add the arguments to the functions.
-
-  // const createExecutionCode = () => {
-  //   console.log('nodes', nodes)
-  //   console.log('edges', edges)
-  //   const flussFunctions: FlussFunction[] = nodes
-  //     .filter((node) => node.id !== START_NODE_ID && node.id !== END_NODE_ID)
-  //     .map((node) => {
-  //       if (!node.data.output?.typeId)
-  //         throw new Error(`${node.id} has no output TypeId`)
-  //       return {
-  //         stepId: node.id,
-  //         name: stringToCamelCase(node.data.name),
-  //         returnType: node.data.output.typeId,
-  //         arguments: [],
-  //       }
-  //     })
-  //   console.log(flussFunctions)
-  // }
 
   const createReturnType = (
     node: Node<FlussStepEnd>,
@@ -190,6 +176,7 @@ ${node.data.inputs
         return {
           stepId: node.id,
           stepName: nodeData.name,
+          description: nodeData.description,
           functionName: stringToValidIdentifier(nodeData.name),
           returnType:
             // TODO: add type for end node!
