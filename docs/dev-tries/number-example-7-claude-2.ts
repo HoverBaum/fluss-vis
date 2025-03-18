@@ -1,6 +1,9 @@
 /**
  * Flow engine with functional approach
  * Optimized for code generation from visualization
+ *
+ * Done by Clause with GPT Copilot fixes for some type errors.
+ * Also some edits by me.
  */
 
 // --- Type Definitions ---
@@ -89,14 +92,16 @@ async function executeStep<ID extends FlussStepId>(
         )
       }
 
-      // Cast to any for the dynamic property access
-      ;(input as any)[arg.targetField] = (sourceStep.result as any)[
-        arg.sourceField
-      ]
+      input[arg.targetField as keyof StepIO[ID]['input']] =
+        sourceStep.result[
+          arg.sourceField as keyof StepIO[typeof arg.sourceStepId]['output']
+        ]
     })
+    console.log('Executing with Input:', input)
 
     // Execute the step
     const result = await step.execute(input)
+    console.log('Result:', result)
 
     // Update the step with the result
     step.status = 'done'
@@ -111,7 +116,10 @@ async function executeStep<ID extends FlussStepId>(
 /**
  * Check if a step can be run based on its dependencies
  */
-function canStepRun(step: Step<FlussStepId>, flowState: FlowState): boolean {
+function canStepRun<ID extends FlussStepId>(
+  step: Step<ID>,
+  flowState: FlowState
+): boolean {
   return step.arguments.every((arg) => {
     const sourceStep = flowState[arg.sourceStepId]
     return sourceStep.status === 'done' && sourceStep.result !== undefined
@@ -185,7 +193,7 @@ export async function runFluss(params: {
       // Find all steps that can run now
       const runnableSteps = Object.values(flowState)
         .filter((step) => step.status === 'waiting')
-        .filter((step) => canStepRun(step, flowState))
+        .filter((step) => canStepRun(step as Step<FlussStepId>, flowState))
 
       console.log(
         '\nCurrently runnable:',
@@ -212,7 +220,7 @@ export async function runFluss(params: {
         await Promise.all(
           runnableSteps.map((step) => {
             step.status = 'running'
-            return executeStep(step, flowState)
+            return executeStep(step as Step<FlussStepId>, flowState)
           })
         )
 

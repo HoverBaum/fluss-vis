@@ -1,5 +1,9 @@
 /**
- * Building ontop of Claude 2.
+ * Flow engine with functional approach
+ * Optimized for code generation from visualization
+ * Fully typed without any 'any' types
+ *
+ * Copilot with GPT did some typing fixes.
  */
 
 // --- Type Definitions ---
@@ -14,7 +18,7 @@ type FlussInputs = {
   baseNumber: number
 }
 
-// Step Input/Output types - simplified with mapped types
+// Step Input/Output types
 type StepIO = {
   start: {
     input: FlussInputs
@@ -44,6 +48,18 @@ type StepFunctions = {
   ) => Promise<StepIO[K]['output']>
 }
 
+// Argument with typed source and target fields
+type StepArgument<
+  TTargetStep extends FlussStepId,
+  TSourceStep extends FlussStepId,
+  TSourceField extends keyof StepIO[TSourceStep]['output'],
+  TTargetField extends keyof StepIO[TTargetStep]['input']
+> = {
+  sourceStepId: TSourceStep
+  sourceField: TSourceField
+  targetField: TTargetField
+}
+
 // Step definition with result based on status
 type Step<ID extends FlussStepId> = {
   id: ID
@@ -65,6 +81,16 @@ type FlowState = {
   [K in FlussStepId]: Step<K>
 }
 
+// Type-safe way to get a property from an object
+function getProperty<T, K extends keyof T>(obj: T, key: K): T[K] {
+  return obj[key]
+}
+
+// Type-safe way to set a property on an object
+function setProperty<T, K extends keyof T>(obj: T, key: K, value: T[K]): void {
+  obj[key] = value
+}
+
 // --- Flow Implementation ---
 
 /**
@@ -75,11 +101,12 @@ async function executeStep<ID extends FlussStepId>(
   flowState: FlowState
 ): Promise<void> {
   try {
-    // Build input object from dependencies
+    // Build input object
     const input = {} as StepIO[ID]['input']
 
-    step.arguments.forEach((arg) => {
+    for (const arg of step.arguments) {
       const sourceStep = flowState[arg.sourceStepId]
+
       if (sourceStep.status !== 'done' || !sourceStep.result) {
         throw new Error(
           `Source step ${arg.sourceStepId} not complete for ${String(
@@ -88,16 +115,20 @@ async function executeStep<ID extends FlussStepId>(
         )
       }
 
-      input[arg.targetField as keyof StepIO[ID]['input']] =
-        sourceStep.result[
-          arg.sourceField as keyof StepIO[typeof arg.sourceStepId]['output']
-        ]
-    })
-    console.log('Executing with Input:', input)
+      // Type-safe property access
+      const sourceValue = getProperty(
+        sourceStep.result,
+        arg.sourceField as keyof typeof sourceStep.result
+      )
+      setProperty(
+        input,
+        arg.targetField as keyof typeof input,
+        sourceValue as StepIO[typeof arg.sourceStepId]['output'][keyof StepIO[typeof arg.sourceStepId]['output']]
+      )
+    }
 
     // Execute the step
     const result = await step.execute(input)
-    console.log('Result:', result)
 
     // Update the step with the result
     step.status = 'done'
@@ -112,14 +143,32 @@ async function executeStep<ID extends FlussStepId>(
 /**
  * Check if a step can be run based on its dependencies
  */
-function canStepRun<ID extends FlussStepId>(
-  step: Step<ID>,
-  flowState: FlowState
-): boolean {
+function canStepRun(step: Step<FlussStepId>, flowState: FlowState): boolean {
   return step.arguments.every((arg) => {
     const sourceStep = flowState[arg.sourceStepId]
     return sourceStep.status === 'done' && sourceStep.result !== undefined
   })
+}
+
+/**
+ * Create a strongly-typed step argument
+ */
+function createStepArgument<
+  TTargetStep extends FlussStepId,
+  TSourceStep extends FlussStepId,
+  TSourceField extends keyof StepIO[TSourceStep]['output'],
+  TTargetField extends keyof StepIO[TTargetStep]['input']
+>(
+  targetStep: TTargetStep,
+  sourceStep: TSourceStep,
+  sourceField: TSourceField,
+  targetField: TTargetField
+): StepArgument<TTargetStep, TSourceStep, TSourceField, TTargetField> {
+  return {
+    sourceStepId: sourceStep,
+    sourceField: sourceField,
+    targetField: targetField,
+  }
 }
 
 /**
@@ -136,20 +185,21 @@ export async function runFluss(params: {
     start: {
       id: 'start',
       status: 'done',
-      execute: (args) => args,
+      execute: (args: StepIO['start']['input']) => args,
       arguments: [],
       result: inputs,
     },
     end: {
       id: 'end',
       status: 'waiting',
-      execute: (args) => args,
+      execute: (args: StepIO['end']['input']) => args,
       arguments: [
-        {
-          sourceStepId: 'createString',
-          sourceField: 'writtenEquation',
-          targetField: 'writtenEquation',
-        },
+        createStepArgument(
+          'end',
+          'createString',
+          'writtenEquation',
+          'writtenEquation'
+        ),
       ],
     },
     squareNumber: {
@@ -157,11 +207,7 @@ export async function runFluss(params: {
       status: 'waiting',
       execute: stepFunctions.squareNumber,
       arguments: [
-        {
-          sourceStepId: 'start',
-          sourceField: 'baseNumber',
-          targetField: 'baseNumber',
-        },
+        createStepArgument('squareNumber', 'start', 'baseNumber', 'baseNumber'),
       ],
     },
     createString: {
@@ -169,16 +215,13 @@ export async function runFluss(params: {
       status: 'waiting',
       execute: stepFunctions.createString,
       arguments: [
-        {
-          sourceStepId: 'start',
-          sourceField: 'locale',
-          targetField: 'locale',
-        },
-        {
-          sourceStepId: 'squareNumber',
-          sourceField: 'squaredNumber',
-          targetField: 'squaredNumber',
-        },
+        createStepArgument('createString', 'start', 'locale', 'locale'),
+        createStepArgument(
+          'createString',
+          'squareNumber',
+          'squaredNumber',
+          'squaredNumber'
+        ),
       ],
     },
   }

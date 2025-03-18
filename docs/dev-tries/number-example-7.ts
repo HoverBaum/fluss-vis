@@ -85,6 +85,8 @@ export const runFluss = async (
 ): Promise<Step_End_Output> => {
   const { inputs, stepFunctions } = flussArgs
 
+  // We actually know a lot of things up front.
+  // Thus extensive code generation is not a problem and we can avoid more genererics etc.
   const steps: StepsTuple = [
     {
       id: 'start',
@@ -134,6 +136,7 @@ export const runFluss = async (
     },
   ]
 
+  // explicit run functions per stepFunction because this way we know the types for input and output.
   const runSquareNumber = async () => {
     const step = steps.find((s) => s.id === 'XyASV') as Step<'XyASV'>
     const args: Step_XyASV_Input = {
@@ -189,7 +192,10 @@ export const runFluss = async (
     ;(step as Step<'end'> & { status: 'done' }).result = result
   }
 
+  // Return a promise so we can resolve from deeper within the logic 🤯
   return new Promise<Step_End_Output>((resolve) => {
+    // Find all currently runnable steps.
+    // This is much easier and calculating the execution order up front.
     const checkForRunnableSteps = () => {
       const canBeRun = steps
         .filter((step) => step.status === 'waiting')
@@ -219,11 +225,13 @@ export const runFluss = async (
         )
         return
       } else if (canBeRun.length === 0) {
+        // If nothing is runnable but we are not done, we have a problem.
         console.log('No steps can be run.')
         throw new Error('No steps can be run.')
       }
 
       // Execute all steps that can be run.
+      // forEach for parallel. No need to await all, the checkForRunnableSteps will handle that..
       canBeRun.forEach(async (step) => {
         step.status = 'running'
         if (step.id === 'XyASV') {
