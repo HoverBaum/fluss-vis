@@ -1,5 +1,5 @@
 /**
- * This example showcases steps and making sure we havea tuple with functions and ids.
+ * This script adds execution but types fail us.
  */
 
 type FlussInputs = {
@@ -34,21 +34,28 @@ type StepFunctionMapping = {
   TRqTC: StepFunctionsAll['createString'] // returns string
 }
 
+type Argument = {
+  sourceStepId: FlussStepId
+  name: string
+}
+
+type BaseStep<T extends FlussStepId> = {
+  id: FlussStepId
+  arguments: Argument[]
+  execute: StepFunctionMapping[T]
+}
+
 // Discriminated union for a step:
 // If status is 'done', a result property (of the appropriate type) is required;
 // otherwise, the result is not present.
 type Step<T extends FlussStepId> =
-  | {
-      id: T
+  | ({
       status: 'done'
-      execute: StepFunctionMapping[T]
       result: ReturnType<StepFunctionMapping[T]>
-    }
-  | {
-      id: T
+    } & BaseStep<T>)
+  | ({
       status: Exclude<FlussRunStatus, 'done'>
-      execute: StepFunctionMapping[T]
-    }
+    } & BaseStep<T>)
 
 // A tuple type ensuring one step per ID, in a fixed order.
 type StepsTuple = [Step<'start'>, Step<'end'>, Step<'XyASV'>, Step<'TRqTC'>]
@@ -67,31 +74,6 @@ type runFlussParams = {
 //   squaredNumber: number
 // }
 
-// Example usage:
-// const steps: StepsTuple = [
-//   { id: 'start', status: 'waiting', execute: <T>(args: T) => args },
-//   { id: 'end', status: 'running', execute: <T>(args: T) => args },
-//   {
-//     id: 'XyASV',
-//     status: 'done',
-//     execute: ({ baseNumber }: { baseNumber: number }) =>
-//       baseNumber * baseNumber,
-//     result: 16, // Because squareNumber returns a number
-//   },
-//   {
-//     id: 'TRqTC',
-//     status: 'done',
-//     execute: ({
-//       locale,
-//       squaredNumber,
-//     }: {
-//       locale: Locale
-//       squaredNumber: number
-//     }) => `${locale} - ${squaredNumber}`,
-//     result: 'en-US - 16', // Because createString returns a string
-//   },
-// ]
-
 export const runFluss = async (flussArgs: runFlussParams): Promise<void> => {
   const { inputs, stepFunctions } = flussArgs
 
@@ -103,29 +85,74 @@ export const runFluss = async (flussArgs: runFlussParams): Promise<void> => {
       result: {
         ...inputs,
       },
+      arguments: [],
     },
-    { id: 'end', status: 'waiting', execute: (args) => args },
+    {
+      id: 'end',
+      status: 'waiting',
+      execute: (args) => args,
+      arguments: [
+        {
+          sourceStepId: 'TRqTC',
+          name: 'writtenEquation',
+        },
+      ],
+    },
     {
       id: 'XyASV',
       status: 'waiting',
       execute: stepFunctions.squareNumber,
+      arguments: [
+        {
+          sourceStepId: 'start',
+          name: 'baseNumber',
+        },
+      ],
     },
     {
       id: 'TRqTC',
       status: 'waiting',
       execute: stepFunctions.createString,
+      arguments: [
+        {
+          sourceStepId: 'start',
+          name: 'locale',
+        },
+        {
+          sourceStepId: 'XyASV',
+          name: 'squaredNumber',
+        },
+      ],
     },
   ]
 
-  // const allArgumentsReady = (step: Step<FlussStepId>) => {
-
-  // }
-
-  const canBeRun = steps.filter((step) => step.status === 'waiting')
+  const canBeRun = steps
+    .filter((step) => step.status === 'waiting')
+    .filter((step) =>
+      step.arguments.every(
+        (argument) =>
+          steps.find((s) => s.id === argument.sourceStepId)!.status === 'done'
+      )
+    )
 
   console.log(canBeRun)
+
+  // Execute all steps that can be run.
+  canBeRun.forEach((step) => {
+    const result = step.execute(
+      ...step.arguments.map(
+        (argument) =>
+          steps.find((s) => s.id === argument.sourceStepId)!.result[
+            argument.name
+          ]
+      )
+    )
+    step.status = 'done'
+    step.result = result
+  })
 }
 
+// Example usage
 await runFluss({
   inputs: {
     locale: 'en',
