@@ -1,5 +1,5 @@
 /**
- * Building ontop of Claude 2.
+ * Return types do not need to be a promise anymore.
  */
 
 // Basic type definitions
@@ -39,7 +39,7 @@ type FlussStepId = keyof StepIO
 type StepFunctions = {
   [K in Exclude<FlussStepId, 'start' | 'end'>]: (
     args: StepIO[K]['input']
-  ) => Promise<StepIO[K]['output']>
+  ) => Promise<StepIO[K]['output']> | StepIO[K]['output']
 }
 
 // Step definition with result based on status
@@ -231,8 +231,7 @@ async function runExample() {
       baseNumber: 4,
     },
     stepFunctions: {
-      squareNumber: ({ baseNumber }) =>
-        Promise.resolve({ squaredNumber: baseNumber ** 2 }),
+      squareNumber: ({ baseNumber }) => ({ squaredNumber: baseNumber ** 2 }),
       createString: async ({ locale, squaredNumber }) => {
         // Simulate some delay
         await new Promise((resolve) => setTimeout(resolve, 300))

@@ -21,6 +21,7 @@ Fluss Viz will handle the execution of your logic and parallelize async operatio
 - Nodes should be able to pre-create inputs that do not disappear upon edge deletion.
 - Handle IDs should not contain node IDs! Or this whole id should be the output and inputId in the state. Remove indirect coupling of needing same logic in different places. Maybe just longer ids.
 - Left Sidebar with global settings: display ids, highlighted edges to front, permanently show remove buttons.
+- Provide more helper types like a type for each stepFunction and input and return
 
 
 ## Ideas
@@ -69,3 +70,8 @@ export type CustomType = {
   //…
 }
 ```
+
+# thinking
+maybe the argument name is always there but resultName is optional. When it is defined, we pick one attribute from an object, else we take the entire result.
+
+Steps still need to work with objects as input, for consistency? -> yeah because we wouldn't know after how many arguments to switch to "object mode", easier to always have an object.

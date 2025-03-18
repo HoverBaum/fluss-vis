@@ -1,5 +1,5 @@
 /**
- * Building ontop of Claude 2.
+ * Return types do not need to be a promise anymore.
  */
 
 // Basic type definitions
@@ -20,7 +20,7 @@ type StepIO = {
   }
   squareNumber: {
     input: { baseNumber: number }
-    output: { squaredNumber: number }
+    output: number
   }
   createString: {
     input: { locale: Locale; squaredNumber: number }
@@ -39,7 +39,7 @@ type FlussStepId = keyof StepIO
 type StepFunctions = {
   [K in Exclude<FlussStepId, 'start' | 'end'>]: (
     args: StepIO[K]['input']
-  ) => Promise<StepIO[K]['output']>
+  ) => Promise<StepIO[K]['output']> | StepIO[K]['output']
 }
 
 // Step definition with result based on status
@@ -52,6 +52,7 @@ type Step<ID extends FlussStepId> = {
   arguments: Array<{
     sourceStepId: FlussStepId
     argumentName: keyof StepIO[ID]['input']
+    sourceProperty?: string
   }>
   result?: StepIO[ID]['output']
   error?: Error
@@ -75,7 +76,7 @@ async function executeStep<ID extends FlussStepId>(
 
     step.arguments.forEach((arg) => {
       const sourceStep = flowState[arg.sourceStepId]
-      if (sourceStep.status !== 'done' || !sourceStep.result) {
+      if (sourceStep.status !== 'done' || sourceStep.result === undefined) {
         throw new Error(
           `Source step ${arg.sourceStepId} not complete for ${String(
             arg.argumentName
@@ -83,18 +84,23 @@ async function executeStep<ID extends FlussStepId>(
         )
       }
 
-      input[arg.argumentName as keyof StepIO[ID]['input']] =
-        sourceStep.result[
-          arg.argumentName as keyof StepIO[typeof arg.sourceStepId]['output']
-        ]
+      // If sourceProperty is undefined, use the entire result
+      // Otherwise, extract the specified property
+      if (arg.sourceProperty === undefined) {
+        input[arg.argumentName as keyof StepIO[ID]['input']] =
+          sourceStep.result as StepIO[ID]['input'][keyof StepIO[ID]['input']]
+      } else {
+        input[arg.argumentName as keyof StepIO[ID]['input']] =
+          sourceStep.result[
+            arg.sourceProperty as keyof typeof sourceStep.result
+          ]
+      }
     })
-    console.log('Executing with Input:', input)
 
-    // Execute the step
+    // Rest of the function remains the same
+    console.log('Executing with Input:', input)
     const result = await step.execute(input)
     console.log('Result:', result)
-
-    // Update the step with the result
     step.status = 'done'
     step.result = result
   } catch (err) {
@@ -143,6 +149,7 @@ export async function runFluss(params: {
         {
           sourceStepId: 'createString',
           argumentName: 'writtenEquation',
+          sourceProperty: 'writtenEquation',
         },
       ],
     },
@@ -154,6 +161,7 @@ export async function runFluss(params: {
         {
           sourceStepId: 'start',
           argumentName: 'baseNumber',
+          sourceProperty: 'baseNumber',
         },
       ],
     },
@@ -165,6 +173,7 @@ export async function runFluss(params: {
         {
           sourceStepId: 'start',
           argumentName: 'locale',
+          sourceProperty: 'locale',
         },
         {
           sourceStepId: 'squareNumber',
@@ -231,8 +240,7 @@ async function runExample() {
       baseNumber: 4,
     },
     stepFunctions: {
-      squareNumber: ({ baseNumber }) =>
-        Promise.resolve({ squaredNumber: baseNumber ** 2 }),
+      squareNumber: ({ baseNumber }) => baseNumber ** 2,
       createString: async ({ locale, squaredNumber }) => {
         // Simulate some delay
         await new Promise((resolve) => setTimeout(resolve, 300))
