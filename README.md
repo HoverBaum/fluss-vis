@@ -6,6 +6,13 @@ This tool is meant to create a frame through visual means which can then be fill
 
 Fluss Viz will handle the execution of your logic and parallelize async operations where applicable.
 
+## Key Principles
+
+- Targeted at Developers
+- Easy for Developers to use
+- Should make creating logic fun
+- Fully Type-Safe
+- 0-Dependencies
 
 # Plan
 - Export flow
