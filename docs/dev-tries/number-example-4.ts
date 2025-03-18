@@ -1,5 +1,12 @@
-type FlussStepId = string
-type FlussStepOutputId = string
+type FlussStepId = 'start' | 'end' | 'XyASV' | 'TRqTC'
+type FlussStepOutputId = 'nZEBo' | 'qs56w' | 'Ki3pb' | 'VQJps'
+
+const stepIdToFunctionName = {
+  start: 'start',
+  end: 'end',
+  XyASV: 'createString',
+  TRqTC: 'squareNumber',
+}
 
 type FlussFunctionArgument = {
   source: FlussStepId
@@ -28,6 +35,11 @@ type StepFunctions = {
   createString: (args: { locale: Locale; squaredNumber: number }) => string
 }
 
+type StepFunctionsAll = StepFunctions & {
+  start: <T>(args: T) => T
+  end: <T>(args: T) => T
+}
+
 type runFlussParams = {
   inputs: {
     locale: Locale
@@ -41,17 +53,12 @@ type RunFlussResult = {
   squaredNumber: number
 }
 
-type FlussRunStatus = 'running' | 'done' | 'error' | 'waiting'
+type FlussRunStatus = 'waiting' | 'running' | 'done' | 'error'
 
 type FlussRunSteps = {
-  [K in keyof StepFunctions | 'end']: {
-    key: K
+  [K in FlussStepId]: {
     status: FlussRunStatus
-    execute: K extends keyof StepFunctions
-      ? StepFunctions[K]
-      : <Type>(args: Type) => Type
-  } & FlussFunction &
-    (FlussRunStatus extends 'done' ? { results: unknown } : object)
+  }
 }
 
 export const runFluss = async (
