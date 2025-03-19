@@ -1,5 +1,5 @@
 import { END_NODE_ID, START_NODE_ID } from '@/stores/storeHelpers'
-import { FlussArgument, FlussFunction } from './useExport'
+import { FlussArgument, FlussFunction } from './_export/useExport'
 
 type FlussTemplateParams = {
   customTypes: string

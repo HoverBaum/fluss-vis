@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { useReactFlow } from '@xyflow/react'
 import { FilePlus2 } from 'lucide-react'
-import { Export } from './Export'
+import { Export } from './_export/Export'
 
 export const ToolPanel = () => {
   const { screenToFlowPosition } = useReactFlow()

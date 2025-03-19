@@ -13,7 +13,7 @@ import { stringToValidIdentifier } from '@/fluss-lib/nameConversion'
 import { START_NODE_ID } from '@/stores/storeHelpers'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { Edge, Node } from '@xyflow/react'
-import { flussTemplate } from './flussTemplate'
+import { flussTemplate } from '../flussTemplate'
 
 type PopulatedInput = {
   // The outputs name as a valid idnetifier.
