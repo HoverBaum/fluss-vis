@@ -15,22 +15,30 @@ Fluss Viz will handle the execution of your logic and parallelize async operatio
 - 0-Dependencies
 - We consciously take the tradeoff of fixing the generated code with "hardcoded" types. This makes the code easier to understand and create. When a change is needed, this should come form the visualization.
 
-# Plan
-- Export flow
+## Road to Alpha
+
 - EditSidebar should be able to edit output and remove inputs.
-- Nodes should be able to pre-create inputs that do not disappear upon edge deletion.
 - Handle IDs should not contain node IDs! Or this whole id should be the output and inputId in the state. Remove indirect coupling of needing same logic in different places. Maybe just longer ids.
 - Left Sidebar with global settings: display ids, highlighted edges to front, permanently show remove buttons.
-- Provide more helper types like a type for each stepFunction and input and return
+- Ability to edit custom Types.
+- Provide more helper types like a type for each stepFunction and input and return so devs can use that in their code.
+- Persist and load editor state - using a file, maybe also the .ts file.
 
+### NOT part of Alpha
 
-## Ideas
+## Later Features
 
+Things we might build later, but maybe not.
+
+### Ideas
+
+- Nodes should be able to pre-create inputs that do not disappear upon edge deletion.
 - Fluss-Viz could create files for each node. Like define a function per file with signature.
 
 ## Usage
 
 This is the current, rough idea.
+
 - Fluss-Viz will output a single file.
 - The fluss.ts file will contain a config that can be used to create a fluss.
 - A fluss can be run with different arguments.
@@ -71,7 +79,8 @@ export type CustomType = {
 }
 ```
 
-# thinking
-maybe the argument name is always there but resultName is optional. When it is defined, we pick one attribute from an object, else we take the entire result.
+## Constraints
 
-Steps still need to work with objects as input, for consistency? -> yeah because we wouldn't know after how many arguments to switch to "object mode", easier to always have an object.
+- A Fluss always has one start and one end node.
+- The final result is always an object with one property per input defined for the end node.
+- Branching is currently not supported!

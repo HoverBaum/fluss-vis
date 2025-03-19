@@ -239,26 +239,26 @@ export async function runFluss(params: {
   })
 }
 
-// Example usage
-async function runExample() {
-  const result = await runFluss({
-    inputs: {
-      locale: 'en',
-      baseNumber: 4,
-    },
-    stepFunctions: {
-      squareNumber: ({ baseNumber }) => baseNumber ** 2,
-      createString: async ({ locale, squaredNumber }) => {
-        // Simulate some delay
-        await new Promise((resolve) => setTimeout(resolve, 300))
-        return `${locale} - ${squaredNumber}`
-      },
-    },
-  })
+// // Example usage
+// async function runExample() {
+//   const result = await runFluss({
+//     inputs: {
+//       locale: 'en',
+//       baseNumber: 4,
+//     },
+//     stepFunctions: {
+//       squareNumber: ({ baseNumber }) => baseNumber ** 2,
+//       createString: async ({ locale, squaredNumber }) => {
+//         // Simulate some delay
+//         await new Promise((resolve) => setTimeout(resolve, 300))
+//         return `${locale} - ${squaredNumber}`
+//       },
+//     },
+//   })
 
-  console.log('\nResult:', result)
-  return result
-}
+//   console.log('\nResult:', result)
+//   return result
+// }
 
-// Execute the flow
-runExample()
+// // Execute the flow
+// runExample()
