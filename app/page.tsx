@@ -1,17 +1,32 @@
+'use client'
+
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
 import { FlowEditor } from './FlowEditor'
 import { FlussSidebar } from './FlussSidebar'
+import { useState } from 'react'
 
 export default function Home() {
+  const [sidebarOpen, setSidebarOpen] = useState(true)
   return (
     <SidebarProvider
-      defaultOpen={true}
+      open={sidebarOpen}
       style={{ height: 'calc(100svh - 0.5rem)' }}
     >
       <FlussSidebar />
-      <SidebarInset className="overflow-hidden">
-        <FlowEditor />
-      </SidebarInset>
+
+      {/* Only use Inset when sidebar is open. */}
+      {sidebarOpen && (
+        <SidebarInset className="overflow-hidden">
+          <FlowEditor
+            toggleFlussSidebar={() => setSidebarOpen((state) => !state)}
+          />
+        </SidebarInset>
+      )}
+      {!sidebarOpen && (
+        <FlowEditor
+          toggleFlussSidebar={() => setSidebarOpen((state) => !state)}
+        />
+      )}
     </SidebarProvider>
   )
 }

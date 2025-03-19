@@ -26,6 +26,8 @@ import { EndNode } from '@/components/nodes/endNode/EndNode'
 import { FlussEdge } from '@/components/FlussEdge'
 import { SidebarProvider } from '@/components/ui/sidebar'
 import { StepEditSidebar } from './StepEditSidebar'
+import { Button } from '@/components/ui/button'
+import { SidebarIcon } from 'lucide-react'
 
 const selector = (state: FlussStore) => ({
   nodes: state.nodes,
@@ -35,7 +37,11 @@ const selector = (state: FlussStore) => ({
   onConnect: state.onConnect,
 })
 
-export const FlowEditor = () => {
+type FlowEditorProps = {
+  toggleFlussSidebar: () => void
+}
+
+export const FlowEditor = ({ toggleFlussSidebar }: FlowEditorProps) => {
   const [isMounted, setIsMounted] = useState(false)
   const { theme } = useTheme()
   const { nodes, edges, onNodesChange, onEdgesChange, onConnect } =
@@ -96,6 +102,11 @@ export const FlowEditor = () => {
           hideAttribution: true,
         }}
       >
+        <Panel position="top-left">
+          <Button size="icon" variant="ghost" onClick={toggleFlussSidebar}>
+            <SidebarIcon />
+          </Button>
+        </Panel>
         <Panel position="bottom-center">
           <ToolPanel />
         </Panel>
