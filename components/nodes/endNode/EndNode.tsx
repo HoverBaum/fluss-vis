@@ -22,8 +22,10 @@ import { NEW_CONNECTION_HANDLE_IDENTIFIER } from '@/stores/flussStore'
 import { useEffect } from 'react'
 import { useSidebar } from '@/components/ui/sidebar'
 import { FlussStepEnd } from '@/fluss-lib/fluss'
+import { useSettingsStore } from '@/stores/SettingsStoreProvider'
 
 export const EndNode = ({ selected, data }: NodeProps<Node<FlussStepEnd>>) => {
+  const displayId = useSettingsStore((store) => store.displayIds)
   const updateNodeInternals = useUpdateNodeInternals()
   const nodeId = useNodeId()
   const connection = useConnection()
@@ -57,7 +59,11 @@ export const EndNode = ({ selected, data }: NodeProps<Node<FlussStepEnd>>) => {
           Drop to add Input
         </Handle>
       )}
-      <small className="absolute top-2 right-2 font-mono">{END_NODE_ID}</small>
+      {displayId && (
+        <small className="absolute top-2 right-2 font-mono">
+          {END_NODE_ID}
+        </small>
+      )}
       <CardHeader>
         <CardTitle className="text-xl">{name}</CardTitle>
         <CardDescription>

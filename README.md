@@ -19,7 +19,6 @@ Fluss Viz will handle the execution of your logic and parallelize async operatio
 
 - EditSidebar should be able to edit output and remove inputs.
 - Handle IDs should not contain node IDs! Or this whole id should be the output and inputId in the state. Remove indirect coupling of needing same logic in different places. Maybe just longer ids.
-- Left Sidebar with global settings: display ids, highlighted edges to front, permanently show remove buttons.
 - Ability to edit custom Types.
 - Provide more helper types like a type for each stepFunction and input and return so devs can use that in their code.
 - Persist and load editor state - using a file, maybe also the .ts file.

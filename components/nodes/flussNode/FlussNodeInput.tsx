@@ -12,6 +12,7 @@ import { outputFromStep } from '@/fluss-lib/nodeOperations'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { useState } from 'react'
 import { ButtonRemove } from '@/components/ButtonRemove'
+import { useSettingsStore } from '@/stores/SettingsStoreProvider'
 
 type FlussNodeInputProps = {
   id: string
@@ -20,6 +21,7 @@ type FlussNodeInputProps = {
 const handleType: HandleType = 'target'
 
 export const FlussNodeInput = ({ id }: FlussNodeInputProps) => {
+  const alwaysShowDelete = useSettingsStore((state) => state.alwaysShowDelete)
   const [isHovered, setIsHovered] = useState(false)
   const nodeId = useNodeId()
   const connections = useNodeConnections({
@@ -57,7 +59,7 @@ export const FlussNodeInput = ({ id }: FlussNodeInputProps) => {
 
         <ButtonRemove
           onClick={() => removeInput(nodeId!, id)}
-          isInvisible={!isHovered}
+          isInvisible={!(isHovered || alwaysShowDelete)}
         />
       </div>
 

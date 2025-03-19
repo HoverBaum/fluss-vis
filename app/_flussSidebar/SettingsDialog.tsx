@@ -19,6 +19,8 @@ export const SettingsDialog = () => {
     toggleDisplayIds,
     bringSelectedEdgesToFront,
     toggleBringSelectedEdgesToFront,
+    alwaysShowDelete,
+    toggleAlwaysShowDelete,
   } = useSettingsStore((store) => store)
 
   return (
@@ -66,6 +68,20 @@ export const SettingsDialog = () => {
             <Switch
               checked={bringSelectedEdgesToFront}
               onCheckedChange={toggleBringSelectedEdgesToFront}
+            />
+          </div>
+
+          <div className="flex flex-row items-center justify-between p-4">
+            <div>
+              <Label className="text-base font-bold">Always show delete</Label>
+              <div>
+                <small>Permanently shows delete buttons for Inputs.</small>
+              </div>
+            </div>
+
+            <Switch
+              checked={alwaysShowDelete}
+              onCheckedChange={toggleAlwaysShowDelete}
             />
           </div>
         </div>

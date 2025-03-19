@@ -14,11 +14,13 @@ import { Button } from '@/components/ui/button'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { StartNodeOutput } from './StartNodeOutput'
 import { useSidebar } from '@/components/ui/sidebar'
+import { useSettingsStore } from '@/stores/SettingsStoreProvider'
 
 export const StartNode = ({
   data,
   selected,
 }: NodeProps<Node<FlussStepStart>>) => {
+  const displayId = useSettingsStore((store) => store.displayIds)
   const { outputs, name, description } = data
   const addFlussParameter = useFlussStore((state) => state.addFlussParameter)
   const { setOpen } = useSidebar()
@@ -28,9 +30,11 @@ export const StartNode = ({
       className={`min-w-[250px] ${selected && 'border-foreground'}`}
       onDoubleClick={() => setOpen(true)}
     >
-      <small className="absolute top-2 right-2 font-mono">
-        {START_NODE_ID}
-      </small>
+      {displayId && (
+        <small className="absolute top-2 right-2 font-mono">
+          {START_NODE_ID}
+        </small>
+      )}
       <CardHeader>
         <CardTitle className="text-xl">{name}</CardTitle>
         <CardDescription>{description}</CardDescription>
