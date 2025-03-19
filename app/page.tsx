@@ -2,7 +2,7 @@
 
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
 import { FlowEditor } from './FlowEditor'
-import { FlussSidebar } from './FlussSidebar'
+import { FlussSidebar } from './_flussSidebar/FlussSidebar'
 import { useState } from 'react'
 
 export default function Home() {
