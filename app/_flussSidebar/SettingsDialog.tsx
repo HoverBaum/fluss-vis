@@ -52,6 +52,8 @@ export const SettingsDialog = () => {
             <Switch checked={displayIds} onCheckedChange={toggleDisplayIds} />
           </div>
 
+          <hr />
+
           <div className="flex flex-row items-center justify-between p-4">
             <div>
               <Label className="text-base font-bold">
@@ -70,6 +72,8 @@ export const SettingsDialog = () => {
               onCheckedChange={toggleBringSelectedEdgesToFront}
             />
           </div>
+
+          <hr />
 
           <div className="flex flex-row items-center justify-between p-4">
             <div>
