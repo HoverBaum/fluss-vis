@@ -223,7 +223,7 @@ const Sidebar = React.forwardRef<
         </Sheet>
       )
     }
-    console.log(sidebarClassName)
+
     return (
       <div
         ref={ref}

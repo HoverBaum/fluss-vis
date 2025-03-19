@@ -40,6 +40,7 @@ These we might do, maybe not.
 - Fluss-Viz could create files for each node. Like define a function per file with signature.
 - Enable users to provide custom nodes that handle recurring tasks they have in multiple flows. this could later enable a community to share steps in a flow.
 - Sub-Flows. One flow could depend on another flow for task completion. Currently out of scope!
+- Steps could be saved as templates. Or potentially re-used and linked (that is updated together) across multiple flows.
 
 ## Usage
 

@@ -1,5 +1,5 @@
 import { createStore } from 'zustand'
-import { devtools } from 'zustand/middleware'
+import { devtools, persist } from 'zustand/middleware'
 
 type SettingsState = {
   displayIds: boolean
@@ -26,18 +26,23 @@ export const createSettingsStore = (
 ) => {
   return createStore<SettingsStore>()(
     devtools(
-      (set, get) => ({
-        ...initState,
-        toggleAlwaysShowDelete() {
-          set({ alwaysShowDelete: !get().alwaysShowDelete })
-        },
-        toggleDisplayIds() {
-          set({ displayIds: !get().displayIds })
-        },
-        toggleBringSelectedEdgesToFront() {
-          set({ bringSelectedEdgesToFront: !get().bringSelectedEdgesToFront })
-        },
-      }),
+      persist(
+        (set, get) => ({
+          ...initState,
+          toggleAlwaysShowDelete() {
+            set({ alwaysShowDelete: !get().alwaysShowDelete })
+          },
+          toggleDisplayIds() {
+            set({ displayIds: !get().displayIds })
+          },
+          toggleBringSelectedEdgesToFront() {
+            set({ bringSelectedEdgesToFront: !get().bringSelectedEdgesToFront })
+          },
+        }),
+        {
+          name: 'settings-store',
+        }
+      ),
       { name: 'SettingsStore' }
     )
   )

@@ -36,7 +36,8 @@ export const SettingsDialog = () => {
           <DialogDescription>
             Decide how the editor should behave.
             <br />
-            🚨 Currently not persist between sessions 🚨
+            These settings are local to you and will not be saved or exported
+            with the Fluss.
           </DialogDescription>
         </DialogHeader>
 
