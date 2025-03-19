@@ -31,7 +31,12 @@ export const StepEditSidebar = () => {
   }, [selectedNode, setOpen])
 
   return (
-    <Sidebar side="right">
+    <Sidebar
+      side="right"
+      variant="floating"
+      className="pl-0 ml-0 "
+      sidebarClassName="!rounded-l-none !border-l bg-background"
+    >
       <SidebarHeader className="flex  flex-row justify-between items-center">
         <h2 className="font-bold text-xl">Node Editor</h2>
         <Button size="icon" variant="ghost" onClick={toggleSidebar}>
