@@ -21,6 +21,7 @@ import { NEW_CONNECTION_HANDLE_IDENTIFIER } from '@/stores/flussStore'
 import { useSidebar } from '@/components/ui/sidebar'
 import { useEffect } from 'react'
 import { FlussStepDefault } from '@/fluss-lib/fluss'
+import { useSettingsStore } from '@/stores/SettingsStoreProvider'
 
 /**
  * A Node somewhere in the Fluss.
@@ -32,6 +33,7 @@ export const FlussNode = ({
   selected,
   id: nodeId,
 }: NodeProps<Node<FlussStepDefault>>) => {
+  const displayId = useSettingsStore((store) => store.displayIds)
   const updateNodeInternals = useUpdateNodeInternals()
   const connection = useConnection()
   const isPotentialTarget =
@@ -62,7 +64,9 @@ export const FlussNode = ({
           Drop to add Input
         </Handle>
       )}
-      <small className="absolute top-2 right-2 font-mono">{nodeId}</small>
+      {displayId && (
+        <small className="absolute top-2 right-2 font-mono">{nodeId}</small>
+      )}
       <CardHeader>
         <CardTitle className="text-xl">{name}</CardTitle>
         <CardDescription>

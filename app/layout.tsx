@@ -4,6 +4,7 @@ import './globals.css'
 import { FlussStoreProvider } from '@/stores/FlussStoreProvider'
 import { ThemeProvider } from '@/components/ThemeProvider'
 import { Toaster } from '@/components/ui/sonner'
+import { SettingsStoreProvider } from '@/stores/SettingsStoreProvider'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -38,7 +39,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <FlussStoreProvider>{children}</FlussStoreProvider>
+          <SettingsStoreProvider>
+            <FlussStoreProvider>{children}</FlussStoreProvider>
+          </SettingsStoreProvider>
           <Toaster />
         </ThemeProvider>
       </body>

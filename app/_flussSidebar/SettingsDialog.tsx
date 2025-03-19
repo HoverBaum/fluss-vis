@@ -1,0 +1,75 @@
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
+import { Label } from '@/components/ui/label'
+import { Switch } from '@/components/ui/switch'
+
+import { useSettingsStore } from '@/stores/SettingsStoreProvider'
+
+import { Settings } from 'lucide-react'
+
+export const SettingsDialog = () => {
+  const {
+    displayIds,
+    toggleDisplayIds,
+    bringSelectedEdgesToFront,
+    toggleBringSelectedEdgesToFront,
+  } = useSettingsStore((store) => store)
+
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <span className="flex items-center gap-2">
+          <Settings size="1rem" /> Editor Settings
+        </span>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Editor Settings</DialogTitle>
+          <DialogDescription>
+            Decide how the editor should behave.
+            <br />
+            🚨 Currently not persist between sessions 🚨
+          </DialogDescription>
+        </DialogHeader>
+
+        <div>
+          <div className="flex flex-row items-center justify-between p-4">
+            <div>
+              <Label className="text-base font-bold">Display ID</Label>
+              <div>
+                <small>Displays a Steps ID in the top right corner.</small>
+              </div>
+            </div>
+
+            <Switch checked={displayIds} onCheckedChange={toggleDisplayIds} />
+          </div>
+
+          <div className="flex flex-row items-center justify-between p-4">
+            <div>
+              <Label className="text-base font-bold">
+                Selected Edges To Front
+              </Label>
+              <div>
+                <small>
+                  Brings Edges to the front when they or a connected Step are
+                  selected.
+                </small>
+              </div>
+            </div>
+
+            <Switch
+              checked={bringSelectedEdgesToFront}
+              onCheckedChange={toggleBringSelectedEdgesToFront}
+            />
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  )
+}

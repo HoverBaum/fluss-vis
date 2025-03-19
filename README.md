@@ -28,12 +28,18 @@ Fluss Viz will handle the execution of your logic and parallelize async operatio
 
 ## Later Features
 
-Things we might build later, but maybe not.
+This we plan to do.
+
+- Extract common logic from all Nodes.
 
 ### Ideas
 
+These we might do, maybe not.
+
 - Nodes should be able to pre-create inputs that do not disappear upon edge deletion.
 - Fluss-Viz could create files for each node. Like define a function per file with signature.
+- Enable users to provide custom nodes that handle recurring tasks they have in multiple flows. this could later enable a community to share steps in a flow.
+- Sub-Flows. One flow could depend on another flow for task completion. Currently out of scope!
 
 ## Usage
 

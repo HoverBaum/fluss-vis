@@ -28,6 +28,7 @@ import { SidebarProvider } from '@/components/ui/sidebar'
 import { StepEditSidebar } from './StepEditSidebar'
 import { Button } from '@/components/ui/button'
 import { SidebarIcon } from 'lucide-react'
+import { useSettingsStore } from '@/stores/SettingsStoreProvider'
 
 const selector = (state: FlussStore) => ({
   nodes: state.nodes,
@@ -42,6 +43,9 @@ type FlowEditorProps = {
 }
 
 export const FlowEditor = ({ toggleFlussSidebar }: FlowEditorProps) => {
+  const elevateEdgesOnSelect = useSettingsStore(
+    (store) => store.bringSelectedEdgesToFront
+  )
   const [isMounted, setIsMounted] = useState(false)
   const { theme } = useTheme()
   const { nodes, edges, onNodesChange, onEdgesChange, onConnect } =
@@ -94,7 +98,7 @@ export const FlowEditor = ({ toggleFlussSidebar }: FlowEditorProps) => {
         suppressHydrationWarning
         panOnScroll
         isValidConnection={isValidConnection}
-        elevateEdgesOnSelect
+        elevateEdgesOnSelect={elevateEdgesOnSelect}
         defaultEdgeOptions={{
           type: 'flussEdge',
         }}
