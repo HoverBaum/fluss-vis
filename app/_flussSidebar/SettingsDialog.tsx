@@ -24,7 +24,7 @@ export const SettingsDialog = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <span className="flex items-center gap-2">
+        <span className="flex items-center gap-2 w-full">
           <Settings size="1rem" /> Editor Settings
         </span>
       </DialogTrigger>
