@@ -1,3 +1,6 @@
+import parserTypeScript from 'prettier/parser-typescript'
+import prettierPluginEstree from 'prettier/plugins/estree'
+import prettier from 'prettier/standalone'
 import {
   FlussStepEnd,
   FlussStepDefault,
@@ -6,25 +9,28 @@ import {
   FlussStepOutputId,
   FlussStepOutput,
 } from '@/fluss-lib/fluss'
-import {
-  stringToPascalCase,
-  stringToValidIdentifier,
-} from '@/fluss-lib/nameConversion'
-import { END_NODE_ID, START_NODE_ID } from '@/stores/storeHelpers'
+import { stringToValidIdentifier } from '@/fluss-lib/nameConversion'
+import { START_NODE_ID } from '@/stores/storeHelpers'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { Edge, Node } from '@xyflow/react'
+import { flussTemplate } from './flussTemplate'
 
 type PopulatedInput = {
   // The outputs name as a valid idnetifier.
   identifier: string
-  // The outputs name as a save identifier, including the edges sourceId to guard against name collisions.
-  saveIdentifier: string
   // TypeScript identifier for this type. PascalCase for custom types and lowercase for primatives.
   typeName: string
   edge: Edge
   output: FlussStepOutput
   inputId: string
   nodeId: string
+}
+
+export type FlussArgument = {
+  // Valid camelCase identifier for this input.
+  identifier: string
+  // TypeScript type for this input like a custom types name to use in code.
+  type: string
 }
 
 type FlussFunctionArgument = {
@@ -34,9 +40,11 @@ type FlussFunctionArgument = {
   name: string
   // TypeScript type of this argument.
   type: string
+  // Whether this argument is the entire output of the source step.
+  usesEntireOutput: boolean
 }
 
-type FlussFunction = {
+export type FlussFunction = {
   stepId: FlussStepId
   stepName: string
   description: string
@@ -48,17 +56,9 @@ type FlussFunction = {
 }
 
 export const useExport = () => {
-  const store = useFlussStore((store) => store)
   const nodes = useFlussStore((store) => store.nodes)
   const edges = useFlussStore((store) => store.edges)
   const outputTypes = useFlussStore((store) => store.outputTypes)
-  const flussName = useFlussStore((store) => store.name)
-  const flussNamePascalCase = stringToPascalCase(
-    stringToValidIdentifier(flussName)
-  )
-
-  const runResultTypeName = `${flussNamePascalCase}RunResult`
-  const runParamsTypeName = `${flussNamePascalCase}RunParams`
 
   const createTypescriptTypes = (outputTypes: FlussStepOutputType[]) => {
     return (
@@ -72,60 +72,7 @@ export const useExport = () => {
     )
   }
 
-  /**
-   * Creates a TypeScript type definition for the parameters of the run function.
-   * Identation here for dev readability.
-   */
-  const createParamString = (
-    flussFunctions: FlussFunction[],
-    populatedInputs: PopulatedInput[]
-  ): string => {
-    return `type ${runParamsTypeName} = {
-  inputs: {
-    ${populatedInputs
-      .filter((populatedInput) => populatedInput.edge.source === START_NODE_ID)
-      .map((populatedInput) => {
-        return `${populatedInput.identifier}: ${populatedInput.typeName}`
-      })
-      .join('\n    ')}
-  }
-  stepFunctions: {
-    ${flussFunctions
-      .filter((flussFunction) => flussFunction.stepId !== END_NODE_ID)
-      .map((flussFunction) => {
-        return `// ${flussFunction.description}
-    ${flussFunction.functionName}: (args: {${flussFunction.arguments
-          .map((argument) => {
-            return `${argument.name}: ${argument.type}`
-          })
-          .join(', ')}}) => ${flussFunction.returnType}`
-      })
-      .join('\n    ')}
-  }
-}`
-  }
-
-  const createReturnType = (
-    node: Node<FlussStepEnd>,
-    populatedInputs: PopulatedInput[]
-  ) => {
-    return `type ${runResultTypeName} = {
-${node.data.inputs
-  .map((input) => {
-    const PopulatedInput = populatedInputs.find(
-      (populatedInput) => populatedInput.inputId === input.id
-    )
-    if (!PopulatedInput)
-      throw new Error(`No populated input found for ${input.id}`)
-    return `  ${stringToValidIdentifier(PopulatedInput.output.name)}: ${
-      PopulatedInput.output.type
-    }`
-  })
-  .join('\n')}
-}`
-  }
-
-  const flussExport = () => {
+  const flussExport = async () => {
     console.log('new export....')
 
     const allOutputs = nodes.flatMap((node) => node.data.outputs)
@@ -159,9 +106,6 @@ ${node.data.inputs
         return {
           ...input,
           identifier: stringToValidIdentifier(output.name),
-          saveIdentifier: `${stringToValidIdentifier(output.name)}_${
-            edgeForInput.source
-          }`,
           edge: edgeForInput,
           output,
           typeName,
@@ -179,8 +123,31 @@ ${node.data.inputs
           description: nodeData.description,
           functionName: stringToValidIdentifier(nodeData.name),
           returnType:
-            // TODO: add type for end node!
-            nodeData.outputs.length === 1 ? nodeData.outputs[0].type : `any`,
+            nodeData.outputs.length === 1
+              ? nodeData.outputs[0].type
+              : // This probably only affects the end 😅 we turn all inptus into an output.
+                (() => {
+                  const inputs = nodeData.inputs.reduce(
+                    (acc, input) => {
+                      const populatedInput = populatedInputs.find(
+                        (populatedInput) => populatedInput.inputId === input.id
+                      )
+                      if (!populatedInput)
+                        throw new Error(
+                          `No populated input found for ${input.id}`
+                        )
+                      acc[populatedInput.identifier] = populatedInput.typeName
+                      return acc
+                    },
+                    {} as Record<string, string>
+                  )
+                  return `{${Object.entries(inputs)
+                    .map(([key, value]) => {
+                      return `${key}: ${value}`
+                    })
+                    .join(',\n')}}`
+                })(),
+
           arguments: populatedInputs
             .filter((input) => input.nodeId === node.id)
             .map((input) => {
@@ -189,39 +156,57 @@ ${node.data.inputs
               )?.typeName
               if (!type)
                 throw new Error(`No type found for ${input.output.type}`)
+              const sourceNode = nodes.find(
+                (node) => node.id === input.edge.source
+              )
+              if (!sourceNode)
+                throw new Error(`No source node found for ${input.edge.source}`)
+              const usesEntireOutput = sourceNode.data.outputs.length === 1
               return {
-                source: input.edge.source,
+                source: stringToValidIdentifier(sourceNode.data.name),
                 sourceOutput: input.output.id,
                 name: stringToValidIdentifier(input.output.name),
                 type,
+                usesEntireOutput,
               }
             }),
         }
       })
     console.log('flussFunctions', flussFunctions)
 
-    let code = ''
     const typeScriptTypes = createTypescriptTypes(outputTypes)
     console.log(typeScriptTypes)
-    code += typeScriptTypes + '\n\n'
 
-    const paramTypeString = createParamString(flussFunctions, populatedInputs)
-    code += paramTypeString + '\n\n'
+    const startNode = nodes.find((node) => node.id === START_NODE_ID)
+    if (!startNode || startNode.data.type !== 'start')
+      throw new Error('No start node found')
 
-    const endNode = nodes.find((node) => node.id === END_NODE_ID)
-    if (!endNode || endNode.data.type !== 'end')
-      throw new Error('No end node found')
-    const returnType = createReturnType(
-      endNode as Node<FlussStepEnd>,
-      populatedInputs
+    const flussInputs: FlussArgument[] = startNode.data.outputs.map(
+      (output) => {
+        const type = outputTypes.find(
+          (outputType) => outputType.id === output.type
+        )
+        if (!type) throw new Error(`No type found for ${output.type}`)
+        return {
+          type: type.typeName,
+          identifier: stringToValidIdentifier(output.name),
+        }
+      }
     )
-    console.log('returnType', returnType)
-    code += returnType + '\n\n'
 
-    const storeString = JSON.stringify(store, null, 2)
-    code += `export const store = ${storeString}\n\n`
-
-    return code
+    const formattedCode = await prettier.format(
+      flussTemplate({
+        customTypes: typeScriptTypes,
+        flussFunctions,
+        flussInputs,
+      }),
+      {
+        parser: 'typescript',
+        plugins: [parserTypeScript, prettierPluginEstree],
+        semi: false,
+      }
+    )
+    return formattedCode
   }
 
   return {
