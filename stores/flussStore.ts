@@ -10,7 +10,6 @@ import {
   OnConnect,
   OnEdgesChange,
   OnNodesChange,
-  Viewport,
   XYPosition,
 } from '@xyflow/react'
 import { createStore } from 'zustand/vanilla'
@@ -47,7 +46,6 @@ export type FlussState = {
   nodes: FlussNodeType[]
   edges: Edge[]
   outputTypes: FlussStepOutputType[]
-  viewport: Viewport
 }
 
 export type FlussActions = {
@@ -73,9 +71,8 @@ export type FlussActions = {
   removeInput: (nodeId: string, inputId: FlussStepInputId) => void
   addFlussParameter: () => void
   removeFlussParameter: (outputId: FlussStepOutputId) => void
-  addNode: (position?: XYPosition) => void
+  addNode: (position: XYPosition) => void
   removeNode: (nodeId: string) => void
-  setViewport: (viewport: Viewport) => void
 }
 
 export type FlussStore = FlussState & FlussActions
@@ -168,15 +165,7 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
         addNode: (position) => {
           set((state) => {
             return {
-              nodes: [
-                ...state.nodes,
-                createFlussNode(
-                  position || {
-                    x: -state.viewport.x,
-                    y: -state.viewport.y,
-                  }
-                ),
-              ],
+              nodes: [...state.nodes, createFlussNode(position)],
             }
           })
         },
@@ -283,9 +272,6 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
               }
             })
           )
-        },
-        setViewport: (viewport) => {
-          set({ viewport })
         },
       }),
 

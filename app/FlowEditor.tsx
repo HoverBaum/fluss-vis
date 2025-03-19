@@ -20,7 +20,6 @@ import { useShallow } from 'zustand/react/shallow'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { FlussStore } from '@/stores/flussStore'
 import { ToolPanel } from './ToolPanel'
-import { FlowEditorViewportReporter } from './FlowEditorViewportReporter'
 import { FlussNode } from '@/components/nodes/flussNode/FlussNode'
 import { StartNode } from '@/components/nodes/startNode/StartNode'
 import { EndNode } from '@/components/nodes/endNode/EndNode'
@@ -92,7 +91,6 @@ export const FlowEditor = () => {
           type: 'flussEdge',
         }}
       >
-        <FlowEditorViewportReporter />
         <Panel position="bottom-center">
           <ToolPanel />
         </Panel>
