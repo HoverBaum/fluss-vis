@@ -24,6 +24,8 @@ import { FlussNode } from '@/components/nodes/flussNode/FlussNode'
 import { StartNode } from '@/components/nodes/startNode/StartNode'
 import { EndNode } from '@/components/nodes/endNode/EndNode'
 import { FlussEdge } from '@/components/FlussEdge'
+import { SidebarProvider } from '@/components/ui/sidebar'
+import { FlussEditSidebar } from './FlussEditSidebar'
 
 const selector = (state: FlussStore) => ({
   nodes: state.nodes,
@@ -73,37 +75,40 @@ export const FlowEditor = () => {
   if (!isMounted) return null
 
   return (
-    <div style={{ width: '100vw', height: '100vh' }}>
-      <ReactFlow
-        nodes={nodes}
-        edges={edges}
-        nodeTypes={nodeTypes}
-        edgeTypes={edgeTypes}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
-        colorMode={theme as 'system' | 'light' | 'dark'}
-        suppressHydrationWarning
-        panOnScroll
-        isValidConnection={isValidConnection}
-        elevateEdgesOnSelect
-        defaultEdgeOptions={{
-          type: 'flussEdge',
-        }}
-      >
-        <Panel position="bottom-center">
-          <ToolPanel />
-        </Panel>
-        <Panel position="top-center">
-          <FlussTitleDisplay />
-        </Panel>
-        <Panel position="top-right" className="flex gap-2">
-          <ModeToggle />
-        </Panel>
-        <Controls />
-        <MiniMap />
-        <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
-      </ReactFlow>
-    </div>
+    <SidebarProvider defaultOpen={false}>
+      <div style={{ width: '100vw', height: '100vh' }}>
+        <ReactFlow
+          nodes={nodes}
+          edges={edges}
+          nodeTypes={nodeTypes}
+          edgeTypes={edgeTypes}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          onConnect={onConnect}
+          colorMode={theme as 'system' | 'light' | 'dark'}
+          suppressHydrationWarning
+          panOnScroll
+          isValidConnection={isValidConnection}
+          elevateEdgesOnSelect
+          defaultEdgeOptions={{
+            type: 'flussEdge',
+          }}
+        >
+          <Panel position="bottom-center">
+            <ToolPanel />
+          </Panel>
+          <Panel position="top-center">
+            <FlussTitleDisplay />
+          </Panel>
+          <Panel position="top-right" className="flex gap-2">
+            <ModeToggle />
+          </Panel>
+          <Controls />
+          <MiniMap />
+          <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
+        </ReactFlow>
+      </div>
+      <FlussEditSidebar />
+    </SidebarProvider>
   )
 }
