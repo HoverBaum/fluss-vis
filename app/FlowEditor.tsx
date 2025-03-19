@@ -25,7 +25,7 @@ import { StartNode } from '@/components/nodes/startNode/StartNode'
 import { EndNode } from '@/components/nodes/endNode/EndNode'
 import { FlussEdge } from '@/components/FlussEdge'
 import { SidebarProvider } from '@/components/ui/sidebar'
-import { FlussEditSidebar } from './FlussEditSidebar'
+import { StepEditSidebar } from './StepEditSidebar'
 
 const selector = (state: FlussStore) => ({
   nodes: state.nodes,
@@ -110,7 +110,7 @@ export const FlowEditor = () => {
         <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
       </ReactFlow>
 
-      <FlussEditSidebar />
+      <StepEditSidebar />
     </SidebarProvider>
   )
 }

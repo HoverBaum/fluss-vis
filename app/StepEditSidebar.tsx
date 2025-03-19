@@ -16,7 +16,7 @@ import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { ArrowRightFromLine } from 'lucide-react'
 import { useEffect } from 'react'
 
-export const FlussEditSidebar = () => {
+export const StepEditSidebar = () => {
   const { toggleSidebar, setOpen } = useSidebar()
   const selectedNode = useFlussStore((state) =>
     state.nodes.find((node) => node.selected)
