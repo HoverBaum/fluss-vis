@@ -5,10 +5,6 @@ import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import hljs from 'highlight.js'
 import typescript from 'highlight.js/lib/languages/typescript'
-import {
-  a11yDark,
-  a11yLight,
-} from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import { useState, useEffect, useMemo } from 'react'
 import { Button } from '@/components/ui/button'
 import { SaveIcon } from 'lucide-react'
@@ -17,6 +13,7 @@ import prettierPluginEstree from 'prettier/plugins/estree'
 import prettier from 'prettier/standalone'
 import { useTheme } from 'next-themes'
 import { githubdarkDimmed } from '@/components/code-styles/githubg-dark-dimmed'
+import { githubLight } from '@/components/code-styles/github-light'
 
 type CustomTypeEditorProps = {
   typeId: string
@@ -37,9 +34,12 @@ export const CustomTypeEditor = ({ typeId }: CustomTypeEditorProps) => {
   const hasUnsafedChanges =
     editingCode.replace(codePrefix, '') !== type?.content
 
-  const editorTheme = useMemo(() => (isDark ? a11yDark : a11yLight), [isDark])
+  const editorTheme = useMemo(
+    () => (isDark ? githubdarkDimmed : githubLight),
+    [isDark]
+  )
 
-  // Create a style tag for the a11yDark theme
+  // Update the CSS we need to style the code editor.
   useEffect(() => {
     // Check if the style tag already exists
     let style: HTMLElement
@@ -47,31 +47,17 @@ export const CustomTypeEditor = ({ typeId }: CustomTypeEditorProps) => {
     if (!existingStyle) {
       style = document.createElement('style')
       style.id = 'syntax-highlighting-styles'
+      document.head.appendChild(style)
     } else {
       style = existingStyle
     }
 
-    let css = ''
-    for (const [className, rules] of Object.entries(editorTheme)) {
-      css += `.editor-container .${className} {`
-      for (const [property, value] of Object.entries(rules)) {
-        // Convert camelCase to kebab-case for CSS properties
-        const cssProperty = property.replace(/([A-Z])/g, '-$1').toLowerCase()
-        css += `${cssProperty}: ${value};`
-      }
-      css += '}\n'
-    }
-    console.log(css)
-
-    style.textContent = css
-    document.head.appendChild(style)
+    style.textContent = editorTheme
   }, [editorTheme])
 
   if (!type) {
     return null
   }
-
-  console.log(a11yDark)
 
   return (
     <div>
@@ -109,7 +95,7 @@ export const CustomTypeEditor = ({ typeId }: CustomTypeEditorProps) => {
           <div className="editor-container">
             <Editor
               id="content"
-              className="border"
+              className="border hljs"
               value={editingCode}
               onValueChange={setEditingCode}
               highlight={(code) =>
@@ -119,8 +105,6 @@ export const CustomTypeEditor = ({ typeId }: CustomTypeEditorProps) => {
               style={{
                 fontFamily: '"Fira code", "Fira Mono", monospace',
                 fontSize: 12,
-                backgroundColor: String(editorTheme.hljs.background),
-                color: editorTheme.hljs.color,
               }}
             />
           </div>
