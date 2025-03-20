@@ -200,5 +200,12 @@ export const devInitialState: FlussState = {
       content: '"en" | "de"',
       icon: 'languages',
     },
+    {
+      id: 'n79Dk932N',
+      displayName: 'Person',
+      typeName: 'Person',
+      content: '{name: string, age: number}',
+      icon: 'user',
+    },
   ],
 }

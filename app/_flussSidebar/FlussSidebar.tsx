@@ -10,8 +10,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar'
-import { Code } from 'lucide-react'
 import { SettingsDialog } from './SettingsDialog'
+import { CustomTypesDialog } from './CustomTypesDialog'
 
 export const FlussSidebar = () => {
   return (
@@ -32,7 +32,7 @@ export const FlussSidebar = () => {
 
               <SidebarMenuItem>
                 <SidebarMenuButton>
-                  <Code /> Custom Types
+                  <CustomTypesDialog />
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
