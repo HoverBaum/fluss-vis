@@ -73,6 +73,10 @@ export type FlussActions = {
   removeFlussParameter: (outputId: FlussStepOutputId) => void
   addNode: (position: XYPosition) => void
   removeNode: (nodeId: string) => void
+  outputTypeUpdate: (
+    typeId: FlussStepOutputTypeId,
+    type: Partial<FlussStepOutputType>
+  ) => void
 }
 
 export type FlussStore = FlussState & FlussActions
@@ -269,6 +273,18 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
                       edge.sourceHandle !== outputId
                   )
                 }
+              }
+            })
+          )
+        },
+        outputTypeUpdate: (typeId, type) => {
+          set(
+            produce((state: FlussStore) => {
+              const outputType = state.outputTypes.find(
+                (outputType) => outputType.id === typeId
+              )
+              if (outputType) {
+                Object.assign(outputType, type)
               }
             })
           )

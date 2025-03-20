@@ -1,6 +1,5 @@
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
-import { Label } from '@/components/ui/label'
 import {
   Sidebar,
   SidebarContent,
@@ -14,15 +13,30 @@ import {
   SidebarMenuItem,
   SidebarProvider,
 } from '@/components/ui/sidebar'
+import { FlussStepOutputType } from '@/fluss-lib/fluss'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { DialogDescription, DialogTitle } from '@radix-ui/react-dialog'
 import { CodeIcon, PlusIcon } from 'lucide-react'
 import { DynamicIcon } from 'lucide-react/dynamic'
+import { useState } from 'react'
+import { CustomTypeEditor } from './CustomTypeEditor'
+import { CustomTypeDisplay } from './CustomTypeDisplay'
+
+type PageName = 'about' | 'overview' | 'editor'
 
 export const CustomTypesDialog = () => {
   const customTypes = useFlussStore((store) =>
     store.outputTypes.filter((type) => !type.isPrimitive)
   )
+  const [selectedType, setSelectedType] = useState<FlussStepOutputType | null>(
+    null
+  )
+  const [page, setPage] = useState<PageName>('overview')
+
+  const selectType = (type: FlussStepOutputType) => {
+    setSelectedType(type)
+    setPage('editor')
+  }
 
   return (
     <Dialog>
@@ -44,7 +58,20 @@ export const CustomTypesDialog = () => {
                 <h2 className="font-semibold text-xl">Custom Types</h2>
                 <SidebarMenu>
                   <SidebarMenuItem>
-                    <SidebarMenuButton>About Custom Types</SidebarMenuButton>
+                    <SidebarMenuButton
+                      isActive={page === 'about'}
+                      onClick={() => setPage('about')}
+                    >
+                      About Custom Types
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      isActive={page === 'overview'}
+                      onClick={() => setPage('overview')}
+                    >
+                      Overview
+                    </SidebarMenuButton>
                   </SidebarMenuItem>
                 </SidebarMenu>
               </SidebarHeader>
@@ -54,7 +81,14 @@ export const CustomTypesDialog = () => {
                   <SidebarMenu>
                     {customTypes.map((type) => (
                       <SidebarMenuItem key={type.id}>
-                        <SidebarMenuButton>
+                        <SidebarMenuButton
+                          onClick={() => selectType(type)}
+                          isActive={
+                            page === 'editor' &&
+                            selectedType !== null &&
+                            selectedType.id === type.id
+                          }
+                        >
                           <DynamicIcon name={type.icon} /> {type.displayName}
                         </SidebarMenuButton>
                       </SidebarMenuItem>
@@ -69,24 +103,30 @@ export const CustomTypesDialog = () => {
               </Button>
             </SidebarFooter>
           </Sidebar>
-          <main className="flex h-[480px] flex-1 flex-col overflow-hidden">
-            <div>
-              {customTypes.map((type) => (
-                <div
-                  key={type.id}
-                  className="flex flex-row items-center justify-between p-4"
-                >
-                  <div>
-                    <Label className="text-base font-bold">
-                      {type.displayName}
-                    </Label>
-                    <div>
-                      <small>{type.content}</small>
-                    </div>
-                  </div>
+          <main className="flex h-[480px] flex-1 flex-col overflow-hidden p-4">
+            {page === 'editor' && selectedType && (
+              <div className="mt-4">
+                <CustomTypeEditor typeId={selectedType.id} />
+              </div>
+            )}
+            {page === 'overview' && (
+              <div className="grid gap-8 mt-4">
+                {customTypes.map((type) => (
+                  <CustomTypeDisplay key={type.id} type={type} />
+                ))}
+              </div>
+            )}
+            {page === 'about' && (
+              <div className="mt-4">
+                <h3 className="text-lg font-semibold">About Custom Types</h3>
+                <div>
+                  <small>
+                    Setup custom TypeScript Types here to use as return types in
+                    your Fluss.
+                  </small>
                 </div>
-              ))}
-            </div>
+              </div>
+            )}
           </main>
         </SidebarProvider>
       </DialogContent>
