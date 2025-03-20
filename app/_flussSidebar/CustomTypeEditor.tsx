@@ -1,8 +1,8 @@
+import Editor from 'react-simple-code-editor'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { CustomTypeDisplay } from './CustomTypeDisplay'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
 
 type CustomTypeEditorProps = {
   typeId: string
@@ -46,13 +46,17 @@ export const CustomTypeEditor = ({ typeId }: CustomTypeEditorProps) => {
 
         <div className="grid w-full max-w-sm items-center gap-1.5">
           <Label htmlFor="displayName">Content</Label>
-          <Textarea
-            id="displayName"
+          <Editor
             value={type.content}
-            onChange={(e) =>
-              outputTypeUpdate(typeId, { content: e.target.value })
+            onValueChange={(code) =>
+              outputTypeUpdate(typeId, { content: code })
             }
-            rows={5}
+            highlight={(code) => code}
+            padding={10}
+            style={{
+              fontFamily: '"Fira code", "Fira Mono", monospace',
+              fontSize: 12,
+            }}
           />
         </div>
       </div>
