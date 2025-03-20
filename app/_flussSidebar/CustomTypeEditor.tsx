@@ -5,13 +5,18 @@ import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import hljs from 'highlight.js'
 import typescript from 'highlight.js/lib/languages/typescript'
-import 'highlight.js/styles/github.css'
-import { useState } from 'react'
+import {
+  a11yDark,
+  a11yLight,
+} from 'react-syntax-highlighter/dist/esm/styles/hljs'
+import { useState, useEffect, useMemo } from 'react'
 import { Button } from '@/components/ui/button'
 import { SaveIcon } from 'lucide-react'
 import parserTypeScript from 'prettier/parser-typescript'
 import prettierPluginEstree from 'prettier/plugins/estree'
 import prettier from 'prettier/standalone'
+import { useTheme } from 'next-themes'
+import { githubdarkDimmed } from '@/components/code-styles/githubg-dark-dimmed'
 
 type CustomTypeEditorProps = {
   typeId: string
@@ -20,6 +25,9 @@ type CustomTypeEditorProps = {
 hljs.registerLanguage('typescript', typescript)
 
 export const CustomTypeEditor = ({ typeId }: CustomTypeEditorProps) => {
+  const { theme, systemTheme } = useTheme()
+  const isDark =
+    theme === 'dark' || (theme === 'system' && systemTheme === 'dark')
   const type = useFlussStore((store) =>
     store.outputTypes.find((type) => type.id === typeId)
   )
@@ -29,9 +37,41 @@ export const CustomTypeEditor = ({ typeId }: CustomTypeEditorProps) => {
   const hasUnsafedChanges =
     editingCode.replace(codePrefix, '') !== type?.content
 
+  const editorTheme = useMemo(() => (isDark ? a11yDark : a11yLight), [isDark])
+
+  // Create a style tag for the a11yDark theme
+  useEffect(() => {
+    // Check if the style tag already exists
+    let style: HTMLElement
+    const existingStyle = document.getElementById('syntax-highlighting-styles')
+    if (!existingStyle) {
+      style = document.createElement('style')
+      style.id = 'syntax-highlighting-styles'
+    } else {
+      style = existingStyle
+    }
+
+    let css = ''
+    for (const [className, rules] of Object.entries(editorTheme)) {
+      css += `.editor-container .${className} {`
+      for (const [property, value] of Object.entries(rules)) {
+        // Convert camelCase to kebab-case for CSS properties
+        const cssProperty = property.replace(/([A-Z])/g, '-$1').toLowerCase()
+        css += `${cssProperty}: ${value};`
+      }
+      css += '}\n'
+    }
+    console.log(css)
+
+    style.textContent = css
+    document.head.appendChild(style)
+  }, [editorTheme])
+
   if (!type) {
     return null
   }
+
+  console.log(a11yDark)
 
   return (
     <div>
@@ -66,20 +106,24 @@ export const CustomTypeEditor = ({ typeId }: CustomTypeEditorProps) => {
               <small className="text-destructive">Unsafed changes</small>
             )}
           </Label>
-          <Editor
-            id="content"
-            className="border"
-            value={editingCode}
-            onValueChange={setEditingCode}
-            highlight={(code) =>
-              hljs.highlight(code, { language: 'typescript' }).value
-            }
-            padding={10}
-            style={{
-              fontFamily: '"Fira code", "Fira Mono", monospace',
-              fontSize: 12,
-            }}
-          />
+          <div className="editor-container">
+            <Editor
+              id="content"
+              className="border"
+              value={editingCode}
+              onValueChange={setEditingCode}
+              highlight={(code) =>
+                hljs.highlight(code, { language: 'typescript' }).value
+              }
+              padding={10}
+              style={{
+                fontFamily: '"Fira code", "Fira Mono", monospace',
+                fontSize: 12,
+                backgroundColor: String(editorTheme.hljs.background),
+                color: editorTheme.hljs.color,
+              }}
+            />
+          </div>
           <div className="mt-2 flex flex-row gap-2">
             <Button
               variant="secondary"

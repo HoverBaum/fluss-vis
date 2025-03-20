@@ -123,10 +123,11 @@ export const CustomTypesDialog = () => {
               <div className="mt-4">
                 <h3 className="text-lg font-semibold">About Custom Types</h3>
                 <div>
-                  <small>
+                  <p>
                     Setup custom TypeScript Types here to use as return types in
                     your Fluss.
-                  </small>
+                  </p>
+                  <p>More infos coming soon 🤞</p>
                 </div>
               </div>
             )}
