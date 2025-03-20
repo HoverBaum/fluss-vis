@@ -103,10 +103,13 @@ export const CustomTypesDialog = () => {
               </Button>
             </SidebarFooter>
           </Sidebar>
-          <main className="flex h-[480px] flex-1 flex-col overflow-hidden p-4">
+          <main className="flex h-[480px] flex-1 flex-col overflow-y-scroll p-4">
             {page === 'editor' && selectedType && (
               <div className="mt-4">
-                <CustomTypeEditor typeId={selectedType.id} />
+                <CustomTypeEditor
+                  key={selectedType.id}
+                  typeId={selectedType.id}
+                />
               </div>
             )}
             {page === 'overview' && (

@@ -204,7 +204,7 @@ export const devInitialState: FlussState = {
       id: 'n79Dk932N',
       displayName: 'Person',
       typeName: 'Person',
-      content: '{name: string, age: number}',
+      content: '{name: string; age: number}',
       icon: 'user',
     },
   ],
