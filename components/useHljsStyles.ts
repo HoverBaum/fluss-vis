@@ -21,7 +21,6 @@ export const useHljsStyles = () => {
 
   // Update the CSS we need to style the code editor.
   useEffect(() => {
-    console.log('editorTheme', editorTheme)
     // Check if the style tag already exists
     let style: HTMLElement
     const existingStyle = document.getElementById(HLJS_STYLE_ID)

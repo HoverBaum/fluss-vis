@@ -38,10 +38,11 @@ type IconsSelectProps = {
 export const IconSelect = ({ icon, onSelect }: IconsSelectProps) => {
   const [open, setOpen] = useState(false)
   const [searchValue, setSearchValue] = useState('')
-  const [icons, setIcons] = useState(PossibleIcons.slice(0, 10))
+  const [icons, setIcons] = useState<PossibleIcon[]>([])
   const iconInfo = iconMap[icon]
 
   useEffect(() => {
+    if (!searchValue) return setIcons([])
     const filteredIcons = PossibleIcons.filter((icon) =>
       icon.label.toLowerCase().includes(searchValue.toLowerCase())
     ).slice(0, 10)
@@ -77,7 +78,12 @@ export const IconSelect = ({ icon, onSelect }: IconsSelectProps) => {
             onValueChange={setSearchValue}
           />
           <CommandList>
-            <CommandEmpty>No Icon found.</CommandEmpty>
+            {!searchValue && (
+              <p className="p-6 text-center text-sm">
+                Start typing to find Icons.
+              </p>
+            )}
+            {!!searchValue && <CommandEmpty>No Icon found.</CommandEmpty>}
             <CommandGroup>
               {icons.map((icon) => (
                 <CommandItem
