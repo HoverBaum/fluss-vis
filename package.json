@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "vitest"
+    "test": "vitest",
+    "script:icons": "node ./scripts/createIconList.js > lib/generated/icons.json"
   },
   "dependencies": {
     "@hookform/resolvers": "^4.1.3",

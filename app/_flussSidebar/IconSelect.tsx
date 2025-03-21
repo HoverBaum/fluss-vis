@@ -16,28 +16,28 @@ import {
 import { useState } from 'react'
 import { CheckIcon, ChevronsUpDownIcon } from 'lucide-react'
 import { DynamicIcon } from 'lucide-react/dynamic'
-import { PossibleIconName, PossibleIcons } from '@/lib/possibleIcons'
+import {
+  PossibleIcon,
+  PossibleIconName,
+  PossibleIcons,
+} from '@/lib/possibleIcons'
 
-// type PossibleIconName = (typeof PossibleIcons)[number]['name']
+const iconMap = PossibleIcons.reduce<Record<string, PossibleIcon>>(
+  (acc, icon) => {
+    acc[icon.name] = icon
+    return acc
+  },
+  {}
+)
 
 type IconsSelectProps = {
   icon: PossibleIconName
   onSelect: (icon: PossibleIconName) => void
 }
 
-// type PossibleIcon = {
-//   name: IconName
-//   label: string
-// }
-
-// const PossibleIcons: PossibleIcon[] = [
-//   { name: 'activity', label: 'Activity' },
-//   { name: 'airplay', label: 'Airplay' },
-// ]
-
 export const IconSelect = ({ icon, onSelect }: IconsSelectProps) => {
   const [open, setOpen] = useState(false)
-  const iconInfo = PossibleIcons.find((i) => i.name === icon)
+  const iconInfo = iconMap[icon]
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -63,7 +63,7 @@ export const IconSelect = ({ icon, onSelect }: IconsSelectProps) => {
         <Command>
           <CommandInput placeholder="Search Icons..." />
           <CommandList>
-            <CommandEmpty>No framework found.</CommandEmpty>
+            <CommandEmpty>No Icon found.</CommandEmpty>
             <CommandGroup>
               {PossibleIcons.map((icon) => (
                 <CommandItem
