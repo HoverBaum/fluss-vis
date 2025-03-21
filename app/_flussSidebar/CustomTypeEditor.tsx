@@ -15,6 +15,7 @@ import { useTheme } from 'next-themes'
 import { githubdarkDimmed } from '@/components/code-styles/githubg-dark-dimmed'
 import { githubLight } from '@/components/code-styles/github-light'
 import { IconSelect } from './IconSelect'
+import { Separator } from '@/components/ui/separator'
 
 type CustomTypeEditorProps = {
   typeId: string
@@ -73,31 +74,42 @@ export const CustomTypeEditor = ({ typeId }: CustomTypeEditorProps) => {
     <div>
       <CustomTypeDisplay type={type} />
       <div className="mt-4 p-4 flex flex-col gap-6">
-        <div className="grid w-full max-w-sm items-center gap-0.5">
-          <Label htmlFor="displayName" className="font-semibold">
-            Display Name
-          </Label>
-          <small>Name used in the UI of Fluss-Vis.</small>
-          <Input
-            id="displayName"
-            value={type.displayName}
-            onChange={(e) =>
-              outputTypeUpdate(typeId, { displayName: e.target.value })
-            }
-            className="mt-2"
-          />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid w-full max-w-sm items-center gap-0.5">
+            <Label htmlFor="displayName" className="font-semibold">
+              Icon
+            </Label>
+            <small>
+              Visually represent this type. Super slow… powered by{' '}
+              <a className="underline" href="https://lucide.dev/icons/">
+                Lucide
+              </a>
+            </small>
+            <div className="mt-2">
+              <IconSelect
+                icon={type.icon}
+                onSelect={(icon) => outputTypeUpdate(typeId, { icon })}
+              />
+            </div>
+          </div>
+
+          <div className="grid w-full max-w-sm items-center gap-0.5">
+            <Label htmlFor="displayName" className="font-semibold">
+              Display Name
+            </Label>
+            <small>Name used in the UI of Fluss-Vis.</small>
+            <Input
+              id="displayName"
+              value={type.displayName}
+              onChange={(e) =>
+                outputTypeUpdate(typeId, { displayName: e.target.value })
+              }
+              className="mt-2"
+            />
+          </div>
         </div>
 
-        <div className="grid w-full max-w-sm items-center gap-0.5">
-          <Label htmlFor="displayName" className="font-semibold">
-            Icon
-          </Label>
-          <small>Visually represent this type.</small>
-          <IconSelect
-            icon={type.icon}
-            onSelect={(icon) => outputTypeUpdate(typeId, { icon })}
-          />
-        </div>
+        <Separator />
 
         <div className="grid w-full max-w-sm items-center gap-0.5">
           <Label htmlFor="typeName" className="font-semibold">
