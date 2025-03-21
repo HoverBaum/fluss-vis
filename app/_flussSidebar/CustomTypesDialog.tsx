@@ -45,7 +45,7 @@ export const CustomTypesDialog = () => {
           <CodeIcon size="1rem" /> Custom Types
         </span>
       </DialogTrigger>
-      <DialogContent className="overflow-hidden p-0 md:max-h-[500px] md:max-w-[700px] lg:max-w-[800px]">
+      <DialogContent className="overflow-hidden p-0 md:max-h-[600px] md:max-w-[700px] lg:max-w-[800px]">
         <DialogTitle className="sr-only">Custom Types</DialogTitle>
         <DialogDescription className="sr-only">
           Setup custom TypeScript Types here to use as return types in your
@@ -103,7 +103,7 @@ export const CustomTypesDialog = () => {
               </Button>
             </SidebarFooter>
           </Sidebar>
-          <main className="flex h-[480px] flex-1 flex-col overflow-y-scroll p-4">
+          <main className="flex h-[600px] flex-1 flex-col overflow-y-scroll p-4">
             {page === 'editor' && selectedType && (
               <div className="mt-4">
                 <CustomTypeEditor

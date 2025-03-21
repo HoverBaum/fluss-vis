@@ -14,6 +14,7 @@ import prettier from 'prettier/standalone'
 import { useTheme } from 'next-themes'
 import { githubdarkDimmed } from '@/components/code-styles/githubg-dark-dimmed'
 import { githubLight } from '@/components/code-styles/github-light'
+import { IconSelect } from './IconSelect'
 
 type CustomTypeEditorProps = {
   typeId: string
@@ -28,11 +29,20 @@ export const CustomTypeEditor = ({ typeId }: CustomTypeEditorProps) => {
   const type = useFlussStore((store) =>
     store.outputTypes.find((type) => type.id === typeId)
   )
-  const codePrefix = `type ${type?.typeName} = `
+  const codePrefix = useMemo(
+    () => `type ${type?.typeName} = `,
+    [type?.typeName]
+  )
   const outputTypeUpdate = useFlussStore((store) => store.outputTypeUpdate)
   const [editingCode, setEditingCode] = useState(codePrefix + type?.content)
-  const hasUnsafedChanges =
-    editingCode.replace(codePrefix, '') !== type?.content
+  const hasUnsafedChanges = useMemo(
+    () => editingCode.replace(codePrefix, '') !== type?.content,
+    [codePrefix, editingCode, type?.content]
+  )
+
+  useEffect(() => {
+    setEditingCode(codePrefix + type?.content)
+  }, [type?.content, codePrefix])
 
   const editorTheme = useMemo(
     () => (isDark ? githubdarkDimmed : githubLight),
@@ -62,40 +72,65 @@ export const CustomTypeEditor = ({ typeId }: CustomTypeEditorProps) => {
   return (
     <div>
       <CustomTypeDisplay type={type} />
-      <div className="mt-4 p-4 flex flex-col gap-4">
-        <div className="grid w-full max-w-sm items-center gap-1.5">
-          <Label htmlFor="displayName">Display Name</Label>
+      <div className="mt-4 p-4 flex flex-col gap-6">
+        <div className="grid w-full max-w-sm items-center gap-0.5">
+          <Label htmlFor="displayName" className="font-semibold">
+            Display Name
+          </Label>
+          <small>Name used in the UI of Fluss-Vis.</small>
           <Input
             id="displayName"
             value={type.displayName}
             onChange={(e) =>
               outputTypeUpdate(typeId, { displayName: e.target.value })
             }
+            className="mt-2"
           />
         </div>
 
-        <div className="grid w-full max-w-sm items-center gap-1.5">
-          <Label htmlFor="typeName">Type Name</Label>
+        <div className="grid w-full max-w-sm items-center gap-0.5">
+          <Label htmlFor="displayName" className="font-semibold">
+            Icon
+          </Label>
+          <small>Visually represent this type.</small>
+          <IconSelect
+            icon={type.icon}
+            onSelect={(icon) => outputTypeUpdate(typeId, { icon })}
+          />
+        </div>
+
+        <div className="grid w-full max-w-sm items-center gap-0.5">
+          <Label htmlFor="typeName" className="font-semibold">
+            Type Name
+          </Label>
+          <small>
+            The name used in generated code - you will use this in your code.
+          </small>
           <Input
             id="typeName"
             value={type.typeName}
             onChange={(e) =>
               outputTypeUpdate(typeId, { typeName: e.target.value })
             }
+            className="mt-2"
           />
         </div>
 
-        <div className="grid w-full max-w-sm items-center gap-1.5">
-          <Label htmlFor="content">
+        <div className="grid w-full max-w-sm items-center gap-0.5">
+          <Label htmlFor="content" className="font-semibold">
             Content{' '}
             {hasUnsafedChanges && (
               <small className="text-destructive">Unsafed changes</small>
             )}
           </Label>
+          <small>
+            Definition of this type. Do not edit anything before the
+            &quot;=&quot;.
+          </small>
           <div className="editor-container">
             <Editor
               id="content"
-              className="border hljs"
+              className="border hljs mt-2"
               value={editingCode}
               onValueChange={setEditingCode}
               highlight={(code) =>
