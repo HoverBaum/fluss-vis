@@ -80,7 +80,7 @@ export const CustomTypeEditor = ({ typeId }: CustomTypeEditorProps) => {
               Icon
             </Label>
             <small>
-              Visually represent this type. Super slow… powered by{' '}
+              Visually represent this type. Powered by{' '}
               <a className="underline" href="https://lucide.dev/icons/">
                 Lucide
               </a>

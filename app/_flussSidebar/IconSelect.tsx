@@ -13,7 +13,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { CheckIcon, ChevronsUpDownIcon } from 'lucide-react'
 import { DynamicIcon } from 'lucide-react/dynamic'
 import {
@@ -37,7 +37,17 @@ type IconsSelectProps = {
 
 export const IconSelect = ({ icon, onSelect }: IconsSelectProps) => {
   const [open, setOpen] = useState(false)
+  const [searchValue, setSearchValue] = useState('')
+  const [icons, setIcons] = useState(PossibleIcons.slice(0, 10))
   const iconInfo = iconMap[icon]
+
+  useEffect(() => {
+    const filteredIcons = PossibleIcons.filter((icon) =>
+      icon.label.toLowerCase().includes(searchValue.toLowerCase())
+    ).slice(0, 10)
+
+    setIcons(filteredIcons)
+  }, [searchValue])
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -61,11 +71,15 @@ export const IconSelect = ({ icon, onSelect }: IconsSelectProps) => {
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder="Search Icons..." />
+          <CommandInput
+            placeholder="Search Icons..."
+            value={searchValue}
+            onValueChange={setSearchValue}
+          />
           <CommandList>
             <CommandEmpty>No Icon found.</CommandEmpty>
             <CommandGroup>
-              {PossibleIcons.map((icon) => (
+              {icons.map((icon) => (
                 <CommandItem
                   key={icon.name}
                   value={icon.name}
