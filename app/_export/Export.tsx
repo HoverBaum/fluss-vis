@@ -1,6 +1,4 @@
 import { Copy, Download } from 'lucide-react'
-import { Light as SyntaxHighlighter } from 'react-syntax-highlighter'
-import ts from 'react-syntax-highlighter/dist/esm/languages/hljs/typescript'
 import {
   Dialog,
   DialogClose,
@@ -12,22 +10,13 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
-import {
-  a11yDark,
-  a11yLight,
-} from 'react-syntax-highlighter/dist/esm/styles/hljs'
-import { useTheme } from 'next-themes'
 import { toast } from 'sonner'
 import { useExport } from './useExport'
 import { useState } from 'react'
-
-SyntaxHighlighter.registerLanguage('typescript', ts)
+import { CodeDisplay } from '@/components/CodeDisplay'
 
 export const Export = () => {
   const [codeToCopy, setCodeToCopy] = useState('')
-  const { theme, systemTheme } = useTheme()
-  const isDark =
-    theme === 'dark' || (theme === 'system' && systemTheme === 'dark')
   const { flussExport } = useExport()
 
   return (
@@ -46,14 +35,8 @@ export const Export = () => {
           </DialogDescription>
         </DialogHeader>
 
-        <div className="overflow-scroll w-full">
-          <SyntaxHighlighter
-            className="max-h-80 border-2 border-border"
-            language="typescript"
-            style={isDark ? a11yDark : a11yLight}
-          >
-            {codeToCopy}
-          </SyntaxHighlighter>
+        <div className="overflow-scroll w-full max-h-80 border border-border">
+          <CodeDisplay>{codeToCopy}</CodeDisplay>
         </div>
 
         <DialogFooter className="sm:justify-start">

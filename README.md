@@ -23,6 +23,7 @@ Fluss Viz will handle the execution of your logic and parallelize async operatio
 - Provide more helper types like a type for each stepFunction and input and return so devs can use that in their code.
 - Persist and load editor state - using a file, maybe also the .ts file.
 - Step Edit Sidebar should not float if editor is full screen (Seetings sidebar closed)
+- Styles for editors and code highlighting should be unified. Maybe a hook to handle css injection.
 
 ### NOT part of Alpha
 
@@ -91,3 +92,7 @@ export type CustomType = {
 - A Fluss always has one start and one end node.
 - The final result is always an object with one property per input defined for the end node.
 - Branching is currently not supported!
+
+## Notes
+
+- All devs visualize, at least in their heads. We make a great tool for that.

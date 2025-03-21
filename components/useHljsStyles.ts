@@ -1,0 +1,38 @@
+import { useTheme } from 'next-themes'
+import { useEffect, useMemo } from 'react'
+import { githubdarkDimmed } from '@/components/code-styles/githubg-dark-dimmed'
+import { githubLight } from '@/components/code-styles/github-light'
+
+const HLJS_STYLE_ID = 'syntaxHighlightingStyles'
+
+/**
+ * Injects a style tag into the head of the document to style hljs parsed code.
+ * Detects the current theme and updates the style accordingly.
+ */
+export const useHljsStyles = () => {
+  const { theme, systemTheme } = useTheme()
+  const isDark =
+    theme === 'dark' || (theme === 'system' && systemTheme === 'dark')
+
+  const editorTheme = useMemo(
+    () => (isDark ? githubdarkDimmed : githubLight),
+    [isDark]
+  )
+
+  // Update the CSS we need to style the code editor.
+  useEffect(() => {
+    console.log('editorTheme', editorTheme)
+    // Check if the style tag already exists
+    let style: HTMLElement
+    const existingStyle = document.getElementById(HLJS_STYLE_ID)
+    if (!existingStyle) {
+      style = document.createElement('style')
+      style.id = HLJS_STYLE_ID
+      document.head.appendChild(style)
+    } else {
+      style = existingStyle
+    }
+
+    style.textContent = editorTheme
+  }, [editorTheme])
+}
