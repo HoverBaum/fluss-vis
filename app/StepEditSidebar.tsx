@@ -1,5 +1,7 @@
 'use client'
 
+import { CodeDisplay } from '@/components/CodeDisplay'
+import { FlussNodeOutput } from '@/components/nodes/flussNode/FlussNodeOutput'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -8,9 +10,12 @@ import {
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarHeader,
 } from '@/components/ui/sidebar'
 import { Textarea } from '@/components/ui/textarea'
+import { stringToValidIdentifier } from '@/fluss-lib/nameConversion'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { ArrowRightFromLine } from 'lucide-react'
 import { useEffect } from 'react'
@@ -54,35 +59,87 @@ export const StepEditSidebar = ({ isFullScreen }: StepEditSidebarProps) => {
         )}
 
         {nodeData && (
-          <SidebarGroup>
-            <h3 className="font-bold text-lg">
-              {nodeData.name} -{' '}
-              <small className="font-normal">{selectedNode.id}</small>
-            </h3>
+          <>
+            <SidebarGroup>
+              <h3 className="font-bold text-lg">
+                {nodeData.name} -{' '}
+                <small className="font-normal">{selectedNode.id}</small>
+              </h3>
 
-            <div className="grid w-full max-w-sm items-center gap-1 my-2">
-              <Label htmlFor="nameEdit">Name</Label>
-              <Input
-                value={nodeData.name}
-                id="nameEdit"
-                className="bg-background"
-                onChange={(e) => setNodeName(selectedNode.id, e.target.value)}
-              />
-            </div>
+              <div className="grid w-full max-w-sm items-center gap-1 my-2">
+                <Label htmlFor="nameEdit" className="font-semibold">
+                  Name
+                </Label>
+                <Input
+                  value={nodeData.name}
+                  id="nameEdit"
+                  className="bg-background"
+                  onChange={(e) => setNodeName(selectedNode.id, e.target.value)}
+                />
+              </div>
 
-            <div className="grid w-full max-w-sm items-center gap-1 my-2">
-              <Label htmlFor="descriptionEdit">Description</Label>
-              <Textarea
-                value={nodeData.description || ''}
-                id="descriptionEdit"
-                className="bg-background"
-                onChange={(e) =>
-                  setNodeDescription(selectedNode.id, e.target.value)
-                }
-                rows={3}
-              />
-            </div>
-          </SidebarGroup>
+              <div className="grid w-full max-w-sm items-center gap-1 my-2">
+                <Label className="font-semibold">Function name</Label>
+                <small>Used in generated code.</small>
+                <CodeDisplay>
+                  {stringToValidIdentifier(nodeData.name)}
+                </CodeDisplay>
+              </div>
+
+              <div className="grid w-full max-w-sm items-center gap-1 my-2">
+                <Label htmlFor="descriptionEdit" className="font-semibold">
+                  Description
+                </Label>
+                <Textarea
+                  value={nodeData.description || ''}
+                  id="descriptionEdit"
+                  className="bg-background"
+                  onChange={(e) =>
+                    setNodeDescription(selectedNode.id, e.target.value)
+                  }
+                  rows={3}
+                />
+              </div>
+            </SidebarGroup>
+
+            {(nodeData.type === 'step' || nodeData.type === 'end') && (
+              <SidebarGroup>
+                <SidebarGroupLabel>
+                  <h2 className="font-bold text-lg">
+                    Input{nodeData.inputs.length <= 1 ? '' : 's'}
+                  </h2>
+                </SidebarGroupLabel>
+                <SidebarGroupContent className="px-2">
+                  {nodeData.inputs.map((input) => (
+                    <div key={input.id}>{JSON.stringify(input)}</div>
+                  ))}
+                </SidebarGroupContent>
+              </SidebarGroup>
+            )}
+
+            {(nodeData.type === 'step' || nodeData.type === 'start') && (
+              <SidebarGroup>
+                <SidebarGroupLabel>
+                  <h2 className="font-bold text-lg">
+                    Output{nodeData.outputs.length <= 1 ? '' : 's'}
+                  </h2>
+                </SidebarGroupLabel>
+                <SidebarGroupContent className="px-2 flex flex-col gap-6">
+                  {nodeData.outputs.map((output) => (
+                    <div key={output.id}>
+                      <FlussNodeOutput key={output.id} output={output} />
+                      <Label className="mt-2 block font-semibold">
+                        Will be used as:
+                      </Label>
+                      <CodeDisplay>
+                        {stringToValidIdentifier(output.name)}
+                      </CodeDisplay>
+                    </div>
+                  ))}
+                </SidebarGroupContent>
+              </SidebarGroup>
+            )}
+          </>
         )}
       </SidebarContent>
       <SidebarFooter>

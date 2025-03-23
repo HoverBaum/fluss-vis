@@ -15,6 +15,7 @@ import { ButtonRemove } from '@/components/ButtonRemove'
 import { useSettingsStore } from '@/stores/SettingsStoreProvider'
 
 type FlussNodeInputProps = {
+  // ID of an input, that is output handle.
   id: string
 }
 

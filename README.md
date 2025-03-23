@@ -17,12 +17,12 @@ Fluss Viz will handle the execution of your logic and parallelize async operatio
 
 ## Road to Alpha
 
-- Ability to edit custom Types.
 - EditSidebar should be able to edit output and remove inputs.
 - Handle IDs should not contain node IDs! Or this whole id should be the output and inputId in the state. Remove indirect coupling of needing same logic in different places. Maybe just longer ids.
 - Provide more helper types like a type for each stepFunction and input and return so devs can use that in their code.
-- Step Edit Sidebar should not float if editor is full screen (Seetings sidebar closed)
-- Styles for editors and code highlighting should be unified. Maybe a hook to handle css injection.
+- Add custom type from type picker.
+
+- Handle two inputs with same name.
 
 ### NOT part of Alpha
 
