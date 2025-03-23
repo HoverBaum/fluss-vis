@@ -34,8 +34,6 @@ export const StepEditSidebar = ({ isFullScreen }: StepEditSidebarProps) => {
     if (!selectedNode) setOpen(false)
   }, [selectedNode, setOpen])
 
-  console.log('isFullScreen sidebar', isFullScreen)
-
   return (
     <Sidebar
       side="right"

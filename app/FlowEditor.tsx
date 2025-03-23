@@ -88,8 +88,6 @@ export const FlowEditor = ({
 
   if (!isMounted) return null
 
-  console.log('isFullScreen editor', isFullScreen)
-
   return (
     <SidebarProvider defaultOpen={false} className="min-h-auto h-full">
       <ReactFlow
