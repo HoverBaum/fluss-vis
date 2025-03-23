@@ -3,7 +3,6 @@ import {
   HandleType,
   Position,
   useNodeConnections,
-  useNodeId,
   useNodesData,
 } from '@xyflow/react'
 import { FlussNodeType } from '@/stores/flussStore'
@@ -17,17 +16,19 @@ import { useSettingsStore } from '@/stores/SettingsStoreProvider'
 type FlussNodeInputProps = {
   // ID of an input, that is output handle.
   id: string
+  // ID of a node that this input belongs to.
+  nodeId: string
 }
 
 const handleType: HandleType = 'target'
 
-export const FlussNodeInput = ({ id }: FlussNodeInputProps) => {
+export const FlussNodeInput = ({ id, nodeId }: FlussNodeInputProps) => {
   const alwaysShowDelete = useSettingsStore((state) => state.alwaysShowDelete)
   const [isHovered, setIsHovered] = useState(false)
-  const nodeId = useNodeId()
   const connections = useNodeConnections({
     handleType: handleType,
     handleId: id,
+    id: nodeId,
   })
   const sourceId = connections[0]?.source
   const sourceHandleId = connections[0]?.sourceHandle

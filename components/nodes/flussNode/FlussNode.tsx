@@ -80,7 +80,7 @@ export const FlussNode = ({
         <div className="grid grid-cols-1 gap-2">
           {inputs &&
             inputs.map((input) => (
-              <FlussNodeInput key={input.id} id={input.id} />
+              <FlussNodeInput key={input.id} id={input.id} nodeId={nodeId} />
             ))}
         </div>
       </CardContent>

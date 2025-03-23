@@ -1,6 +1,7 @@
 'use client'
 
 import { CodeDisplay } from '@/components/CodeDisplay'
+import { FlussNodeInput } from '@/components/nodes/flussNode/FlussNodeInput'
 import { FlussNodeOutput } from '@/components/nodes/flussNode/FlussNodeOutput'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -109,9 +110,11 @@ export const StepEditSidebar = ({ isFullScreen }: StepEditSidebarProps) => {
                     Input{nodeData.inputs.length <= 1 ? '' : 's'}
                   </h2>
                 </SidebarGroupLabel>
-                <SidebarGroupContent className="px-2">
+                <SidebarGroupContent className="px-2 flex flex-col gap-4">
                   {nodeData.inputs.map((input) => (
-                    <div key={input.id}>{JSON.stringify(input)}</div>
+                    <div className="-ml-6" key={input.id}>
+                      <FlussNodeInput id={input.id} nodeId={selectedNode.id} />
+                    </div>
                   ))}
                 </SidebarGroupContent>
               </SidebarGroup>

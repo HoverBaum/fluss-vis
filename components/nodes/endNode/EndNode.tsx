@@ -77,7 +77,11 @@ export const EndNode = ({ selected, data }: NodeProps<Node<FlussStepEnd>>) => {
         <div className="grid grid-cols-1 gap-2">
           {inputs &&
             inputs.map((input) => (
-              <FlussNodeInput key={input.id} id={input.id} />
+              <FlussNodeInput
+                key={input.id}
+                id={input.id}
+                nodeId={END_NODE_ID}
+              />
             ))}
         </div>
       </CardContent>
