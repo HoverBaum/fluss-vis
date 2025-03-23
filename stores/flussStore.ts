@@ -46,6 +46,7 @@ export type FlussState = {
   nodes: FlussNodeType[]
   edges: Edge[]
   outputTypes: FlussStepOutputType[]
+  isEditSidebarOpen: boolean
 }
 
 export type FlussActions = {
@@ -79,6 +80,8 @@ export type FlussActions = {
   ) => void
   outputTypeAdd: (type: FlussStepOutputType) => void
   outputTypeRemove: (typeId: FlussStepOutputTypeId) => void
+  editSidebarOpen: () => void
+  editSidebarClose: () => void
 }
 
 export type FlussStore = FlussState & FlussActions
@@ -319,6 +322,8 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
             })
           )
         },
+        editSidebarOpen: () => set({ isEditSidebarOpen: true }),
+        editSidebarClose: () => set({ isEditSidebarOpen: false }),
       }),
 
       { name: 'FlussStore' }

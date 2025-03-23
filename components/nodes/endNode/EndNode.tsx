@@ -20,9 +20,9 @@ import { END_NODE_ID } from '@/stores/storeHelpers'
 import { FlussNodeInput } from '../flussNode/FlussNodeInput'
 import { NEW_CONNECTION_HANDLE_IDENTIFIER } from '@/stores/flussStore'
 import { useEffect } from 'react'
-import { useSidebar } from '@/components/ui/sidebar'
 import { FlussStepEnd } from '@/fluss-lib/fluss'
 import { useSettingsStore } from '@/stores/SettingsStoreProvider'
+import { useFlussStore } from '@/stores/FlussStoreProvider'
 
 export const EndNode = ({ selected, data }: NodeProps<Node<FlussStepEnd>>) => {
   const displayId = useSettingsStore((store) => store.displayIds)
@@ -32,7 +32,7 @@ export const EndNode = ({ selected, data }: NodeProps<Node<FlussStepEnd>>) => {
   const isPotentialTarget =
     connection.inProgress && connection.fromNode.id !== nodeId
   const { name, inputs, description } = data
-  const { setOpen } = useSidebar()
+  const openEditSidebar = useFlussStore((store) => store.editSidebarOpen)
 
   // Update node internals when the node is a potential target, because we conditionaly render a Handle.
   // https://reactflow.dev/api-reference/hooks/use-update-node-internals
@@ -45,7 +45,7 @@ export const EndNode = ({ selected, data }: NodeProps<Node<FlussStepEnd>>) => {
   return (
     <Card
       className={`w-[275px] ${selected && 'border-foreground'}`}
-      onDoubleClick={() => setOpen(true)}
+      onDoubleClick={openEditSidebar}
     >
       {isPotentialTarget && (
         <Handle

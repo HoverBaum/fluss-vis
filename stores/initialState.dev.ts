@@ -3,6 +3,7 @@ import { FlussState } from './flussStore'
 
 export const devInitialState: FlussState = {
   name: 'Dev Fluss 🌊',
+  isEditSidebarOpen: false,
   nodes: [
     {
       id: 'TRqTC',

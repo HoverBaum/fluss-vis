@@ -47,6 +47,7 @@ export const FlowEditor = ({
   toggleFlussSidebar,
   isFullScreen,
 }: FlowEditorProps) => {
+  const isEditSidebarOpen = useFlussStore((store) => store.isEditSidebarOpen)
   const elevateEdgesOnSelect = useSettingsStore(
     (store) => store.bringSelectedEdgesToFront
   )
@@ -89,7 +90,7 @@ export const FlowEditor = ({
   if (!isMounted) return null
 
   return (
-    <SidebarProvider defaultOpen={false} className="min-h-auto h-full">
+    <SidebarProvider open={isEditSidebarOpen} className="min-h-auto h-full">
       <ReactFlow
         nodes={nodes}
         edges={edges}

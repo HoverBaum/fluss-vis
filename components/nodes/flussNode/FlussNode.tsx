@@ -18,10 +18,10 @@ import {
   useUpdateNodeInternals,
 } from '@xyflow/react'
 import { NEW_CONNECTION_HANDLE_IDENTIFIER } from '@/stores/flussStore'
-import { useSidebar } from '@/components/ui/sidebar'
 import { useEffect } from 'react'
 import { FlussStepDefault } from '@/fluss-lib/fluss'
 import { useSettingsStore } from '@/stores/SettingsStoreProvider'
+import { useFlussStore } from '@/stores/FlussStoreProvider'
 
 /**
  * A Node somewhere in the Fluss.
@@ -39,7 +39,7 @@ export const FlussNode = ({
   const isPotentialTarget =
     connection.inProgress && connection.fromNode.id !== nodeId
   const { outputs, name, description, inputs } = data
-  const { setOpen } = useSidebar()
+  const openEditSidebar = useFlussStore((store) => store.editSidebarOpen)
 
   // Update node internals when the node is a potential target, because we conditionaly render a Handle.
   // https://reactflow.dev/api-reference/hooks/use-update-node-internals
@@ -49,7 +49,7 @@ export const FlussNode = ({
 
   return (
     <Card
-      onDoubleClick={() => setOpen(true)}
+      onDoubleClick={openEditSidebar}
       className={`w-[275px] relative ${selected && 'border-foreground'}`}
     >
       {isPotentialTarget && (

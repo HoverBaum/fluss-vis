@@ -9,7 +9,6 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarHeader,
-  useSidebar,
 } from '@/components/ui/sidebar'
 import { Textarea } from '@/components/ui/textarea'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
@@ -21,7 +20,7 @@ type StepEditSidebarProps = {
 }
 
 export const StepEditSidebar = ({ isFullScreen }: StepEditSidebarProps) => {
-  const { toggleSidebar, setOpen } = useSidebar()
+  const closeSidebar = useFlussStore((state) => state.editSidebarClose)
   const selectedNode = useFlussStore((state) =>
     state.nodes.find((node) => node.selected)
   )
@@ -31,8 +30,8 @@ export const StepEditSidebar = ({ isFullScreen }: StepEditSidebarProps) => {
   const removeNode = useFlussStore((state) => state.removeNode)
 
   useEffect(() => {
-    if (!selectedNode) setOpen(false)
-  }, [selectedNode, setOpen])
+    if (!selectedNode) closeSidebar()
+  }, [selectedNode, closeSidebar])
 
   return (
     <Sidebar
@@ -43,7 +42,7 @@ export const StepEditSidebar = ({ isFullScreen }: StepEditSidebarProps) => {
     >
       <SidebarHeader className="flex  flex-row justify-between items-center">
         <h2 className="font-bold text-xl">Node Editor</h2>
-        <Button size="icon" variant="ghost" onClick={toggleSidebar}>
+        <Button size="icon" variant="ghost" onClick={closeSidebar}>
           <ArrowRightFromLine />
         </Button>
       </SidebarHeader>
