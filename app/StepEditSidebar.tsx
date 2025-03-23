@@ -16,7 +16,11 @@ import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { ArrowRightFromLine } from 'lucide-react'
 import { useEffect } from 'react'
 
-export const StepEditSidebar = () => {
+type StepEditSidebarProps = {
+  isFullScreen: boolean
+}
+
+export const StepEditSidebar = ({ isFullScreen }: StepEditSidebarProps) => {
   const { toggleSidebar, setOpen } = useSidebar()
   const selectedNode = useFlussStore((state) =>
     state.nodes.find((node) => node.selected)
@@ -30,11 +34,13 @@ export const StepEditSidebar = () => {
     if (!selectedNode) setOpen(false)
   }, [selectedNode, setOpen])
 
+  console.log('isFullScreen sidebar', isFullScreen)
+
   return (
     <Sidebar
       side="right"
-      variant="floating"
-      className="pl-0 ml-0 "
+      variant={isFullScreen ? 'sidebar' : 'floating'}
+      className="pl-0 ml-0"
       sidebarClassName="!rounded-l-none !border-l bg-background"
     >
       <SidebarHeader className="flex  flex-row justify-between items-center">

@@ -7,6 +7,7 @@ import { useState } from 'react'
 
 export default function Home() {
   const [sidebarOpen, setSidebarOpen] = useState(true)
+  console.log('sidebarOpen page', sidebarOpen)
   return (
     <SidebarProvider
       open={sidebarOpen}
@@ -19,12 +20,14 @@ export default function Home() {
         <SidebarInset className="overflow-hidden">
           <FlowEditor
             toggleFlussSidebar={() => setSidebarOpen((state) => !state)}
+            isFullScreen={!sidebarOpen}
           />
         </SidebarInset>
       )}
       {!sidebarOpen && (
         <FlowEditor
           toggleFlussSidebar={() => setSidebarOpen((state) => !state)}
+          isFullScreen={!sidebarOpen}
         />
       )}
     </SidebarProvider>
