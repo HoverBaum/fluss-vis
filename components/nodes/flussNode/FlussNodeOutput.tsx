@@ -1,6 +1,5 @@
 import { TypePicker } from '@/components/nodes/TypePicker'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import { FlussStepOutput } from '@/fluss-lib/fluss'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { Handle, Position, useNodeId } from '@xyflow/react'

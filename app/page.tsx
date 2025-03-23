@@ -6,7 +6,7 @@ import { FlussSidebar } from './_flussSidebar/FlussSidebar'
 import { useState } from 'react'
 
 export default function Home() {
-  const [sidebarOpen, setSidebarOpen] = useState(true)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
     <SidebarProvider
