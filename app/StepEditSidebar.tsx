@@ -46,9 +46,19 @@ export const StepEditSidebar = ({ isFullScreen }: StepEditSidebarProps) => {
       className="pl-0 ml-0"
       sidebarClassName="!rounded-l-none !border-l bg-background"
     >
-      <SidebarHeader className="flex  flex-row justify-between items-center">
-        <h2 className="font-bold text-xl">Node Editor</h2>
-        <Button size="icon" variant="ghost" onClick={closeSidebar}>
+      <SidebarHeader className="relative">
+        {nodeData && (
+          <>
+            <h2 className="font-bold text-xl">{nodeData.name}</h2>
+            <small>{nodeData.id}</small>
+          </>
+        )}
+        <Button
+          size="icon"
+          variant="ghost"
+          onClick={closeSidebar}
+          className="absolute top-2 right-2"
+        >
           <ArrowRightFromLine />
         </Button>
       </SidebarHeader>
@@ -62,50 +72,52 @@ export const StepEditSidebar = ({ isFullScreen }: StepEditSidebarProps) => {
         {nodeData && (
           <>
             <SidebarGroup>
-              <h3 className="font-bold text-lg">
-                {nodeData.name} -{' '}
-                <small className="font-normal">{selectedNode.id}</small>
-              </h3>
+              <SidebarGroupLabel className="pl-0">
+                <h2 className="font-bold text-lg">Meta data</h2>
+              </SidebarGroupLabel>
+              <SidebarGroupContent className="px-2 flex flex-col">
+                <div className="grid w-full max-w-sm items-center gap-1 my-2">
+                  <Label htmlFor="nameEdit" className="font-semibold">
+                    Name
+                  </Label>
+                  <Input
+                    value={nodeData.name}
+                    id="nameEdit"
+                    className="bg-background"
+                    onChange={(e) =>
+                      setNodeName(selectedNode.id, e.target.value)
+                    }
+                  />
+                </div>
 
-              <div className="grid w-full max-w-sm items-center gap-1 my-2">
-                <Label htmlFor="nameEdit" className="font-semibold">
-                  Name
-                </Label>
-                <Input
-                  value={nodeData.name}
-                  id="nameEdit"
-                  className="bg-background"
-                  onChange={(e) => setNodeName(selectedNode.id, e.target.value)}
-                />
-              </div>
+                <div className="grid w-full max-w-sm items-center gap-1 my-2">
+                  <Label className="font-semibold">Function name</Label>
+                  <small>Used in generated code.</small>
+                  <CodeDisplay>
+                    {stringToValidIdentifier(nodeData.name)}
+                  </CodeDisplay>
+                </div>
 
-              <div className="grid w-full max-w-sm items-center gap-1 my-2">
-                <Label className="font-semibold">Function name</Label>
-                <small>Used in generated code.</small>
-                <CodeDisplay>
-                  {stringToValidIdentifier(nodeData.name)}
-                </CodeDisplay>
-              </div>
-
-              <div className="grid w-full max-w-sm items-center gap-1 my-2">
-                <Label htmlFor="descriptionEdit" className="font-semibold">
-                  Description
-                </Label>
-                <Textarea
-                  value={nodeData.description || ''}
-                  id="descriptionEdit"
-                  className="bg-background"
-                  onChange={(e) =>
-                    setNodeDescription(selectedNode.id, e.target.value)
-                  }
-                  rows={3}
-                />
-              </div>
+                <div className="grid w-full max-w-sm items-center gap-1 my-2">
+                  <Label htmlFor="descriptionEdit" className="font-semibold">
+                    Description
+                  </Label>
+                  <Textarea
+                    value={nodeData.description || ''}
+                    id="descriptionEdit"
+                    className="bg-background"
+                    onChange={(e) =>
+                      setNodeDescription(selectedNode.id, e.target.value)
+                    }
+                    rows={3}
+                  />
+                </div>
+              </SidebarGroupContent>
             </SidebarGroup>
 
             {(nodeData.type === 'step' || nodeData.type === 'end') && (
               <SidebarGroup>
-                <SidebarGroupLabel>
+                <SidebarGroupLabel className="pl-0">
                   <h2 className="font-bold text-lg">
                     Input{nodeData.inputs.length <= 1 ? '' : 's'}
                   </h2>
@@ -122,7 +134,7 @@ export const StepEditSidebar = ({ isFullScreen }: StepEditSidebarProps) => {
 
             {(nodeData.type === 'step' || nodeData.type === 'start') && (
               <SidebarGroup>
-                <SidebarGroupLabel>
+                <SidebarGroupLabel className="pl-0">
                   <h2 className="font-bold text-lg">
                     Output{nodeData.outputs.length <= 1 ? '' : 's'}
                   </h2>
