@@ -1,3 +1,4 @@
+import { nanoid } from 'nanoid'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import {
@@ -32,6 +33,7 @@ export const CustomTypesDialog = () => {
     null
   )
   const [page, setPage] = useState<PageName>('overview')
+  const addOutputType = useFlussStore((store) => store.outputTypeAdd)
 
   const selectType = (type: FlussStepOutputType) => {
     setSelectedType(type)
@@ -98,7 +100,19 @@ export const CustomTypesDialog = () => {
               </SidebarGroup>
             </SidebarContent>
             <SidebarFooter>
-              <Button>
+              <Button
+                onClick={() => {
+                  const newType: FlussStepOutputType = {
+                    id: nanoid(5),
+                    typeName: 'NewType',
+                    displayName: 'New Type',
+                    content: 'any',
+                    icon: 'circle-help',
+                  }
+                  addOutputType(newType)
+                  selectType(newType)
+                }}
+              >
                 <PlusIcon /> Add Type
               </Button>
             </SidebarFooter>

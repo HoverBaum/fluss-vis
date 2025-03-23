@@ -77,6 +77,7 @@ export type FlussActions = {
     typeId: FlussStepOutputTypeId,
     type: Partial<FlussStepOutputType>
   ) => void
+  outputTypeAdd: (type: FlussStepOutputType) => void
 }
 
 export type FlussStore = FlussState & FlussActions
@@ -286,6 +287,13 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
               if (outputType) {
                 Object.assign(outputType, type)
               }
+            })
+          )
+        },
+        outputTypeAdd: (type) => {
+          set(
+            produce((state: FlussStore) => {
+              state.outputTypes.push(type)
             })
           )
         },
