@@ -7,7 +7,7 @@ import hljs from 'highlight.js'
 import typescript from 'highlight.js/lib/languages/typescript'
 import { useState, useEffect, useMemo } from 'react'
 import { Button } from '@/components/ui/button'
-import { SaveIcon } from 'lucide-react'
+import { SaveIcon, Trash2Icon } from 'lucide-react'
 import parserTypeScript from 'prettier/parser-typescript'
 import prettierPluginEstree from 'prettier/plugins/estree'
 import prettier from 'prettier/standalone'
@@ -24,6 +24,7 @@ type CustomTypeEditorProps = {
 hljs.registerLanguage('typescript', typescript)
 
 export const CustomTypeEditor = ({ typeId }: CustomTypeEditorProps) => {
+  const deleteOutputType = useFlussStore((store) => store.outputTypeRemove)
   const { theme, systemTheme } = useTheme()
   const isDark =
     theme === 'dark' || (theme === 'system' && systemTheme === 'dark')
@@ -74,8 +75,8 @@ export const CustomTypeEditor = ({ typeId }: CustomTypeEditorProps) => {
     <div>
       <CustomTypeDisplay type={type} />
       <div className="mt-4 p-4 flex flex-col gap-6">
-        <div className="grid grid-cols-2 gap-8">
-          <div className="grid w-full max-w-sm items-center gap-0.5">
+        <div className="grid grid-cols-2 gap-6">
+          <div className="grid w-full items-center gap-0.5">
             <Label htmlFor="displayName" className="font-semibold">
               Icon
             </Label>
@@ -93,7 +94,7 @@ export const CustomTypeEditor = ({ typeId }: CustomTypeEditorProps) => {
             </div>
           </div>
 
-          <div className="grid w-full max-w-sm items-center gap-0.5">
+          <div className="grid w-full items-center gap-0.5">
             <Label htmlFor="displayName" className="font-semibold">
               Display Name
             </Label>
@@ -111,7 +112,7 @@ export const CustomTypeEditor = ({ typeId }: CustomTypeEditorProps) => {
 
         <Separator />
 
-        <div className="grid w-full max-w-sm items-center gap-0.5">
+        <div className="grid w-full items-center gap-0.5">
           <Label htmlFor="typeName" className="font-semibold">
             Type Name
           </Label>
@@ -128,7 +129,7 @@ export const CustomTypeEditor = ({ typeId }: CustomTypeEditorProps) => {
           />
         </div>
 
-        <div className="grid w-full max-w-sm items-center gap-0.5">
+        <div className="grid w-full items-center gap-0.5">
           <Label htmlFor="content" className="font-semibold">
             Content{' '}
             {hasUnsafedChanges && (
@@ -188,6 +189,16 @@ export const CustomTypeEditor = ({ typeId }: CustomTypeEditorProps) => {
             </Button>
           </div>
         </div>
+
+        <Separator />
+
+        <Button
+          variant="secondary"
+          onClick={() => deleteOutputType(typeId)}
+          className="hover:bg-destructive hover:text-destructive-foreground"
+        >
+          <Trash2Icon /> Delete &quot;{type.displayName}&quot;
+        </Button>
       </div>
     </div>
   )

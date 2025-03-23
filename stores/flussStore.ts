@@ -78,6 +78,7 @@ export type FlussActions = {
     type: Partial<FlussStepOutputType>
   ) => void
   outputTypeAdd: (type: FlussStepOutputType) => void
+  outputTypeRemove: (typeId: FlussStepOutputTypeId) => void
 }
 
 export type FlussStore = FlussState & FlussActions
@@ -294,6 +295,27 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
           set(
             produce((state: FlussStore) => {
               state.outputTypes.push(type)
+            })
+          )
+        },
+        outputTypeRemove: (typeId) => {
+          set(
+            produce((state: FlussStore) => {
+              state.outputTypes = state.outputTypes.filter(
+                (outputType) => outputType.id !== typeId
+              )
+            })
+          )
+          // Set all outputs using this type to void.
+          set(
+            produce((state: FlussStore) => {
+              state.nodes.forEach((node) => {
+                node.data.outputs.forEach((output) => {
+                  if (output.type === typeId) {
+                    output.type = 'void'
+                  }
+                })
+              })
             })
           )
         },
