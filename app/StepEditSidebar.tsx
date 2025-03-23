@@ -1,8 +1,6 @@
 'use client'
 
 import { CodeDisplay } from '@/components/CodeDisplay'
-import { FlussNodeInput } from '@/components/nodes/flussNode/FlussNodeInput'
-import { FlussNodeOutput } from '@/components/nodes/flussNode/FlussNodeOutput'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -114,46 +112,6 @@ export const StepEditSidebar = ({ isFullScreen }: StepEditSidebarProps) => {
                 </div>
               </SidebarGroupContent>
             </SidebarGroup>
-
-            {(nodeData.type === 'step' || nodeData.type === 'end') && (
-              <SidebarGroup>
-                <SidebarGroupLabel className="pl-0">
-                  <h2 className="font-bold text-lg">
-                    Input{nodeData.inputs.length <= 1 ? '' : 's'}
-                  </h2>
-                </SidebarGroupLabel>
-                <SidebarGroupContent className="px-2 flex flex-col gap-4">
-                  {nodeData.inputs.map((input) => (
-                    <div className="-ml-6" key={input.id}>
-                      <FlussNodeInput id={input.id} nodeId={selectedNode.id} />
-                    </div>
-                  ))}
-                </SidebarGroupContent>
-              </SidebarGroup>
-            )}
-
-            {(nodeData.type === 'step' || nodeData.type === 'start') && (
-              <SidebarGroup>
-                <SidebarGroupLabel className="pl-0">
-                  <h2 className="font-bold text-lg">
-                    Output{nodeData.outputs.length <= 1 ? '' : 's'}
-                  </h2>
-                </SidebarGroupLabel>
-                <SidebarGroupContent className="px-2 flex flex-col gap-6">
-                  {nodeData.outputs.map((output) => (
-                    <div key={output.id}>
-                      <FlussNodeOutput key={output.id} output={output} />
-                      <Label className="mt-2 block font-semibold">
-                        Will be used as:
-                      </Label>
-                      <CodeDisplay>
-                        {stringToValidIdentifier(output.name)}
-                      </CodeDisplay>
-                    </div>
-                  ))}
-                </SidebarGroupContent>
-              </SidebarGroup>
-            )}
           </>
         )}
       </SidebarContent>
