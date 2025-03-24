@@ -26,7 +26,6 @@ export const FlussStoreProvider = ({ children }: FlussStoreProviderProps) => {
     </FlussStoreContext.Provider>
   )
 }
-
 export const useFlussStore = <T,>(selector: (store: FlussStore) => T): T => {
   const flussStoreContext = useContext(FlussStoreContext)
 
@@ -35,4 +34,27 @@ export const useFlussStore = <T,>(selector: (store: FlussStore) => T): T => {
   }
 
   return useStore(flussStoreContext, selector)
+}
+
+export const useFlussStoreTemporal = () => {
+  const flussStoreContext = useContext(FlussStoreContext)
+
+  if (!flussStoreContext) {
+    throw new Error(
+      `useFlussStoreTemporal must be used within FlussStoreProvider`
+    )
+  }
+
+  return flussStoreContext.temporal
+}
+
+export const useFlussTemporalStore = () => {
+  const flussStoreContext = useContext(FlussStoreContext)
+
+  if (!flussStoreContext) {
+    throw new Error(
+      `useFlussStoreTemporal must be used within FlussStoreProvider`
+    )
+  }
+  return flussStoreContext.temporal.getState()
 }

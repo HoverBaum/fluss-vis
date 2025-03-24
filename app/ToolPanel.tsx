@@ -12,6 +12,15 @@ export const ToolPanel = () => {
 
   return (
     <div className="flex gap-2">
+      {/* <Button
+        onClick={() => {
+          // React Flow always has one more event for us to undo…
+          undo()
+          undo()
+        }}
+      >
+        Undo
+      </Button> */}
       <Button
         size="sm"
         variant="secondary"

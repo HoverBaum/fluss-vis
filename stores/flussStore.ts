@@ -1,4 +1,6 @@
+import debounce from 'just-debounce-it'
 import { produce } from 'immer'
+import { temporal } from 'zundo'
 import { devtools } from 'zustand/middleware'
 import {
   addEdge,
@@ -89,242 +91,263 @@ export const NEW_CONNECTION_HANDLE_IDENTIFIER = 'new-connection'
 
 export const createFlussStore = (initState: FlussState = devInitialState) => {
   return createStore<FlussStore>()(
-    devtools(
-      (set, get) => ({
-        ...initState,
-        rename: (name: string) => set({ name }),
-        onNodesChange: (changes) => {
-          // apllyNodeChanges changes elements and then creates a new array, making it incompatible with immer.
-          // see: https://github.com/xyflow/xyflow/issues/4253
-          const updatedNodes = applyNodeChanges(
-            changes,
-            // Break out of immers immutability with a deep clone.
-            structuredClone(get().nodes)
-          )
-          set({ nodes: updatedNodes })
-        },
-        onEdgesChange: (changes) => {
-          changes.forEach((change) => {
-            if (change.type === 'remove') {
-              const edge = get().edges.find((edge) => edge.id === change.id)
-              if (edge && edge.targetHandle)
-                get().removeInput(edge.target, edge.targetHandle)
-            }
-          })
-          set({ edges: applyEdgeChanges(changes, get().edges) })
-        },
-        onConnect: (connection) => {
-          // If the Node filling connection Handle is used, we create a new connection.
-          if (
-            connection.targetHandle !== null &&
-            connection.targetHandle.includes(NEW_CONNECTION_HANDLE_IDENTIFIER)
-          ) {
-            const newInputId: FlussStepInputId = newId()
-            get().addInput(connection.target, newInputId)
-
-            // Escape the execution to make sure internal updates after adding a handler happen.
-            setTimeout(
-              () =>
-                get().onConnect({
-                  source: connection.source,
-                  sourceHandle: connection.sourceHandle,
-                  target: connection.target,
-                  targetHandle: newInputId,
-                }),
-              1
+    temporal(
+      devtools(
+        (set, get) => ({
+          ...initState,
+          rename: (name: string) => set({ name }),
+          onNodesChange: (changes) => {
+            // apllyNodeChanges changes elements and then creates a new array, making it incompatible with immer.
+            // see: https://github.com/xyflow/xyflow/issues/4253
+            const updatedNodes = applyNodeChanges(
+              changes,
+              // Break out of immers immutability with a deep clone.
+              structuredClone(get().nodes)
             )
-            return
-          }
-          set({ edges: addEdge(connection, get().edges) })
-        },
-        setNodes: (nodes) => {
-          set({ nodes })
-        },
-        setEdges: (edges) => {
-          set({ edges })
-        },
-        setOutputType: (nodeId, outputId, outputTypeId) => {
-          set(
-            produce((state: FlussStore) => {
-              const node = state.nodes.find((node) => node.id === nodeId)
-              if (node) {
-                const output = node.data.outputs.find(
-                  (output) => output.id === outputId
-                )
-                if (output) {
-                  output.type = outputTypeId
-                }
+            set({ nodes: updatedNodes })
+          },
+          onEdgesChange: (changes) => {
+            changes.forEach((change) => {
+              if (change.type === 'remove') {
+                const edge = get().edges.find((edge) => edge.id === change.id)
+                if (edge && edge.targetHandle)
+                  get().removeInput(edge.target, edge.targetHandle)
               }
             })
-          )
-        },
-        setOutputName: (nodeId, outputId, outputName) => {
-          set(
-            produce((state: FlussStore) => {
-              const node = state.nodes.find((node) => node.id === nodeId)
-              if (node) {
-                const output = node.data.outputs.find(
-                  (output) => output.id === outputId
-                )
-                if (output) output.name = outputName
-              }
-            })
-          )
-        },
-        addNode: (position) => {
-          set((state) => {
-            return {
-              nodes: [...state.nodes, createFlussNode(position)],
-            }
-          })
-        },
-        removeNode: (nodeId) => {
-          get().onNodesChange([{ id: nodeId, type: 'remove' }])
-          // Also remove all connected Edges.
-          // onEdgesChange hanldes the removal of Inputs.
-          const affectedEdges = get().edges.filter(
-            (edge) => edge.source === nodeId || edge.target === nodeId
-          )
-          get().onEdgesChange(
-            affectedEdges.map((edge) => ({ ...edge, type: 'remove' }))
-          )
-        },
-        addInput: (nodeId, inputId) => {
-          set(
-            produce((state: FlussStore) => {
-              const node = state.nodes.find((node) => node.id === nodeId)
-              if (node && node.data.type !== 'start') {
-                node.data.inputs.push({
-                  id: inputId ? inputId : newId(),
-                })
-              }
-            })
-          )
-        },
-        removeInput: (nodeId, inputId) => {
-          set(
-            produce((state: FlussStore) => {
-              const node = state.nodes.find((node) => node.id === nodeId)
-              if (node) {
-                if (node.data.type === 'start') return
-                node.data.inputs = node.data.inputs.filter(
-                  (input) => input.id !== inputId
-                )
-              }
-            })
-          )
-          // Also remove all associated edges.
-          set(
-            produce((state: FlussStore) => {
-              state.edges = state.edges.filter(
-                (edge) =>
-                  edge.target !== nodeId || edge.targetHandle !== inputId
+            set({ edges: applyEdgeChanges(changes, get().edges) })
+          },
+          onConnect: (connection) => {
+            // If the Node filling connection Handle is used, we create a new connection.
+            if (
+              connection.targetHandle !== null &&
+              connection.targetHandle.includes(NEW_CONNECTION_HANDLE_IDENTIFIER)
+            ) {
+              const newInputId: FlussStepInputId = newId()
+              get().addInput(connection.target, newInputId)
+
+              // Escape the execution to make sure internal updates after adding a handler happen.
+              setTimeout(
+                () =>
+                  get().onConnect({
+                    source: connection.source,
+                    sourceHandle: connection.sourceHandle,
+                    target: connection.target,
+                    targetHandle: newInputId,
+                  }),
+                1
               )
-            })
-          )
-        },
-        setNodeName: (nodeId, name) => {
-          set(
-            produce((state: FlussStore) => {
-              const node = state.nodes.find((node) => node.id === nodeId)
-              if (node) {
-                node.data.name = name
+              return
+            }
+            set({ edges: addEdge(connection, get().edges) })
+          },
+          setNodes: (nodes) => {
+            set({ nodes })
+          },
+          setEdges: (edges) => {
+            set({ edges })
+          },
+          setOutputType: (nodeId, outputId, outputTypeId) => {
+            set(
+              produce((state: FlussStore) => {
+                const node = state.nodes.find((node) => node.id === nodeId)
+                if (node) {
+                  const output = node.data.outputs.find(
+                    (output) => output.id === outputId
+                  )
+                  if (output) {
+                    output.type = outputTypeId
+                  }
+                }
+              })
+            )
+          },
+          setOutputName: (nodeId, outputId, outputName) => {
+            set(
+              produce((state: FlussStore) => {
+                const node = state.nodes.find((node) => node.id === nodeId)
+                if (node) {
+                  const output = node.data.outputs.find(
+                    (output) => output.id === outputId
+                  )
+                  if (output) output.name = outputName
+                }
+              })
+            )
+          },
+          addNode: (position) => {
+            set((state) => {
+              return {
+                nodes: [...state.nodes, createFlussNode(position)],
               }
             })
-          )
-        },
-        setNodeDescription: (nodeId, description) => {
-          set(
-            produce((state: FlussStore) => {
-              const node = state.nodes.find((node) => node.id === nodeId)
-              if (node) {
-                node.data.description = description
-              }
-            })
-          )
-        },
-        addFlussParameter: () => {
-          set(
-            produce((state: FlussStore) => {
-              const node = state.nodes.find((node) => node.id === START_NODE_ID)
-              if (node && node.data.type === 'start') {
-                node.data.outputs.push({
-                  id: shortId(),
-                  name: 'Unnamed',
-                  type: 'void',
-                })
-              }
-            })
-          )
-        },
-        removeFlussParameter: (outputId) => {
-          set(
-            produce((state: FlussStore) => {
-              const node = state.nodes.find((node) => node.id === START_NODE_ID)
-              if (node && node.data.type === 'start') {
-                const newOutputs = node.data.outputs.filter(
-                  (output) => output.id !== outputId
-                )
-                // Start Node must have at least one output.
-                if (newOutputs.length > 0) {
-                  node.data.outputs =
-                    newOutputs as ArrayNotEmpty<FlussStepOutput>
-                  // Remove all associated edges.
-                  state.edges = state.edges.filter(
-                    (edge) =>
-                      edge.source !== START_NODE_ID ||
-                      edge.sourceHandle !== outputId
+          },
+          removeNode: (nodeId) => {
+            get().onNodesChange([{ id: nodeId, type: 'remove' }])
+            // Also remove all connected Edges.
+            // onEdgesChange hanldes the removal of Inputs.
+            const affectedEdges = get().edges.filter(
+              (edge) => edge.source === nodeId || edge.target === nodeId
+            )
+            get().onEdgesChange(
+              affectedEdges.map((edge) => ({ ...edge, type: 'remove' }))
+            )
+          },
+          addInput: (nodeId, inputId) => {
+            set(
+              produce((state: FlussStore) => {
+                const node = state.nodes.find((node) => node.id === nodeId)
+                if (node && node.data.type !== 'start') {
+                  node.data.inputs.push({
+                    id: inputId ? inputId : newId(),
+                  })
+                }
+              })
+            )
+          },
+          removeInput: (nodeId, inputId) => {
+            set(
+              produce((state: FlussStore) => {
+                const node = state.nodes.find((node) => node.id === nodeId)
+                if (node) {
+                  if (node.data.type === 'start') return
+                  node.data.inputs = node.data.inputs.filter(
+                    (input) => input.id !== inputId
                   )
                 }
-              }
-            })
-          )
-        },
-        outputTypeUpdate: (typeId, type) => {
-          set(
-            produce((state: FlussStore) => {
-              const outputType = state.outputTypes.find(
-                (outputType) => outputType.id === typeId
-              )
-              if (outputType) {
-                Object.assign(outputType, type)
-              }
-            })
-          )
-        },
-        outputTypeAdd: (type) => {
-          set(
-            produce((state: FlussStore) => {
-              state.outputTypes.push(type)
-            })
-          )
-        },
-        outputTypeRemove: (typeId) => {
-          set(
-            produce((state: FlussStore) => {
-              state.outputTypes = state.outputTypes.filter(
-                (outputType) => outputType.id !== typeId
-              )
-            })
-          )
-          // Set all outputs using this type to void.
-          set(
-            produce((state: FlussStore) => {
-              state.nodes.forEach((node) => {
-                node.data.outputs.forEach((output) => {
-                  if (output.type === typeId) {
-                    output.type = 'void'
+              })
+            )
+            // Also remove all associated edges.
+            set(
+              produce((state: FlussStore) => {
+                state.edges = state.edges.filter(
+                  (edge) =>
+                    edge.target !== nodeId || edge.targetHandle !== inputId
+                )
+              })
+            )
+          },
+          setNodeName: (nodeId, name) => {
+            set(
+              produce((state: FlussStore) => {
+                const node = state.nodes.find((node) => node.id === nodeId)
+                if (node) {
+                  node.data.name = name
+                }
+              })
+            )
+          },
+          setNodeDescription: (nodeId, description) => {
+            set(
+              produce((state: FlussStore) => {
+                const node = state.nodes.find((node) => node.id === nodeId)
+                if (node) {
+                  node.data.description = description
+                }
+              })
+            )
+          },
+          addFlussParameter: () => {
+            set(
+              produce((state: FlussStore) => {
+                const node = state.nodes.find(
+                  (node) => node.id === START_NODE_ID
+                )
+                if (node && node.data.type === 'start') {
+                  node.data.outputs.push({
+                    id: shortId(),
+                    name: 'Unnamed',
+                    type: 'void',
+                  })
+                }
+              })
+            )
+          },
+          removeFlussParameter: (outputId) => {
+            set(
+              produce((state: FlussStore) => {
+                const node = state.nodes.find(
+                  (node) => node.id === START_NODE_ID
+                )
+                if (node && node.data.type === 'start') {
+                  const newOutputs = node.data.outputs.filter(
+                    (output) => output.id !== outputId
+                  )
+                  // Start Node must have at least one output.
+                  if (newOutputs.length > 0) {
+                    node.data.outputs =
+                      newOutputs as ArrayNotEmpty<FlussStepOutput>
+                    // Remove all associated edges.
+                    state.edges = state.edges.filter(
+                      (edge) =>
+                        edge.source !== START_NODE_ID ||
+                        edge.sourceHandle !== outputId
+                    )
                   }
+                }
+              })
+            )
+          },
+          outputTypeUpdate: (typeId, type) => {
+            set(
+              produce((state: FlussStore) => {
+                const outputType = state.outputTypes.find(
+                  (outputType) => outputType.id === typeId
+                )
+                if (outputType) {
+                  Object.assign(outputType, type)
+                }
+              })
+            )
+          },
+          outputTypeAdd: (type) => {
+            set(
+              produce((state: FlussStore) => {
+                state.outputTypes.push(type)
+              })
+            )
+          },
+          outputTypeRemove: (typeId) => {
+            set(
+              produce((state: FlussStore) => {
+                state.outputTypes = state.outputTypes.filter(
+                  (outputType) => outputType.id !== typeId
+                )
+              })
+            )
+            // Set all outputs using this type to void.
+            set(
+              produce((state: FlussStore) => {
+                state.nodes.forEach((node) => {
+                  node.data.outputs.forEach((output) => {
+                    if (output.type === typeId) {
+                      output.type = 'void'
+                    }
+                  })
                 })
               })
-            })
-          )
-        },
-        editSidebarOpen: () => set({ isEditSidebarOpen: true }),
-        editSidebarClose: () => set({ isEditSidebarOpen: false }),
-      }),
+            )
+          },
+          editSidebarOpen: () => set({ isEditSidebarOpen: true }),
+          editSidebarClose: () => set({ isEditSidebarOpen: false }),
+        }),
 
-      { name: 'FlussStore' }
+        { name: 'FlussStore' }
+      ),
+      {
+        // How many steps one can go back.
+        limit: 100,
+        // Exclude some properties from the history.
+        partialize: (state) => {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const { isEditSidebarOpen, ...rest } = state
+          return rest
+        },
+        // Throttle history snapshots.
+        handleSet: (handleSet) =>
+          debounce<typeof handleSet>((state) => {
+            handleSet(state)
+          }, 300),
+      }
     )
   )
 }
