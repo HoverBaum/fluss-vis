@@ -62,8 +62,9 @@ export const FlussNodeInput = ({ id, nodeId }: FlussNodeInputProps) => {
     >
       <div className="flex gap-2 items-center justify-between">
         {input?.type && (
-          <span className="flex flex-wrap gap-1">
-            <EdgeType outputTypeId={input.type} /> <span> - {input.name}</span>
+          <span className="flex flex-wrap">
+            <EdgeType outputTypeId={input.type} />{' '}
+            <span className="ml-1"> - {input.name}</span>
             {connections.length > 1 && (
               <span> (+{connections.length - 1})</span>
             )}
