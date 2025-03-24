@@ -16,6 +16,7 @@ import {
 import { Textarea } from '@/components/ui/textarea'
 import { stringToValidIdentifier } from '@/fluss-lib/nameConversion'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
+import { END_NODE_ID, START_NODE_ID } from '@/stores/storeHelpers'
 import { ArrowRightFromLine } from 'lucide-react'
 import { useEffect } from 'react'
 
@@ -116,14 +117,18 @@ export const StepEditSidebar = ({ isFullScreen }: StepEditSidebarProps) => {
         )}
       </SidebarContent>
       <SidebarFooter>
-        <Button
-          className="w-full hover:bg-destructive hover:text-destructive-foreground"
-          variant="secondary"
-          disabled={!selectedNode}
-          onClick={() => selectedNode && removeNode(selectedNode.id)}
-        >
-          Delete Node
-        </Button>
+        {selectedNode &&
+          selectedNode.id !== START_NODE_ID &&
+          selectedNode.id !== END_NODE_ID && (
+            <Button
+              className="w-full hover:bg-destructive hover:text-destructive-foreground"
+              variant="secondary"
+              disabled={!selectedNode}
+              onClick={() => selectedNode && removeNode(selectedNode.id)}
+            >
+              Delete Node
+            </Button>
+          )}
         <small className="w-full text-center opacity-75">
           Click outside a node to close.
         </small>
