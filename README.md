@@ -17,7 +17,6 @@ Fluss Viz will handle the execution of your logic and parallelize async operatio
 
 ## Road to Alpha
 
-- Handle IDs should not contain node IDs! Or this whole id should be the output and inputId in the state. Remove indirect coupling of needing same logic in different places. Maybe just longer ids.
 - Provide more helper types like a type for each stepFunction and input and return so devs can use that in their code.
 - Add custom type from type picker.
 - Add some juice ✨
@@ -32,6 +31,8 @@ Fluss Viz will handle the execution of your logic and parallelize async operatio
 This we plan to do.
 
 - Extract common logic from all Nodes.
+- Split State into Nodes (editor and visual) and Steps (Fluss parts for logic)
+- Introduce undo-redo.
 
 ### Ideas
 
