@@ -26,7 +26,7 @@ export const StartNode = ({
 
   return (
     <Card
-      className={`min-w-[250px] ${selected && 'border-foreground'}`}
+      className={`min-w-[250px] ${selected && 'border-foreground shadow-lg'}`}
       onDoubleClick={openEditSidebar}
     >
       {displayId && (

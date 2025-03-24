@@ -50,7 +50,7 @@ export const FlussNode = ({
   return (
     <Card
       onDoubleClick={openEditSidebar}
-      className={`w-[275px] relative ${selected && 'border-foreground'}`}
+      className={`w-[275px] relative ${selected && 'border-foreground shadow-lg'}`}
     >
       {isPotentialTarget && (
         <Handle

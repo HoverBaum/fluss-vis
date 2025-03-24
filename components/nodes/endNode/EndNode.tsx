@@ -44,7 +44,7 @@ export const EndNode = ({ selected, data }: NodeProps<Node<FlussStepEnd>>) => {
 
   return (
     <Card
-      className={`w-[275px] ${selected && 'border-foreground'}`}
+      className={`w-[275px] ${selected && 'border-foreground shadow-lg'}`}
       onDoubleClick={openEditSidebar}
     >
       {isPotentialTarget && (
