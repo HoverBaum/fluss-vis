@@ -138,6 +138,9 @@ export const devInitialState: FlussState = {
       target: 'XyASV',
       targetHandle: 'XyASV-XNqwk',
       id: 'xy-edge__startqs56w-XyASVXyASV-XNqwk',
+      data: {
+        finsihedAnimating: true,
+      },
     },
     {
       source: 'XyASV',
@@ -145,6 +148,9 @@ export const devInitialState: FlussState = {
       target: 'end',
       targetHandle: 'end-IMC3S',
       id: 'xy-edge__XyASVVQJps-endend-IMC3S',
+      data: {
+        finsihedAnimating: true,
+      },
     },
     {
       source: 'TRqTC',
@@ -152,6 +158,9 @@ export const devInitialState: FlussState = {
       target: 'XyASV',
       targetHandle: 'XyASV-TNZj8',
       id: 'xy-edge__TRqTCKi3pb-XyASVXyASV-TNZj8',
+      data: {
+        finsihedAnimating: true,
+      },
     },
     {
       source: 'start',
@@ -159,6 +168,9 @@ export const devInitialState: FlussState = {
       target: 'TRqTC',
       targetHandle: 'TRqTC-wzsOw',
       id: 'xy-edge__startnZEBo-TRqTCTRqTC-wzsOw',
+      data: {
+        finsihedAnimating: true,
+      },
     },
   ],
   outputTypes: [

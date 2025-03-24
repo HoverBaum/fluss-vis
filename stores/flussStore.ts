@@ -40,13 +40,18 @@ export type FlussNodeData = {
   output?: FlussNodeOutputType
 }
 
+export type FlussEdgeData = {
+  finsihedAnimating?: boolean
+}
+
 export type FlussNodeType = Node<FlussStep>
+export type FlussEdgeType = Edge<FlussEdgeData>
 
 export type FlussState = {
   name: string
   // Here I want a union type with start nodes.
   nodes: FlussNodeType[]
-  edges: Edge[]
+  edges: FlussEdgeType[]
   outputTypes: FlussStepOutputType[]
   isEditSidebarOpen: boolean
 }
@@ -84,6 +89,7 @@ export type FlussActions = {
   outputTypeRemove: (typeId: FlussStepOutputTypeId) => void
   editSidebarOpen: () => void
   editSidebarClose: () => void
+  edgeFinishedAnimating: (edgeId: string) => void
 }
 
 export type FlussStore = FlussState & FlussActions
@@ -329,6 +335,16 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
           },
           editSidebarOpen: () => set({ isEditSidebarOpen: true }),
           editSidebarClose: () => set({ isEditSidebarOpen: false }),
+          edgeFinishedAnimating: (edgeId) => {
+            set(
+              produce((state: FlussStore) => {
+                const edge = state.edges.find((edge) => edge.id === edgeId)
+                if (edge) {
+                  edge.data = { finsihedAnimating: true }
+                }
+              })
+            )
+          },
         }),
 
         { name: 'FlussStore' }

@@ -1,7 +1,7 @@
-import { useTheme } from 'next-themes'
 import { useEffect, useMemo } from 'react'
 import { githubdarkDimmed } from '@/components/code-styles/githubg-dark-dimmed'
 import { githubLight } from '@/components/code-styles/github-light'
+import { useIsDark } from '@/lib/useIsDark'
 
 const HLJS_STYLE_ID = 'syntaxHighlightingStyles'
 
@@ -10,10 +10,7 @@ const HLJS_STYLE_ID = 'syntaxHighlightingStyles'
  * Detects the current theme and updates the style accordingly.
  */
 export const useHljsStyles = () => {
-  const { theme, systemTheme } = useTheme()
-  const isDark =
-    theme === 'dark' || (theme === 'system' && systemTheme === 'dark')
-
+  const isDark = useIsDark()
   const editorTheme = useMemo(
     () => (isDark ? githubdarkDimmed : githubLight),
     [isDark]

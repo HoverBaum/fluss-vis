@@ -11,11 +11,11 @@ import { SaveIcon, Trash2Icon } from 'lucide-react'
 import parserTypeScript from 'prettier/parser-typescript'
 import prettierPluginEstree from 'prettier/plugins/estree'
 import prettier from 'prettier/standalone'
-import { useTheme } from 'next-themes'
 import { githubdarkDimmed } from '@/components/code-styles/githubg-dark-dimmed'
 import { githubLight } from '@/components/code-styles/github-light'
 import { IconSelect } from './IconSelect'
 import { Separator } from '@/components/ui/separator'
+import { useIsDark } from '@/lib/useIsDark'
 
 type CustomTypeEditorProps = {
   typeId: string
@@ -25,9 +25,7 @@ hljs.registerLanguage('typescript', typescript)
 
 export const CustomTypeEditor = ({ typeId }: CustomTypeEditorProps) => {
   const deleteOutputType = useFlussStore((store) => store.outputTypeRemove)
-  const { theme, systemTheme } = useTheme()
-  const isDark =
-    theme === 'dark' || (theme === 'system' && systemTheme === 'dark')
+  const isDark = useIsDark()
   const type = useFlussStore((store) =>
     store.outputTypes.find((type) => type.id === typeId)
   )
