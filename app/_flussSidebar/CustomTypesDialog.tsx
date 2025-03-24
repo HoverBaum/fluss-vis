@@ -1,4 +1,3 @@
-import { nanoid } from 'nanoid'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import {
@@ -22,6 +21,7 @@ import { DynamicIcon } from 'lucide-react/dynamic'
 import { useState } from 'react'
 import { CustomTypeEditor } from './CustomTypeEditor'
 import { CustomTypeDisplay } from './CustomTypeDisplay'
+import { newId } from '@/fluss-lib/flussId'
 
 type PageName = 'about' | 'overview' | 'editor'
 
@@ -103,7 +103,7 @@ export const CustomTypesDialog = () => {
               <Button
                 onClick={() => {
                   const newType: FlussStepOutputType = {
-                    id: nanoid(5),
+                    id: newId(),
                     typeName: 'NewType',
                     displayName: 'New Type',
                     content: 'any',

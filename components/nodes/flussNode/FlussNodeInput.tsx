@@ -7,11 +7,26 @@ import {
 } from '@xyflow/react'
 import { FlussNodeType } from '@/stores/flussStore'
 import { EdgeType } from '../EdgeType'
-import { outputFromStep } from '@/fluss-lib/nodeOperations'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { useState } from 'react'
 import { ButtonRemove } from '@/components/ButtonRemove'
 import { useSettingsStore } from '@/stores/SettingsStoreProvider'
+import { FlussStep, FlussStepOutput } from '@/fluss-lib/fluss'
+
+const outputFromStep = (
+  step: FlussStep,
+  id: string
+): FlussStepOutput | undefined => {
+  if (!step) return undefined
+  switch (step.type) {
+    case 'end':
+      return undefined
+    case 'start':
+      return step.outputs.find((output) => output.id === id)
+    case 'step':
+      return step.outputs[0]
+  }
+}
 
 type FlussNodeInputProps = {
   // ID of an input, that is output handle.

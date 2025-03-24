@@ -1,5 +1,4 @@
 import { produce } from 'immer'
-import { nanoid } from 'nanoid'
 import { devtools } from 'zustand/middleware'
 import {
   addEdge,
@@ -25,6 +24,7 @@ import {
 import { devInitialState } from './initialState.dev'
 import { createFlussNode, START_NODE_ID } from './storeHelpers'
 import { ArrayNotEmpty } from '@/fluss-lib/helperTypes'
+import { newId, shortId } from '@/fluss-lib/flussId'
 
 export type FlussNodeOutputType = {
   name?: string
@@ -119,7 +119,7 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
             connection.targetHandle !== null &&
             connection.targetHandle.includes(NEW_CONNECTION_HANDLE_IDENTIFIER)
           ) {
-            const newInputId: FlussStepInputId = nanoid(5)
+            const newInputId: FlussStepInputId = newId()
             get().addInput(connection.target, newInputId)
 
             // Escape the execution to make sure internal updates after adding a handler happen.
@@ -129,7 +129,7 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
                   source: connection.source,
                   sourceHandle: connection.sourceHandle,
                   target: connection.target,
-                  targetHandle: `${connection.target}-${newInputId}`,
+                  targetHandle: newInputId,
                 }),
               1
             )
@@ -195,9 +195,7 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
               const node = state.nodes.find((node) => node.id === nodeId)
               if (node && node.data.type !== 'start') {
                 node.data.inputs.push({
-                  id: inputId
-                    ? `${node.id}-${inputId}`
-                    : `${node.id}-${nanoid(5)}`,
+                  id: inputId ? inputId : newId(),
                 })
               }
             })
@@ -251,7 +249,7 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
               const node = state.nodes.find((node) => node.id === START_NODE_ID)
               if (node && node.data.type === 'start') {
                 node.data.outputs.push({
-                  id: nanoid(5),
+                  id: shortId(),
                   name: 'Unnamed',
                   type: 'void',
                 })
