@@ -47,13 +47,11 @@ export function TypePicker({ typeId, onTypeChange }: TypePickerProps) {
               <CommandEmpty>No results found.</CommandEmpty>
               <CommandGroup>
                 {outputTypes.map((outputType) => (
-                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                  //@ts-ignore
                   <CommandItem
                     key={outputType.id}
-                    value={outputType.id}
-                    onSelect={(value) => {
-                      onTypeChange(value)
+                    value={outputType.typeName}
+                    onSelect={() => {
+                      onTypeChange(outputType.id)
                       setOpen(false)
                     }}
                   >

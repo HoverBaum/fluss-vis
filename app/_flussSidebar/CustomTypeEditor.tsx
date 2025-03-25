@@ -171,13 +171,6 @@ export const CustomTypeEditor = ({ typeId }: CustomTypeEditorProps) => {
         <ButtonDanger onClick={() => deleteOutputType(typeId)}>
           <Trash2Icon /> Delete &quot;{type.displayName}&quot;
         </ButtonDanger>
-        {/* <Button
-          variant="secondary"
-          onClick={() => deleteOutputType(typeId)}
-          className="hover:bg-danger hover:text-danger-foreground"
-        >
-          <Trash2Icon /> Delete &quot;{type.displayName}&quot;
-        </ButtonDanger> */}
       </div>
     </div>
   )
