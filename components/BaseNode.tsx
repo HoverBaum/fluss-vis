@@ -25,7 +25,8 @@ const DropIndicator = ({ nodeId }: { nodeId: string }) => {
   const isAlreadyConnected = useFlussStore((store) =>
     store.edges.some(
       (edge) =>
-        edge.target === nodeId && edge.source === connection?.fromNode?.id
+        edge.target === nodeId &&
+        edge.sourceHandle === connection?.fromHandle?.id
     )
   )
   return (
@@ -34,13 +35,15 @@ const DropIndicator = ({ nodeId }: { nodeId: string }) => {
         isAlreadyConnected ? 'bg-fluss-pink/5' : 'bg-fluss-blue-light/5'
       }`}
     >
-      <Handle
-        id={`${nodeId}-${NEW_CONNECTION_HANDLE_IDENTIFIER}`}
-        type="target"
-        position={Position.Left}
-        isConnectableStart={false}
-        className="w-full! h-full! absolute! top-1/2! left-1/2! border-none! rounded-none! bg-transparent! z-20!"
-      />
+      {!isAlreadyConnected && (
+        <Handle
+          id={`${nodeId}-${NEW_CONNECTION_HANDLE_IDENTIFIER}`}
+          type="target"
+          position={Position.Left}
+          isConnectableStart={false}
+          className="w-full! h-full! absolute! top-1/2! left-1/2! border-none! rounded-none! bg-transparent! z-20!"
+        />
+      )}
       <div className="bg-background px-4 py-2 rounded-md shadow-sm">
         {isAlreadyConnected ? (
           <span className="flex items-center gap-2">

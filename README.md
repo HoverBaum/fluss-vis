@@ -24,6 +24,10 @@ Fluss Viz will handle the execution of your logic and parallelize async operatio
 - Handle two inputs with same name.
 - Normalize outputs to live in a list and nodes reference this list by id for inputs and outputs.
 
+### Bugs
+
+- After panning the connect animation doesn't work
+
 ### NOT part of Alpha
 
 ## Later Features
