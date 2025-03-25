@@ -59,6 +59,8 @@ export const FlussEdge = ({
         style={{
           strokeWidth: selected || isHighlighted ? 2 : 1,
           strokeDasharray: state === 'exiting' ? '4 2' : undefined, // Dotted line for "exiting" state
+          opacity: data?.state === 'exiting' ? 0 : 1, // Handle opacity directly
+          transition: 'opacity 0.3s',
         }}
       />
 
