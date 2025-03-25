@@ -17,7 +17,7 @@ import {
 import { NEW_CONNECTION_HANDLE_IDENTIFIER } from '@/stores/flussStore'
 import { useSettingsStore } from '@/stores/SettingsStoreProvider'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
-import { ShieldXIcon, UnplugIcon } from 'lucide-react'
+import { OctagonXIcon, UnplugIcon } from 'lucide-react'
 
 // New DropIndicator component
 const DropIndicator = ({ nodeId }: { nodeId: string }) => {
@@ -40,12 +40,12 @@ const DropIndicator = ({ nodeId }: { nodeId: string }) => {
       <div className="bg-background px-4 py-2 rounded-md shadow">
         {isAlreadyConnected ? (
           <span className="flex items-center gap-2">
-            <ShieldXIcon />
+            <OctagonXIcon className="text-destructive" />
             Already Connected
           </span>
         ) : (
           <span className="flex items-center gap-2">
-            <UnplugIcon />
+            <UnplugIcon className="text-emerald-400" />
             Drop to add input
           </span>
         )}
