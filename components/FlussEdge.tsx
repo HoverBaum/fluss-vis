@@ -3,15 +3,15 @@
 import React from 'react'
 import {
   BaseEdge,
-  EdgeLabelRenderer,
+  // EdgeLabelRenderer,
   getBezierPath,
-  useReactFlow,
+  // useReactFlow,
   type EdgeProps,
 } from '@xyflow/react'
-import Lottie from 'lottie-react'
-import connectionAnimation from './connectionAnimation.json'
-import { updateLottieFillColor } from '@/lib/updateLottieColor'
-import { useIsDark } from '@/lib/useIsDark'
+// import Lottie from 'lottie-react'
+// import connectionAnimation from './connectionAnimation.json'
+// import { updateLottieFillColor } from '@/lib/updateLottieColor'
+// import { useIsDark } from '@/lib/useIsDark'
 import { FlussEdgeType } from '@/stores/flussStore'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 
@@ -23,8 +23,8 @@ export const FlussEdge = ({
   sourcePosition,
   targetPosition,
   selected,
-  data,
-  id,
+  // data,
+  // id,
   source,
   target,
 }: EdgeProps<FlussEdgeType>) => {
@@ -33,13 +33,13 @@ export const FlussEdge = ({
       (node) => (node.id === source || node.id === target) && node.selected
     )
   )
-  const finsihedAnimating = data?.finsihedAnimating || false
-  const edgeFinishedAnimating = useFlussStore(
-    (state) => state.edgeFinishedAnimating
-  )
-  const isDark = useIsDark()
-  const { flowToScreenPosition } = useReactFlow()
-  const targetScreenPosition = flowToScreenPosition({ x: targetX, y: targetY })
+  // const finsihedAnimating = data?.finsihedAnimating || false
+  // const edgeFinishedAnimating = useFlussStore(
+  //   (state) => state.edgeFinishedAnimating
+  // )
+  // const isDark = useIsDark()
+  // const { flowToScreenPosition } = useReactFlow()
+  // const targetScreenPosition = flowToScreenPosition({ x: targetX, y: targetY })
   const [edgePath] = getBezierPath({
     sourceX,
     sourceY,
@@ -57,7 +57,7 @@ export const FlussEdge = ({
           strokeWidth: selected || isHighlighted ? 2 : 1,
         }}
       />
-      <EdgeLabelRenderer>
+      {/* <EdgeLabelRenderer>
         {!finsihedAnimating && (
           <Lottie
             onComplete={() => edgeFinishedAnimating(id)}
@@ -74,7 +74,7 @@ export const FlussEdge = ({
             key={`${id}-create-animation`}
           />
         )}
-      </EdgeLabelRenderer>
+      </EdgeLabelRenderer> */}
     </>
   )
 }
