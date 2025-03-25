@@ -1,3 +1,4 @@
+import { motion } from 'motion/react'
 import {
   Handle,
   HandleType,
@@ -55,7 +56,9 @@ export const FlussNodeInput = ({ id, nodeId }: FlussNodeInputProps) => {
   const removeInput = useFlussStore((state) => state.removeInput)
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 100 }}
       className="relative pl-6"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -88,6 +91,6 @@ export const FlussNodeInput = ({ id, nodeId }: FlussNodeInputProps) => {
         style={{ position: 'absolute', left: '0px' }}
         isConnectable={connections.length === 0}
       />
-    </div>
+    </motion.div>
   )
 }
