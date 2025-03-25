@@ -17,8 +17,8 @@ import { toast } from 'sonner'
 import { useExport } from './useExport'
 import { useEffect, useState } from 'react'
 import { CodeDisplay } from '@/components/CodeDisplay'
-// import codeAnimation from './code_animation.json'
-// import Lottie from 'lottie-react'
+import codeAnimation from './code_animation.json'
+import Lottie from 'lottie-react'
 
 export const Export = () => {
   const [codeToCopy, setCodeToCopy] = useState('')
@@ -46,12 +46,12 @@ export const Export = () => {
         </DialogHeader>
         {!animationDone && (
           <div>
-            {/* <Lottie
+            <Lottie
               animationData={codeAnimation}
               className="h-60"
               loop={false}
               onComplete={() => setTimeout(() => setAnimationDone(true), 500)}
-            /> */}
+            />
             <p className="text-center text-lg">Creating your Fluss 🪄</p>
           </div>
         )}
