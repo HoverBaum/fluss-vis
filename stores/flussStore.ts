@@ -127,7 +127,18 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
 
                 // Once the Edge has exited, we remove all connected inputs.
                 if (edge && edge.targetHandle)
-                  get().removeInput(edge.target, edge.targetHandle)
+                  set(
+                    produce((state: FlussStore) => {
+                      const node = state.nodes.find(
+                        (node) => node.id === edge.target
+                      )
+                      if (node && node.data.type !== 'start') {
+                        node.data.inputs = node.data.inputs.filter(
+                          (input) => input.id !== edge.targetHandle
+                        )
+                      }
+                    })
+                  )
               }
             })
             const changesToApply = changes.filter(
@@ -234,37 +245,6 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
             )
           },
           removeInput: (nodeId, inputId) => {
-            // set(
-            //   produce((state: FlussStore) => {
-            //     const node = state.nodes.find((node) => node.id === nodeId)
-            //     if (node) {
-            //       if (node.data.type === 'start') return
-            //       node.data.inputs = node.data.inputs.filter(
-            //         (input) => input.id !== inputId
-            //       )
-            //     }
-            //   })
-            // )
-            // Also remove all associated edges.
-            // set(
-            //   produce((state: FlussStore) => {
-            //     state.edges = state.edges.filter(
-            //       (edge) =>
-            //         edge.target !== nodeId || edge.targetHandle !== inputId
-            //     )
-            //   })
-            // )
-            // Set all related edges to exiting
-            set(
-              produce((state: FlussStore) => {
-                state.edges.forEach((edge) => {
-                  if (edge.target === nodeId && edge.targetHandle === inputId) {
-                    edge.data = { ...edge.data, state: 'exiting' }
-                  }
-                })
-              })
-            )
-            // Set Input to exiting
             set(
               produce((state: FlussStore) => {
                 const node = state.nodes.find((node) => node.id === nodeId)
@@ -278,27 +258,16 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
                 }
               })
             )
-            setTimeout(() => {
-              set(
-                produce((state: FlussStore) => {
-                  const node = state.nodes.find((node) => node.id === nodeId)
-                  if (node) {
-                    if (node.data.type === 'start') return
-                    node.data.inputs = node.data.inputs.filter(
-                      (input) => input.id !== inputId
-                    )
-                  }
-                })
-              )
-              set(
-                produce((state: FlussStore) => {
-                  state.edges = state.edges.filter(
-                    (edge) =>
-                      edge.target !== nodeId || edge.targetHandle !== inputId
-                  )
-                })
-              )
-            }, 300)
+
+            // Removing Edges will remove the input from state.
+            get().onEdgesChange(
+              get()
+                .edges.filter(
+                  (edge) =>
+                    edge.target === nodeId && edge.targetHandle === inputId
+                )
+                .map((edge) => ({ ...edge, type: 'remove' }))
+            )
           },
           setNodeName: (nodeId, name) => {
             set(
