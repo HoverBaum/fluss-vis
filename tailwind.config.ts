@@ -11,6 +11,10 @@ export default {
   theme: {
     extend: {
       colors: {
+        flussPink: 'hsl(var(--fluss-pink))',
+        flussPinkDeep: 'hsl(var(--fluss-pink-deep))',
+        flussBlue: 'hsl(var(--fluss-blue))',
+        flussBlueLight: 'hsl(var(--fluss-blue-light))',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
