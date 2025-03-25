@@ -15,7 +15,7 @@ export const ButtonRemove = ({
   return (
     <Button
       disabled={disabled}
-      className={`w-8 h-8 ${isInvisible && 'opacity-0'}`}
+      className={`w-8 h-8 ${isInvisible ? 'opacity-0' : ''} hover:bg-danger hover:text-danger-foreground`}
       variant="ghost"
       onClick={onClick}
     >
