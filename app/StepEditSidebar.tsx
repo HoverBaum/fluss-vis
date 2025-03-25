@@ -1,5 +1,6 @@
 'use client'
 
+import { ButtonDanger } from '@/components/ButtonDanger'
 import { CodeDisplay } from '@/components/CodeDisplay'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -120,14 +121,12 @@ export const StepEditSidebar = ({ isFullScreen }: StepEditSidebarProps) => {
         {selectedNode &&
           selectedNode.id !== START_NODE_ID &&
           selectedNode.id !== END_NODE_ID && (
-            <Button
-              className="w-full hover:bg-flussDanger hover:text-white"
-              variant="secondary"
+            <ButtonDanger
               disabled={!selectedNode}
               onClick={() => selectedNode && removeNode(selectedNode.id)}
             >
               Delete Node
-            </Button>
+            </ButtonDanger>
           )}
         <small className="w-full text-center opacity-75">
           Click outside a node to close.

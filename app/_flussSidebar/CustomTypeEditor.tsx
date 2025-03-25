@@ -14,6 +14,7 @@ import prettier from 'prettier/standalone'
 import { IconSelect } from './IconSelect'
 import { Separator } from '@/components/ui/separator'
 import { useHljsStyles } from '@/components/useHljsStyles'
+import { ButtonDanger } from '@/components/ButtonDanger'
 
 type CustomTypeEditorProps = {
   typeId: string
@@ -167,13 +168,16 @@ export const CustomTypeEditor = ({ typeId }: CustomTypeEditorProps) => {
 
         <Separator />
 
-        <Button
+        <ButtonDanger onClick={() => deleteOutputType(typeId)}>
+          <Trash2Icon /> Delete &quot;{type.displayName}&quot;
+        </ButtonDanger>
+        {/* <Button
           variant="secondary"
           onClick={() => deleteOutputType(typeId)}
-          className="hover:bg-flussDanger hover:text-white"
+          className="hover:bg-danger hover:text-danger-foreground"
         >
           <Trash2Icon /> Delete &quot;{type.displayName}&quot;
-        </Button>
+        </ButtonDanger> */}
       </div>
     </div>
   )

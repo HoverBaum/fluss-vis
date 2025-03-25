@@ -45,6 +45,8 @@ body {
     --fluss-pink-deep: 313 71% 51%;
     --fluss-blue: 207 60% 51%;
     --fluss-blue-light: 207 76% 79%;
+    --danger: 313 71% 51%;
+    --danger-foreground: 313 99% 99%;
   }
   .dark {
     --background: 20 14.3% 4.1%;
@@ -83,6 +85,8 @@ body {
     --fluss-pink-deep: 313 71% 51%;
     --fluss-blue: 207 60% 51%;
     --fluss-blue-light: 207 76% 79%;
+    --danger: 313 98% 78%;
+    --danger-foreground: 313 87% 3%;
   }
 }
 
