@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useMemo } from 'react'
 import {
   BaseEdge,
   EdgeLabelRenderer,
@@ -52,6 +52,28 @@ export const FlussEdge = ({
     targetPosition,
   })
 
+  const stroke = useMemo(() => {
+    if (!data?.state) {
+      return undefined
+    }
+    if (data.state === 'exiting') {
+      return isDark ? 'hsl(var(--fluss-pink))' : 'hsl(var(--fluss-pink-deep))'
+    }
+    if (data.state === 'entering') {
+      return isDark ? 'hsl(var(--fluss-blue-light))' : 'hsl(var(--fluss-blue))'
+    }
+  }, [data?.state, isDark])
+
+  const opacity = useMemo(() => {
+    if (!data?.state) {
+      return 1
+    }
+    if (data.state === 'exiting') {
+      return 0
+    }
+    return 1
+  }, [data?.state])
+
   return (
     <>
       <BaseEdge
@@ -59,8 +81,9 @@ export const FlussEdge = ({
         style={{
           strokeWidth: selected || isHighlighted ? 2 : 1,
           strokeDasharray: state === 'exiting' ? '4 2' : undefined, // Dotted line for "exiting" state
-          opacity: data?.state === 'exiting' ? 0 : 1, // Handle opacity directly
-          transition: 'opacity 0.3s',
+          opacity,
+          transition: 'all 0.3s',
+          stroke,
         }}
       />
 
