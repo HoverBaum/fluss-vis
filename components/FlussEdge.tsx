@@ -61,10 +61,11 @@ export const FlussEdge = ({
             onComplete={() => edgeFinishedAnimating(id)}
             animationData={updateLottieFillColor(
               connectionAnimation,
-              isDark ? [1, 1, 1, 1] : [0, 0, 0, 1]
+              isDark ? [159, 205, 242] : [55, 137, 205],
+              1
             )}
             loop={false}
-            className="w-20 h-20 fixed"
+            className="w-14 h-14 fixed"
             style={{
               transform: `translate(-50%, -50%) translate(${targetScreenPosition.x}px, ${targetScreenPosition.y}px)`,
             }}

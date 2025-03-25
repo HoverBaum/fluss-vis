@@ -1,22 +1,31 @@
 /**
  * Updates the fill color in a Lottie JSON animation data.
  *
- * This function takes a Lottie animation JSON object and an RGBA color array,
+ * This function takes a Lottie animation JSON object and an RGB color with an alpha value,
  * then returns a new Lottie JSON object with all fill (fl) color properties
- * updated to the new color. The color should be provided as an RGBA array where each component
- * is a number between 0 and 1.
+ * updated to the new color. The RGB values should be between 0 and 255, and the alpha value
+ * should be between 0 and 1.
  *
  * @param lottieData - The original Lottie JSON data object.
- * @param rgbaColor - The desired color as an RGBA array where each value is between 0 and 1.
+ * @param rgbColor - The desired color as an RGB array where each value is between 0 and 255.
+ * @param alpha - The desired alpha value between 0 and 1.
  * @returns A new Lottie JSON object with the updated fill colors.
  */
 export function updateLottieFillColor(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   lottieData: any,
-  rgbaColor: [number, number, number, number]
+  rgbColor: [number, number, number],
+  alpha: number
 ): unknown {
+  // Convert RGB (0-255) to RGBA (0-1) format.
+  const rgbaColor: [number, number, number, number] = [
+    rgbColor[0] / 255,
+    rgbColor[1] / 255,
+    rgbColor[2] / 255,
+    alpha,
+  ]
+
   // Create a deep clone of the lottieData to avoid modifying the original JSON.
-  // This ensures that the changes are only applied to the new object.
   const updatedData = JSON.parse(JSON.stringify(lottieData))
 
   // Check if the lottie data contains layers.
@@ -34,7 +43,6 @@ export function updateLottieFillColor(
             // Update the fill color to the new color array.
             shape.c.k = rgbaColor
           }
-          // If your Lottie file has nested shapes (e.g., groups), you may need to recursively update them.
         })
       }
     })
