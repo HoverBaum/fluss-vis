@@ -18,7 +18,10 @@ import { useExport } from './useExport'
 import { useEffect, useState } from 'react'
 import { CodeDisplay } from '@/components/CodeDisplay'
 import codeAnimation from './code_animation.json'
-import Lottie from 'lottie-react'
+import dynamic from 'next/dynamic'
+
+// Dynamically import Lottie so that it’s only loaded on the client side.
+const Lottie = dynamic(() => import('lottie-react'), { ssr: false })
 
 export const Export = () => {
   const [codeToCopy, setCodeToCopy] = useState('')
