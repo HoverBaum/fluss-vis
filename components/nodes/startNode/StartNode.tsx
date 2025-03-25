@@ -1,44 +1,30 @@
 'use client'
 
 import { Node, NodeProps } from '@xyflow/react'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
 import { START_NODE_ID } from '@/stores/storeHelpers'
 import { FlussStepStart } from '@/fluss-lib/fluss'
 import { Button } from '@/components/ui/button'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { StartNodeOutput } from './StartNodeOutput'
-import { useSettingsStore } from '@/stores/SettingsStoreProvider'
+import { BaseNode, BaseNodeOutputsContent } from '@/components/BaseNode'
 
 export const StartNode = ({
   data,
   selected,
 }: NodeProps<Node<FlussStepStart>>) => {
-  const displayId = useSettingsStore((store) => store.displayIds)
   const { outputs, name, description } = data
   const addFlussParameter = useFlussStore((state) => state.addFlussParameter)
-  const openEditSidebar = useFlussStore((store) => store.editSidebarOpen)
 
   return (
-    <Card
-      className={`min-w-[250px] ${selected && 'border-foreground shadow-lg'}`}
-      onDoubleClick={openEditSidebar}
+    <BaseNode
+      nodeId={START_NODE_ID}
+      name={name}
+      description={description}
+      selected={selected}
+      className="min-w-[250px]"
+      showNewConnectionHandle={false}
     >
-      {displayId && (
-        <small className="absolute top-2 right-2 font-mono">
-          {START_NODE_ID}
-        </small>
-      )}
-      <CardHeader>
-        <CardTitle className="text-xl">{name}</CardTitle>
-        <CardDescription>{description}</CardDescription>
-      </CardHeader>
-      <CardContent className="pr-0">
+      <BaseNodeOutputsContent>
         <div className="flex flex-col items-end gap-4">
           {outputs.map((output, index) => (
             <div key={output.id}>
@@ -56,7 +42,7 @@ export const StartNode = ({
             Add Parameter
           </Button>
         </div>
-      </CardContent>
-    </Card>
+      </BaseNodeOutputsContent>
+    </BaseNode>
   )
 }
