@@ -40,7 +40,7 @@ export type FlussNodeData = {
   output?: FlussNodeOutputType
 }
 
-export type FlussEdgeStates = 'entering' | 'entered' | 'exiting'
+export type FlussEdgeStates = 'entering' | 'entered' | 'exiting' | 'exited'
 
 export type FlussEdgeData = {
   state: FlussEdgeStates
@@ -91,7 +91,7 @@ export type FlussActions = {
   outputTypeRemove: (typeId: FlussStepOutputTypeId) => void
   editSidebarOpen: () => void
   editSidebarClose: () => void
-  edgeFinishedAnimating: (edgeId: string) => void
+  edgeSetState: (edgeId: string, state: FlussEdgeStates) => void
 }
 
 export type FlussStore = FlussState & FlussActions
@@ -115,14 +115,37 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
             set({ nodes: updatedNodes })
           },
           onEdgesChange: (changes) => {
+            const idsTriggeredExitings: string[] = []
             changes.forEach((change) => {
               if (change.type === 'remove') {
                 const edge = get().edges.find((edge) => edge.id === change.id)
+
+                // If the Edge has not existed yet, we toggle the exiting state.
+                if (edge?.data?.state !== 'exited') {
+                  get().edgeSetState(change.id, 'exiting')
+                  idsTriggeredExitings.push(change.id)
+
+                  // After 0.3s in exiting state we can reply the removal.
+                  setTimeout(() => {
+                    get().edgeSetState(change.id, 'exited')
+                    get().onEdgesChange([change])
+                  }, 300)
+                  return
+                }
+
+                // Once the Edge has exited, we remove all connected inputs.
                 if (edge && edge.targetHandle)
                   get().removeInput(edge.target, edge.targetHandle)
               }
             })
-            set({ edges: applyEdgeChanges(changes, get().edges) })
+            const changesToApply = changes.filter(
+              (change) =>
+                !(
+                  change.type === 'remove' &&
+                  idsTriggeredExitings.includes(change.id)
+                )
+            )
+            set({ edges: applyEdgeChanges(changesToApply, get().edges) })
           },
           onConnect: (connection) => {
             // If the Node filling connection Handle is used, we create a new connection.
@@ -342,12 +365,12 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
           },
           editSidebarOpen: () => set({ isEditSidebarOpen: true }),
           editSidebarClose: () => set({ isEditSidebarOpen: false }),
-          edgeFinishedAnimating: (edgeId) => {
+          edgeSetState: (edgeId, newState) => {
             set(
               produce((state: FlussStore) => {
                 const edge = state.edges.find((edge) => edge.id === edgeId)
                 if (edge) {
-                  edge.data = { state: 'entered' }
+                  edge.data = { state: newState }
                 }
               })
             )

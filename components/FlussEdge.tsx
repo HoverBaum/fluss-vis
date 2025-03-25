@@ -37,10 +37,8 @@ export const FlussEdge = ({
       (node) => (node.id === source || node.id === target) && node.selected
     )
   )
-  const finsihedAnimating = data?.state !== 'entering' || false
-  const edgeFinishedAnimating = useFlussStore(
-    (state) => state.edgeFinishedAnimating
-  )
+  const { state = 'entering' } = data || {}
+  const edgeSetState = useFlussStore((state) => state.edgeSetState)
   const isDark = useIsDark()
   const { flowToScreenPosition } = useReactFlow()
   const targetScreenPosition = flowToScreenPosition({ x: targetX, y: targetY })
@@ -60,12 +58,14 @@ export const FlussEdge = ({
         path={edgePath}
         style={{
           strokeWidth: selected || isHighlighted ? 2 : 1,
+          strokeDasharray: state === 'exiting' ? '4 2' : undefined, // Dotted line for "exiting" state
         }}
       />
+
       <EdgeLabelRenderer>
-        {!finsihedAnimating && (
+        {state === 'entering' && (
           <Lottie
-            onComplete={() => edgeFinishedAnimating(id)}
+            onComplete={() => edgeSetState(id, 'entered')}
             animationData={updateLottieFillColor(
               connectionAnimation,
               isDark ? [159, 205, 242] : [55, 137, 205],
