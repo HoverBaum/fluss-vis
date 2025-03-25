@@ -26,6 +26,7 @@ export const devInitialState: FlussState = {
         inputs: [
           {
             id: 'TRqTC-wzsOw',
+            state: 'entered',
           },
         ],
         description: 'Takes a number and returns that number squared.',
@@ -57,9 +58,11 @@ export const devInitialState: FlussState = {
         inputs: [
           {
             id: 'XyASV-XNqwk',
+            state: 'entered',
           },
           {
             id: 'XyASV-TNZj8',
+            state: 'entered',
           },
         ],
         description:
@@ -119,6 +122,7 @@ export const devInitialState: FlussState = {
         inputs: [
           {
             id: 'end-IMC3S',
+            state: 'entered',
           },
         ],
         outputs: [],
