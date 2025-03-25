@@ -11,11 +11,9 @@ import { SaveIcon, Trash2Icon } from 'lucide-react'
 import parserTypeScript from 'prettier/parser-typescript'
 import prettierPluginEstree from 'prettier/plugins/estree'
 import prettier from 'prettier/standalone'
-import { githubdarkDimmed } from '@/components/code-styles/githubg-dark-dimmed'
-import { githubLight } from '@/components/code-styles/github-light'
 import { IconSelect } from './IconSelect'
 import { Separator } from '@/components/ui/separator'
-import { useIsDark } from '@/lib/useIsDark'
+import { useHljsStyles } from '@/components/useHljsStyles'
 
 type CustomTypeEditorProps = {
   typeId: string
@@ -24,8 +22,8 @@ type CustomTypeEditorProps = {
 hljs.registerLanguage('typescript', typescript)
 
 export const CustomTypeEditor = ({ typeId }: CustomTypeEditorProps) => {
+  useHljsStyles()
   const deleteOutputType = useFlussStore((store) => store.outputTypeRemove)
-  const isDark = useIsDark()
   const type = useFlussStore((store) =>
     store.outputTypes.find((type) => type.id === typeId)
   )
@@ -43,27 +41,6 @@ export const CustomTypeEditor = ({ typeId }: CustomTypeEditorProps) => {
   useEffect(() => {
     setEditingCode(codePrefix + type?.content)
   }, [type?.content, codePrefix])
-
-  const editorTheme = useMemo(
-    () => (isDark ? githubdarkDimmed : githubLight),
-    [isDark]
-  )
-
-  // Update the CSS we need to style the code editor.
-  useEffect(() => {
-    // Check if the style tag already exists
-    let style: HTMLElement
-    const existingStyle = document.getElementById('syntax-highlighting-styles')
-    if (!existingStyle) {
-      style = document.createElement('style')
-      style.id = 'syntax-highlighting-styles'
-      document.head.appendChild(style)
-    } else {
-      style = existingStyle
-    }
-
-    style.textContent = editorTheme
-  }, [editorTheme])
 
   if (!type) {
     return null

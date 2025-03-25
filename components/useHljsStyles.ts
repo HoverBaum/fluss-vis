@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from 'react'
-import { githubdarkDimmed } from '@/components/code-styles/githubg-dark-dimmed'
 import { githubLight } from '@/components/code-styles/github-light'
 import { useIsDark } from '@/lib/useIsDark'
+import { githubDark } from './code-styles/github-dark'
 
 const HLJS_STYLE_ID = 'syntaxHighlightingStyles'
 
@@ -12,7 +12,7 @@ const HLJS_STYLE_ID = 'syntaxHighlightingStyles'
 export const useHljsStyles = () => {
   const isDark = useIsDark()
   const editorTheme = useMemo(
-    () => (isDark ? githubdarkDimmed : githubLight),
+    () => (isDark ? githubDark : githubLight),
     [isDark]
   )
 
