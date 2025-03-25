@@ -6,6 +6,7 @@ import {
   EdgeLabelRenderer,
   getBezierPath,
   useReactFlow,
+  useViewport,
   type EdgeProps,
 } from '@xyflow/react'
 import connectionAnimation from './connectionAnimation.json'
@@ -43,6 +44,7 @@ export const FlussEdge = ({
   const isDark = useIsDark()
   const { flowToScreenPosition } = useReactFlow()
   const targetScreenPosition = flowToScreenPosition({ x: targetX, y: targetY })
+  const { x, y } = useViewport()
   const [edgePath] = getBezierPath({
     sourceX,
     sourceY,
@@ -72,9 +74,8 @@ export const FlussEdge = ({
             loop={false}
             className="w-14 h-14 fixed"
             style={{
-              transform: `translate(-50%, -50%) translate(${targetScreenPosition.x}px, ${targetScreenPosition.y}px)`,
+              transform: `translate(-50%, -50%) translate(${targetScreenPosition.x - x}px, ${targetScreenPosition.y - y}px)`,
             }}
-            key={`${id}-create-animation`}
           />
         )}
       </EdgeLabelRenderer>
