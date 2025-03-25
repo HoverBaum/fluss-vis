@@ -5,6 +5,9 @@ import { githubDark } from './code-styles/github-dark'
 
 const HLJS_STYLE_ID = 'syntaxHighlightingStyles'
 
+// Create a safe version of useEffect that doesn't run on the server
+const useIsomorphicEffect = typeof window !== 'undefined' ? useEffect : () => {}
+
 /**
  * Injects a style tag into the head of the document to style hljs parsed code.
  * Detects the current theme and updates the style accordingly.
@@ -17,10 +20,7 @@ export const useHljsStyles = () => {
   )
 
   // Update the CSS we need to style the code editor.
-  useEffect(() => {
-    // Guard for server rendering.
-    if (typeof document === 'undefined') return
-
+  useIsomorphicEffect(() => {
     // Check if the style tag already exists
     let style: HTMLElement
     const existingStyle = document.getElementById(HLJS_STYLE_ID)
