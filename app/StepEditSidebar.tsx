@@ -44,7 +44,7 @@ export const StepEditSidebar = ({ isFullScreen }: StepEditSidebarProps) => {
       side="right"
       variant={isFullScreen ? 'sidebar' : 'floating'}
       className="pl-0 ml-0"
-      sidebarClassName="!rounded-l-none !border-l bg-background"
+      sidebarClassName="rounded-l-none! border-l! bg-background"
     >
       <SidebarHeader className="relative">
         {nodeData && (

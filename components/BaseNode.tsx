@@ -30,7 +30,7 @@ const DropIndicator = ({ nodeId }: { nodeId: string }) => {
   )
   return (
     <div
-      className={`w-full h-full absolute top-0 left-0 opacity-0 hover:opacity-100 z-10 grid place-items-center backdrop-blur-sm transition-opacity overflow-hidden ${
+      className={`w-full h-full absolute top-0 left-0 opacity-0 hover:opacity-100 z-10 grid place-items-center backdrop-blur-xs transition-opacity overflow-hidden ${
         isAlreadyConnected ? 'bg-flussPink/5' : 'bg-flussBlueLight/5'
       }`}
     >
@@ -39,9 +39,9 @@ const DropIndicator = ({ nodeId }: { nodeId: string }) => {
         type="target"
         position={Position.Left}
         isConnectableStart={false}
-        className="!w-full !h-full !absolute !top-1/2 !left-1/2 !border-none !rounded-none !bg-transparent !z-20"
+        className="w-full! h-full! absolute! top-1/2! left-1/2! border-none! rounded-none! bg-transparent! z-20!"
       />
-      <div className="bg-background px-4 py-2 rounded-md shadow">
+      <div className="bg-background px-4 py-2 rounded-md shadow-sm">
         {isAlreadyConnected ? (
           <span className="flex items-center gap-2">
             <OctagonXIcon className="text-flussDanger" />
@@ -93,7 +93,7 @@ export const BaseNode = ({
 
   return (
     <Card
-      className={`w-[275px] relative shadow-sm ${selected ? 'border-foreground shadow-lg' : ''}  ${className}`}
+      className={`w-[275px] relative shadow-xs ${selected ? 'border-foreground shadow-lg' : ''}  ${className}`}
       onDoubleClick={openEditSidebar}
     >
       {isPotentialTarget && <DropIndicator nodeId={nodeId} />}
