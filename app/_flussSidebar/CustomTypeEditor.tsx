@@ -193,7 +193,7 @@ export const CustomTypeEditor = ({ typeId }: CustomTypeEditorProps) => {
         <Button
           variant="secondary"
           onClick={() => deleteOutputType(typeId)}
-          className="hover:bg-destructive hover:text-destructive-foreground"
+          className="hover:bg-flussDanger hover:text-white"
         >
           <Trash2Icon /> Delete &quot;{type.displayName}&quot;
         </Button>

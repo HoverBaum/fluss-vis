@@ -121,7 +121,7 @@ export const StepEditSidebar = ({ isFullScreen }: StepEditSidebarProps) => {
           selectedNode.id !== START_NODE_ID &&
           selectedNode.id !== END_NODE_ID && (
             <Button
-              className="w-full hover:bg-destructive hover:text-destructive-foreground"
+              className="w-full hover:bg-flussDanger hover:text-white"
               variant="secondary"
               disabled={!selectedNode}
               onClick={() => selectedNode && removeNode(selectedNode.id)}

@@ -44,7 +44,7 @@ const DropIndicator = ({ nodeId }: { nodeId: string }) => {
       <div className="bg-background px-4 py-2 rounded-md shadow">
         {isAlreadyConnected ? (
           <span className="flex items-center gap-2">
-            <OctagonXIcon className="text-flussPinkDeep" />
+            <OctagonXIcon className="text-flussDanger" />
             Already Connected
           </span>
         ) : (

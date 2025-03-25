@@ -15,6 +15,7 @@ export default {
         flussPinkDeep: 'hsl(var(--fluss-pink-deep))',
         flussBlue: 'hsl(var(--fluss-blue))',
         flussBlueLight: 'hsl(var(--fluss-blue-light))',
+        flussDanger: 'hsl(var(--fluss-pink-deep))',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
