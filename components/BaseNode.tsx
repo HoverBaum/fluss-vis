@@ -31,7 +31,7 @@ const DropIndicator = ({ nodeId }: { nodeId: string }) => {
   return (
     <div
       className={`w-full h-full absolute top-0 left-0 opacity-0 hover:opacity-100 z-10 grid place-items-center backdrop-blur-xs transition-opacity overflow-hidden ${
-        isAlreadyConnected ? 'bg-flussPink/5' : 'bg-flussBlueLight/5'
+        isAlreadyConnected ? 'bg-fluss-pink/5' : 'bg-fluss-blue-light/5'
       }`}
     >
       <Handle
@@ -44,12 +44,12 @@ const DropIndicator = ({ nodeId }: { nodeId: string }) => {
       <div className="bg-background px-4 py-2 rounded-md shadow-sm">
         {isAlreadyConnected ? (
           <span className="flex items-center gap-2">
-            <OctagonXIcon className="text-flussDanger" />
+            <OctagonXIcon className="text-danger" />
             Already Connected
           </span>
         ) : (
           <span className="flex items-center gap-2">
-            <UnplugIcon className="text-flussBlue" />
+            <UnplugIcon className="text-fluss-blue" />
             Drop to add input
           </span>
         )}
