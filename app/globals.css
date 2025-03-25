@@ -13,6 +13,8 @@
   --color-danger: hsl(var(--danger));
   --color-danger-foreground: hsl(var(--danger-foreground));
 
+  --color-positive: hsl(var(--positive));
+
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
 
@@ -108,6 +110,7 @@
     --fluss-blue-light: 207 76% 79%;
     --danger: 313 71% 51%;
     --danger-foreground: 313 99% 99%;
+    --positive: 207 76% 79%;
   }
   .dark {
     --background: 20 14.3% 4.1%;
@@ -148,6 +151,7 @@
     --fluss-blue-light: 207 76% 79%;
     --danger: 313 98% 78%;
     --danger-foreground: 313 87% 3%;
+    --positive: 207 60% 51%;
   }
 }
 

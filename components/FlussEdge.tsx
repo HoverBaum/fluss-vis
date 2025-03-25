@@ -57,12 +57,12 @@ export const FlussEdge = ({
       return undefined
     }
     if (data.state === 'exiting') {
-      return isDark ? 'hsl(var(--fluss-pink))' : 'hsl(var(--fluss-pink-deep))'
+      return 'hsl(var(--danger))'
     }
     if (data.state === 'entering') {
-      return isDark ? 'hsl(var(--fluss-blue-light))' : 'hsl(var(--fluss-blue))'
+      return 'hsl(var(--positive))'
     }
-  }, [data?.state, isDark])
+  }, [data?.state])
 
   const opacity = useMemo(() => {
     if (!data?.state) {
