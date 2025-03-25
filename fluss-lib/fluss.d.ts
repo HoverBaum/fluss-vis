@@ -1,5 +1,6 @@
 import { IconName } from 'lucide-react/dynamic'
 import { ArrayOneElement, ArrayNotEmpty, ArrayEmpty } from './helperTypes'
+import { AnimationState } from '@/stores/flussStore'
 
 export type FlussStepOutputTypeId = string
 export type FlussStepOutputType = {
@@ -28,6 +29,7 @@ export type FlussStepOutput = {
 
 export type FlussStepInput = {
   id: FlussStepInputId
+  state: AnimationState
 }
 
 export type FlussStepDefault = {

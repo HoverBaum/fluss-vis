@@ -16,7 +16,6 @@ import {
 import { createStore } from 'zustand/vanilla'
 import {
   FlussStep,
-  FlussStepInput,
   FlussStepInputId,
   FlussStepOutput,
   FlussStepOutputId,
@@ -28,22 +27,15 @@ import { createFlussNode, START_NODE_ID } from './storeHelpers'
 import { ArrayNotEmpty } from '@/fluss-lib/helperTypes'
 import { newId, shortId } from '@/fluss-lib/flussId'
 
+export type AnimationState = 'entering' | 'entered' | 'exiting' | 'exited'
+
 export type FlussNodeOutputType = {
   name?: string
   typeId?: FlussStepOutputTypeId
 }
 
-export type FlussNodeData = {
-  name: string
-  description?: string
-  inputs: FlussStepInput[]
-  output?: FlussNodeOutputType
-}
-
-export type FlussEdgeStates = 'entering' | 'entered' | 'exiting' | 'exited'
-
 export type FlussEdgeData = {
-  state: FlussEdgeStates
+  state: AnimationState
 }
 
 export type FlussNodeType = Node<FlussStep>
@@ -91,7 +83,7 @@ export type FlussActions = {
   outputTypeRemove: (typeId: FlussStepOutputTypeId) => void
   editSidebarOpen: () => void
   editSidebarClose: () => void
-  edgeSetState: (edgeId: string, state: FlussEdgeStates) => void
+  edgeSetState: (edgeId: string, state: AnimationState) => void
 }
 
 export type FlussStore = FlussState & FlussActions
@@ -235,32 +227,78 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
                 if (node && node.data.type !== 'start') {
                   node.data.inputs.push({
                     id: inputId ? inputId : newId(),
+                    state: 'entered',
                   })
                 }
               })
             )
           },
           removeInput: (nodeId, inputId) => {
+            // set(
+            //   produce((state: FlussStore) => {
+            //     const node = state.nodes.find((node) => node.id === nodeId)
+            //     if (node) {
+            //       if (node.data.type === 'start') return
+            //       node.data.inputs = node.data.inputs.filter(
+            //         (input) => input.id !== inputId
+            //       )
+            //     }
+            //   })
+            // )
+            // Also remove all associated edges.
+            // set(
+            //   produce((state: FlussStore) => {
+            //     state.edges = state.edges.filter(
+            //       (edge) =>
+            //         edge.target !== nodeId || edge.targetHandle !== inputId
+            //     )
+            //   })
+            // )
+            // Set all related edges to exiting
+            set(
+              produce((state: FlussStore) => {
+                state.edges.forEach((edge) => {
+                  if (edge.target === nodeId && edge.targetHandle === inputId) {
+                    edge.data = { ...edge.data, state: 'exiting' }
+                  }
+                })
+              })
+            )
+            // Set Input to exiting
             set(
               produce((state: FlussStore) => {
                 const node = state.nodes.find((node) => node.id === nodeId)
-                if (node) {
-                  if (node.data.type === 'start') return
-                  node.data.inputs = node.data.inputs.filter(
-                    (input) => input.id !== inputId
+                if (node && node.data.type !== 'start') {
+                  const input = node.data.inputs.find(
+                    (input) => input.id === inputId
                   )
+                  if (input) {
+                    input.state = 'exiting'
+                  }
                 }
               })
             )
-            // Also remove all associated edges.
-            set(
-              produce((state: FlussStore) => {
-                state.edges = state.edges.filter(
-                  (edge) =>
-                    edge.target !== nodeId || edge.targetHandle !== inputId
-                )
-              })
-            )
+            setTimeout(() => {
+              set(
+                produce((state: FlussStore) => {
+                  const node = state.nodes.find((node) => node.id === nodeId)
+                  if (node) {
+                    if (node.data.type === 'start') return
+                    node.data.inputs = node.data.inputs.filter(
+                      (input) => input.id !== inputId
+                    )
+                  }
+                })
+              )
+              set(
+                produce((state: FlussStore) => {
+                  state.edges = state.edges.filter(
+                    (edge) =>
+                      edge.target !== nodeId || edge.targetHandle !== inputId
+                  )
+                })
+              )
+            }, 300)
           },
           setNodeName: (nodeId, name) => {
             set(

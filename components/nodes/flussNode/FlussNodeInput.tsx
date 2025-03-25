@@ -39,6 +39,12 @@ type FlussNodeInputProps = {
 const handleType: HandleType = 'target'
 
 export const FlussNodeInput = ({ id, nodeId }: FlussNodeInputProps) => {
+  const animationState = useFlussStore((state) => {
+    const node = state.nodes.find((node) => node.id === nodeId)
+    if (node && node.data.type !== 'start') {
+      return node.data.inputs.find((input) => input.id === id)?.state
+    }
+  })
   const alwaysShowDelete = useSettingsStore((state) => state.alwaysShowDelete)
   const [isHovered, setIsHovered] = useState(false)
   const connections = useNodeConnections({
@@ -59,7 +65,7 @@ export const FlussNodeInput = ({ id, nodeId }: FlussNodeInputProps) => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 100 }}
-      className="relative pl-6"
+      className={`relative pl-6  ${animationState === 'exiting' ? 'transition-opacity duration-300 ease-out opacity-10!' : ''}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
