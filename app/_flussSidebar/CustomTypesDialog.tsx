@@ -18,7 +18,7 @@ import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { DialogDescription, DialogTitle } from '@radix-ui/react-dialog'
 import { CodeIcon, PlusIcon } from 'lucide-react'
 import { DynamicIcon } from 'lucide-react/dynamic'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { CustomTypeEditor } from './CustomTypeEditor'
 import { CustomTypeDisplay } from './CustomTypeDisplay'
 import { newId } from '@/fluss-lib/flussId'
@@ -26,8 +26,13 @@ import { newId } from '@/fluss-lib/flussId'
 type PageName = 'about' | 'overview' | 'editor'
 
 export const CustomTypesDialog = () => {
-  const customTypes = useFlussStore((store) =>
-    store.outputTypes.filter((type) => !type.isPrimitive)
+  // Somehow filtering in the selector caused an infinite loop 🤷
+  const allCustomTypes: FlussStepOutputType[] = useFlussStore(
+    (store) => store.outputTypes
+  )
+  const customTypes = useMemo(
+    () => allCustomTypes.filter((type) => !type.isPrimitive),
+    [allCustomTypes]
   )
   const [selectedType, setSelectedType] = useState<FlussStepOutputType | null>(
     null
