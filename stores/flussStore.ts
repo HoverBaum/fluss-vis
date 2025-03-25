@@ -40,8 +40,10 @@ export type FlussNodeData = {
   output?: FlussNodeOutputType
 }
 
+export type FlussEdgeStates = 'entering' | 'entered' | 'exiting'
+
 export type FlussEdgeData = {
-  finsihedAnimating?: boolean
+  state: FlussEdgeStates
 }
 
 export type FlussNodeType = Node<FlussStep>
@@ -59,9 +61,9 @@ export type FlussState = {
 export type FlussActions = {
   rename: (name: string) => void
   onNodesChange: OnNodesChange<FlussNodeType>
-  onEdgesChange: OnEdgesChange
+  onEdgesChange: OnEdgesChange<FlussEdgeType>
   onConnect: OnConnect
-  setEdges: (edges: Edge[]) => void
+  setEdges: (edges: FlussEdgeType[]) => void
   setNodes: (nodes: FlussNodeType[]) => void
   setOutputType: (
     nodeId: string,
@@ -144,7 +146,12 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
               )
               return
             }
-            set({ edges: addEdge(connection, get().edges) })
+            set({
+              edges: addEdge(
+                { ...connection, data: { state: 'entering' } },
+                get().edges
+              ),
+            })
           },
           setNodes: (nodes) => {
             set({ nodes })
@@ -340,7 +347,7 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
               produce((state: FlussStore) => {
                 const edge = state.edges.find((edge) => edge.id === edgeId)
                 if (edge) {
-                  edge.data = { finsihedAnimating: true }
+                  edge.data = { state: 'entered' }
                 }
               })
             )

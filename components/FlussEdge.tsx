@@ -37,7 +37,7 @@ export const FlussEdge = ({
       (node) => (node.id === source || node.id === target) && node.selected
     )
   )
-  const finsihedAnimating = data?.finsihedAnimating || false
+  const finsihedAnimating = data?.state !== 'entering' || false
   const edgeFinishedAnimating = useFlussStore(
     (state) => state.edgeFinishedAnimating
   )

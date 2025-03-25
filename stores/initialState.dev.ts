@@ -139,7 +139,7 @@ export const devInitialState: FlussState = {
       targetHandle: 'XyASV-XNqwk',
       id: 'xy-edge__startqs56w-XyASVXyASV-XNqwk',
       data: {
-        finsihedAnimating: true,
+        state: 'entered',
       },
     },
     {
@@ -149,7 +149,7 @@ export const devInitialState: FlussState = {
       targetHandle: 'end-IMC3S',
       id: 'xy-edge__XyASVVQJps-endend-IMC3S',
       data: {
-        finsihedAnimating: true,
+        state: 'entered',
       },
     },
     {
@@ -159,7 +159,7 @@ export const devInitialState: FlussState = {
       targetHandle: 'XyASV-TNZj8',
       id: 'xy-edge__TRqTCKi3pb-XyASVXyASV-TNZj8',
       data: {
-        finsihedAnimating: true,
+        state: 'entered',
       },
     },
     {
@@ -169,7 +169,7 @@ export const devInitialState: FlussState = {
       targetHandle: 'TRqTC-wzsOw',
       id: 'xy-edge__startnZEBo-TRqTCTRqTC-wzsOw',
       data: {
-        finsihedAnimating: true,
+        state: 'entered',
       },
     },
   ],
