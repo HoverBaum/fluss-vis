@@ -23,7 +23,14 @@ export const FlussEdge = ({
   selected,
   data,
   id,
+  source,
+  target,
 }: EdgeProps<FlussEdgeType>) => {
+  const isHighlighted = useFlussStore((state) =>
+    state.nodes.some(
+      (node) => (node.id === source || node.id === target) && node.selected
+    )
+  )
   const finsihedAnimating = data?.finsihedAnimating || false
   const edgeFinishedAnimating = useFlussStore(
     (state) => state.edgeFinishedAnimating
@@ -45,7 +52,7 @@ export const FlussEdge = ({
       <BaseEdge
         path={edgePath}
         style={{
-          strokeWidth: selected ? 2 : 1,
+          strokeWidth: selected || isHighlighted ? 2 : 1,
         }}
       />
       <EdgeLabelRenderer>
