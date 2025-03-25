@@ -1,12 +1,11 @@
+'use client'
+
 import { useEffect, useMemo } from 'react'
 import { githubLight } from '@/components/code-styles/github-light'
 import { useIsDark } from '@/lib/useIsDark'
 import { githubDark } from './code-styles/github-dark'
 
 const HLJS_STYLE_ID = 'syntaxHighlightingStyles'
-
-// Create a safe version of useEffect that doesn't run on the server
-const useIsomorphicEffect = typeof window !== 'undefined' ? useEffect : () => {}
 
 /**
  * Injects a style tag into the head of the document to style hljs parsed code.
@@ -20,7 +19,7 @@ export const useHljsStyles = () => {
   )
 
   // Update the CSS we need to style the code editor.
-  useIsomorphicEffect(() => {
+  useEffect(() => {
     // Check if the style tag already exists
     let style: HTMLElement
     const existingStyle = document.getElementById(HLJS_STYLE_ID)
