@@ -29,7 +29,11 @@ const DropIndicator = ({ nodeId }: { nodeId: string }) => {
     )
   )
   return (
-    <div className="w-full h-full absolute top-0 left-0 opacity-0 hover:opacity-100 z-10 grid place-items-center backdrop-blur-sm transition-opacity overflow-hidden">
+    <div
+      className={`w-full h-full absolute top-0 left-0 opacity-0 hover:opacity-100 z-10 grid place-items-center backdrop-blur-sm transition-opacity overflow-hidden ${
+        isAlreadyConnected ? 'bg-destructive/5' : 'bg-emerald-400/5'
+      }`}
+    >
       <Handle
         id={`${nodeId}-${NEW_CONNECTION_HANDLE_IDENTIFIER}`}
         type="target"
