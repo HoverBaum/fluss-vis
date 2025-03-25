@@ -18,6 +18,24 @@ import { NEW_CONNECTION_HANDLE_IDENTIFIER } from '@/stores/flussStore'
 import { useSettingsStore } from '@/stores/SettingsStoreProvider'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 
+// New DropIndicator component
+const DropIndicator = ({ nodeId }: { nodeId: string }) => {
+  return (
+    <div className="w-full h-full absolute top-0 left-0 opacity-0 hover:opacity-100 z-10 grid place-items-center backdrop-blur-sm transition-opacity overflow-hidden">
+      <Handle
+        id={`${nodeId}-${NEW_CONNECTION_HANDLE_IDENTIFIER}`}
+        type="target"
+        position={Position.Left}
+        isConnectableStart={false}
+        className="!w-full !h-full !absolute !top-1/2 !left-1/2 !border-none !rounded-none !bg-transparent !z-20"
+      />
+      <div className="bg-background px-4 py-2 rounded-md shadow">
+        Drop to add Input
+      </div>
+    </div>
+  )
+}
+
 type BaseNodeProps = {
   nodeId: string
   name: string
@@ -53,20 +71,10 @@ export const BaseNode = ({
 
   return (
     <Card
-      className={`w-[275px] relative ${selected && 'border-foreground shadow-lg'} ${className}`}
+      className={`w-[275px] relative shadow-sm ${selected ? 'border-foreground shadow-lg' : ''}  ${className}`}
       onDoubleClick={openEditSidebar}
     >
-      {isPotentialTarget && (
-        <Handle
-          id={`${nodeId}-${NEW_CONNECTION_HANDLE_IDENTIFIER}`}
-          type="target"
-          position={Position.Left}
-          isConnectableStart={false}
-          className="!w-full !h-full !absolute !top-0 !left-2 hover:!left-0 !opacity-0 hover:!opacity-100 hover:!border-foreground !z-10 !transform-none !rounded-md !bg-transparent !grid !place-items-center !backdrop-blur-sm"
-        >
-          Drop to add Input
-        </Handle>
-      )}
+      {isPotentialTarget && <DropIndicator nodeId={nodeId} />}
       {displayId && (
         <small className="absolute top-2 right-2 font-mono">{nodeId}</small>
       )}
