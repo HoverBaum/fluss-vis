@@ -9,4 +9,3 @@ export type PossibleIcon = {
 }
 
 export const PossibleIcons: PossibleIcon[] = JSONIcons as PossibleIcon[]
-

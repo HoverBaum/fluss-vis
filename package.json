@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "test": "vitest",
-    "script:icons": "node ./scripts/createIconList.js > lib/generated/icons.json"
+    "script:icons": "node ./scripts/createIconList.js > lib/generated/icons.json",
+    "prettier": "prettier --write ."
   },
   "dependencies": {
     "@hookform/resolvers": "^4.1.3",

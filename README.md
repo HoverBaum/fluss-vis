@@ -23,7 +23,6 @@ Fluss Viz will handle the execution of your logic and parallelize async operatio
 - Handle two inputs with same name.
 - Normalize outputs to live in a list and nodes reference this list by id for inputs and outputs.
 
-
 ## Later Features
 
 This we plan to do.
@@ -55,6 +54,7 @@ This is the current, rough idea.
 - We highly discourage to edit the fluss.ts file manually.
 
 Custom Types
+
 - Custom types come with a name and are valid TypeScript.
 - We see developers as our user-base and will leave writing valid typescript to them!
 
@@ -76,7 +76,7 @@ fluss.run({
 
 ```typescript
 // fluss-name.fluss.ts
-import {type FlussConfig} from 'fluss-viz'
+import { type FlussConfig } from 'fluss-viz'
 export const flussConfig: FlussConfig = {
   //…
 }
