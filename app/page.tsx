@@ -20,14 +20,12 @@ export default function Home() {
         <SidebarInset className="overflow-hidden">
           <FlowEditor
             toggleFlussSidebar={() => setSidebarOpen((state) => !state)}
-            isFullScreen={!sidebarOpen}
           />
         </SidebarInset>
       )}
       {!sidebarOpen && (
         <FlowEditor
           toggleFlussSidebar={() => setSidebarOpen((state) => !state)}
-          isFullScreen={!sidebarOpen}
         />
       )}
     </SidebarProvider>

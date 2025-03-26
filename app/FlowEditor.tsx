@@ -40,13 +40,9 @@ const selector = (state: FlussStore) => ({
 
 type FlowEditorProps = {
   toggleFlussSidebar: () => void
-  isFullScreen: boolean
 }
 
-export const FlowEditor = ({
-  toggleFlussSidebar,
-  isFullScreen,
-}: FlowEditorProps) => {
+export const FlowEditor = ({ toggleFlussSidebar }: FlowEditorProps) => {
   const isEditSidebarOpen = useFlussStore((store) => store.isEditSidebarOpen)
   const elevateEdgesOnSelect = useSettingsStore(
     (store) => store.bringSelectedEdgesToFront
@@ -130,7 +126,7 @@ export const FlowEditor = ({
         <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
       </ReactFlow>
 
-      <StepEditSidebar isFullScreen={isFullScreen} />
+      <StepEditSidebar />
     </SidebarProvider>
   )
 }

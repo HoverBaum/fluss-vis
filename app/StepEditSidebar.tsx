@@ -21,11 +21,7 @@ import { END_NODE_ID, START_NODE_ID } from '@/stores/storeHelpers'
 import { ArrowRightFromLine } from 'lucide-react'
 import { useEffect } from 'react'
 
-type StepEditSidebarProps = {
-  isFullScreen: boolean
-}
-
-export const StepEditSidebar = ({ isFullScreen }: StepEditSidebarProps) => {
+export const StepEditSidebar = () => {
   const closeSidebar = useFlussStore((state) => state.editSidebarClose)
   const selectedNode = useFlussStore((state) =>
     state.nodes.find((node) => node.selected)
