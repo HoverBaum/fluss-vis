@@ -36,11 +36,7 @@ export const StepEditSidebar = () => {
   }, [selectedNode, closeSidebar])
 
   return (
-    <Sidebar
-      side="right"
-      className="pl-0 ml-0 absolute h-full shadow-lg"
-      sidebarClassName="rounded-l-none! border-l! bg-background"
-    >
+    <Sidebar side="right" className="pl-0 ml-0 absolute h-full shadow-lg">
       <SidebarHeader className="relative">
         {nodeData && (
           <>
