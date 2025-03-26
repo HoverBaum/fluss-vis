@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useMemo } from 'react'
+import { CSSProperties, useMemo } from 'react'
 import {
   BaseEdge,
   EdgeLabelRenderer,
@@ -52,40 +52,35 @@ export const FlussEdge = ({
     targetPosition,
   })
 
-  const stroke = useMemo(() => {
+  const style: CSSProperties = useMemo(() => {
+    const baseStyles: CSSProperties = {
+      strokeWidth: selected || isHighlighted ? 2 : 1,
+      opacity: 1,
+    }
     if (!data?.state) {
-      return undefined
+      return baseStyles
     }
     if (data.state === 'exiting') {
-      return 'hsl(var(--danger))'
+      return {
+        ...baseStyles,
+        strokeDasharray: '4 2',
+        stroke: 'var(--danger)',
+        opacity: 0,
+        transition: 'opacity 0.3s',
+      }
     }
     if (data.state === 'entering') {
-      return 'hsl(var(--positive))'
+      return {
+        ...baseStyles,
+        stroke: 'var(--positive)',
+      }
     }
-  }, [data?.state])
-
-  const opacity = useMemo(() => {
-    if (!data?.state) {
-      return 1
-    }
-    if (data.state === 'exiting') {
-      return 0
-    }
-    return 1
-  }, [data?.state])
+    return baseStyles
+  }, [data?.state, isHighlighted, selected])
 
   return (
     <>
-      <BaseEdge
-        path={edgePath}
-        style={{
-          strokeWidth: selected || isHighlighted ? 2 : 1,
-          strokeDasharray: state === 'exiting' ? '4 2' : undefined, // Dotted line for "exiting" state
-          opacity,
-          transition: 'all 0.3s',
-          stroke,
-        }}
-      />
+      <BaseEdge path={edgePath} style={style} />
 
       <EdgeLabelRenderer>
         {state === 'entering' && (
