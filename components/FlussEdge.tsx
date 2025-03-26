@@ -72,6 +72,7 @@ export const FlussEdge = ({
     if (data.state === 'entering') {
       return {
         ...baseStyles,
+        strokeWidth: 2,
         stroke: 'var(--positive)',
       }
     }
