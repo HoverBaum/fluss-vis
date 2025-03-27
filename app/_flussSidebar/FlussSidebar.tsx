@@ -3,8 +3,10 @@
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -12,8 +14,12 @@ import {
 } from '@/components/ui/sidebar'
 import { SettingsDialog } from './SettingsDialog'
 import { CustomTypesDialog } from './CustomTypesDialog'
+import { Export } from '../_export/Export'
+import { useFlussStore } from '@/stores/FlussStoreProvider'
+import { FolderOpenIcon } from 'lucide-react'
 
 export const FlussSidebar = () => {
+  const flussName = useFlussStore((state) => state.name)
   return (
     <Sidebar side="left" variant="inset">
       <SidebarHeader className="flex  flex-row justify-between items-center">
@@ -22,6 +28,7 @@ export const FlussSidebar = () => {
 
       <SidebarContent>
         <SidebarGroup>
+          <SidebarGroupLabel>General</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
@@ -31,6 +38,20 @@ export const FlussSidebar = () => {
               </SidebarMenuItem>
 
               <SidebarMenuItem>
+                <SidebarMenuButton className="opacity-50">
+                  <FolderOpenIcon />
+                  Load - coming soon™
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel>{flussName}</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
                 <SidebarMenuButton>
                   <CustomTypesDialog />
                 </SidebarMenuButton>
@@ -39,6 +60,13 @@ export const FlussSidebar = () => {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <Export buttonVariant="default" buttonClassName="w-full" />
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
     </Sidebar>
   )
 }

@@ -23,7 +23,15 @@ import dynamic from 'next/dynamic'
 // Dynamically import Lottie so that it’s only loaded on the client side.
 const Lottie = dynamic(() => import('lottie-react'), { ssr: false })
 
-export const Export = () => {
+type ExportProps = {
+  buttonVariant?: React.ComponentProps<typeof Button>['variant']
+  buttonClassName?: React.ComponentProps<typeof Button>['className']
+}
+
+export const Export = ({
+  buttonVariant = 'secondary',
+  buttonClassName = '',
+}: ExportProps) => {
   const [codeToCopy, setCodeToCopy] = useState('')
   const { flussExport } = useExport()
   const [animationDone, setAnimationDone] = useState(false)
@@ -35,7 +43,7 @@ export const Export = () => {
   return (
     <Dialog onOpenChange={(open) => open && flussExport().then(setCodeToCopy)}>
       <DialogTrigger asChild>
-        <Button size="sm" variant="secondary">
+        <Button size="sm" variant={buttonVariant} className={buttonClassName}>
           Export <Download />
         </Button>
       </DialogTrigger>
@@ -78,7 +86,7 @@ export const Export = () => {
             </DialogClose>
             <Button
               size="icon"
-              className="w-full"
+              className="flex-grow"
               onClick={() => {
                 navigator.clipboard.writeText(codeToCopy)
                 toast('Copied to clipboard')

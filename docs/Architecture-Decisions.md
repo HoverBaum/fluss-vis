@@ -1,5 +1,9 @@
 # Architecture decisions
 
+## 2025-03-27 Lucid Icons are used as XYIcon
+
+Instead of using `<Cirecle />`  we will use `<CircleIcon />`. This increases clarity, that these components are icons and nothing else. It eases readability wile mildly inconveniencing developers during creation. A trade-off we are happy to take.
+
 ## 2025-03-14 Outputs are postfixed with _nodeId
 
 In the created code, Results/Outputs are always postfixed with _id of their producing node.
