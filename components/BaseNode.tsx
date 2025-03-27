@@ -102,13 +102,27 @@ export const BaseNode = ({
   return (
     <motion.div
       initial={state === 'entering' ? { scale: 1.5, opacity: 0.2 } : {}}
-      animate={state === 'entering' ? { scale: 1, opacity: 1 } : {}}
+      animate={{ scale: 1, opacity: 1 }}
       className={state === 'exiting' ? 'opacity-0 transition-opacity' : ''}
     >
       <Card
         className={`w-[275px] relative shadow-xs transition-shadow ${selected ? 'border-foreground shadow-lg' : ''} ${state === 'entering' ? 'border-positive shadow-xl' : ''} ${state === 'exiting' ? 'border-danger border-dashed' : ''} ${className}`}
         onDoubleClick={openEditSidebar}
       >
+        {state === 'exiting' && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.05 }}
+            className="absolute top-0 left-0 w-full h-full z-20 bg-danger"
+          ></motion.div>
+        )}
+        {state === 'entering' && (
+          <motion.div
+            initial={{ opacity: 0.25 }}
+            animate={{ opacity: 0 }}
+            className="absolute top-0 left-0 w-full h-full z-20 bg-positive"
+          ></motion.div>
+        )}
         {isPotentialTarget && <DropIndicator nodeId={nodeId} />}
         {displayId && (
           <small className="absolute top-2 right-2 font-mono">{nodeId}</small>
