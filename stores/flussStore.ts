@@ -26,6 +26,7 @@ import { devInitialState } from './initialState.dev'
 import { createFlussNode, START_NODE_ID } from './storeHelpers'
 import { ArrayNotEmpty } from '@/fluss-lib/helperTypes'
 import { newId, shortId } from '@/fluss-lib/flussId'
+import { EnterExitAnimationDurationMS } from '@/lib/constants'
 
 export type AnimationState = 'entering' | 'entered' | 'exiting' | 'exited'
 
@@ -97,10 +98,39 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
           ...initState,
           rename: (name: string) => set({ name }),
           onNodesChange: (changes) => {
+            // If it is a removal, first set the node to exiting.
+            const triggeredRemoval: string[] = []
+            changes.forEach((change) => {
+              if (
+                change.type === 'remove' &&
+                get().nodes.find((node) => node.id === change.id)?.data
+                  .state !== 'exiting'
+              ) {
+                set(
+                  produce((state: FlussStore) => {
+                    const node = state.nodes.find(
+                      (node) => node.id === change.id
+                    )
+                    if (node) {
+                      triggeredRemoval.push(change.id)
+                      node.data.state = 'exiting'
+                      setTimeout(() => {
+                        get().onNodesChange([change])
+                      }, EnterExitAnimationDurationMS)
+                    }
+                  })
+                )
+              }
+            })
+            const changesToApply = changes.filter(
+              (change) =>
+                change.type !== 'remove' ||
+                triggeredRemoval.includes(change.id) === false
+            )
             // apllyNodeChanges changes elements and then creates a new array, making it incompatible with immer.
             // see: https://github.com/xyflow/xyflow/issues/4253
             const updatedNodes = applyNodeChanges(
-              changes,
+              changesToApply,
               // Break out of immers immutability with a deep clone.
               structuredClone(get().nodes)
             )
@@ -117,11 +147,11 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
                   get().edgeSetState(change.id, 'exiting')
                   idsTriggeredExitings.push(change.id)
 
-                  // After 0.3s in exiting state we can reply the removal.
+                  // After EnterExitAnimationDurationMS in exiting state we can apply the removal.
                   setTimeout(() => {
                     get().edgeSetState(change.id, 'exited')
                     get().onEdgesChange([change])
-                  }, 300)
+                  }, EnterExitAnimationDurationMS)
                   return
                 }
 
@@ -178,6 +208,22 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
                 get().edges
               ),
             })
+            // After EnterExitAnimationDurationMS we set the edge to entered.
+            setTimeout(() => {
+              set(
+                produce((state: FlussStore) => {
+                  const enteredEdge = state.edges.find(
+                    (edge) =>
+                      edge.sourceHandle === connection.sourceHandle &&
+                      edge.source === connection.source &&
+                      edge.target === connection.target
+                  )
+                  if (enteredEdge) {
+                    enteredEdge.data = { ...enteredEdge.data, state: 'entered' }
+                  }
+                })
+              )
+            }, EnterExitAnimationDurationMS)
           },
           setNodes: (nodes) => {
             set({ nodes })
@@ -214,11 +260,24 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
             )
           },
           addNode: (position) => {
+            const newNode = createFlussNode(position)
             set((state) => {
               return {
-                nodes: [...state.nodes, createFlussNode(position)],
+                nodes: [...state.nodes, newNode],
               }
             })
+            setTimeout(() => {
+              set(
+                produce((state: FlussStore) => {
+                  const enteredNode = state.nodes.find(
+                    (node) => node.id === newNode.id
+                  )
+                  if (enteredNode) {
+                    enteredNode.data.state = 'entered'
+                  }
+                })
+              )
+            }, EnterExitAnimationDurationMS)
           },
           removeNode: (nodeId) => {
             get().onNodesChange([{ id: nodeId, type: 'remove' }])

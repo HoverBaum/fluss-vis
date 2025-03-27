@@ -1,6 +1,6 @@
 'use client'
 
-import { CSSProperties, useMemo } from 'react'
+import { CSSProperties, useMemo, useState } from 'react'
 import {
   BaseEdge,
   EdgeLabelRenderer,
@@ -15,6 +15,7 @@ import { useIsDark } from '@/lib/useIsDark'
 import { FlussEdgeType } from '@/stores/flussStore'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import dynamic from 'next/dynamic'
+import { EnterExitAnimationDurationMS } from '@/lib/constants'
 
 // Dynamically import Lottie so that it’s only loaded on the client side.
 const Lottie = dynamic(() => import('lottie-react'), { ssr: false })
@@ -28,7 +29,6 @@ export const FlussEdge = ({
   targetPosition,
   selected,
   data,
-  id,
   source,
   target,
 }: EdgeProps<FlussEdgeType>) => {
@@ -38,7 +38,6 @@ export const FlussEdge = ({
     )
   )
   const { state = 'entering' } = data || {}
-  const edgeSetState = useFlussStore((state) => state.edgeSetState)
   const isDark = useIsDark()
   const { flowToScreenPosition } = useReactFlow()
   const targetScreenPosition = flowToScreenPosition({ x: targetX, y: targetY })
@@ -51,11 +50,13 @@ export const FlussEdge = ({
     targetY,
     targetPosition,
   })
+  const [playAnimation, setPlayAnimation] = useState(state === 'entering')
 
   const style: CSSProperties = useMemo(() => {
     const baseStyles: CSSProperties = {
       strokeWidth: selected || isHighlighted ? 2 : 1,
       opacity: 1,
+      transition: `stroke ${EnterExitAnimationDurationMS / 1000}s, stroke-width ${EnterExitAnimationDurationMS / 1000}s`,
     }
     if (!data?.state) {
       return baseStyles
@@ -66,7 +67,7 @@ export const FlussEdge = ({
         strokeDasharray: '4 2',
         stroke: 'var(--danger)',
         opacity: 0,
-        transition: 'opacity 0.3s',
+        transition: `opacity ${EnterExitAnimationDurationMS / 1000}s`,
       }
     }
     if (data.state === 'entering') {
@@ -84,9 +85,9 @@ export const FlussEdge = ({
       <BaseEdge path={edgePath} style={style} />
 
       <EdgeLabelRenderer>
-        {state === 'entering' && (
+        {playAnimation && (
           <Lottie
-            onComplete={() => edgeSetState(id, 'entered')}
+            onComplete={() => setPlayAnimation(false)}
             animationData={updateLottieFillColor(
               connectionAnimation,
               isDark ? [159, 205, 242] : [55, 137, 205],

@@ -22,7 +22,8 @@ export const StartNode = ({
       description={description}
       selected={selected}
       className="min-w-[250px]"
-      showNewConnectionHandle={false}
+      acceptsInputs={false}
+      state={data.state}
     >
       <BaseNodeOutputsContent>
         <div className="flex flex-col items-end gap-4">

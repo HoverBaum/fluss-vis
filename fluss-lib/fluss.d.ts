@@ -32,28 +32,26 @@ export type FlussStepInput = {
   state: AnimationState
 }
 
-export type FlussStepDefault = {
-  type: 'step'
+type FlussStepBasics = {
   id: FlussStepId
   name: string
   description: string
+  state: AnimationState
+}
+
+export type FlussStepDefault = FlussStepBasics & {
+  type: 'step'
   outputs: ArrayOneElement<FlussStepOutput>
   inputs: FlussStepInput[]
 }
 
-export type FlussStepStart = {
+export type FlussStepStart = FlussStepBasics & {
   type: 'start'
-  id: FlussStepId
-  name: string
-  description: string
   outputs: ArrayNotEmpty<FlussStepOutput>
 }
 
-export type FlussStepEnd = {
+export type FlussStepEnd = FlussStepBasics & {
   type: 'end'
-  id: FlussStepId
-  name: string
-  description: string
   outputs: ArrayEmpty
   inputs: FlussStepInput[]
 }

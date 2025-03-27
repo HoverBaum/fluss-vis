@@ -30,6 +30,7 @@ export const devInitialState: FlussState = {
           },
         ],
         description: 'Takes a number and returns that number squared.',
+        state: 'entered',
       },
       sourcePosition: Position.Right,
       measured: {
@@ -67,6 +68,7 @@ export const devInitialState: FlussState = {
         ],
         description:
           "Turns a number and it's squared result into a locale specific string.",
+        state: 'entered',
       },
       sourcePosition: Position.Right,
       measured: {
@@ -98,6 +100,7 @@ export const devInitialState: FlussState = {
         ],
         name: 'Start 🛫',
         description: 'Start of the Fluss.',
+        state: 'entered',
       },
       sourcePosition: Position.Right,
       deletable: false,
@@ -126,6 +129,7 @@ export const devInitialState: FlussState = {
           },
         ],
         outputs: [],
+        state: 'entered',
       },
       sourcePosition: Position.Right,
       deletable: false,

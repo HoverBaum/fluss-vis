@@ -12,7 +12,7 @@ export const createFlussNode = (
 ): FlussNodeType => {
   const id = shortId()
 
-  const nodeData = data || {
+  const nodeData: FlussStep = data || {
     type: 'step',
     id,
     description: '',
@@ -25,6 +25,7 @@ export const createFlussNode = (
         type: 'void',
       },
     ],
+    state: 'entering',
   }
 
   return {

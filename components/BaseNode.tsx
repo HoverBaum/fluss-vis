@@ -1,5 +1,6 @@
 'use client'
 
+import { motion } from 'motion/react'
 import {
   Handle,
   Position,
@@ -14,12 +15,14 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { NEW_CONNECTION_HANDLE_IDENTIFIER } from '@/stores/flussStore'
+import {
+  AnimationState,
+  NEW_CONNECTION_HANDLE_IDENTIFIER,
+} from '@/stores/flussStore'
 import { useSettingsStore } from '@/stores/SettingsStoreProvider'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { OctagonXIcon, UnplugIcon } from 'lucide-react'
 
-// New DropIndicator component
 const DropIndicator = ({ nodeId }: { nodeId: string }) => {
   const connection = useConnection()
   const isAlreadyConnected = useFlussStore((store) =>
@@ -68,7 +71,8 @@ type BaseNodeProps = {
   selected?: boolean
   children?: ReactNode
   className?: string
-  showNewConnectionHandle?: boolean
+  acceptsInputs?: boolean
+  state: AnimationState
 }
 
 export const BaseNode = ({
@@ -78,7 +82,8 @@ export const BaseNode = ({
   selected,
   children,
   className = '',
-  showNewConnectionHandle = true,
+  acceptsInputs: showNewConnectionHandle = true,
+  state,
 }: BaseNodeProps) => {
   const displayId = useSettingsStore((store) => store.displayIds)
   const updateNodeInternals = useUpdateNodeInternals()
@@ -95,22 +100,28 @@ export const BaseNode = ({
   }, [isPotentialTarget, nodeId, updateNodeInternals])
 
   return (
-    <Card
-      className={`w-[275px] relative shadow-xs ${selected ? 'border-foreground shadow-lg' : ''}  ${className}`}
-      onDoubleClick={openEditSidebar}
+    <motion.div
+      initial={state === 'entering' ? { scale: 1.5, opacity: 0.2 } : {}}
+      animate={state === 'entering' ? { scale: 1, opacity: 1 } : {}}
+      className={state === 'exiting' ? 'opacity-0 transition-opacity' : ''}
     >
-      {isPotentialTarget && <DropIndicator nodeId={nodeId} />}
-      {displayId && (
-        <small className="absolute top-2 right-2 font-mono">{nodeId}</small>
-      )}
-      <CardHeader>
-        <CardTitle className="text-xl">{name}</CardTitle>
-        <CardDescription>
-          {description || 'Double click node to edit'}
-        </CardDescription>
-      </CardHeader>
-      {children}
-    </Card>
+      <Card
+        className={`w-[275px] relative shadow-xs transition-shadow ${selected ? 'border-foreground shadow-lg' : ''} ${state === 'entering' ? 'border-positive shadow-xl' : ''} ${state === 'exiting' ? 'border-danger border-dashed' : ''} ${className}`}
+        onDoubleClick={openEditSidebar}
+      >
+        {isPotentialTarget && <DropIndicator nodeId={nodeId} />}
+        {displayId && (
+          <small className="absolute top-2 right-2 font-mono">{nodeId}</small>
+        )}
+        <CardHeader>
+          <CardTitle className="text-xl">{name}</CardTitle>
+          <CardDescription>
+            {description || 'Double click node to edit'}
+          </CardDescription>
+        </CardHeader>
+        {children}
+      </Card>
+    </motion.div>
   )
 }
 

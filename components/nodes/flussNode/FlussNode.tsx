@@ -28,6 +28,7 @@ export const FlussNode = ({
       name={name}
       description={description}
       selected={selected}
+      state={data.state}
     >
       <BaseNodeInputsContent>
         {inputs &&

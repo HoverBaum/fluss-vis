@@ -15,6 +15,7 @@ export const EndNode = ({ selected, data }: NodeProps<Node<FlussStepEnd>>) => {
       name={name}
       description={description}
       selected={selected}
+      state={data.state}
     >
       <BaseNodeInputsContent>
         {inputs &&
