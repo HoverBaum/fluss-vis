@@ -16,7 +16,7 @@ import { SettingsDialog } from './SettingsDialog'
 import { CustomTypesDialog } from './CustomTypesDialog'
 import { Export } from '../_export/Export'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
-import { FolderOpenIcon } from 'lucide-react'
+import { LoadButton } from './LoadButton'
 
 export const FlussSidebar = () => {
   const flussName = useFlussStore((state) => state.name)
@@ -38,10 +38,7 @@ export const FlussSidebar = () => {
               </SidebarMenuItem>
 
               <SidebarMenuItem>
-                <SidebarMenuButton className="opacity-50">
-                  <FolderOpenIcon />
-                  Load - coming soon™
-                </SidebarMenuButton>
+                <LoadButton />
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>

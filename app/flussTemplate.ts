@@ -1,16 +1,19 @@
 import { END_NODE_ID, START_NODE_ID } from '@/stores/storeHelpers'
 import { FlussArgument, FlussFunction } from './_export/useExport'
+import { FlussTSStateJSONEnd, FlussTSStateJSONStart } from '@/lib/constants'
 
 type FlussTemplateParams = {
   customTypes: string
   flussFunctions: FlussFunction[]
   flussInputs: FlussArgument[]
+  entireStateJSON: string
 }
 
 export const flussTemplate = ({
   customTypes,
   flussFunctions,
   flussInputs,
+  entireStateJSON,
 }: FlussTemplateParams) => `
 // State for a single step.
 // FIXED
@@ -226,4 +229,8 @@ export async function runFluss(params: {
     processSteps().catch(reject)
   })
 }
+
+/**
+ * ${FlussTSStateJSONStart}${entireStateJSON}${FlussTSStateJSONEnd}
+ */
 `

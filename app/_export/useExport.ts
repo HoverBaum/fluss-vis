@@ -59,6 +59,7 @@ export const useExport = () => {
   const nodes = useFlussStore((store) => store.nodes)
   const edges = useFlussStore((store) => store.edges)
   const outputTypes = useFlussStore((store) => store.outputTypes)
+  const name = useFlussStore((store) => store.name)
 
   const createTypescriptTypes = (outputTypes: FlussStepOutputType[]) => {
     return (
@@ -199,6 +200,7 @@ export const useExport = () => {
         customTypes: typeScriptTypes,
         flussFunctions,
         flussInputs,
+        entireStateJSON: JSON.stringify({ name, edges, nodes, outputTypes }),
       }),
       {
         parser: 'typescript',

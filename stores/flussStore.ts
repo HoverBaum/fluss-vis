@@ -85,6 +85,7 @@ export type FlussActions = {
   editSidebarOpen: () => void
   editSidebarClose: () => void
   edgeSetState: (edgeId: string, state: AnimationState) => void
+  loadFluss: (state: FlussState) => void
 }
 
 export type FlussStore = FlussState & FlussActions
@@ -440,6 +441,9 @@ export const createFlussStore = (initState: FlussState = devInitialState) => {
                 }
               })
             )
+          },
+          loadFluss: (state) => {
+            set({ ...state })
           },
         }),
 
