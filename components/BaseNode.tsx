@@ -7,7 +7,7 @@ import {
   useConnection,
   useUpdateNodeInternals,
 } from '@xyflow/react'
-import { Children, ReactNode, useEffect } from 'react'
+import { Children, ReactNode, useEffect, useMemo } from 'react'
 import {
   Card,
   CardContent,
@@ -75,6 +75,8 @@ type BaseNodeProps = {
   state: AnimationState
 }
 
+const TruncatedDescriptionLength = 95 as const
+
 export const BaseNode = ({
   nodeId,
   name,
@@ -93,6 +95,15 @@ export const BaseNode = ({
     connection.fromNode.id !== nodeId &&
     showNewConnectionHandle
   const openEditSidebar = useFlussStore((store) => store.editSidebarOpen)
+
+  const descriptionIsEmpty = useMemo(
+    () => !description || description.length === 0,
+    [description]
+  )
+  const descriptionIsTruncated = useMemo(
+    () => description && description.length > TruncatedDescriptionLength,
+    [description]
+  )
 
   // Update node internals when the node is a potential target.
   useEffect(() => {
@@ -135,7 +146,10 @@ export const BaseNode = ({
         <CardHeader>
           <CardTitle className="text-xl">{name}</CardTitle>
           <CardDescription>
-            {description || 'Double click node to edit'}
+            {descriptionIsEmpty && 'Double click node to edit'}
+            {descriptionIsTruncated &&
+              description?.substring(0, TruncatedDescriptionLength) + '…'}
+            {description && !descriptionIsTruncated && description}
           </CardDescription>
         </CardHeader>
         {children}
