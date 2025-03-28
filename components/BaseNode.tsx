@@ -103,7 +103,7 @@ export const BaseNode = ({
     <motion.div
       initial={state === 'entering' ? { scale: 1.5, opacity: 0.2 } : {}}
       animate={{ scale: 1, opacity: 1 }}
-      className={state === 'exiting' ? 'opacity-0 transition-opacity' : ''}
+      className={state === 'exiting' ? 'opacity-0 scale-95 transition-all' : ''}
     >
       <Card
         className={`w-[275px] relative shadow-xs transition-shadow ${selected ? 'border-foreground shadow-lg' : ''} ${state === 'entering' ? 'border-positive shadow-xl' : ''} ${state === 'exiting' ? 'border-danger border-dashed' : ''} ${className}`}
