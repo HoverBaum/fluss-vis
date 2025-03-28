@@ -107,7 +107,12 @@ export const BaseNode = ({
     >
       <Card
         className={`w-[275px] relative shadow-xs transition-shadow ${selected ? 'border-foreground shadow-lg' : ''} ${state === 'entering' ? 'border-positive shadow-xl' : ''} ${state === 'exiting' ? 'border-danger border-dashed' : ''} ${className}`}
-        onDoubleClick={openEditSidebar}
+        onDoubleClick={(e) => {
+          // Abort if user double clicked an input.
+          // They probably want to mark text and not opent he sidebar.
+          if (e.target.toString().includes('Input')) return undefined
+          openEditSidebar()
+        }}
       >
         {state === 'exiting' && (
           <motion.div
