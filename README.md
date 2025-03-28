@@ -23,13 +23,31 @@ Fluss Viz will handle the execution of your logic and parallelize async operatio
 - Handle two inputs with same name.
 - Normalize outputs to live in a list and nodes reference this list by id for inputs and outputs.
 
+## Beta Plan
+
+- Re-evaluate system for custom types. We might want a tighter integration with users system. The user probably has types already in their codebase that they would love to use.
+  - Flusss-Viz wants to do things visually that are best done visually and leave things that are already great in other tools -> Typing is probably already great in Editors and more cumbersome digitally. Maybe only do display names and icons.
+  - How to integrate with existing types from users projects?
+- Save and Load a Fluss
+  - file formats, one extra file for state? Or state in TS export? Should we generate files for the functions?
+- New project screen and flow into that application. Start with a blank editor, what do users see? how are start and end added?
+
+## Full Release
+
+- Explore how users should use the tool.
+  - Npm CLI that can be used to work with FLuss-Viz in your project. Probably the minimum thing because it is IDE independant.
+  - Plugins for popular IDEs like VS Code.
+
 ## Later Features
 
-This we plan to do.
+This we plan to do but don't know when, yet.
 
-- Extract common logic from all Nodes.
+- VS Code Plugin
 - Split State into Nodes (editor and visual) and Steps (Fluss parts for logic)
 - Introduce undo-redo.
+- Diff-Highlighting
+  - For Merge Request review and similar we want to highlight want changes between two versions of a Fluss.
+
 
 ### Ideas
 
