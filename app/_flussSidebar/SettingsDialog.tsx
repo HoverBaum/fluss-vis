@@ -42,7 +42,7 @@ export const SettingsDialog = () => {
         </DialogHeader>
 
         <div>
-          <div className="flex flex-row items-center justify-between p-4">
+          <div className="flex flex-row items-center justify-between p-4 gap-2">
             <div>
               <Label className="text-base font-bold">Display ID</Label>
               <div>
@@ -55,7 +55,7 @@ export const SettingsDialog = () => {
 
           <hr />
 
-          <div className="flex flex-row items-center justify-between p-4">
+          <div className="flex flex-row items-center justify-between p-4 gap-2">
             <div>
               <Label className="text-base font-bold">
                 Selected Edges To Front
@@ -76,7 +76,7 @@ export const SettingsDialog = () => {
 
           <hr />
 
-          <div className="flex flex-row items-center justify-between p-4">
+          <div className="flex flex-row items-center justify-between p-4 gap-2">
             <div>
               <Label className="text-base font-bold">Always show delete</Label>
               <div>
