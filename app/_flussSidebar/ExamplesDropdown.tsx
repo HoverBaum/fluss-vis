@@ -11,6 +11,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar'
+import { BlogDraftExampleState } from '@/stores/examples/blogDraft.example'
 import { squareNumberExampleState } from '@/stores/examples/squareNumber.example'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { BookOpenTextIcon, MoreHorizontalIcon } from 'lucide-react'
@@ -40,7 +41,13 @@ export const ExamplesDropdown = () => {
           >
             Square a number
           </DropdownMenuItem>
-          <DropdownMenuItem>Square a number</DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => {
+              loadFluss(BlogDraftExampleState)
+            }}
+          >
+            Blogpost Draft
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </SidebarMenuItem>
     </DropdownMenu>

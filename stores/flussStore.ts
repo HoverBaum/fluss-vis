@@ -91,7 +91,7 @@ export type FlussActions = {
 export type FlussStore = FlussState & FlussActions
 export const NEW_CONNECTION_HANDLE_IDENTIFIER = 'new-connection'
 
-const initialState: FlussState = {
+export const initialState: FlussState = {
   name: 'Fluss 🌊',
   nodes: [
     {
