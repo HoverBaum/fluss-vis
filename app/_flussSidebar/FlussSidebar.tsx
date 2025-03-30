@@ -10,16 +10,18 @@ import {
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
-  SidebarMenuItem,
+  SidebarMenuItem
 } from '@/components/ui/sidebar'
 import { SettingsDialog } from './SettingsDialog'
 import { CustomTypesDialog } from './CustomTypesDialog'
 import { Export } from '../_export/Export'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { LoadButton } from './LoadButton'
+import { ExamplesDropdown } from './ExamplesDropdown'
 
 export const FlussSidebar = () => {
   const flussName = useFlussStore((state) => state.name)
+
   return (
     <Sidebar side="left" variant="inset">
       <SidebarHeader className="flex  flex-row justify-between items-center">
@@ -36,6 +38,8 @@ export const FlussSidebar = () => {
                   <SettingsDialog />
                 </SidebarMenuButton>
               </SidebarMenuItem>
+
+              <ExamplesDropdown />
 
               <SidebarMenuItem>
                 <LoadButton />

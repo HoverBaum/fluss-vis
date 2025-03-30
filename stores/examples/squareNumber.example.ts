@@ -1,7 +1,8 @@
 import { Position } from '@xyflow/react'
-import { FlussState } from './flussStore'
+import { FlussState } from '../flussStore'
+import { outputTypesBasics } from '../outputTypesBaics'
 
-export const devInitialState: FlussState = {
+export const squareNumberExampleState: FlussState = {
   name: 'Dev Fluss 🌊',
   isEditSidebarOpen: false,
   nodes: [
@@ -182,38 +183,7 @@ export const devInitialState: FlussState = {
     },
   ],
   outputTypes: [
-    {
-      id: 'void',
-      displayName: 'Void',
-      typeName: 'void',
-      content: 'void',
-      isPrimitive: true,
-      icon: 'slash',
-    },
-    {
-      id: 'string',
-      displayName: 'String',
-      typeName: 'string',
-      content: 'string',
-      isPrimitive: true,
-      icon: 'signature',
-    },
-    {
-      id: 'number',
-      displayName: 'Number',
-      typeName: 'number',
-      content: 'number',
-      isPrimitive: true,
-      icon: 'calculator',
-    },
-    {
-      id: 'boolean',
-      displayName: 'Boolean',
-      typeName: 'boolean',
-      content: 'boolean',
-      isPrimitive: true,
-      icon: 'toggle-right',
-    },
+    ...outputTypesBasics,
     {
       id: 'locale',
       displayName: 'Locale',
