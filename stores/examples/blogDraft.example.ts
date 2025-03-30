@@ -1,3 +1,4 @@
+import { Position } from '@xyflow/react'
 import { FlussState } from '../flussStore'
 import { outputTypesBasics } from '../outputTypesBaics'
 
@@ -31,6 +32,7 @@ export const BlogDraftExampleState: FlussState = {
       },
       selected: false,
       dragging: false,
+      sourcePosition: Position.Right,
     },
     {
       id: 'end',
@@ -63,6 +65,7 @@ export const BlogDraftExampleState: FlussState = {
       },
       selected: false,
       dragging: false,
+      sourcePosition: Position.Right,
     },
     {
       id: 'kNcea',
@@ -98,6 +101,7 @@ export const BlogDraftExampleState: FlussState = {
       },
       selected: false,
       dragging: false,
+      sourcePosition: Position.Right,
     },
     {
       id: 'MdExu',
@@ -133,6 +137,7 @@ export const BlogDraftExampleState: FlussState = {
       },
       selected: false,
       dragging: false,
+      sourcePosition: Position.Right,
     },
     {
       id: 'lBEfW',
@@ -168,6 +173,7 @@ export const BlogDraftExampleState: FlussState = {
       },
       selected: false,
       dragging: false,
+      sourcePosition: Position.Right,
     },
   ],
   edges: [
