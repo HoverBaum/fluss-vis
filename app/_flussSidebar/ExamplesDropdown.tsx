@@ -32,18 +32,43 @@ import {
 } from 'lucide-react'
 import { useState } from 'react'
 import { FlussState } from '@/stores/flussStore'
+import { Checkbox } from '@/components/ui/checkbox'
+import { useSettingsStore } from '@/stores/SettingsStoreProvider'
 
 export const ExamplesDropdown = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [notAgainSelected, setNotAgainSelected] = useState(false)
   const [selectedExample, setSelectedExample] = useState<FlussState | null>(
     null
   )
   const { isMobile } = useSidebar()
   const loadFluss = useFlussStore((state) => state.loadFluss)
+  const setShowExampleOverwriteWarning = useSettingsStore(
+    (store) => store.setShowExampleOverwriteWarning
+  )
+  const showWarningDialog = useSettingsStore(
+    (store) => store.showExampleOverwriteWarning
+  )
 
+  /**
+   * Selects an example and if no Dialog should be shown directly loads it.
+   */
   const selectExample = (example: FlussState) => {
-    setSelectedExample(example)
-    setIsDialogOpen(true)
+    if (showWarningDialog) {
+      setSelectedExample(example)
+      setIsDialogOpen(true)
+    } else {
+      loadFluss(example)
+    }
+  }
+
+  // To be used after warning dialog.
+  const loadSelectedExample = () => {
+    if (!selectedExample) return undefined
+    if (notAgainSelected) {
+      setShowExampleOverwriteWarning(false)
+    }
+    loadFluss(selectedExample)
   }
 
   return (
@@ -55,16 +80,33 @@ export const ExamplesDropdown = () => {
               <TriangleAlertIcon className="size-5" />
               Warning
             </AlertDialogTitle>
-            <AlertDialogDescription>
+            <AlertDialogDescription className="text-foreground">
               This will overwrite everything currently in the editor. Make sure
               to save any changes before proceeding. There is no going back!
             </AlertDialogDescription>
           </AlertDialogHeader>
+
+          <div
+            className={`flex items-center space-x-2 ${notAgainSelected ? '' : 'text-muted-foreground'}`}
+          >
+            <Checkbox
+              checked={notAgainSelected}
+              onCheckedChange={(checked) =>
+                checked !== 'indeterminate' && setNotAgainSelected(checked)
+              }
+              id="hideDialog"
+            />
+            <label
+              htmlFor="hideDialog"
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              Do not show this dialog again.
+            </label>
+          </div>
+
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={() => selectedExample && loadFluss(selectedExample)}
-            >
+            <AlertDialogAction onClick={loadSelectedExample}>
               Continue
             </AlertDialogAction>
           </AlertDialogFooter>

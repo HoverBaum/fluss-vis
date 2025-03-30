@@ -5,12 +5,14 @@ type SettingsState = {
   displayIds: boolean
   alwaysShowDelete: boolean
   bringSelectedEdgesToFront: boolean
+  showExampleOverwriteWarning: boolean
 }
 
 type SettingsActions = {
   toggleDisplayIds: () => void
   toggleAlwaysShowDelete: () => void
   toggleBringSelectedEdgesToFront: () => void
+  setShowExampleOverwriteWarning: (show: boolean) => void
 }
 
 export type SettingsStore = SettingsState & SettingsActions
@@ -19,6 +21,7 @@ const initialState: SettingsState = {
   displayIds: true,
   alwaysShowDelete: false,
   bringSelectedEdgesToFront: true,
+  showExampleOverwriteWarning: true,
 }
 
 export const createSettingsStore = (
@@ -38,9 +41,12 @@ export const createSettingsStore = (
           toggleBringSelectedEdgesToFront() {
             set({ bringSelectedEdgesToFront: !get().bringSelectedEdgesToFront })
           },
+          setShowExampleOverwriteWarning(show: boolean) {
+            set({ showExampleOverwriteWarning: show })
+          },
         }),
         {
-          name: 'settings-store',
+          name: 'SettingsStore',
         }
       ),
       { name: 'SettingsStore' }

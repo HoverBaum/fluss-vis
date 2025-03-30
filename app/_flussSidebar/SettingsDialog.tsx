@@ -21,6 +21,8 @@ export const SettingsDialog = () => {
     toggleBringSelectedEdgesToFront,
     alwaysShowDelete,
     toggleAlwaysShowDelete,
+    showExampleOverwriteWarning,
+    setShowExampleOverwriteWarning,
   } = useSettingsStore((store) => store)
 
   return (
@@ -87,6 +89,29 @@ export const SettingsDialog = () => {
             <Switch
               checked={alwaysShowDelete}
               onCheckedChange={toggleAlwaysShowDelete}
+            />
+          </div>
+
+          <hr />
+
+          <div className="flex flex-row items-center justify-between p-4 gap-2">
+            <div>
+              <Label className="text-base font-bold">
+                Example overwrite warning
+              </Label>
+              <div>
+                <small>
+                  Show a warning that loading an example will overwrite the
+                  editor.
+                </small>
+              </div>
+            </div>
+
+            <Switch
+              checked={showExampleOverwriteWarning}
+              onCheckedChange={() =>
+                setShowExampleOverwriteWarning(!showExampleOverwriteWarning)
+              }
             />
           </div>
         </div>
