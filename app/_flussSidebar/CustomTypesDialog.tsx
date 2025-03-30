@@ -16,7 +16,7 @@ import {
 import { FlussStepOutputType } from '@/fluss-lib/fluss'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { DialogDescription, DialogTitle } from '@radix-ui/react-dialog'
-import { CodeIcon, PlusIcon } from 'lucide-react'
+import { CodeIcon, PlusIcon, TriangleAlertIcon } from 'lucide-react'
 import { DynamicIcon } from 'lucide-react/dynamic'
 import { useMemo, useState } from 'react'
 import { CustomTypeEditor } from './CustomTypeEditor'
@@ -85,6 +85,13 @@ export const CustomTypesDialog = () => {
               <SidebarGroup>
                 <SidebarGroupLabel>Your Types</SidebarGroupLabel>
                 <SidebarGroupContent>
+                  {customTypes.length === 0 && (
+                    <SidebarMenu>
+                      <SidebarMenuItem className="p-2 opacity-50">
+                        None, yet
+                      </SidebarMenuItem>
+                    </SidebarMenu>
+                  )}
                   <SidebarMenu>
                     {customTypes.map((type) => (
                       <SidebarMenuItem key={type.id}>
@@ -136,6 +143,19 @@ export const CustomTypesDialog = () => {
                 {customTypes.map((type) => (
                   <CustomTypeDisplay key={type.id} type={type} />
                 ))}
+                {customTypes.length === 0 && (
+                  <div>
+                    <h3 className="text-lg font-semibold flex items-center gap-2">
+                      No Custom Types, yet <TriangleAlertIcon size="1rem" />
+                    </h3>
+                    <div>
+                      <p>
+                        Get started with Custom Types by adding one from the
+                        sidebar.
+                      </p>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
             {page === 'about' && (
