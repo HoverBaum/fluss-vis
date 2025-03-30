@@ -3,6 +3,7 @@ import { FlussTSStateJSONEnd, FlussTSStateJSONStart } from '@/lib/constants'
 import { FlussState } from '@/stores/flussStore'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { FolderIcon } from 'lucide-react'
+import { toast } from 'sonner'
 
 export const LoadButton = () => {
   const loadFluss = useFlussStore((state) => state.loadFluss)
@@ -24,7 +25,8 @@ export const LoadButton = () => {
               stringContent.includes(FlussTSStateJSONStart) &&
               stringContent.includes(FlussTSStateJSONEnd)
             if (!hasMarkers) {
-              alert('File does not contain the required markers.')
+              // TODO: direct users to a place where they can learn more.
+              toast.error('File does not contain the required markers.')
               return
             }
             const afterStartMarker = stringContent.split(
@@ -36,18 +38,19 @@ export const LoadButton = () => {
             const stateFromJSON = JSON.parse(jsonString)
             console.log('Parsed state:', stateFromJSON)
 
-            // TODO: Check if the state is valid
+            // TODO: Check if the state is valid.
 
             loadFluss(stateFromJSON as FlussState)
+            toast.success('Fluss loaded successfully.')
           } else {
             // No content
-            alert('No content in the file.')
+            toast.error('No content in the file.')
           }
         }
         reader.readAsText(file)
       } else {
         // No file selected
-        alert('No file selected.')
+        toast.error('No file selected.')
       }
     }
     input.click()
