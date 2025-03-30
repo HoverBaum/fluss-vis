@@ -10,7 +10,7 @@ import {
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
-  SidebarMenuItem
+  SidebarMenuItem,
 } from '@/components/ui/sidebar'
 import { SettingsDialog } from './SettingsDialog'
 import { CustomTypesDialog } from './CustomTypesDialog'
@@ -18,6 +18,7 @@ import { Export } from '../_export/Export'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { LoadButton } from './LoadButton'
 import { ExamplesDropdown } from './ExamplesDropdown'
+import { ResetButton } from './ResetButton'
 
 export const FlussSidebar = () => {
   const flussName = useFlussStore((state) => state.name)
@@ -40,6 +41,10 @@ export const FlussSidebar = () => {
               </SidebarMenuItem>
 
               <ExamplesDropdown />
+
+              <SidebarMenuItem>
+                <ResetButton />
+              </SidebarMenuItem>
 
               <SidebarMenuItem>
                 <LoadButton />
