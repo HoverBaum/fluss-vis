@@ -4,7 +4,9 @@ import { motion } from 'motion/react'
 import {
   Handle,
   Position,
+  ReactFlowState,
   useConnection,
+  useStore,
   useUpdateNodeInternals,
 } from '@xyflow/react'
 import { Children, ReactNode, useEffect, useMemo } from 'react'
@@ -22,6 +24,7 @@ import {
 import { useSettingsStore } from '@/stores/SettingsStoreProvider'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { OctagonXIcon, UnplugIcon } from 'lucide-react'
+import { Placeholder } from './Placeholder'
 
 const DropIndicator = ({ nodeId }: { nodeId: string }) => {
   const connection = useConnection()
@@ -76,6 +79,7 @@ type BaseNodeProps = {
 }
 
 const TruncatedDescriptionLength = 95 as const
+const zoomSelector = (state: ReactFlowState) => state.transform[2] <= 0.9
 
 export const BaseNode = ({
   nodeId,
@@ -87,6 +91,7 @@ export const BaseNode = ({
   acceptsInputs: showNewConnectionHandle = true,
   state,
 }: BaseNodeProps) => {
+  const zoomedOut = useStore(zoomSelector)
   const displayId = useSettingsStore((store) => store.displayIds)
   const updateNodeInternals = useUpdateNodeInternals()
   const connection = useConnection()
@@ -144,12 +149,28 @@ export const BaseNode = ({
           <small className="absolute top-2 right-2 font-mono">{nodeId}</small>
         )}
         <CardHeader>
-          <CardTitle className="text-xl">{name}</CardTitle>
+          <CardTitle className={`${zoomedOut ? 'text-3xl' : 'text-xl'}`}>
+            {name}
+          </CardTitle>
           <CardDescription>
-            {descriptionIsEmpty && 'Double click node to edit'}
-            {descriptionIsTruncated &&
-              description?.substring(0, TruncatedDescriptionLength) + '…'}
-            {description && !descriptionIsTruncated && description}
+            <div className="relative">
+              <div
+                className={`transition-opacity ${zoomedOut ? 'opacity-0' : ''}`}
+              >
+                {descriptionIsEmpty && 'Double click node to edit'}
+                {descriptionIsTruncated &&
+                  description?.substring(0, TruncatedDescriptionLength) + '…'}
+                {description && !descriptionIsTruncated && description}
+              </div>
+
+              <div
+                className={`grid gap-2 absolute top-0 left-0 w-full h-full bg-transparent overflow-hidden transition-opacity ${zoomedOut ? '' : 'opacity-0'}`}
+              >
+                <Placeholder />
+                <Placeholder />
+                <Placeholder />
+              </div>
+            </div>
           </CardDescription>
         </CardHeader>
         {children}
