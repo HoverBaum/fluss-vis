@@ -98,6 +98,7 @@ export const initialState: FlussState = {
       id: START_NODE_ID,
       position: { x: 50, y: 200 },
       type: 'startNode',
+      deletable: false,
       data: {
         type: 'start',
         id: START_NODE_ID,
@@ -117,6 +118,7 @@ export const initialState: FlussState = {
       id: END_NODE_ID,
       position: { x: 800, y: 200 },
       type: 'endNode',
+      deletable: false,
       data: {
         type: 'end',
         id: END_NODE_ID,

@@ -33,6 +33,7 @@ export const BlogDraftExampleState: FlussState = {
       selected: false,
       dragging: false,
       sourcePosition: Position.Right,
+      deletable: false,
     },
     {
       id: 'end',
@@ -66,6 +67,7 @@ export const BlogDraftExampleState: FlussState = {
       selected: false,
       dragging: false,
       sourcePosition: Position.Right,
+      deletable: false,
     },
     {
       id: 'kNcea',
