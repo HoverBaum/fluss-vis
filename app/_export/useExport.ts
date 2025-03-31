@@ -9,7 +9,10 @@ import {
   FlussStepOutputId,
   FlussStepOutput,
 } from '@/fluss-lib/fluss'
-import { stringToValidIdentifier } from '@/fluss-lib/nameConversion'
+import {
+  stepToValidIdentifier,
+  stringToValidIdentifier,
+} from '@/fluss-lib/nameConversion'
 import { START_NODE_ID } from '@/stores/nodeHelpers'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { Edge, Node } from '@xyflow/react'
@@ -122,7 +125,7 @@ export const useExport = () => {
           stepId: node.id,
           stepName: nodeData.name,
           description: nodeData.description,
-          functionName: stringToValidIdentifier(nodeData.name),
+          functionName: stepToValidIdentifier(nodeData),
           returnType:
             nodeData.outputs.length === 1
               ? nodeData.outputs[0].type
@@ -164,7 +167,7 @@ export const useExport = () => {
                 throw new Error(`No source node found for ${input.edge.source}`)
               const usesEntireOutput = sourceNode.data.outputs.length === 1
               return {
-                source: stringToValidIdentifier(sourceNode.data.name),
+                source: stepToValidIdentifier(sourceNode.data),
                 sourceOutput: input.output.id,
                 name: stringToValidIdentifier(input.output.name),
                 type,

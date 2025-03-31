@@ -1,3 +1,5 @@
+import { FlussStep } from './fluss'
+
 /**
  * Turn function names into camelCase identifiers.
  * Starts with a lowercase letter, every word after that starts with an uppercase letter.
@@ -33,4 +35,27 @@ export const stringToValidIdentifier = (name: string): string => {
   return stringToCamelCase(name)
     .replace(/[^a-zA-Z0-9_]/g, '')
     .replace(/^(\d)/, '_$1')
+}
+
+/**
+ * Converts a step into a valid TypeScript identifier.
+ * Scopes the name of this step to it's ID to preven collisions.
+ * @param step The step to convert.
+ * @returns A valid TypeScript identifier.
+ * @example
+ * ```ts
+ * const step = {
+ *  id: '123',
+ *  name: 'My Step',
+ * }
+ * const identifier = stepToValidIdentifier(step)
+ * // identifier = 'myStep_123'
+ * ```
+ * @see stringToValidIdentifier
+ */
+export const stepToValidIdentifier = (
+  step: Pick<FlussStep, 'id' | 'name'>
+): string => {
+  const name = `${step.name}_${step.id}`
+  return stringToValidIdentifier(name)
 }

@@ -15,7 +15,7 @@ import {
   SidebarHeader,
 } from '@/components/ui/sidebar'
 import { Textarea } from '@/components/ui/textarea'
-import { stringToValidIdentifier } from '@/fluss-lib/nameConversion'
+import { stepToValidIdentifier } from '@/fluss-lib/nameConversion'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { END_NODE_ID, START_NODE_ID } from '@/stores/nodeHelpers'
 import { ArrowRightFromLine } from 'lucide-react'
@@ -84,9 +84,7 @@ export const StepEditSidebar = () => {
                 <div className="grid w-full max-w-sm items-center gap-1 my-2">
                   <Label className="font-semibold">Function name</Label>
                   <small>Used in generated code.</small>
-                  <CodeDisplay>
-                    {stringToValidIdentifier(nodeData.name)}
-                  </CodeDisplay>
+                  <CodeDisplay>{stepToValidIdentifier(nodeData)}</CodeDisplay>
                 </div>
 
                 <div className="grid w-full max-w-sm items-center gap-1 my-2">

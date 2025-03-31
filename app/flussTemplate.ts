@@ -2,6 +2,9 @@ import { END_NODE_ID, START_NODE_ID } from '@/stores/nodeHelpers'
 import { FlussArgument, FlussFunction } from './_export/useExport'
 import { FlussTSStateJSONEnd, FlussTSStateJSONStart } from '@/lib/constants'
 
+const startFunctionIdentifier = `${START_NODE_ID}_${START_NODE_ID}`
+const endFunctionIdentifier = `${END_NODE_ID}_${END_NODE_ID}`
+
 type FlussTemplateParams = {
   customTypes: string
   flussFunctions: FlussFunction[]
@@ -30,7 +33,7 @@ type FlussInputs = {
 // Step Input/Output types - simplified with mapped types
 // While start is static, end and other steps are dynamic
 type StepIO = {
-  ${START_NODE_ID}: {
+  ${startFunctionIdentifier}: {
     input: FlussInputs
     output: FlussInputs
   }${flussFunctions
@@ -51,7 +54,7 @@ type FlussStepId = keyof StepIO
 // Step function types mapped from StepIO
 // FIXED - assumign start and end identifiers do not change.
 type StepFunctions = {
-  [K in Exclude<FlussStepId, '${START_NODE_ID}' | '${END_NODE_ID}'>]: (
+  [K in Exclude<FlussStepId, '${startFunctionIdentifier}' | '${endFunctionIdentifier}'>]: (
     args: StepIO[K]['input']
   ) => Promise<StepIO[K]['output']> | StepIO[K]['output']
 }
@@ -145,14 +148,14 @@ function canStepRun<ID extends FlussStepId>(
 export async function runFluss(params: {
   inputs: FlussInputs
   stepFunctions: StepFunctions
-}): Promise<StepIO['${END_NODE_ID}']['output']> {
+}): Promise<StepIO['${endFunctionIdentifier}']['output']> {
   const { inputs, stepFunctions } = params
 
   // Initialize the flow state with typed steps
   // This is generated new for each flow.
   const flowState: FlowState = {
-    ${START_NODE_ID}: {
-      id: '${START_NODE_ID}',
+    ${startFunctionIdentifier}: {
+      id: '${startFunctionIdentifier}',
       status: 'done',
       execute: (args) => args,
       arguments: [],
@@ -181,7 +184,7 @@ export async function runFluss(params: {
 
   }
 
-  return new Promise<StepIO['${END_NODE_ID}']['output']>((resolve, reject) => {
+  return new Promise<StepIO['${endFunctionIdentifier}']['output']>((resolve, reject) => {
     // Process runnable steps
     const processSteps = async () => {
       // Find all steps that can run now
@@ -198,10 +201,10 @@ export async function runFluss(params: {
       if (runnableSteps.length === 0) {
         if (Object.values(flowState).every((step) => step.status === 'done')) {
           console.log('All steps done!')
-          if (!flowState.${END_NODE_ID}.result) {
+          if (!flowState.${endFunctionIdentifier}.result) {
             return reject(new Error('End step has no result'))
           }
-          return resolve(flowState.${END_NODE_ID}.result)
+          return resolve(flowState.${endFunctionIdentifier}.result)
         } else {
           return reject(
             new Error('No steps can be run and not all steps are done')

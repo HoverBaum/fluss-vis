@@ -1,5 +1,8 @@
 import { expect, test } from 'vitest'
-import { stringToValidIdentifier } from './nameConversion'
+import {
+  stepToValidIdentifier,
+  stringToValidIdentifier,
+} from './nameConversion'
 
 test('stringToValidIdentifier', () => {
   expect(stringToValidIdentifier('')).toBe('')
@@ -11,4 +14,14 @@ test('stringToValidIdentifier', () => {
   expect(stringToValidIdentifier('123abc')).toBe('_123abc')
   expect(stringToValidIdentifier('emoji✨')).toBe('emoji')
   expect(stringToValidIdentifier('emoji🎉')).toBe('emoji')
+})
+
+test('stepToValidIdentifier', () => {
+  expect(stepToValidIdentifier({ id: '123', name: 'My Step' })).toBe(
+    'myStep_123'
+  )
+  expect(stepToValidIdentifier({ id: '123', name: 'My Step 2' })).toBe(
+    'myStep2_123'
+  )
+  expect(stepToValidIdentifier({ id: '123', name: '' })).toBe('_123')
 })
