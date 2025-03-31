@@ -22,7 +22,7 @@ import {
   FlussStepOutputType,
   FlussStepOutputTypeId,
 } from '@/fluss-lib/fluss'
-import { createFlussNode, END_NODE_ID, START_NODE_ID } from './storeHelpers'
+import { createFlussNode, END_NODE_ID, START_NODE_ID } from './nodeHelpers'
 import { ArrayNotEmpty } from '@/fluss-lib/helperTypes'
 import { newId, shortId } from '@/fluss-lib/flussId'
 import { EnterExitAnimationDurationMS } from '@/lib/constants'

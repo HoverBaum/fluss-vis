@@ -1,3 +1,9 @@
+/**
+ * This module serves as a central place for step operations.
+ * We centralize these here to ease changes alter on.
+ * Everything that makes assumptions about the structure of a steps data should be here.
+ */
+
 import { Position, XYPosition } from '@xyflow/react'
 import { FlussNodeType } from './flussStore'
 import { FlussStep } from '@/fluss-lib/fluss'

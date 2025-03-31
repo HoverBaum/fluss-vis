@@ -1,7 +1,7 @@
 'use client'
 
 import { Node, NodeProps } from '@xyflow/react'
-import { START_NODE_ID } from '@/stores/storeHelpers'
+import { START_NODE_ID } from '@/stores/nodeHelpers'
 import { FlussStepStart } from '@/fluss-lib/fluss'
 import { Button } from '@/components/ui/button'
 import { useFlussStore } from '@/stores/FlussStoreProvider'

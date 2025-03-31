@@ -4,9 +4,11 @@ import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
 import { FlowEditor } from './FlowEditor'
 import { FlussSidebar } from './_flussSidebar/FlussSidebar'
 import { useState } from 'react'
+import { useCopyPaste } from './useCopyPaste'
 
 export default function Home() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  useCopyPaste()
 
   return (
     <SidebarProvider

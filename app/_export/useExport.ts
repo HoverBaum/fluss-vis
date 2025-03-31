@@ -10,7 +10,7 @@ import {
   FlussStepOutput,
 } from '@/fluss-lib/fluss'
 import { stringToValidIdentifier } from '@/fluss-lib/nameConversion'
-import { START_NODE_ID } from '@/stores/storeHelpers'
+import { START_NODE_ID } from '@/stores/nodeHelpers'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { Edge, Node } from '@xyflow/react'
 import { flussTemplate } from '../flussTemplate'

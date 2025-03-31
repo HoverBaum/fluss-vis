@@ -1,4 +1,4 @@
-import { END_NODE_ID, START_NODE_ID } from '@/stores/storeHelpers'
+import { END_NODE_ID, START_NODE_ID } from '@/stores/nodeHelpers'
 import { FlussArgument, FlussFunction } from './_export/useExport'
 import { FlussTSStateJSONEnd, FlussTSStateJSONStart } from '@/lib/constants'
 

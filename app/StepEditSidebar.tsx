@@ -17,7 +17,7 @@ import {
 import { Textarea } from '@/components/ui/textarea'
 import { stringToValidIdentifier } from '@/fluss-lib/nameConversion'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
-import { END_NODE_ID, START_NODE_ID } from '@/stores/storeHelpers'
+import { END_NODE_ID, START_NODE_ID } from '@/stores/nodeHelpers'
 import { ArrowRightFromLine } from 'lucide-react'
 import { useEffect } from 'react'
 
