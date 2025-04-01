@@ -17,19 +17,14 @@ export default function Home() {
     >
       <FlussSidebar />
 
-      {/* Only use Inset when sidebar is open. */}
-      {sidebarOpen && (
-        <SidebarInset className="overflow-hidden">
-          <FlowEditor
-            toggleFlussSidebar={() => setSidebarOpen((state) => !state)}
-          />
-        </SidebarInset>
-      )}
-      {!sidebarOpen && (
+      {/* When sidebar is closed, we want the editor to be "fullscreen". */}
+      <SidebarInset
+        className={`overflow-hidden transition-all ${sidebarOpen ? '' : 'm-0! rounded-none!'}`}
+      >
         <FlowEditor
           toggleFlussSidebar={() => setSidebarOpen((state) => !state)}
         />
-      )}
+      </SidebarInset>
     </SidebarProvider>
   )
 }
