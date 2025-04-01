@@ -28,7 +28,7 @@ export const SettingsDialog = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <span className="flex items-center gap-2 w-full">
+        <span className="flex w-full items-center gap-2">
           <Settings size="1rem" /> Editor Settings
         </span>
       </DialogTrigger>
@@ -44,7 +44,7 @@ export const SettingsDialog = () => {
         </DialogHeader>
 
         <div>
-          <div className="flex flex-row items-center justify-between p-4 gap-2">
+          <div className="flex flex-row items-center justify-between gap-2 p-4">
             <div>
               <Label className="text-base font-bold">Display ID</Label>
               <div>
@@ -57,7 +57,7 @@ export const SettingsDialog = () => {
 
           <hr />
 
-          <div className="flex flex-row items-center justify-between p-4 gap-2">
+          <div className="flex flex-row items-center justify-between gap-2 p-4">
             <div>
               <Label className="text-base font-bold">
                 Selected Edges To Front
@@ -78,7 +78,7 @@ export const SettingsDialog = () => {
 
           <hr />
 
-          <div className="flex flex-row items-center justify-between p-4 gap-2">
+          <div className="flex flex-row items-center justify-between gap-2 p-4">
             <div>
               <Label className="text-base font-bold">Always show delete</Label>
               <div>
@@ -94,7 +94,7 @@ export const SettingsDialog = () => {
 
           <hr />
 
-          <div className="flex flex-row items-center justify-between p-4 gap-2">
+          <div className="flex flex-row items-center justify-between gap-2 p-4">
             <div>
               <Label className="text-base font-bold">
                 Example overwrite warning

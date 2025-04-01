@@ -25,8 +25,8 @@ export const FlussSidebar = () => {
 
   return (
     <Sidebar side="left" variant="inset">
-      <SidebarHeader className="flex  flex-row justify-between items-center">
-        <h2 className="font-bold text-xl">Setting</h2>
+      <SidebarHeader className="flex flex-row items-center justify-between">
+        <h2 className="text-xl font-bold">Setting</h2>
       </SidebarHeader>
 
       <SidebarContent>

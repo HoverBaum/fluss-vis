@@ -94,7 +94,7 @@ export const FlussEdge = ({
               1
             )}
             loop={false}
-            className="w-14 h-14 fixed"
+            className="fixed h-14 w-14"
             style={{
               transform: `translate(-50%, -50%) translate(${targetScreenPosition.x - x}px, ${targetScreenPosition.y - y}px)`,
             }}

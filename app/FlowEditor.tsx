@@ -86,7 +86,7 @@ export const FlowEditor = ({ toggleFlussSidebar }: FlowEditorProps) => {
   if (!isMounted) return null
 
   return (
-    <SidebarProvider open={isEditSidebarOpen} className="min-h-auto h-full">
+    <SidebarProvider open={isEditSidebarOpen} className="h-full min-h-auto">
       <ReactFlow
         nodes={nodes}
         edges={edges}

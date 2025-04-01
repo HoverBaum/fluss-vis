@@ -38,7 +38,7 @@ export const StartNode = ({
           ))}
         </div>
 
-        <div className="mt-6 pr-6 flex justify-end w-full">
+        <div className="mt-6 flex w-full justify-end pr-6">
           <Button variant="secondary" onClick={addFlussParameter}>
             Add Parameter
           </Button>

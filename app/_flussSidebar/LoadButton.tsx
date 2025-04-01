@@ -58,7 +58,7 @@ export const LoadButton = () => {
 
   return (
     <SidebarMenuButton
-      className="flex items-center w-full"
+      className="flex w-full items-center"
       onClick={handleFileSelect}
     >
       <FolderIcon className="size-4" /> Open Fluss

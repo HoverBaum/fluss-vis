@@ -36,11 +36,11 @@ export const StepEditSidebar = () => {
   }, [selectedNode, closeSidebar])
 
   return (
-    <Sidebar side="right" className="pl-0 ml-0 absolute h-full shadow-lg">
+    <Sidebar side="right" className="absolute ml-0 h-full pl-0 shadow-lg">
       <SidebarHeader className="relative">
         {nodeData && (
           <>
-            <h2 className="font-bold text-xl">{nodeData.name}</h2>
+            <h2 className="text-xl font-bold">{nodeData.name}</h2>
             <small>{nodeData.id}</small>
           </>
         )}
@@ -64,10 +64,10 @@ export const StepEditSidebar = () => {
           <>
             <SidebarGroup>
               <SidebarGroupLabel className="pl-0">
-                <h2 className="font-bold text-lg">Meta data</h2>
+                <h2 className="text-lg font-bold">Meta data</h2>
               </SidebarGroupLabel>
-              <SidebarGroupContent className="px-2 flex flex-col">
-                <div className="grid w-full max-w-sm items-center gap-1 my-2">
+              <SidebarGroupContent className="flex flex-col px-2">
+                <div className="my-2 grid w-full max-w-sm items-center gap-1">
                   <Label htmlFor="nameEdit" className="font-semibold">
                     Name
                   </Label>
@@ -81,13 +81,13 @@ export const StepEditSidebar = () => {
                   />
                 </div>
 
-                <div className="grid w-full max-w-sm items-center gap-1 my-2">
+                <div className="my-2 grid w-full max-w-sm items-center gap-1">
                   <Label className="font-semibold">Function name</Label>
                   <small>Used in generated code.</small>
                   <CodeDisplay>{stepToValidIdentifier(nodeData)}</CodeDisplay>
                 </div>
 
-                <div className="grid w-full max-w-sm items-center gap-1 my-2">
+                <div className="my-2 grid w-full max-w-sm items-center gap-1">
                   <Label htmlFor="descriptionEdit" className="font-semibold">
                     Description
                   </Label>

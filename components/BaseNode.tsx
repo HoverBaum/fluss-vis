@@ -37,7 +37,7 @@ const DropIndicator = ({ nodeId }: { nodeId: string }) => {
   )
   return (
     <div
-      className={`w-full h-full absolute top-0 left-0 opacity-0 hover:opacity-100 z-10 grid place-items-center backdrop-blur-xs transition-opacity overflow-hidden ${
+      className={`absolute top-0 left-0 z-10 grid h-full w-full place-items-center overflow-hidden opacity-0 backdrop-blur-xs transition-opacity hover:opacity-100 ${
         isAlreadyConnected ? 'bg-fluss-pink/5' : 'bg-fluss-blue-light/5'
       }`}
     >
@@ -47,10 +47,10 @@ const DropIndicator = ({ nodeId }: { nodeId: string }) => {
           type="target"
           position={Position.Left}
           isConnectableStart={false}
-          className="w-full! h-full! absolute! top-1/2! left-1/2! border-none! rounded-none! bg-transparent! z-20!"
+          className="absolute! top-1/2! left-1/2! z-20! h-full! w-full! rounded-none! border-none! bg-transparent!"
         />
       )}
-      <div className="bg-background px-4 py-2 rounded-md shadow-sm">
+      <div className="bg-background rounded-md px-4 py-2 shadow-sm">
         {isAlreadyConnected ? (
           <span className="flex items-center gap-2">
             <OctagonXIcon className="text-danger" />
@@ -119,10 +119,10 @@ export const BaseNode = ({
     <motion.div
       initial={state === 'entering' ? { scale: 1.5, opacity: 0.2 } : {}}
       animate={{ scale: 1, opacity: 1 }}
-      className={state === 'exiting' ? 'opacity-0 scale-95 transition-all' : ''}
+      className={state === 'exiting' ? 'scale-95 opacity-0 transition-all' : ''}
     >
       <Card
-        className={`w-[275px] relative shadow-xs transition-shadow ${selected ? 'border-foreground shadow-lg' : ''} ${state === 'entering' ? 'border-positive shadow-xl' : ''} ${state === 'exiting' ? 'border-danger border-dashed' : ''} ${className}`}
+        className={`relative w-[275px] shadow-xs transition-shadow ${selected ? 'border-foreground shadow-lg' : ''} ${state === 'entering' ? 'border-positive shadow-xl' : ''} ${state === 'exiting' ? 'border-danger border-dashed' : ''} ${className}`}
         onDoubleClick={(e) => {
           // Abort if user double clicked an input.
           // They probably want to mark text and not opent he sidebar.
@@ -134,14 +134,14 @@ export const BaseNode = ({
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.05 }}
-            className="absolute top-0 left-0 w-full h-full z-20 bg-danger"
+            className="bg-danger absolute top-0 left-0 z-20 h-full w-full"
           ></motion.div>
         )}
         {state === 'entering' && (
           <motion.div
             initial={{ opacity: 0.25 }}
             animate={{ opacity: 0 }}
-            className="absolute top-0 left-0 w-full h-full z-20 bg-positive"
+            className="bg-positive absolute top-0 left-0 z-20 h-full w-full"
           ></motion.div>
         )}
         {isPotentialTarget && <DropIndicator nodeId={nodeId} />}
@@ -164,7 +164,7 @@ export const BaseNode = ({
               </div>
 
               <div
-                className={`grid gap-2 absolute top-0 left-0 w-full h-full bg-transparent overflow-hidden transition-opacity ${zoomedOut ? '' : 'opacity-0'}`}
+                className={`absolute top-0 left-0 grid h-full w-full gap-2 overflow-hidden bg-transparent transition-opacity ${zoomedOut ? '' : 'opacity-0'}`}
               >
                 <Placeholder />
                 <Placeholder />

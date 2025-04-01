@@ -21,7 +21,7 @@ export const ResetButton = () => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <SidebarMenuButton className="flex items-center w-full">
+        <SidebarMenuButton className="flex w-full items-center">
           <RotateCcwIcon className="size-4" /> Reset Editor
         </SidebarMenuButton>
       </AlertDialogTrigger>

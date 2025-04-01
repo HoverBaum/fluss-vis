@@ -16,7 +16,7 @@ export const CodeDisplay = ({ children }: CodeDisplayProps) => {
 
   return (
     <div
-      className="w-full hljs p-2 whitespace-pre-wrap"
+      className="hljs w-full p-2 whitespace-pre-wrap"
       dangerouslySetInnerHTML={{ __html: highlightedCode.value }}
     ></div>
   )

@@ -60,7 +60,7 @@ export const IconSelect = ({ icon, onSelect }: IconsSelectProps) => {
           className="w-[200px] justify-between"
         >
           {iconInfo ? (
-            <span className="flex gap-2 items-center">
+            <span className="flex items-center gap-2">
               <DynamicIcon name={iconInfo.name} />
               {iconInfo.label}
             </span>

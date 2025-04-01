@@ -50,7 +50,7 @@ export const CustomTypeEditor = ({ typeId }: CustomTypeEditorProps) => {
   return (
     <div>
       <CustomTypeDisplay type={type} />
-      <div className="mt-4 p-4 flex flex-col gap-6">
+      <div className="mt-4 flex flex-col gap-6 p-4">
         <div className="grid grid-cols-2 gap-6">
           <div className="grid w-full items-center gap-0.5">
             <Label htmlFor="displayName" className="font-semibold">
@@ -119,7 +119,7 @@ export const CustomTypeEditor = ({ typeId }: CustomTypeEditorProps) => {
           <div className="editor-container">
             <Editor
               id="content"
-              className="border hljs mt-2"
+              className="hljs mt-2 border"
               value={editingCode}
               onValueChange={setEditingCode}
               highlight={(code) =>

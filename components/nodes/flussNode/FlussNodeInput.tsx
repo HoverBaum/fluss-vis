@@ -65,11 +65,11 @@ export const FlussNodeInput = ({ id, nodeId }: FlussNodeInputProps) => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 100 }}
-      className={`relative pl-6  ${animationState === 'exiting' ? 'transition-opacity duration-300 ease-out opacity-10!' : ''}`}
+      className={`relative pl-6 ${animationState === 'exiting' ? 'opacity-10! transition-opacity duration-300 ease-out' : ''}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="flex gap-2 items-center justify-between">
+      <div className="flex items-center justify-between gap-2">
         {input?.type && (
           <span className="flex flex-wrap">
             <EdgeType outputTypeId={input.type} />{' '}

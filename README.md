@@ -48,7 +48,6 @@ This we plan to do but don't know when, yet.
 - Diff-Highlighting
   - For Merge Request review and similar we want to highlight want changes between two versions of a Fluss.
 
-
 ### Ideas
 
 These we might do, maybe not.

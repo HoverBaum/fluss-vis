@@ -71,7 +71,7 @@ export const Export = ({
           <motion.div
             initial={{ height: 0 }}
             animate={{ height: 'auto' }}
-            className="overflow-scroll w-full max-h-80 border border-border"
+            className="border-border max-h-80 w-full overflow-scroll border"
           >
             <CodeDisplay>{codeToCopy}</CodeDisplay>
           </motion.div>

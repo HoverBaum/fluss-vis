@@ -48,7 +48,7 @@ export const CustomTypesDialog = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <span className="flex items-center gap-2 w-full">
+        <span className="flex w-full items-center gap-2">
           <CodeIcon size="1rem" /> Custom Types
         </span>
       </DialogTrigger>
@@ -58,11 +58,11 @@ export const CustomTypesDialog = () => {
           Setup custom TypeScript Types here to use as return types in your
           Fluss.
         </DialogDescription>
-        <SidebarProvider className="items-start min-h-[480px]">
+        <SidebarProvider className="min-h-[480px] items-start">
           <Sidebar collapsible="none" className="hidden md:flex">
             <SidebarContent>
               <SidebarHeader>
-                <h2 className="font-semibold text-xl">Custom Types</h2>
+                <h2 className="text-xl font-semibold">Custom Types</h2>
                 <SidebarMenu>
                   <SidebarMenuItem>
                     <SidebarMenuButton
@@ -139,13 +139,13 @@ export const CustomTypesDialog = () => {
               </div>
             )}
             {page === 'overview' && (
-              <div className="grid gap-8 mt-4">
+              <div className="mt-4 grid gap-8">
                 {customTypes.map((type) => (
                   <CustomTypeDisplay key={type.id} type={type} />
                 ))}
                 {customTypes.length === 0 && (
                   <div>
-                    <h3 className="text-lg font-semibold flex items-center gap-2">
+                    <h3 className="flex items-center gap-2 text-lg font-semibold">
                       No Custom Types, yet <TriangleAlertIcon size="1rem" />
                     </h3>
                     <div>

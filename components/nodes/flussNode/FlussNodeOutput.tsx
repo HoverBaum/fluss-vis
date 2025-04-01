@@ -15,8 +15,8 @@ export const FlussNodeOutput = ({ output }: FlussNodeOutputProps) => {
 
   return (
     <div className="relative">
-      <div className="pr-6 flex flex-col items-end">
-        <div className="grid w-full max-w-sm items-center gap-1.5 mb-2">
+      <div className="flex flex-col items-end pr-6">
+        <div className="mb-2 grid w-full max-w-sm items-center gap-1.5">
           <Input
             type="text"
             id={`${output.id}-outputName`}
