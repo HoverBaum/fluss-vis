@@ -4,9 +4,7 @@ import { motion } from 'motion/react'
 import {
   Handle,
   Position,
-  ReactFlowState,
   useConnection,
-  useStore,
   useUpdateNodeInternals,
 } from '@xyflow/react'
 import { Children, ReactNode, useEffect, useMemo } from 'react'
@@ -25,6 +23,7 @@ import { useSettingsStore } from '@/stores/SettingsStoreProvider'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { OctagonXIcon, UnplugIcon } from 'lucide-react'
 import { Placeholder } from './Placeholder'
+import { useZoom } from './useZoom'
 
 const DropIndicator = ({ nodeId }: { nodeId: string }) => {
   const connection = useConnection()
@@ -79,7 +78,6 @@ type BaseNodeProps = {
 }
 
 const TruncatedDescriptionLength = 95 as const
-const zoomSelector = (state: ReactFlowState) => state.transform[2] <= 0.9
 
 export const BaseNode = ({
   nodeId,
@@ -91,7 +89,7 @@ export const BaseNode = ({
   acceptsInputs: showNewConnectionHandle = true,
   state,
 }: BaseNodeProps) => {
-  const zoomedOut = useStore(zoomSelector)
+  const { isZoomedOut } = useZoom()
   const displayId = useSettingsStore((store) => store.displayIds)
   const updateNodeInternals = useUpdateNodeInternals()
   const connection = useConnection()
@@ -149,13 +147,15 @@ export const BaseNode = ({
           <small className="absolute top-2 right-2 font-mono">{nodeId}</small>
         )}
         <CardHeader>
-          <CardTitle className={`${zoomedOut ? 'text-3xl' : 'text-xl'}`}>
+          <CardTitle
+            className={`transition-all ${isZoomedOut ? 'text-3xl' : 'text-xl'}`}
+          >
             {name}
           </CardTitle>
           <CardDescription>
             <div className="relative">
               <div
-                className={`transition-opacity ${zoomedOut ? 'opacity-0' : ''}`}
+                className={`transition-opacity ${isZoomedOut ? 'opacity-0' : ''}`}
               >
                 {descriptionIsEmpty && 'Double click node to edit'}
                 {descriptionIsTruncated &&
@@ -164,7 +164,7 @@ export const BaseNode = ({
               </div>
 
               <div
-                className={`absolute top-0 left-0 grid h-full w-full gap-2 overflow-hidden bg-transparent transition-opacity ${zoomedOut ? '' : 'opacity-0'}`}
+                className={`absolute top-0 left-0 grid h-full w-full gap-2 overflow-hidden bg-transparent transition-opacity ${isZoomedOut ? '' : 'opacity-0'}`}
               >
                 <Placeholder />
                 <Placeholder />

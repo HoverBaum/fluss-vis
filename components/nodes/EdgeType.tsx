@@ -17,7 +17,7 @@ export const EdgeType = ({ outputTypeId }: EdgeTypeProps) => {
 
   return (
     <span className="flex items-center">
-      <DynamicIcon name={outputType.icon} className="mr-2 h-4 w-4" />
+      <DynamicIcon name={outputType.icon} className="mr-2 size-4" />
       {outputType.displayName}
     </span>
   )
