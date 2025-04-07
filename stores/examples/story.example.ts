@@ -388,7 +388,7 @@ export const bedtimeStoryExampleState: FlussState = {
           {
             id: 'rZK483wgeiMPczMqa0AzN',
             name: 'Story',
-            type: '7LydlfUn0DEYbOtKeobUY',
+            type: 'dLydlfUn0DEYbOtKeobUY',
           },
         ],
         state: 'entered',
@@ -644,7 +644,7 @@ export const bedtimeStoryExampleState: FlussState = {
       icon: 'toggle-right',
     },
     {
-      id: '7LydlfUn0DEYbOtKeobUY',
+      id: 'dLydlfUn0DEYbOtKeobUY',
       typeName: 'Story',
       displayName: 'Finished Story',
       content: '{\n  content: string\n  title: string\n}',
