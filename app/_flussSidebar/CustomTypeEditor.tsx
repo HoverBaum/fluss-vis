@@ -151,7 +151,7 @@ export const CustomTypeEditor = ({ typeId }: CustomTypeEditorProps) => {
             <Button
               variant="secondary"
               disabled={!hasUnsafedChanges}
-              className="w-full"
+              className="flex-1"
               onClick={() => {
                 if (!editingCode.startsWith(codePrefix)) {
                   return
