@@ -2,7 +2,7 @@ import { Position } from '@xyflow/react'
 import { FlussState } from '../flussStore'
 
 export const bedtimeStoryExampleState: FlussState = {
-  name: 'Fluss 🌊',
+  name: 'Bedtime Story 📖',
   nodes: [
     {
       id: 'start',
