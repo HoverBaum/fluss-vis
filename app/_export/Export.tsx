@@ -1,26 +1,23 @@
 'use client'
 
-import { motion } from 'motion/react'
-import { Copy, Download } from 'lucide-react'
+import { Download, DownloadIcon, LoaderCircleIcon } from 'lucide-react'
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
-import { toast } from 'sonner'
 import { useExport } from './useExport'
-import { useEffect, useState } from 'react'
-import { CodeDisplay } from '@/components/CodeDisplay'
+import { useCallback, useEffect, useState } from 'react'
 import codeAnimation from './code_animation.json'
 import dynamic from 'next/dynamic'
+import { useFlussStore } from '@/stores/FlussStoreProvider'
+import { stringToValidIdentifier } from '@/fluss-lib/nameConversion'
 
-// Dynamically import Lottie so that it’s only loaded on the client side.
+// Dynamically import Lottie so that it's only loaded on the client side.
 const Lottie = dynamic(() => import('lottie-react'), { ssr: false })
 
 type ExportProps = {
@@ -35,10 +32,40 @@ export const Export = ({
   const [codeToCopy, setCodeToCopy] = useState('')
   const { flussExport } = useExport()
   const [animationDone, setAnimationDone] = useState(false)
+  const [didDownload, setDidDownload] = useState(false)
+  const fileName = useFlussStore(
+    (state) => `${stringToValidIdentifier(state.name)}.fluss.ts`
+  )
 
   useEffect(() => {
     setAnimationDone(false)
+    setDidDownload(false)
   }, [codeToCopy])
+
+  const downloadCode = useCallback(() => {
+    if (!codeToCopy) return
+
+    const blob = new Blob([codeToCopy], { type: 'text/typescript' })
+    const url = URL.createObjectURL(blob)
+
+    const link = document.createElement('a')
+    link.href = url
+    link.download = fileName
+    document.body.appendChild(link)
+    link.click()
+
+    URL.revokeObjectURL(url)
+    document.body.removeChild(link)
+
+    setDidDownload(true)
+  }, [codeToCopy, fileName])
+
+  // Automatically start download when animation completes.
+  useEffect(() => {
+    if (animationDone && codeToCopy && !didDownload) {
+      downloadCode()
+    }
+  }, [animationDone, codeToCopy, didDownload, downloadCode])
 
   return (
     <Dialog
@@ -58,51 +85,30 @@ export const Export = ({
         <DialogHeader>
           <DialogTitle>Fluss Export</DialogTitle>
           <DialogDescription>
-            Copy the code below to use this fluss. We recommend saving this as
-            *.fluss.ts.
+            Your Fluss will be automatically downloaded once ready.
           </DialogDescription>
         </DialogHeader>
-        {!animationDone && (
-          <div>
-            <Lottie
-              animationData={codeAnimation}
-              className="h-60"
-              loop={false}
-              onComplete={() => setTimeout(() => setAnimationDone(true), 500)}
-            />
-            <p className="text-center text-lg">Creating your Fluss 🪄</p>
-          </div>
-        )}
-
-        {animationDone && (
-          <motion.div
-            initial={{ height: 0 }}
-            animate={{ height: 'auto' }}
-            className="border-border max-h-80 w-full overflow-scroll border"
-          >
-            <CodeDisplay>{codeToCopy}</CodeDisplay>
-          </motion.div>
-        )}
-
-        {animationDone && (
-          <DialogFooter className="sm:justify-start">
-            <DialogClose asChild>
-              <Button type="button" variant="secondary">
-                Close
-              </Button>
-            </DialogClose>
-            <Button
-              size="icon"
-              className="flex-grow"
-              onClick={() => {
-                navigator.clipboard.writeText(codeToCopy)
-                toast('Copied to clipboard')
-              }}
-            >
-              <Copy /> Copy Code
-            </Button>
-          </DialogFooter>
-        )}
+        <div>
+          <Lottie
+            animationData={codeAnimation}
+            className="h-60"
+            loop={false}
+            onComplete={() => setTimeout(() => setAnimationDone(true), 500)}
+          />
+          <p className="text-center text-lg">
+            {!animationDone ? (
+              <span className="flex items-center justify-center gap-2">
+                Creating your Fluss
+                <LoaderCircleIcon className="text-foreground animate size-4 animate-spin" />
+              </span>
+            ) : (
+              <span className="flex items-center justify-center gap-2">
+                {fileName}
+                <DownloadIcon className="size-4" />
+              </span>
+            )}
+          </p>
+        </div>
       </DialogContent>
     </Dialog>
   )
