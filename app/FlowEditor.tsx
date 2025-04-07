@@ -98,6 +98,8 @@ export const FlowEditor = ({ toggleFlussSidebar }: FlowEditorProps) => {
         colorMode={theme as 'system' | 'light' | 'dark'}
         suppressHydrationWarning
         panOnScroll
+        minZoom={0.3}
+        maxZoom={2}
         isValidConnection={isValidConnection}
         elevateEdgesOnSelect={elevateEdgesOnSelect}
         defaultEdgeOptions={{

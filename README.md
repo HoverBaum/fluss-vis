@@ -48,6 +48,7 @@ This we plan to do but don't know when, yet.
 - Diff-Highlighting
   - For Merge Request review and similar we want to highlight want changes between two versions of a Fluss.
 - "Drafting" or "Overview" mode where when users zoom out or toggle it, nodes are just bubbles with names that can be connected. Simulate the Diagrams people might do in Excalidraw and enable them to "zoom in" and add details. Also inspired by C4 Model layers.
+  - For this Edges probably need to be created with "none" or another value signifying that their type has not yet been set.
 
 ### Ideas
 

@@ -22,7 +22,6 @@ import {
 import { useSettingsStore } from '@/stores/SettingsStoreProvider'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { OctagonXIcon, UnplugIcon } from 'lucide-react'
-import { Placeholder } from './Placeholder'
 import { useZoom } from './useZoom'
 
 const DropIndicator = ({ nodeId }: { nodeId: string }) => {
@@ -147,28 +146,16 @@ export const BaseNode = ({
           <small className="absolute top-2 right-2 font-mono">{nodeId}</small>
         )}
         <CardHeader>
-          <CardTitle
-            className={`transition-all ${isZoomedOut ? 'text-3xl' : 'text-xl'}`}
-          >
+          <CardTitle className={`${isZoomedOut ? 'text-xl' : 'text-xl'}`}>
             {name}
           </CardTitle>
           <CardDescription>
             <div className="relative">
-              <div
-                className={`transition-opacity ${isZoomedOut ? 'opacity-0' : ''}`}
-              >
+              <div>
                 {descriptionIsEmpty && 'Double click node to edit'}
                 {descriptionIsTruncated &&
                   description?.substring(0, TruncatedDescriptionLength) + '…'}
                 {description && !descriptionIsTruncated && description}
-              </div>
-
-              <div
-                className={`absolute top-0 left-0 grid h-full w-full gap-2 overflow-hidden bg-transparent transition-opacity ${isZoomedOut ? '' : 'opacity-0'}`}
-              >
-                <Placeholder />
-                <Placeholder />
-                <Placeholder />
               </div>
             </div>
           </CardDescription>
