@@ -35,7 +35,7 @@ const DropIndicator = ({ nodeId }: { nodeId: string }) => {
   )
   return (
     <div
-      className={`absolute top-0 left-0 z-10 grid h-full w-full place-items-center overflow-hidden opacity-0 backdrop-blur-xs transition-opacity hover:opacity-100 ${
+      className={`absolute top-0 left-0 z-50 grid h-full w-full place-items-center overflow-hidden opacity-0 backdrop-blur-xs transition-opacity hover:opacity-100 ${
         isAlreadyConnected ? 'bg-fluss-pink/5' : 'bg-fluss-blue-light/5'
       }`}
     >
@@ -127,6 +127,11 @@ export const BaseNode = ({
           openEditSidebar()
         }}
       >
+        {isZoomedOut && (
+          <div className="bg-card absolute top-0 left-0 z-10 grid h-full w-full place-items-center rounded-xl p-8">
+            <span className="text-4xl">{name}</span>
+          </div>
+        )}
         {state === 'exiting' && (
           <motion.div
             initial={{ opacity: 0 }}
@@ -146,9 +151,7 @@ export const BaseNode = ({
           <small className="absolute top-2 right-2 font-mono">{nodeId}</small>
         )}
         <CardHeader>
-          <CardTitle className={`${isZoomedOut ? 'text-xl' : 'text-xl'}`}>
-            {name}
-          </CardTitle>
+          <CardTitle className="text-xl">{name}</CardTitle>
           <CardDescription>
             <div className="relative">
               <div>

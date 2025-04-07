@@ -5,10 +5,14 @@ import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { useReactFlow } from '@xyflow/react'
 import { FilePlus2 } from 'lucide-react'
 import { Export } from './_export/Export'
+import { useZoom } from '@/components/useZoom'
+
+const isDev = process.env.NODE_ENV === 'development'
 
 export const ToolPanel = () => {
   const { screenToFlowPosition } = useReactFlow()
   const addNode = useFlussStore((state) => state.addNode)
+  const { zoom } = useZoom()
 
   return (
     <div className="flex gap-2">
@@ -38,6 +42,7 @@ export const ToolPanel = () => {
       </Button>
 
       <Export />
+      {isDev && <span>{zoom.toFixed(2)}</span>}
     </div>
   )
 }

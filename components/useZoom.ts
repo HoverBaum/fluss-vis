@@ -6,7 +6,7 @@ const zoomSelector = (state: ReactFlowState) => state.transform[2]
 export const useZoom = () => {
   const zoom = useStore(zoomSelector)
 
-  const isZoomedOut = useMemo(() => zoom <= 0.7, [zoom])
+  const isZoomedOut = useMemo(() => zoom <= 0.6, [zoom])
 
   return {
     zoom,

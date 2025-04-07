@@ -142,7 +142,7 @@ export const CustomTypeEditor = ({ typeId }: CustomTypeEditorProps) => {
                   semi: false,
                 })
                 // Prettier is opnionated about adding a new line at the End.
-                // In thsi context we do not apprechiate this!
+                // In this context we do not apprechiate this!
                 setEditingCode(formattedCode.replace(/[\r\n]+$/, ''))
               }}
             >

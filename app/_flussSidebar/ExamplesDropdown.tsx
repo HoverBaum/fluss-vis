@@ -34,6 +34,7 @@ import { useState } from 'react'
 import { FlussState } from '@/stores/flussStore'
 import { Checkbox } from '@/components/ui/checkbox'
 import { useSettingsStore } from '@/stores/SettingsStoreProvider'
+import { bedtimeStoryExampleState } from '@/stores/examples/story.example'
 
 export const ExamplesDropdown = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
@@ -138,7 +139,14 @@ export const ExamplesDropdown = () => {
                 selectExample(BlogDraftExampleState)
               }}
             >
-              Blogpost Draft
+              Blogpost draft
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                selectExample(bedtimeStoryExampleState)
+              }}
+            >
+              Bedtime story
             </DropdownMenuItem>
           </DropdownMenuContent>
         </SidebarMenuItem>
