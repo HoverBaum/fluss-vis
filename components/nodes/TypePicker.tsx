@@ -43,7 +43,10 @@ export function TypePicker({ typeId, onTypeChange }: TypePickerProps) {
       <Label>Type</Label>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-          <Button variant="outline" className="w-[120px] justify-start">
+          <Button
+            variant="outline"
+            className="w-[120px] justify-start overflow-hidden"
+          >
             {typeId ? <EdgeType outputTypeId={typeId} /> : <>Select Type</>}
           </Button>
         </PopoverTrigger>
