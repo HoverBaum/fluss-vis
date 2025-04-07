@@ -57,6 +57,7 @@
     "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9",
     "eslint-config-next": "15.2.4",
+    "eslint-plugin-react-compiler": "^19.0.0-beta-e993439-20250328",
     "jsdom": "^26.0.0",
     "postcss": "^8",
     "prettier": "^3.5.3",
