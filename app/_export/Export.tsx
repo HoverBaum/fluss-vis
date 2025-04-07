@@ -41,7 +41,14 @@ export const Export = ({
   }, [codeToCopy])
 
   return (
-    <Dialog onOpenChange={(open) => open && flussExport().then(setCodeToCopy)}>
+    <Dialog
+      onOpenChange={(open) => {
+        if (open) {
+          setCodeToCopy('')
+          flussExport().then(setCodeToCopy)
+        }
+      }}
+    >
       <DialogTrigger asChild>
         <Button size="sm" variant={buttonVariant} className={buttonClassName}>
           Export <Download />

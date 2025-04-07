@@ -24,7 +24,7 @@ import {
 } from '@/fluss-lib/fluss'
 import { createFlussNode, END_NODE_ID, START_NODE_ID } from './nodeHelpers'
 import { ArrayNotEmpty } from '@/fluss-lib/helperTypes'
-import { newId, shortId } from '@/fluss-lib/flussId'
+import { generateInputId, generateOutputId } from '@/fluss-lib/flussId'
 import { EnterExitAnimationDurationMS } from '@/lib/constants'
 import { outputTypesBasics } from './outputTypesBaics'
 
@@ -104,7 +104,7 @@ export const initialState: FlussState = {
         id: START_NODE_ID,
         outputs: [
           {
-            id: newId(),
+            id: generateOutputId(),
             name: 'Unnamed',
             type: 'void',
           },
@@ -234,7 +234,7 @@ export const createFlussStore = (initState: FlussState = initialState) => {
                   NEW_CONNECTION_HANDLE_IDENTIFIER
                 )
               ) {
-                const newInputId: FlussStepInputId = newId()
+                const newInputId: FlussStepInputId = generateInputId()
                 get().addInput(connection.target, newInputId)
 
                 // Escape the execution to make sure internal updates after adding a handler happen.
@@ -347,7 +347,7 @@ export const createFlussStore = (initState: FlussState = initialState) => {
                   const node = state.nodes.find((node) => node.id === nodeId)
                   if (node && node.data.type !== 'start') {
                     node.data.inputs.push({
-                      id: inputId ? inputId : newId(),
+                      id: inputId ? inputId : generateInputId(),
                       state: 'entered',
                     })
                   }
@@ -407,7 +407,7 @@ export const createFlussStore = (initState: FlussState = initialState) => {
                   )
                   if (node && node.data.type === 'start') {
                     node.data.outputs.push({
-                      id: shortId(),
+                      id: generateOutputId(),
                       name: 'Unnamed',
                       type: 'void',
                     })

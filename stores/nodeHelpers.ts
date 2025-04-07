@@ -7,7 +7,7 @@
 import { Position, XYPosition } from '@xyflow/react'
 import { FlussNodeType } from './flussStore'
 import { FlussStep } from '@/fluss-lib/fluss'
-import { newId, shortId } from '@/fluss-lib/flussId'
+import { generateNodeId, generateOutputId } from '@/fluss-lib/flussId'
 
 export const START_NODE_ID = 'start'
 export const END_NODE_ID = 'end'
@@ -16,7 +16,7 @@ export const createFlussNode = (
   position: XYPosition,
   data?: FlussStep
 ): FlussNodeType => {
-  const id = shortId()
+  const id = generateNodeId()
 
   const nodeData: FlussStep = data || {
     type: 'step',
@@ -26,7 +26,7 @@ export const createFlussNode = (
     inputs: [],
     outputs: [
       {
-        id: newId(),
+        id: generateOutputId(),
         name: 'Unnamed',
         type: 'void',
       },

@@ -1,6 +1,6 @@
 import { useShallow } from 'zustand/react/shallow'
 import { FlussStepDefault } from '@/fluss-lib/fluss'
-import { newId, shortId } from '@/fluss-lib/flussId'
+import { generateNodeId, generateOutputId } from '@/fluss-lib/flussId'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { Node, NodeChange, useReactFlow } from '@xyflow/react'
 import { useCallback, useEffect, useState } from 'react'
@@ -61,7 +61,7 @@ export const useCopyPaste = () => {
     const movedByX = mouseFlowX - TopLeftCornder.x
     const movedByY = mouseFlowY - TopLeftCornder.y
     const newNodes: Node<FlussStepDefault>[] = copiedNodes.map((node) => {
-      const newNodeId = shortId()
+      const newNodeId = generateNodeId()
       return {
         ...node,
         id: newNodeId,
@@ -73,7 +73,7 @@ export const useCopyPaste = () => {
           ...node.data,
           id: newNodeId,
           inputs: [],
-          outputs: [{ ...node.data.outputs[0], id: newId() }],
+          outputs: [{ ...node.data.outputs[0], id: generateOutputId() }],
         },
       }
     })

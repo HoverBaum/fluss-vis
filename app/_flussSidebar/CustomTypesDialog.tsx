@@ -21,7 +21,7 @@ import { DynamicIcon } from 'lucide-react/dynamic'
 import { useMemo, useState } from 'react'
 import { CustomTypeEditor } from './CustomTypeEditor'
 import { CustomTypeDisplay } from './CustomTypeDisplay'
-import { newId } from '@/fluss-lib/flussId'
+import { generateId } from '@/fluss-lib/flussId'
 
 type PageName = 'about' | 'overview' | 'editor'
 
@@ -115,7 +115,7 @@ export const CustomTypesDialog = () => {
               <Button
                 onClick={() => {
                   const newType: FlussStepOutputType = {
-                    id: newId(),
+                    id: generateId(),
                     typeName: 'NewType',
                     displayName: 'New Type',
                     content: 'any',
