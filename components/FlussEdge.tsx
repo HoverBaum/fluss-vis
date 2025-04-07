@@ -3,10 +3,8 @@
 import { CSSProperties, useMemo, useState } from 'react'
 import {
   BaseEdge,
-  EdgeLabelRenderer,
   getBezierPath,
-  useReactFlow,
-  useViewport,
+  ViewportPortal,
   type EdgeProps,
 } from '@xyflow/react'
 import connectionAnimation from './connectionAnimation.json'
@@ -39,9 +37,6 @@ export const FlussEdge = ({
   )
   const { state = 'entering' } = data || {}
   const isDark = useIsDark()
-  const { flowToScreenPosition } = useReactFlow()
-  const targetScreenPosition = flowToScreenPosition({ x: targetX, y: targetY })
-  const { x, y } = useViewport()
   const [edgePath] = getBezierPath({
     sourceX,
     sourceY,
@@ -84,7 +79,8 @@ export const FlussEdge = ({
     <>
       <BaseEdge path={edgePath} style={style} />
 
-      <EdgeLabelRenderer>
+      {/* ViewportPortal enables us to just use target position. */}
+      <ViewportPortal>
         {playAnimation && (
           <Lottie
             onComplete={() => setPlayAnimation(false)}
@@ -94,13 +90,14 @@ export const FlussEdge = ({
               1
             )}
             loop={false}
-            className="fixed h-14 w-14"
+            // -z to position this behind the nodes. Thus only animating to one side.
+            className="absolute -z-10 h-14 w-14"
             style={{
-              transform: `translate(-50%, -50%) translate(${targetScreenPosition.x - x}px, ${targetScreenPosition.y - y}px)`,
+              transform: `translate(-50%, -50%) translate(${targetX}px, ${targetY}px)`,
             }}
           />
         )}
-      </EdgeLabelRenderer>
+      </ViewportPortal>
     </>
   )
 }
