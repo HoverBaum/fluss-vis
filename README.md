@@ -15,6 +15,14 @@ Fluss Viz will handle the execution of your logic and parallelize async operatio
 - 0-Dependencies
 - We consciously take the tradeoff of fixing the generated code with "hardcoded" types. This makes the code easier to understand and create. When a change is needed, this should come form the visualization.
 
+## Constraints
+
+This you should be aware off, when using Fluss-Viz.
+
+- A Fluss always has one start and one end node.
+- The final result is always an object with one property per input defined for the end node.
+- Branching is currently not supported!
+
 ## Road to Alpha
 
 - Provide more helper types like a type for each stepFunction and input and return so devs can use that in their code.
@@ -28,9 +36,8 @@ Fluss Viz will handle the execution of your logic and parallelize async operatio
 - Re-evaluate system for custom types. We might want a tighter integration with users system. The user probably has types already in their codebase that they would love to use.
   - Fluss-Viz wants to do things visually that are best done visually and leave things that are already great in other tools -> Typing is probably already great in Editors and more cumbersome digitally. Maybe only do display names and icons.
   - How to integrate with existing types from users projects?
-- Save and Load a Fluss
-  - file formats, one extra file for state? Or state in TS export? Should we generate files for the functions?
 - New project screen and flow into that application. Start with a blank editor, what do users see? how are start and end added?
+- Logging, tracing - after a Fluss ran it would be great if users could see what happened. Ideally also visually.
 
 ## Full Release
 
@@ -61,6 +68,7 @@ These we might do, maybe not.
 - Enable users to provide custom nodes that handle recurring tasks they have in multiple flows. this could later enable a community to share steps in a flow.
 - Sub-Flows. One flow could depend on another flow for task completion. Currently out of scope!
 - Steps could be saved as templates. Or potentially re-used and linked (that is updated together) across multiple flows.
+- Auto generate files for the step functions. We know the signature and could create placeholders, already wiring them up to the fluss.
 
 ## Usage
 
@@ -107,11 +115,6 @@ export type CustomType = {
 }
 ```
 
-## Constraints
-
-- A Fluss always has one start and one end node.
-- The final result is always an object with one property per input defined for the end node.
-- Branching is currently not supported!
 
 ## Notes
 

@@ -128,7 +128,9 @@ export const useExport = () => {
           functionName: stepToValidIdentifier(nodeData),
           returnType:
             nodeData.outputs.length === 1
-              ? nodeData.outputs[0].type
+              ? outputTypes.find(
+                  (type) => type.id === nodeData.outputs[0]?.type
+                )?.typeName || 'TYPE_ERROR'
               : // This probably only affects the end 😅 we turn all inptus into an output.
                 (() => {
                   const inputs = nodeData.inputs.reduce(

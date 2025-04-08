@@ -17,11 +17,7 @@ test('stringToValidIdentifier', () => {
 })
 
 test('stepToValidIdentifier', () => {
-  expect(stepToValidIdentifier({ id: '123', name: 'My Step' })).toBe(
-    'myStep_123'
-  )
-  expect(stepToValidIdentifier({ id: '123', name: 'My Step 2' })).toBe(
-    'myStep2_123'
-  )
-  expect(stepToValidIdentifier({ id: '123', name: '' })).toBe('_123')
+  expect(stepToValidIdentifier({ name: 'My Step' })).toBe('myStep')
+  expect(stepToValidIdentifier({ name: 'my step 2' })).toBe('myStep2')
+  expect(stepToValidIdentifier({ name: '' })).toBe('')
 })

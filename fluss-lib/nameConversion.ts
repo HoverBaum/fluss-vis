@@ -54,8 +54,7 @@ export const stringToValidIdentifier = (name: string): string => {
  * @see stringToValidIdentifier
  */
 export const stepToValidIdentifier = (
-  step: Pick<FlussStep, 'id' | 'name'>
+  step: Pick<FlussStep, 'name'>
 ): string => {
-  const name = `${step.name}_${step.id}`
-  return stringToValidIdentifier(name)
+  return stringToValidIdentifier(step.name)
 }
