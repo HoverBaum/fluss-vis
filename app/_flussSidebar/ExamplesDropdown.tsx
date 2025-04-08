@@ -3,7 +3,6 @@
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import {
@@ -36,6 +35,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { useSettingsStore } from '@/stores/SettingsStoreProvider'
 import { bedtimeStoryExampleState } from '@/stores/examples/story.example'
 import { useReactFlow } from '@xyflow/react'
+import { ExampleDropdownItem } from './ExampleDropdownItem'
 
 export const ExamplesDropdown = () => {
   const { fitView } = useReactFlow()
@@ -135,27 +135,29 @@ export const ExamplesDropdown = () => {
             align={isMobile ? 'end' : 'start'}
             className="min-w-56 rounded-lg"
           >
-            <DropdownMenuItem
+            <ExampleDropdownItem
+              name="Square a number"
+              description="A simple, two step process with custom types."
               onClick={() => {
                 selectExample(squareNumberExampleState)
               }}
-            >
-              Square a number
-            </DropdownMenuItem>
-            <DropdownMenuItem
+            />
+
+            <ExampleDropdownItem
+              name="Blogpost draft"
               onClick={() => {
                 selectExample(BlogDraftExampleState)
               }}
-            >
-              Blogpost draft
-            </DropdownMenuItem>
-            <DropdownMenuItem
+              description="Parallel steps."
+            />
+
+            <ExampleDropdownItem
+              name="Bedtime story"
               onClick={() => {
                 selectExample(bedtimeStoryExampleState)
               }}
-            >
-              Bedtime story
-            </DropdownMenuItem>
+              description="Larger flow, targeted at GenAI storytelling."
+            />
           </DropdownMenuContent>
         </SidebarMenuItem>
       </DropdownMenu>
