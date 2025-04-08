@@ -88,6 +88,7 @@ export const FlowEditor = ({ toggleFlussSidebar }: FlowEditorProps) => {
   return (
     <SidebarProvider open={isEditSidebarOpen} className="h-full min-h-auto">
       <ReactFlow
+        // We handle all state related things through Zustand.
         nodes={nodes}
         edges={edges}
         nodeTypes={nodeTypes}
@@ -95,16 +96,26 @@ export const FlowEditor = ({ toggleFlussSidebar }: FlowEditorProps) => {
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
+        // Sync theme with apps theme.
         colorMode={theme as 'system' | 'light' | 'dark'}
+        // For dev we might have different things on client.
         suppressHydrationWarning
+        // Users can pan using a trackpad.
         panOnScroll
+        // Min and Max zoom levels. Relate to useZoom hook.
         minZoom={0.3}
         maxZoom={2}
+        // Initially zoom to see entire Fluss.
+        fitView
+        // Validate connections - make sure only one per output -> node.
         isValidConnection={isValidConnection}
+        // Brings edges to front, also when connected nodes are selected.
         elevateEdgesOnSelect={elevateEdgesOnSelect}
+        // We use our Edge.
         defaultEdgeOptions={{
           type: 'flussEdge',
         }}
+        // Docs said we are free to do this - encourage support.
         proOptions={{
           hideAttribution: true,
         }}
