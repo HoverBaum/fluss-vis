@@ -35,8 +35,10 @@ import { FlussState } from '@/stores/flussStore'
 import { Checkbox } from '@/components/ui/checkbox'
 import { useSettingsStore } from '@/stores/SettingsStoreProvider'
 import { bedtimeStoryExampleState } from '@/stores/examples/story.example'
+import { useReactFlow } from '@xyflow/react'
 
 export const ExamplesDropdown = () => {
+  const { fitView } = useReactFlow()
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [notAgainSelected, setNotAgainSelected] = useState(false)
   const [selectedExample, setSelectedExample] = useState<FlussState | null>(
@@ -51,6 +53,12 @@ export const ExamplesDropdown = () => {
     (store) => store.showExampleOverwriteWarning
   )
 
+  const loadExample = (example: FlussState) => {
+    loadFluss(example)
+    // Need to escape event loop so that state update can finish.
+    setTimeout(() => fitView(), 1)
+  }
+
   /**
    * Selects an example and if no Dialog should be shown directly loads it.
    */
@@ -59,7 +67,7 @@ export const ExamplesDropdown = () => {
       setSelectedExample(example)
       setIsDialogOpen(true)
     } else {
-      loadFluss(example)
+      loadExample(example)
     }
   }
 
@@ -69,7 +77,7 @@ export const ExamplesDropdown = () => {
     if (notAgainSelected) {
       setShowExampleOverwriteWarning(false)
     }
-    loadFluss(selectedExample)
+    loadExample(selectedExample)
   }
 
   return (
