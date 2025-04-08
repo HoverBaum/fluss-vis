@@ -3,7 +3,7 @@ import { FlussState } from '../flussStore'
 import { outputTypesBasics } from '../outputTypesBaics'
 
 export const squareNumberExampleState: FlussState = {
-  name: 'Dev Fluss 🌊',
+  name: 'Squared number 🧮',
   isEditSidebarOpen: false,
   nodes: [
     {
@@ -190,13 +190,6 @@ export const squareNumberExampleState: FlussState = {
       typeName: 'Locale',
       content: '"en" | "de"',
       icon: 'languages',
-    },
-    {
-      id: 'n79Dk932N',
-      displayName: 'Person',
-      typeName: 'Person',
-      content: '{name: string; age: number}',
-      icon: 'user',
     },
   ],
 }
