@@ -1,17 +1,31 @@
 import { TypePicker } from '@/components/nodes/TypePicker'
 import { Input } from '@/components/ui/input'
+import { useZoom } from '@/components/useZoom'
 import { FlussStepOutput } from '@/fluss-lib/fluss'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
-import { Handle, Position, useNodeId } from '@xyflow/react'
+import {
+  Handle,
+  Position,
+  useNodeId,
+  useUpdateNodeInternals,
+} from '@xyflow/react'
+import { useEffect } from 'react'
 
 type FlussNodeOutputProps = {
   output: FlussStepOutput
 }
 
 export const FlussNodeOutput = ({ output }: FlussNodeOutputProps) => {
+  const { isZoomedOut } = useZoom()
   const nodeId = useNodeId()
   const setOutputType = useFlussStore((state) => state.setOutputType)
   const setOutputName = useFlussStore((state) => state.setOutputName)
+  const updateNodeInternals = useUpdateNodeInternals()
+
+  useEffect(() => {
+    if (!nodeId) return undefined
+    updateNodeInternals(nodeId)
+  }, [nodeId, updateNodeInternals, isZoomedOut])
 
   return (
     <div className="relative">
@@ -36,6 +50,7 @@ export const FlussNodeOutput = ({ output }: FlussNodeOutputProps) => {
         id={output.id}
         position={Position.Right}
         style={{ position: 'absolute', right: '0px' }}
+        className={`${isZoomedOut ? 'size-4!' : ''}`}
       />
     </div>
   )
