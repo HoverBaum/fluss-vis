@@ -2,6 +2,8 @@ import { END_NODE_ID, START_NODE_ID } from '@/stores/nodeHelpers'
 import { FlussArgument, FlussFunction } from './_export/useExport'
 import { FlussTSStateJSONEnd, FlussTSStateJSONStart } from '@/lib/constants'
 
+const ts = String.raw
+
 type FlussTemplateParams = {
   customTypes: string
   flussFunctions: FlussFunction[]
@@ -14,7 +16,7 @@ export const flussTemplate = ({
   flussFunctions,
   flussInputs,
   entireStateJSON,
-}: FlussTemplateParams) => `
+}: FlussTemplateParams) => ts`
 // State for a single step.
 // FIXED
 type FlussRunStatus = 'waiting' | 'running' | 'done' | 'error'
@@ -35,7 +37,7 @@ type StepIO = {
     output: FlussInputs
   }${flussFunctions
     .map(
-      (flussFunction) => `
+      (flussFunction) => ts`
   ${flussFunction.functionName}: {
     input: {${flussFunction.arguments.map((arg) => `${arg.name}: ${arg.type}`).join('; ')}}
     output: ${flussFunction.returnType}
@@ -160,14 +162,14 @@ export async function runFluss(params: {
     },
     ${flussFunctions
       .map(
-        (fn) => `${fn.functionName}:{
-      id: '${fn.functionName}',
+        (flussFunction) => ts`${flussFunction.functionName}:{
+      id: '${flussFunction.functionName}',
       status: 'waiting',
-      execute: ${fn.stepId === END_NODE_ID ? '(args) => args' : `stepFunctions.${fn.functionName}`},
+      execute: ${flussFunction.stepId === END_NODE_ID ? '(args) => args' : `stepFunctions.${flussFunction.functionName}`},
       arguments: [
-        ${fn.arguments
+        ${flussFunction.arguments
           .map(
-            (arg) => `{
+            (arg) => ts`{
           sourceStepId: '${arg.source}',
           argumentName: '${arg.name}',
           ${arg.usesEntireOutput ? '' : `sourceProperty: '${arg.name}'`}
