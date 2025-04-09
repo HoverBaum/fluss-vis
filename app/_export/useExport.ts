@@ -11,6 +11,7 @@ import {
 } from '@/fluss-lib/fluss'
 import {
   stepToValidIdentifier,
+  stringToCamelCase,
   stringToValidIdentifier,
 } from '@/fluss-lib/nameConversion'
 import { START_NODE_ID } from '@/stores/nodeHelpers'
@@ -55,6 +56,9 @@ export type FlussFunction = {
   functionName: string
   // TypeScript type of the return value of this function.
   returnType: string
+  // Identifier use for the functions type with input and output.
+  // Should normally be CamelCaseName + StepFunction.
+  functionTypeIdentifier: string
   arguments: FlussFunctionArgument[]
 }
 
@@ -126,6 +130,8 @@ export const useExport = () => {
           stepName: nodeData.name,
           description: nodeData.description,
           functionName: stepToValidIdentifier(nodeData),
+          functionTypeIdentifier:
+            stringToCamelCase(stepToValidIdentifier(nodeData)) + 'StepFunction',
           returnType:
             nodeData.outputs.length === 1
               ? outputTypes.find(

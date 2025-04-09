@@ -12,7 +12,7 @@ type FlussTemplateParams = {
 }
 
 const generateFlussInputs = (inputs: FlussArgument[]) => ts`
-type FlussInputs = {
+export type FlussInputs = {
   ${inputs.map((arg) => `${arg.identifier}: ${arg.type}`).join(';\n  ')}
 }`
 
@@ -25,12 +25,23 @@ type StepIO = {
     .map(
       (flussFunction) => ts`
   ${flussFunction.functionName}: {
-    input: { ${flussFunction.arguments.map((arg) => `${arg.name}: ${arg.type}`).join('; ')} };
-    output: ${flussFunction.returnType};
+    input: Parameters<${flussFunction.functionTypeIdentifier}>[0]
+    output: ReturnType<${flussFunction.functionTypeIdentifier}>
   }`
     )
     .join('')}
 }`
+
+const generateStepFunctionTypes = (flussFunctions: FlussFunction[]) =>
+  flussFunctions
+    .map(
+      (flussFunction) => ts`
+type ${flussFunction.functionTypeIdentifier} = (args: {
+  ${flussFunction.arguments.map((arg) => `${arg.name}: ${arg.type}`).join(';\n  ')}
+}) => Promise<${flussFunction.returnType}> | ${flussFunction.returnType}
+`
+    )
+    .join('\n')
 
 export const flussTemplate = ({
   customTypes,
@@ -46,6 +57,9 @@ ${customTypes}
 
 // FLUSS_GEN: FlussInputs - dynamic
 ${generateFlussInputs(flussInputs)}
+
+// FLUSS_GEN: StepFunctionTypes - dynamic
+${generateStepFunctionTypes(flussFunctions)}
 
 // FLUSS_GEN: StepIO - dynamic
 ${generateStepIO(flussFunctions)}

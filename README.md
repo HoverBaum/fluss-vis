@@ -25,7 +25,6 @@ This you should be aware off, when using Fluss-Viz.
 
 ## Road to Alpha
 
-- Provide more helper types like a type for each stepFunction and input and return so devs can use that in their code.
 - Add custom type from type picker.
 
 - Handle two inputs with same name.
