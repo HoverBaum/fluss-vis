@@ -340,7 +340,7 @@ export const bedtimeStoryExampleState: FlussState = {
         outputs: [
           {
             id: 'jxm130NHtu3vh8HWfN9VP',
-            name: 'Parent Feedback',
+            name: 'Kid Feedback',
             type: 'string',
           },
         ],

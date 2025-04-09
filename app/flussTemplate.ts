@@ -11,6 +11,27 @@ type FlussTemplateParams = {
   entireStateJSON: string
 }
 
+const generateFlussInputs = (inputs: FlussArgument[]) => ts`
+type FlussInputs = {
+  ${inputs.map((arg) => `${arg.identifier}: ${arg.type}`).join(';\n  ')}
+}`
+
+const generateStepIO = (functions: FlussFunction[]) => ts`
+type StepIO = {
+  ${START_NODE_ID}: {
+    input: FlussInputs;
+    output: FlussInputs;
+  }${functions
+    .map(
+      (flussFunction) => ts`
+  ${flussFunction.functionName}: {
+    input: { ${flussFunction.arguments.map((arg) => `${arg.name}: ${arg.type}`).join('; ')} };
+    output: ${flussFunction.returnType};
+  }`
+    )
+    .join('')}
+}`
+
 export const flussTemplate = ({
   customTypes,
   flussFunctions,
@@ -18,33 +39,16 @@ export const flussTemplate = ({
   entireStateJSON,
 }: FlussTemplateParams) => ts`
 // State for a single step.
-// FIXED
 type FlussRunStatus = 'waiting' | 'running' | 'done' | 'error'
 
-// CUSTOM type provided by user
+// FLUSS_GEN: CustomTypes - dynamic
 ${customTypes}
 
-// Input type for the flow
-type FlussInputs = {
-  ${flussInputs.map((arg) => `${arg.identifier}: ${arg.type}`).join('; ')}
-}
+// FLUSS_GEN: FlussInputs - dynamic
+${generateFlussInputs(flussInputs)}
 
-// Step Input/Output types - simplified with mapped types
-// While start is static, end and other steps are dynamic
-type StepIO = {
-  ${START_NODE_ID}: {
-    input: FlussInputs
-    output: FlussInputs
-  }${flussFunctions
-    .map(
-      (flussFunction) => ts`
-  ${flussFunction.functionName}: {
-    input: {${flussFunction.arguments.map((arg) => `${arg.name}: ${arg.type}`).join('; ')}}
-    output: ${flussFunction.returnType}
-  }`
-    )
-    .join('')}
-}
+// FLUSS_GEN: StepIO - dynamic
+${generateStepIO(flussFunctions)}
 
 // Step IDs type
 // FIXED

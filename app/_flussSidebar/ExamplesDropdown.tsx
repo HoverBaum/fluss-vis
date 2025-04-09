@@ -33,7 +33,7 @@ import { useState } from 'react'
 import { FlussState } from '@/stores/flussStore'
 import { Checkbox } from '@/components/ui/checkbox'
 import { useSettingsStore } from '@/stores/SettingsStoreProvider'
-import { bedtimeStoryExampleState } from '@/stores/examples/story.example'
+import { bedtimeStoryExampleState } from '@/stores/examples/bedtimeStory.example'
 import { useReactFlow } from '@xyflow/react'
 import { ExampleDropdownItem } from './ExampleDropdownItem'
 
