@@ -25,9 +25,7 @@ This you should be aware off, when using Fluss-Viz.
 
 ## Road to Alpha
 
-- Add custom type from type picker.
-
-- Handle two inputs with same name.
+- Lint Fluss for stepFunctions with same name or inputs with same name and notify user. Ideally with visual indication.
 - Normalize outputs to live in a list and nodes reference this list by id for inputs and outputs.
 
 ## Beta Plan
