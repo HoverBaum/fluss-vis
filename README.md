@@ -12,7 +12,7 @@ Fluss Viz will handle the execution of your logic and parallelize async operatio
 - Easy for Developers to use
 - Should make creating logic fun
 - Fully Type-Safe
-- 0-Dependencies
+- 0-Dependencies after export
 - We consciously take the tradeoff of fixing the generated code with "hardcoded" types. This makes the code easier to understand and create. When a change is needed, this should come form the visualization.
 
 ## Constraints
