@@ -11,7 +11,7 @@ import {
 } from '@/fluss-lib/fluss'
 import {
   stepToValidIdentifier,
-  stringToCamelCase,
+  stringToPascalCase,
   stringToValidIdentifier,
 } from '@/fluss-lib/nameConversion'
 import { START_NODE_ID } from '@/stores/nodeHelpers'
@@ -131,7 +131,8 @@ export const useExport = () => {
           description: nodeData.description,
           functionName: stepToValidIdentifier(nodeData),
           functionTypeIdentifier:
-            stringToCamelCase(stepToValidIdentifier(nodeData)) + 'StepFunction',
+            stringToPascalCase(stepToValidIdentifier(nodeData)) +
+            'StepFunction',
           returnType:
             nodeData.outputs.length === 1
               ? outputTypes.find(
@@ -217,6 +218,8 @@ export const useExport = () => {
         parser: 'typescript',
         plugins: [parserTypeScript, prettierPluginEstree],
         semi: false,
+        singleQuote: true,
+        trailingComma: 'es5',
       }
     )
     return formattedCode

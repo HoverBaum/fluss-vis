@@ -36,7 +36,7 @@ const generateStepFunctionTypes = (flussFunctions: FlussFunction[]) =>
   flussFunctions
     .map(
       (flussFunction) => ts`
-type ${flussFunction.functionTypeIdentifier} = (args: {
+export type ${flussFunction.functionTypeIdentifier} = (args: {
   ${flussFunction.arguments.map((arg) => `${arg.name}: ${arg.type}`).join(';\n  ')}
 }) => Promise<${flussFunction.returnType}> | ${flussFunction.returnType}
 `
