@@ -47,17 +47,71 @@ type StepIO = {
   }
 }
 
+// Base type for a step definition
+type FlussStepBase<TId extends string, TInput, TOutput> = {
+  id: TId
+  status: FlussRunStatus
+  execute?: (args: TInput) => Promise<TOutput> | TOutput
+  arguments: Array<{
+    sourceStepId: string
+    argumentName: keyof TInput
+    sourceProperty?: string
+  }>
+  result?: TOutput
+  error?: Error
+}
+
+// Define the base types for a flow
+type FlowStep<TInput, TOutput> = {
+  input: TInput
+  output: TOutput
+}
+
+// Type for defining a complete flow's structure
+type FlowDefinition<
+  TSteps extends Record<string, FlowStep<Record<string, unknown>, unknown>>,
+  TInput extends Record<string, unknown>,
+  TOutput,
+> = {
+  steps: TSteps
+  flowInput: TInput
+  flowOutput: TOutput
+}
+
+// Generic type for the flow configuration
+type FlussFlow<
+  TFlow extends FlowDefinition<
+    Record<string, FlowStep<Record<string, unknown>, unknown>>,
+    Record<string, unknown>,
+    unknown
+  >,
+> = {
+  [K in keyof TFlow['steps']]: FlussStepBase<
+    K & string,
+    TFlow['steps'][K]['input'],
+    TFlow['steps'][K]['output']
+  >
+}
+
+// Type for the runner function that will be returned
+type FlussRunner<
+  TFlow extends FlowDefinition<
+    Record<string, FlowStep<Record<string, unknown>, unknown>>,
+    Record<string, unknown>,
+    unknown
+  >,
+> = (params: {
+  inputs: TFlow['flowInput']
+  stepFunctions: {
+    [K in Exclude<keyof TFlow['steps'], 'start' | 'end'>]: (
+      args: TFlow['steps'][K]['input']
+    ) => Promise<TFlow['steps'][K]['output']> | TFlow['steps'][K]['output']
+  }
+}) => Promise<{ writtenEquation: TFlow['flowOutput'] }>
+
 // Step IDs type
 // FIXED
 type FlussStepId = keyof StepIO
-
-// Step function types mapped from StepIO
-// FIXED - assumign start and end identifiers do not change.
-type StepFunctions = {
-  [K in Exclude<FlussStepId, 'start' | 'end'>]: (
-    args: StepIO[K]['input']
-  ) => Promise<StepIO[K]['output']> | StepIO[K]['output']
-}
 
 // Step definition with result based on status
 // FIXED
@@ -148,112 +202,172 @@ function canStepRun<ID extends FlussStepId>(
 /**
  * Main function to run the flow
  */
-export async function runFluss(params: {
-  inputs: FlussInputs
-  stepFunctions: StepFunctions
-}): Promise<StepIO['end']['output']> {
-  const { inputs, stepFunctions } = params
+const createFlussRunner = <
+  TFlow extends FlowDefinition<
+    Record<string, FlowStep<Record<string, unknown>, unknown>>,
+    Record<string, unknown>,
+    unknown
+  >,
+>(
+  flowConfig: FlussFlow<TFlow>
+): FlussRunner<TFlow> => {
+  return async ({ inputs, stepFunctions }) => {
+    type RuntimeState = Record<
+      keyof TFlow['steps'],
+      FlussStepBase<string, unknown, unknown>
+    >
 
-  // Initialize the flow state with typed steps
-  // This is generated new for each flow.
-  const flowState: FlowState = {
-    start: {
-      id: 'start',
-      status: 'done',
-      execute: (args) => args,
-      arguments: [],
-      result: inputs,
-    },
-    squareNumber: {
-      id: 'squareNumber',
-      status: 'waiting',
-      execute: stepFunctions.squareNumber,
-      arguments: [
-        {
-          sourceStepId: 'start',
-          argumentName: 'baseNumber',
-          sourceProperty: 'baseNumber',
-        },
-      ],
-    },
-    createString: {
-      id: 'createString',
-      status: 'waiting',
-      execute: stepFunctions.createString,
-      arguments: [
-        {
-          sourceStepId: 'start',
-          argumentName: 'locale',
-          sourceProperty: 'locale',
-        },
-        {
-          sourceStepId: 'squareNumber',
-          argumentName: 'squaredNumber',
-        },
-      ],
-    },
-    end: {
-      id: 'end',
-      status: 'waiting',
-      execute: (args) => args,
-      arguments: [
-        {
-          sourceStepId: 'createString',
-          argumentName: 'writtenEquation',
-        },
-      ],
-    },
-  }
+    const runtimeState = Object.entries(flowConfig).reduce(
+      (acc, [id, step]) => {
+        if (typeof step !== 'object' || !step) return acc
+        return {
+          ...acc,
+          [id]: {
+            ...(step as object),
+            status: id === 'start' ? ('done' as const) : ('waiting' as const),
+            result: id === 'start' ? inputs : undefined,
+            execute:
+              id === 'start'
+                ? undefined
+                : id === 'end'
+                  ? (args: { writtenEquation: TFlow['flowOutput'] }) => args
+                  : stepFunctions[
+                      id as Exclude<keyof TFlow['steps'], 'start' | 'end'>
+                    ],
+          },
+        }
+      },
+      {} as RuntimeState
+    )
 
-  return new Promise<StepIO['end']['output']>((resolve, reject) => {
-    // Process runnable steps
-    const processSteps = async () => {
-      // Find all steps that can run now
-      const runnableSteps = Object.values(flowState)
-        .filter((step) => step.status === 'waiting')
-        .filter((step) => canStepRun(step as Step<FlussStepId>, flowState))
-
-      console.log(
-        'Currently runnable:',
-        runnableSteps.map((s) => s.id)
-      )
-
-      // Check if we're done or stuck
-      if (runnableSteps.length === 0) {
-        if (Object.values(flowState).every((step) => step.status === 'done')) {
-          console.log('All steps done!')
-          if (!flowState.end.result) {
-            return reject(new Error('End step has no result'))
-          }
-          return resolve(flowState.end.result)
-        } else {
-          return reject(
-            new Error('No steps can be run and not all steps are done')
+    return new Promise((resolve, reject) => {
+      const processSteps = async () => {
+        const runnableSteps = Object.values(runtimeState)
+          .filter((step): step is FlussStepBase<string, unknown, unknown> => {
+            if (!step || typeof step !== 'object') return false
+            return 'status' in step && step.status === 'waiting' && 'id' in step
+          })
+          .filter((step) =>
+            canStepRun(step as Step<FlussStepId>, runtimeState as FlowState)
           )
+
+        if (runnableSteps.length === 0) {
+          const allStepsDone = Object.values(runtimeState).every((step) => {
+            if (!step || typeof step !== 'object') return false
+            return 'status' in step && step.status === 'done'
+          })
+
+          if (allStepsDone) {
+            const endStep = runtimeState[
+              Object.keys(runtimeState).find((k) => k === 'end')!
+            ] as FlussStepBase<
+              'end',
+              { writtenEquation: TFlow['flowOutput'] },
+              { writtenEquation: TFlow['flowOutput'] }
+            >
+            if (!endStep?.result) {
+              return reject(new Error('End step has no result'))
+            }
+            return resolve(endStep.result)
+          } else {
+            return reject(
+              new Error('No steps can be run and not all steps are done')
+            )
+          }
+        }
+
+        try {
+          await Promise.all(
+            runnableSteps.map((step) => {
+              step.status = 'running'
+              return executeStep(
+                step as Step<FlussStepId>,
+                runtimeState as FlowState
+              )
+            })
+          )
+          await processSteps()
+        } catch (error) {
+          reject(error)
         }
       }
 
-      // Execute all runnable steps
-      try {
-        await Promise.all(
-          runnableSteps.map((step) => {
-            step.status = 'running'
-            return executeStep(step as Step<FlussStepId>, flowState)
-          })
-        )
-
-        // Continue processing
-        await processSteps()
-      } catch (error) {
-        reject(error)
-      }
-    }
-
-    // Start the flow
-    processSteps().catch(reject)
-  })
+      processSteps().catch(reject)
+    })
+  }
 }
 
-/**
- * STATE_JSON_START{"name":"Squared number 🧮","edges":[{"source":"start","sourceHandle":"qs56w","target":"XyASV","targetHandle":"XyASV-XNqwk","id":"xy-edge__startqs56w-XyASVXyASV-XNqwk","data":{"state":"entered"}},{"source":"XyASV","sourceHandle":"VQJps","target":"end","targetHandle":"end-IMC3S","id":"xy-edge__XyASVVQJps-endend-IMC3S","data":{"state":"entered"}},{"source":"TRqTC","sourceHandle":"Ki3pb","target":"XyASV","targetHandle":"XyASV-TNZj8","id":"xy-edge__TRqTCKi3pb-XyASVXyASV-TNZj8","data":{"state":"entered"}},{"source":"start","sourceHandle":"nZEBo","target":"TRqTC","targetHandle":"TRqTC-wzsOw","id":"xy-edge__startnZEBo-TRqTCTRqTC-wzsOw","data":{"state":"entered"}}],"nodes":[{"id":"TRqTC","position":{"x":394,"y":199},"type":"flussNode","data":{"type":"step","id":"TRqTC","outputs":[{"id":"Ki3pb","type":"number","name":"Squared number"}],"name":"Square number","inputs":[{"id":"TRqTC-wzsOw","state":"entered"}],"description":"Takes a number and returns that number squared.","state":"entered"},"sourcePosition":"right","measured":{"width":275,"height":349},"selected":false},{"id":"XyASV","position":{"x":747,"y":251},"type":"flussNode","data":{"type":"step","id":"XyASV","outputs":[{"id":"VQJps","type":"string","name":"Written equation"}],"name":"Create string","inputs":[{"id":"XyASV-XNqwk","state":"entered"},{"id":"XyASV-TNZj8","state":"entered"}],"description":"Turns a number and it's squared result into a locale specific string.","state":"entered"},"sourcePosition":"right","measured":{"width":275,"height":389}},{"id":"start","position":{"x":82,"y":158},"type":"startNode","data":{"type":"start","id":"start","outputs":[{"id":"qs56w","type":"locale","name":"Locale"},{"id":"nZEBo","name":"Base number","type":"number"}],"name":"Start 🛫","description":"Start of the Fluss.","state":"entered"},"sourcePosition":"right","deletable":false,"measured":{"width":275,"height":381},"selected":false},{"id":"end","position":{"x":1124,"y":368},"type":"endNode","data":{"type":"end","id":"end","name":"End 🛬","description":"End of the Fluss","inputs":[{"id":"end-IMC3S","state":"entered"}],"outputs":[],"state":"entered"},"sourcePosition":"right","deletable":false,"measured":{"width":275,"height":176}}],"outputTypes":[{"id":"void","displayName":"Void","typeName":"void","content":"void","isPrimitive":true,"icon":"slash"},{"id":"string","displayName":"String","typeName":"string","content":"string","isPrimitive":true,"icon":"signature"},{"id":"number","displayName":"Number","typeName":"number","content":"number","isPrimitive":true,"icon":"calculator"},{"id":"boolean","displayName":"Boolean","typeName":"boolean","content":"boolean","isPrimitive":true,"icon":"toggle-right"},{"id":"locale","displayName":"Locale","typeName":"Locale","content":"\"en\" | \"de\"","icon":"languages"}]}STATE_JSON_END
- */
+// Example usage with the new generic approach
+type SquareNumberFlow = FlowDefinition<
+  {
+    start: FlowStep<never, { locale: Locale; baseNumber: number }>
+    squareNumber: FlowStep<{ baseNumber: number }, number>
+    createString: FlowStep<{ locale: Locale; squaredNumber: number }, string>
+    end: FlowStep<{ writtenEquation: string }, { writtenEquation: string }>
+  },
+  { locale: Locale; baseNumber: number },
+  string
+>
+
+const runner = createFlussRunner<SquareNumberFlow>({
+  start: {
+    id: 'start',
+    status: 'waiting',
+    execute: undefined,
+    arguments: [],
+  },
+  squareNumber: {
+    id: 'squareNumber',
+    status: 'waiting',
+    arguments: [
+      {
+        sourceStepId: 'start',
+        argumentName: 'baseNumber',
+        sourceProperty: 'baseNumber',
+      },
+    ],
+  },
+  createString: {
+    id: 'createString',
+    status: 'waiting',
+    arguments: [
+      {
+        sourceStepId: 'start',
+        argumentName: 'locale',
+        sourceProperty: 'locale',
+      },
+      {
+        sourceStepId: 'squareNumber',
+        argumentName: 'squaredNumber',
+      },
+    ],
+  },
+  end: {
+    id: 'end',
+    status: 'waiting',
+    arguments: [
+      {
+        sourceStepId: 'createString',
+        argumentName: 'writtenEquation',
+      },
+    ],
+  },
+})
+
+// Using the runner
+runner({
+  inputs: {
+    locale: 'en',
+    baseNumber: 5,
+  },
+  stepFunctions: {
+    squareNumber: ({ baseNumber }) => {
+      console.log('Squaring number:', baseNumber)
+      return Promise.resolve(baseNumber * baseNumber)
+    },
+    createString: ({ locale, squaredNumber }) => {
+      console.log('Creating string:', locale, squaredNumber)
+      return Promise.resolve(`The square of the number is ${squaredNumber}`)
+    },
+  },
+})

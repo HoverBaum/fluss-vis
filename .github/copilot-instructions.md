@@ -29,6 +29,14 @@ This is a living document to ensure our frontend code stays **consistent**, **re
 
 ---
 
+## 🧑‍💻 Tackling problems
+
+Whenever we tackle a problem we first "take a step back" and think about "what kind of problem is this?" and "which known patterns are in effect here or could we use?".
+
+Asking these questions first help us to see the bigger picture and find solutions that are well tested and easy to understand for future devs.
+
+---
+
 ## 🧱 Project Structure
 
 - **PascalCase** for React components: `MyComponent.tsx`
