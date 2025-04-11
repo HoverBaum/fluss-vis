@@ -1,55 +1,137 @@
+export type FlussRunStatus = 'waiting' | 'running' | 'done' | 'error'
+
+type StepDependency = {
+  sourceStepId: string
+  argumentName: string
+  sourceProperty?: string
+}
+
 export const createFlussRunner = <
   GOutput,
   GInput,
-  GStepFunctions extends Record<string, (args: GArgs) => unknown>,
-  GArgs extends Record<string, unknown> = Record<string, unknown>,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  GStepFunctions extends Record<string, (args: any) => unknown>,
 >(): ((args: {
   inputs: GInput
   stepFunctions: GStepFunctions
+  dependencies: Record<keyof GStepFunctions | 'end', StepDependency[]>
 }) => Promise<GOutput>) => {
-  console.log('createFlussRunner called')
   return async (args) => {
-    const { inputs, stepFunctions } = args
+    const { inputs, stepFunctions, dependencies } = args
 
     type FlowState = {
-      [K in keyof GStepFunctions]: Awaited<ReturnType<GStepFunctions[K]>>
+      [K in keyof GStepFunctions | 'start' | 'end']: {
+        status: FlussRunStatus
+        result?: K extends keyof GStepFunctions
+          ? Awaited<ReturnType<GStepFunctions[K]>>
+          : K extends 'start'
+            ? GInput
+            : GOutput
+        error?: Error
+      }
     }
 
-    // Initialize flowState with one entry per function in GStepFunctions
-    const flowState: FlowState = Object.keys(stepFunctions).reduce(
-      (acc, key) => {
-        return {
+    // Initialize flowState with waiting status for each step
+    const flowState: FlowState = {
+      ...Object.keys(stepFunctions).reduce(
+        (acc, key) => ({
           ...acc,
-          [key]: { undefined },
+          [key]: { status: 'waiting' },
+        }),
+        {} as FlowState
+      ),
+      start: { status: 'done', result: inputs },
+      end: { status: 'waiting' },
+    }
+
+    // Helper to check if all dependencies are met for a step
+    const canStepRun = (stepId: keyof typeof dependencies): boolean => {
+      return dependencies[stepId].every((dep) => {
+        const sourceStep = flowState[dep.sourceStepId as keyof FlowState]
+        return sourceStep.status === 'done' && sourceStep.result !== undefined
+      })
+    }
+
+    // Helper to get input for a step based on its dependencies
+    const getStepInput = (
+      stepId: keyof typeof dependencies
+    ): Record<string, unknown> => {
+      const input: Record<string, unknown> = {}
+
+      dependencies[stepId].forEach((dep) => {
+        const sourceStep = flowState[dep.sourceStepId as keyof FlowState]
+        if (sourceStep.status !== 'done' || sourceStep.result === undefined) {
+          throw new Error(
+            `Source step ${dep.sourceStepId} not complete for ${dep.argumentName}`
+          )
         }
-      },
-      {} as FlowState
-    )
-    console.log('Initial Flow State:', flowState)
 
-    // First function gets the inputs
-    const firstKey = Object.keys(stepFunctions)[0]
-    if (firstKey) {
-      const result = await stepFunctions[firstKey](inputs as unknown as GArgs)
-      flowState[firstKey as keyof GStepFunctions] =
-        result as FlowState[typeof firstKey]
+        // If sourceProperty is undefined, use the entire result
+        // Otherwise, extract the specified property
+        if (dep.sourceProperty === undefined) {
+          input[dep.argumentName] = sourceStep.result
+        } else {
+          input[dep.argumentName] = (
+            sourceStep.result as Record<string, unknown>
+          )[dep.sourceProperty]
+        }
+      })
+
+      return input
     }
 
-    // Execute remaining functions in sequence and store results
-    for (const [key, fn] of Object.entries(stepFunctions).slice(1)) {
-      const prevKey =
-        Object.keys(stepFunctions)[Object.keys(stepFunctions).indexOf(key) - 1]
-      const prevResult = flowState[prevKey as keyof GStepFunctions]
-      const result = await fn(prevResult as GArgs)
-      flowState[key as keyof GStepFunctions] = result as FlowState[typeof key]
+    // Process steps that can run in parallel
+    const processSteps = async (): Promise<void> => {
+      const steps = [...Object.keys(stepFunctions), 'end'] as const
+      const runnableSteps = steps.filter((stepId) => {
+        return flowState[stepId].status === 'waiting' && canStepRun(stepId)
+      })
+
+      if (runnableSteps.length === 0) {
+        if (steps.every((key) => flowState[key].status === 'done')) {
+          return // All done
+        }
+        throw new Error('No steps can run and not all steps are done')
+      }
+
+      await Promise.all(
+        runnableSteps.map(async (stepId) => {
+          try {
+            flowState[stepId].status = 'running'
+            const input = getStepInput(stepId)
+
+            let result: unknown
+            if (stepId === 'end') {
+              result = input
+            } else {
+              result = await stepFunctions[stepId](input)
+            }
+
+            flowState[stepId].status = 'done'
+            flowState[stepId].result =
+              result as FlowState[typeof stepId]['result']
+          } catch (error) {
+            flowState[stepId].status = 'error'
+            flowState[stepId].error =
+              error instanceof Error ? error : new Error(String(error))
+            throw flowState[stepId].error
+          }
+        })
+      )
+
+      // Continue processing if there are more steps
+      await processSteps()
     }
 
-    // Return the last result as GOutput
-    const lastKey = Object.keys(flowState).pop()
-    if (!lastKey) {
-      throw new Error('No steps to execute')
+    // Start execution
+    await processSteps()
+
+    // Return the end result
+    const endResult = flowState.end.result
+    if (endResult === undefined) {
+      throw new Error('End step has no result')
     }
 
-    return flowState[lastKey] as unknown as GOutput
+    return endResult as GOutput
   }
 }

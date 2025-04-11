@@ -6,8 +6,7 @@ const runner = createFlussRunner<
   FlussInputs,
   {
     wowOne: (args: { baseNumber: number }) => number
-  },
-  { baseNumber: number }
+  }
 >()
 
 runner({
@@ -20,6 +19,21 @@ runner({
       console.log('wowOne', args)
       return args.baseNumber * args.baseNumber
     },
+  },
+  dependencies: {
+    wowOne: [
+      {
+        sourceStepId: 'start',
+        argumentName: 'baseNumber',
+        sourceProperty: 'baseNumber',
+      },
+    ],
+    end: [
+      {
+        sourceStepId: 'wowOne',
+        argumentName: 'squaredNumber',
+      },
+    ],
   },
 })
   .then((result) => {
