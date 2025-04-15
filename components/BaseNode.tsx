@@ -109,7 +109,6 @@ export const BaseNode = ({
 
   // Update node internals when the node is a potential target or state changes.
   useEffect(() => {
-    console.log('updating,', nodeId)
     updateNodeInternals(nodeId)
   }, [isPotentialTarget, nodeId, updateNodeInternals, state])
 

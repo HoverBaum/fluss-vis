@@ -18,7 +18,7 @@ import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { DialogDescription, DialogTitle } from '@radix-ui/react-dialog'
 import { PlusIcon, TriangleAlertIcon } from 'lucide-react'
 import { DynamicIcon } from 'lucide-react/dynamic'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { CustomTypeEditor } from './CustomTypeEditor'
 import { CustomTypeDisplay } from './CustomTypeDisplay'
 import { generateId } from '@/fluss-lib/flussId'
@@ -48,6 +48,10 @@ export const CustomTypesDialog = () => {
     setSelectedType(type)
     setPage('editor')
   }
+
+  useEffect(() => {
+    setPage('overview')
+  }, [isOpen])
 
   return (
     <Dialog open={isOpen} onOpenChange={setCustomTypeDialogOpen}>
