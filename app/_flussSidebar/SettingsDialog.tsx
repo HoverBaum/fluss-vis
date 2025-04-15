@@ -4,14 +4,11 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 
 import { useSettingsStore } from '@/stores/SettingsStoreProvider'
-
-import { Settings } from 'lucide-react'
 
 export const SettingsDialog = () => {
   const {
@@ -24,14 +21,13 @@ export const SettingsDialog = () => {
     showExampleOverwriteWarning,
     setShowExampleOverwriteWarning,
   } = useSettingsStore((store) => store)
+  const isOpen = useSettingsStore((state) => state.settingsDialogOpen)
+  const setSettingsDialogOpen = useSettingsStore(
+    (state) => state.setSettingsDialogOpen
+  )
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <span className="flex w-full items-center gap-2">
-          <Settings size="1rem" /> Editor Settings
-        </span>
-      </DialogTrigger>
+    <Dialog open={isOpen} onOpenChange={setSettingsDialogOpen}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Editor Settings</DialogTitle>

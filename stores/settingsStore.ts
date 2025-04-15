@@ -2,6 +2,7 @@ import { createStore } from 'zustand'
 import { devtools, persist } from 'zustand/middleware'
 
 type SettingsState = {
+  settingsDialogOpen: boolean
   displayIds: boolean
   alwaysShowDelete: boolean
   bringSelectedEdgesToFront: boolean
@@ -13,11 +14,13 @@ type SettingsActions = {
   toggleAlwaysShowDelete: () => void
   toggleBringSelectedEdgesToFront: () => void
   setShowExampleOverwriteWarning: (show: boolean) => void
+  setSettingsDialogOpen: (isOpen: boolean) => void
 }
 
 export type SettingsStore = SettingsState & SettingsActions
 
 const initialState: SettingsState = {
+  settingsDialogOpen: false,
   displayIds: true,
   alwaysShowDelete: false,
   bringSelectedEdgesToFront: true,
@@ -43,6 +46,9 @@ export const createSettingsStore = (
           },
           setShowExampleOverwriteWarning(show: boolean) {
             set({ showExampleOverwriteWarning: show })
+          },
+          setSettingsDialogOpen(isOpen) {
+            set({ settingsDialogOpen: isOpen })
           },
         }),
         {

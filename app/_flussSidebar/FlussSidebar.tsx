@@ -12,16 +12,21 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar'
-import { SettingsDialog } from './SettingsDialog'
+
 import { CustomTypesDialog } from './CustomTypesDialog'
 import { Export } from '../_export/Export'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { LoadButton } from './LoadButton'
 import { ExamplesDropdown } from './ExamplesDropdown'
 import { ResetButton } from './ResetButton'
+import { SettingsIcon } from 'lucide-react'
+import { useSettingsStore } from '@/stores/SettingsStoreProvider'
 
 export const FlussSidebar = () => {
   const flussName = useFlussStore((state) => state.name)
+  const setSettingsDialogOpen = useSettingsStore(
+    (state) => state.setSettingsDialogOpen
+  )
 
   return (
     <Sidebar side="left" variant="inset">
@@ -35,8 +40,8 @@ export const FlussSidebar = () => {
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton>
-                  <SettingsDialog />
+                <SidebarMenuButton onClick={() => setSettingsDialogOpen(true)}>
+                  <SettingsIcon /> Settings
                 </SidebarMenuButton>
               </SidebarMenuItem>
 
