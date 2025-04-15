@@ -48,35 +48,55 @@ export const FlussEdge = ({
   const [playAnimation, setPlayAnimation] = useState(state === 'entering')
 
   const style: CSSProperties = useMemo(() => {
-    const baseStyles: CSSProperties = {
+    const base: CSSProperties = {
       strokeWidth: selected || isHighlighted ? 2 : 1,
       opacity: 1,
       transition: `stroke ${EnterExitAnimationDurationMS / 1000}s, stroke-width ${EnterExitAnimationDurationMS / 1000}s`,
     }
-    if (!data?.state) {
-      return baseStyles
-    }
-    if (data.state === 'exiting') {
+
+    // Exiting state takes full precedence
+    if (data?.state === 'exiting') {
       return {
-        ...baseStyles,
+        ...base,
         strokeDasharray: '4 2',
         stroke: 'var(--danger)',
         opacity: 0,
         transition: `opacity ${EnterExitAnimationDurationMS / 1000}s`,
       }
     }
-    if (data.state === 'entering') {
-      return {
-        ...baseStyles,
-        strokeWidth: 2,
+
+    // Entering state can be combined with selection
+    let style = { ...base }
+    if (selected) {
+      style = {
+        ...style,
+        strokeDasharray: '6 3',
+        strokeDashoffset: 0,
+        animation: 'flowingDash 1s linear infinite',
+      }
+    }
+    if (data?.state === 'entering') {
+      style = {
+        ...style,
         stroke: 'var(--positive)',
       }
     }
-    return baseStyles
+
+    return style
   }, [data?.state, isHighlighted, selected])
 
   return (
     <>
+      <style jsx global>{`
+        @keyframes flowingDash {
+          from {
+            stroke-dashoffset: 9;
+          }
+          to {
+            stroke-dashoffset: 0;
+          }
+        }
+      `}</style>
       <BaseEdge path={edgePath} style={style} />
 
       {/* ViewportPortal enables us to just use target position. */}
