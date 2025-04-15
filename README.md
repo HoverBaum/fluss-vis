@@ -66,6 +66,7 @@ These we might do, maybe not.
 - Sub-Flows. One flow could depend on another flow for task completion. Currently out of scope!
 - Steps could be saved as templates. Or potentially re-used and linked (that is updated together) across multiple flows.
 - Auto generate files for the step functions. We know the signature and could create placeholders, already wiring them up to the fluss.
+- How can we make this "AI Friendly"? Like could devs build logic in Fluss-Vis and we optimize our output to be used by AI coding Agents?
 
 ## Usage
 
