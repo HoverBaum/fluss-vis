@@ -21,6 +21,8 @@ import { EdgeType } from '@/components/nodes/EdgeType'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { FlussStepOutputType, FlussStepOutputTypeId } from '@/fluss-lib/fluss'
 import { Label } from '../ui/label'
+import { CodeIcon } from 'lucide-react'
+import { Separator } from '../ui/separator'
 
 type TypePickerProps = {
   typeId?: string
@@ -37,6 +39,9 @@ const selectedOutputFirst =
 export function TypePicker({ typeId, onTypeChange }: TypePickerProps) {
   const [open, setOpen] = React.useState(false)
   const outputTypes = useFlussStore((state) => state.outputTypes)
+  const setCustomTypesDialogOpen = useFlussStore(
+    (state) => state.setCustomTypesDialogOpen
+  )
 
   return (
     <div className="flex items-center space-x-4">
@@ -73,7 +78,7 @@ export function TypePicker({ typeId, onTypeChange }: TypePickerProps) {
                       <DynamicIcon
                         name={outputType.icon}
                         className={cn(
-                          'mr-2 h-4 w-4',
+                          'h-4 w-4',
                           outputType.id === typeId
                             ? 'opacity-100'
                             : 'opacity-40'
@@ -85,6 +90,17 @@ export function TypePicker({ typeId, onTypeChange }: TypePickerProps) {
                       </span>
                     </CommandItem>
                   ))}
+              </CommandGroup>
+              <Separator />
+              <CommandGroup forceMount>
+                <CommandItem
+                  onSelect={() => {
+                    setCustomTypesDialogOpen(true)
+                  }}
+                  value="Manage Types"
+                >
+                  <CodeIcon /> Manage Types
+                </CommandItem>
               </CommandGroup>
             </CommandList>
           </Command>
