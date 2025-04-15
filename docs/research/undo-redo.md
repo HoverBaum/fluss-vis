@@ -24,7 +24,7 @@ I tried with this config:
         // Exclude some properties from the history.
         partialize: (state) => {
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          const { isEditSidebarOpen, ...rest } = state
+          const { uiState, ...rest } = state
           return rest
         },
         // Throttle history snapshots.

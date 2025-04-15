@@ -48,7 +48,9 @@ export type FlussState = {
   nodes: FlussNodeType[]
   edges: FlussEdgeType[]
   outputTypes: FlussStepOutputType[]
-  isEditSidebarOpen: boolean
+  uiState: {
+    isEditSidebarOpen: boolean
+  }
 }
 
 export type FlussActions = {
@@ -132,7 +134,9 @@ export const initialState: FlussState = {
   ],
   edges: [],
   outputTypes: outputTypesBasics,
-  isEditSidebarOpen: false,
+  uiState: {
+    isEditSidebarOpen: false,
+  },
 }
 
 export const createFlussStore = (initState: FlussState = initialState) => {
@@ -480,8 +484,18 @@ export const createFlussStore = (initState: FlussState = initialState) => {
                 })
               )
             },
-            editSidebarOpen: () => set({ isEditSidebarOpen: true }),
-            editSidebarClose: () => set({ isEditSidebarOpen: false }),
+            editSidebarOpen: () =>
+              set(
+                produce((state) => {
+                  state.uiState.isEditSidebarOpen = true
+                })
+              ),
+            editSidebarClose: () =>
+              set(
+                produce((state) => {
+                  state.uiState.isEditSidebarOpen = false
+                })
+              ),
             edgeSetState: (edgeId, newState) => {
               set(
                 produce((state: FlussStore) => {
@@ -507,7 +521,7 @@ export const createFlussStore = (initState: FlussState = initialState) => {
         // Exclude some properties from the history.
         partialize: (state) => {
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          const { isEditSidebarOpen, ...rest } = state
+          const { uiState, ...rest } = state
           return rest
         },
         // Throttle history snapshots.

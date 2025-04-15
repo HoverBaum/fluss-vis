@@ -651,5 +651,7 @@ export const bedtimeStoryExampleState: FlussState = {
       icon: 'book-open-text',
     },
   ],
-  isEditSidebarOpen: false,
+  uiState: {
+    isEditSidebarOpen: false,
+  },
 }

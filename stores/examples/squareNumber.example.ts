@@ -4,7 +4,6 @@ import { outputTypesBasics } from '../outputTypesBaics'
 
 export const squareNumberExampleState: FlussState = {
   name: 'Squared number 🧮',
-  isEditSidebarOpen: false,
   nodes: [
     {
       id: 'TRqTC',
@@ -192,4 +191,7 @@ export const squareNumberExampleState: FlussState = {
       icon: 'languages',
     },
   ],
+  uiState: {
+    isEditSidebarOpen: false,
+  },
 }

@@ -231,5 +231,7 @@ export const BlogDraftExampleState: FlussState = {
     },
   ],
   outputTypes: [...outputTypesBasics],
-  isEditSidebarOpen: false,
+  uiState: {
+    isEditSidebarOpen: false,
+  },
 }
