@@ -163,7 +163,7 @@ export const BlogDraftExampleState: FlussState = {
         outputs: [
           {
             id: 'MmaCBDZiBcvIrKci_J4Sm',
-            name: 'Bucket URL',
+            name: 'Header Visual',
             type: 'urEZwhzf422tCpHOVn-vm',
           },
         ],
