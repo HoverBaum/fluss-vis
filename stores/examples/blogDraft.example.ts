@@ -164,7 +164,7 @@ export const BlogDraftExampleState: FlussState = {
           {
             id: 'MmaCBDZiBcvIrKci_J4Sm',
             name: 'Bucket URL',
-            type: 'string',
+            type: 'urEZwhzf422tCpHOVn-vm',
           },
         ],
         state: 'entered',
@@ -230,8 +230,18 @@ export const BlogDraftExampleState: FlussState = {
       id: 'xy-edge__startQvuWYaXYQN66PEdg6mrKU-lBEfWUXZTs5OMhHVkKUH2mOvl2',
     },
   ],
-  outputTypes: [...outputTypesBasics],
+  outputTypes: [
+    ...outputTypesBasics,
+    {
+      id: 'urEZwhzf422tCpHOVn-vm',
+      typeName: 'Visual',
+      displayName: 'Visual',
+      content: '{\n  imageUrl: string\n  altText: string\n}',
+      icon: 'image',
+    },
+  ],
   uiState: {
     isEditSidebarOpen: false,
+    isTypeDialogOpen: false,
   },
 }
