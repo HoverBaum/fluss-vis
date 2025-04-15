@@ -6,6 +6,7 @@ import { FlussSidebar } from './_flussSidebar/FlussSidebar'
 import { useState } from 'react'
 import { useCopyPaste } from './useCopyPaste'
 import { SettingsDialog } from './_flussSidebar/SettingsDialog'
+import { CustomTypesDialog } from './_flussSidebar/CustomTypesDialog'
 
 export default function Home() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -29,6 +30,7 @@ export default function Home() {
         </SidebarInset>
       </SidebarProvider>
       <SettingsDialog />
+      <CustomTypesDialog />
     </>
   )
 }

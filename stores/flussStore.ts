@@ -50,6 +50,7 @@ export type FlussState = {
   outputTypes: FlussStepOutputType[]
   uiState: {
     isEditSidebarOpen: boolean
+    isTypeDialogOpen: boolean
   }
 }
 
@@ -86,6 +87,7 @@ export type FlussActions = {
   outputTypeRemove: (typeId: FlussStepOutputTypeId) => void
   editSidebarOpen: () => void
   editSidebarClose: () => void
+  setCustomTypesDialogOpen: (isOpen: boolean) => void
   edgeSetState: (edgeId: string, state: AnimationState) => void
   loadFluss: (state: FlussState) => void
 }
@@ -136,6 +138,7 @@ export const initialState: FlussState = {
   outputTypes: outputTypesBasics,
   uiState: {
     isEditSidebarOpen: false,
+    isTypeDialogOpen: true,
   },
 }
 
@@ -484,18 +487,27 @@ export const createFlussStore = (initState: FlussState = initialState) => {
                 })
               )
             },
-            editSidebarOpen: () =>
+            editSidebarOpen: () => {
               set(
                 produce((state) => {
                   state.uiState.isEditSidebarOpen = true
                 })
-              ),
-            editSidebarClose: () =>
+              )
+            },
+            editSidebarClose: () => {
               set(
                 produce((state) => {
                   state.uiState.isEditSidebarOpen = false
                 })
-              ),
+              )
+            },
+            setCustomTypesDialogOpen: (isOpen) => {
+              set(
+                produce((state) => {
+                  state.uiState.isTypeDialogOpen = isOpen
+                })
+              )
+            },
             edgeSetState: (edgeId, newState) => {
               set(
                 produce((state: FlussStore) => {

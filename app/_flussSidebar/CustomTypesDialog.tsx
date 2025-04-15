@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button'
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
+import { Dialog, DialogContent } from '@/components/ui/dialog'
 import {
   Sidebar,
   SidebarContent,
@@ -16,7 +16,7 @@ import {
 import { FlussStepOutputType } from '@/fluss-lib/fluss'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { DialogDescription, DialogTitle } from '@radix-ui/react-dialog'
-import { CodeIcon, PlusIcon, TriangleAlertIcon } from 'lucide-react'
+import { PlusIcon, TriangleAlertIcon } from 'lucide-react'
 import { DynamicIcon } from 'lucide-react/dynamic'
 import { useMemo, useState } from 'react'
 import { CustomTypeEditor } from './CustomTypeEditor'
@@ -39,6 +39,10 @@ export const CustomTypesDialog = () => {
   )
   const [page, setPage] = useState<PageName>('overview')
   const addOutputType = useFlussStore((store) => store.outputTypeAdd)
+  const setCustomTypeDialogOpen = useFlussStore(
+    (state) => state.setCustomTypesDialogOpen
+  )
+  const isOpen = useFlussStore((state) => state.uiState.isTypeDialogOpen)
 
   const selectType = (type: FlussStepOutputType) => {
     setSelectedType(type)
@@ -46,12 +50,7 @@ export const CustomTypesDialog = () => {
   }
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <span className="flex w-full items-center gap-2">
-          <CodeIcon size="1rem" /> Custom Types
-        </span>
-      </DialogTrigger>
+    <Dialog open={isOpen} onOpenChange={setCustomTypeDialogOpen}>
       <DialogContent className="overflow-hidden p-0 md:max-h-[600px] md:max-w-[700px] lg:max-w-[800px]">
         <DialogTitle className="sr-only">Custom Types</DialogTitle>
         <DialogDescription className="sr-only">

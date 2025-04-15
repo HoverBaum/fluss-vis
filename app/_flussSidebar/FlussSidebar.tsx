@@ -13,19 +13,21 @@ import {
   SidebarMenuItem,
 } from '@/components/ui/sidebar'
 
-import { CustomTypesDialog } from './CustomTypesDialog'
 import { Export } from '../_export/Export'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { LoadButton } from './LoadButton'
 import { ExamplesDropdown } from './ExamplesDropdown'
 import { ResetButton } from './ResetButton'
-import { SettingsIcon } from 'lucide-react'
+import { CodeIcon, SettingsIcon } from 'lucide-react'
 import { useSettingsStore } from '@/stores/SettingsStoreProvider'
 
 export const FlussSidebar = () => {
   const flussName = useFlussStore((state) => state.name)
   const setSettingsDialogOpen = useSettingsStore(
     (state) => state.setSettingsDialogOpen
+  )
+  const setCustomTypesDialogOpen = useFlussStore(
+    (state) => state.setCustomTypesDialogOpen
   )
 
   return (
@@ -63,8 +65,10 @@ export const FlussSidebar = () => {
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton>
-                  <CustomTypesDialog />
+                <SidebarMenuButton
+                  onClick={() => setCustomTypesDialogOpen(true)}
+                >
+                  <CodeIcon /> Custom Types
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
