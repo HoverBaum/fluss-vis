@@ -138,7 +138,7 @@ export const initialState: FlussState = {
   outputTypes: outputTypesBasics,
   uiState: {
     isEditSidebarOpen: false,
-    isTypeDialogOpen: true,
+    isTypeDialogOpen: false,
   },
 }
 
