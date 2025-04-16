@@ -69,8 +69,6 @@ export const FlussEdge = ({
     if (selected) {
       style = {
         ...style,
-        strokeDasharray: '6 3',
-        strokeDashoffset: 0,
       }
     }
     if (data?.state === 'entering') {
@@ -88,7 +86,7 @@ export const FlussEdge = ({
       <BaseEdge
         path={edgePath}
         style={style}
-        className={`${selected ? 'animate-flowingDash' : ''}`}
+        className={`${selected ? 'animate-flowingDashToSolid' : ''}`}
       />
 
       {/* ViewportPortal enables us to just use target position. */}

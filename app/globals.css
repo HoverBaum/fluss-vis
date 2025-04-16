@@ -63,13 +63,55 @@
   --radius-sm: calc(var(--radius) - 4px);
 
   /* Custom Animations */
+  /* Animage a path to be a moving, dashed line */
   --animate-flowingDash: flowingDash 1s linear infinite;
   @keyframes flowingDash {
     from {
       stroke-dashoffset: 9;
+      stroke-dasharray: 6 3;
     }
     to {
       stroke-dashoffset: 0;
+      stroke-dasharray: 6 3;
+    }
+  }
+
+  --animate-flowingDashToSolid: flowingDashToSolid 5s linear forwards;
+  @keyframes flowingDashToSolid {
+    0% {
+      stroke-dashoffset: 100;
+      stroke-dasharray: 6 3;
+    }
+    10% {
+      stroke-dashoffset: 90;
+    }
+    20% {
+      stroke-dashoffset: 80;
+    }
+    30% {
+      stroke-dashoffset: 71;
+    }
+    40% {
+      stroke-dashoffset: 63;
+    }
+    50% {
+      stroke-dashoffset: 56;
+    }
+    60% {
+      stroke-dashoffset: 50;
+    }
+    70% {
+      stroke-dashoffset: 45;
+    }
+    80% {
+      stroke-dashoffset: 41;
+    }
+    94% {
+      stroke-dasharray: 6 3;
+    }
+    100% {
+      stroke-dashoffset: 41;
+      stroke-dasharray: 9 0;
     }
   }
 }
