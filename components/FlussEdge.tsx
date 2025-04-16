@@ -50,7 +50,6 @@ export const FlussEdge = ({
   const style: CSSProperties = useMemo(() => {
     const base: CSSProperties = {
       strokeWidth: selected || isHighlighted ? 2 : 1,
-      opacity: 1,
       transition: `stroke ${EnterExitAnimationDurationMS / 1000}s, stroke-width ${EnterExitAnimationDurationMS / 1000}s`,
     }
 
@@ -72,7 +71,6 @@ export const FlussEdge = ({
         ...style,
         strokeDasharray: '6 3',
         strokeDashoffset: 0,
-        animation: 'flowingDash 1s linear infinite',
       }
     }
     if (data?.state === 'entering') {
@@ -87,17 +85,11 @@ export const FlussEdge = ({
 
   return (
     <>
-      <style jsx global>{`
-        @keyframes flowingDash {
-          from {
-            stroke-dashoffset: 9;
-          }
-          to {
-            stroke-dashoffset: 0;
-          }
-        }
-      `}</style>
-      <BaseEdge path={edgePath} style={style} />
+      <BaseEdge
+        path={edgePath}
+        style={style}
+        className={`${selected ? 'animate-flowingDash' : ''}`}
+      />
 
       {/* ViewportPortal enables us to just use target position. */}
       <ViewportPortal>

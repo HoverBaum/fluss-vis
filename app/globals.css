@@ -61,6 +61,17 @@
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
+
+  /* Custom Animations */
+  --animate-flowingDash: flowingDash 1s linear infinite;
+  @keyframes flowingDash {
+    from {
+      stroke-dashoffset: 9;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
 }
 
 @layer utilities {
