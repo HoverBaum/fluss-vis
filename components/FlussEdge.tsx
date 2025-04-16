@@ -14,6 +14,7 @@ import { FlussEdgeType } from '@/stores/flussStore'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import dynamic from 'next/dynamic'
 import { EnterExitAnimationDurationMS } from '@/lib/constants'
+import { useSettingsStore } from '@/stores/SettingsStoreProvider'
 
 // Dynamically import Lottie so that it’s only loaded on the client side.
 const Lottie = dynamic(() => import('lottie-react'), { ssr: false })
@@ -30,6 +31,9 @@ export const FlussEdge = ({
   source,
   target,
 }: EdgeProps<FlussEdgeType>) => {
+  const shouldAnimate = useSettingsStore(
+    (state) => state.edgesSelectionAnimated
+  )
   const isHighlighted = useFlussStore((state) =>
     state.nodes.some(
       (node) => (node.id === source || node.id === target) && node.selected
@@ -86,7 +90,7 @@ export const FlussEdge = ({
       <BaseEdge
         path={edgePath}
         style={style}
-        className={`${selected ? 'animate-flowingDashToSolid' : ''}`}
+        className={`${selected && shouldAnimate ? 'animate-flowingDashToSolid' : ''}`}
       />
 
       {/* ViewportPortal enables us to just use target position. */}

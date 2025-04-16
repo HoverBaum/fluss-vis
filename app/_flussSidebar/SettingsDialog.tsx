@@ -14,8 +14,10 @@ export const SettingsDialog = () => {
   const {
     displayIds,
     toggleDisplayIds,
-    bringSelectedEdgesToFront,
-    toggleBringSelectedEdgesToFront,
+    edgesSelectedToFront,
+    toggleEdgesSelectedToFront,
+    edgesSelectionAnimated,
+    toggleEdgesSelectionAnimated,
     alwaysShowDelete,
     toggleAlwaysShowDelete,
     showExampleOverwriteWarning,
@@ -67,8 +69,29 @@ export const SettingsDialog = () => {
             </div>
 
             <Switch
-              checked={bringSelectedEdgesToFront}
-              onCheckedChange={toggleBringSelectedEdgesToFront}
+              checked={edgesSelectedToFront}
+              onCheckedChange={toggleEdgesSelectedToFront}
+            />
+          </div>
+
+          <hr />
+
+          <div className="flex flex-row items-center justify-between gap-2 p-4">
+            <div>
+              <Label className="text-base font-bold">
+                Animate selected Edges
+              </Label>
+              <div>
+                <small>
+                  Edges will be animated upon selection to visualize data flow
+                  direction.
+                </small>
+              </div>
+            </div>
+
+            <Switch
+              checked={edgesSelectionAnimated}
+              onCheckedChange={toggleEdgesSelectionAnimated}
             />
           </div>
 

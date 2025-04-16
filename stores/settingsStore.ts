@@ -5,14 +5,16 @@ type SettingsState = {
   settingsDialogOpen: boolean
   displayIds: boolean
   alwaysShowDelete: boolean
-  bringSelectedEdgesToFront: boolean
+  edgesSelectedToFront: boolean
+  edgesSelectionAnimated: boolean
   showExampleOverwriteWarning: boolean
 }
 
 type SettingsActions = {
   toggleDisplayIds: () => void
   toggleAlwaysShowDelete: () => void
-  toggleBringSelectedEdgesToFront: () => void
+  toggleEdgesSelectedToFront: () => void
+  toggleEdgesSelectionAnimated: () => void
   setShowExampleOverwriteWarning: (show: boolean) => void
   setSettingsDialogOpen: (isOpen: boolean) => void
 }
@@ -23,7 +25,8 @@ const initialState: SettingsState = {
   settingsDialogOpen: false,
   displayIds: true,
   alwaysShowDelete: false,
-  bringSelectedEdgesToFront: true,
+  edgesSelectedToFront: true,
+  edgesSelectionAnimated: true,
   showExampleOverwriteWarning: true,
 }
 
@@ -41,8 +44,11 @@ export const createSettingsStore = (
           toggleDisplayIds() {
             set({ displayIds: !get().displayIds })
           },
-          toggleBringSelectedEdgesToFront() {
-            set({ bringSelectedEdgesToFront: !get().bringSelectedEdgesToFront })
+          toggleEdgesSelectedToFront() {
+            set({ edgesSelectedToFront: !get().edgesSelectedToFront })
+          },
+          toggleEdgesSelectionAnimated() {
+            set({ edgesSelectionAnimated: !get().edgesSelectionAnimated })
           },
           setShowExampleOverwriteWarning(show: boolean) {
             set({ showExampleOverwriteWarning: show })

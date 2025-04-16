@@ -47,7 +47,7 @@ export const FlowEditor = ({ toggleFlussSidebar }: FlowEditorProps) => {
     (store) => store.uiState.isEditSidebarOpen
   )
   const elevateEdgesOnSelect = useSettingsStore(
-    (store) => store.bringSelectedEdgesToFront
+    (store) => store.edgesSelectedToFront
   )
   const [isMounted, setIsMounted] = useState(false)
   const { theme } = useTheme()
