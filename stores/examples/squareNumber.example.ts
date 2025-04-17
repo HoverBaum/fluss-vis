@@ -193,5 +193,6 @@ export const squareNumberExampleState: FlussState = {
   ],
   uiState: {
     isEditSidebarOpen: false,
+    isTypeDialogOpen: false,
   },
 }

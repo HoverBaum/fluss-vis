@@ -653,5 +653,6 @@ export const bedtimeStoryExampleState: FlussState = {
   ],
   uiState: {
     isEditSidebarOpen: false,
+    isTypeDialogOpen: false,
   },
 }
