@@ -12,6 +12,48 @@ Fluss Viz will handle the execution of your logic and parallelize async operatio
 
 **Currently in Alpha at: [alpha.fluss-vis.dev](https://alpha.fluss-vis.dev/)**
 
+## Example
+
+Below is a minimal example where our Fluss only squares a number.
+
+![A flow in Fluss-Vis that squares a number.](/docs/example/squareNumber-screen.png)
+
+This Fluss then needs to be filled with inputs and step functions in order to run.
+
+>Note: any stepFunction can be async.
+
+```typescript
+import { runFluss, SquareNumberStepFunction } from './squaredNumber.fluss'
+
+const squareNumber: SquareNumberStepFunction = ({ baseNumber }) =>
+  Math.pow(baseNumber, 2)
+
+runFluss({
+  inputs: {
+    baseNumber: 2,
+  },
+  stepFunctions: {
+    squareNumber,
+  },
+})
+```
+
+This will currently produce the following output in your terminal.
+
+```bash
+npx tsx docs/example/runSquareNumber.ts 
+
+Currently runnable: [ 'squareNumber' ]
+Executing with Input: { baseNumber: { baseNumber: 2 } }
+Result: NaN
+Currently runnable: [ 'end' ]
+Executing with Input: { squaredNumber: NaN }
+Result: { squaredNumber: NaN }
+Currently runnable: []
+All steps done!
+```
+
+
 ## Key Principles
 
 - Targeted at Developers
@@ -95,47 +137,6 @@ Custom Types
 
 - Custom types come with a name and are valid TypeScript.
 - We see developers as our user-base and will leave writing valid typescript to them!
-
-### Example
-
-Below is a minimal example where our Fluss only squares a number.
-
-![A flow in Fluss-Vis that squares a number.](/docs/example/squareNumber-screen.png)
-
-This Fluss then needs to be filled with inputs and step functions in order to run.
-
->Note: any stepFunction can be async.
-
-```typescript
-import { runFluss, SquareNumberStepFunction } from './squaredNumber.fluss'
-
-const squareNumber: SquareNumberStepFunction = ({ baseNumber }) =>
-  Math.pow(baseNumber, 2)
-
-runFluss({
-  inputs: {
-    baseNumber: 2,
-  },
-  stepFunctions: {
-    squareNumber,
-  },
-})
-```
-
-This will currently produce the following output in your terminal.
-
-```bash
-npx tsx docs/example/runSquareNumber.ts 
-
-Currently runnable: [ 'squareNumber' ]
-Executing with Input: { baseNumber: { baseNumber: 2 } }
-Result: NaN
-Currently runnable: [ 'end' ]
-Executing with Input: { squaredNumber: NaN }
-Result: { squaredNumber: NaN }
-Currently runnable: []
-All steps done!
-```
 
 ## Contribution
 
