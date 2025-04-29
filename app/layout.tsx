@@ -18,8 +18,8 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Fluss Viz 🌊🧙‍♂️',
-  description: 'Design your TypeScript flow vizually.',
+  title: 'Fluss Viz 🌊',
+  description: 'Design your TypeScript flow visually.',
 }
 
 export default function RootLayout({
