@@ -1,0 +1,10 @@
+npx tsx docs/example/runSquareNumber.ts 
+
+Currently runnable: [ 'squareNumber' ]
+Executing with Input: { baseNumber: { baseNumber: 2 } }
+Result: NaN
+Currently runnable: [ 'end' ]
+Executing with Input: { squaredNumber: NaN }
+Result: { squaredNumber: NaN }
+Currently runnable: []
+All steps done!
