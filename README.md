@@ -6,12 +6,11 @@ Flow Editor that couples your diagrams to your code.
 
 Fluss Vis lifts the creation of logic flow for your Typescript application into a visual space. Start with a diagram, the same way you probably do already and then fill in the boxes with Typescript functions. Fluss Vis creates the signatures for functions in the flow and handles orchestration (running what can be run). You take care of detailed logic using Typescript.
 
-We believe that humans are visual and thus, lifting higher level orchestration into a visual space enables us to easier reason about it. By then linking this diagram to Typescript signatures, we use each tool for what it is best for. Visual editors for overviews and Typescript for implementing logic.
-
-
- By this we want to lift each aspect of the creation of complex flows into the space that fits them best. The orchestration of the flow into a visual layer while keeping the implementation of logic in a well suited, TypeScript powered realm.
+We believe that humans are visual and thus, lifting higher level orchestration into a visual space enables us to easier reason about it. By linking this diagrams to Typescript signatures, we use each tool for what it is best for. Visual editors for overviews and Typescript for implementing logic.
 
 Fluss Viz will handle the execution of your logic and parallelize async operations where applicable.
+
+**Currently in Alpha at: [alpha.fluss-vis.dev](https://alpha.fluss-vis.dev/)**
 
 ## Key Principles
 
@@ -19,7 +18,6 @@ Fluss Viz will handle the execution of your logic and parallelize async operatio
 - Easy for Developers to use
 - Should make creating logic fun
 - Fully Type-Safe
-- 0-Dependencies after export
 - We consciously take the tradeoff of fixing the generated code with "hardcoded" types. This makes the code easier to understand and create. When a change is needed, this should come form the visualization.
 
 ## Constraints
@@ -35,6 +33,8 @@ This you should be aware off, when using Fluss-Viz.
 🏁 Reached 🎉
 
 Fluss-Vis is in Alpha 🚀
+
+**Currently in Alpha at: [alpha.fluss-vis.dev](https://alpha.fluss-vis.dev/)**
 
 ## Beta Plan
 
@@ -81,7 +81,7 @@ These we might do, maybe not.
 
 ## Usage
 
-This is the current, rough idea.
+This is the current way of using Fluss-Vis (will change once we are more than a website).
 
 - Fluss-Viz will output a single file.
 - The *.fluss.ts file will contain a config that can be used to create a fluss.
