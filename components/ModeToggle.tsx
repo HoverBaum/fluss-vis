@@ -1,7 +1,6 @@
 'use client'
 
-import * as React from 'react'
-import { Moon, Sun } from 'lucide-react'
+import { LaptopIcon, MoonIcon, SmartphoneIcon, SunIcon } from 'lucide-react'
 import { useTheme } from 'next-themes'
 
 import { Button } from '@/components/ui/button'
@@ -11,28 +10,49 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { useMemo } from 'react'
 
 export function ModeToggle() {
-  const { setTheme } = useTheme()
+  const { setTheme, theme } = useTheme()
+  console.log(theme)
+
+  // Define the Icon to be used for system based on the users system.
+  const SystemIcon = useMemo(() => {
+    const userAgent = navigator.userAgent
+    // Basic check for mobile devices
+    if (
+      /android|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(
+        userAgent.toLowerCase()
+      )
+    ) {
+      return SmartphoneIcon
+    } else {
+      return LaptopIcon
+    }
+  }, [])
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="icon">
-          <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
-          <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
+          {theme === 'light' && <SunIcon className="h-[1.2rem] w-[1.2rem]" />}
+          {theme === 'dark' && <MoonIcon className="h-[1.2rem] w-[1.2rem]" />}
+          {theme === 'system' && (
+            <SystemIcon className="h-[1.2rem] w-[1.2rem]" />
+          )}
+
           <span className="sr-only">Toggle theme</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => setTheme('light')}>
-          Light
+          <SunIcon /> Light
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme('dark')}>
-          Dark
+          <MoonIcon /> Dark
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme('system')}>
-          System
+          <SystemIcon /> System
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
