@@ -84,9 +84,16 @@ export const Export = ({
       <DialogContent className="sm:max-w-2xl">
         <DialogHeader>
           <DialogTitle>Fluss Export</DialogTitle>
-          <DialogDescription>
-            Your Fluss will be automatically downloaded once ready.
-          </DialogDescription>
+          {!animationDone && (
+            <DialogDescription>
+              Your Fluss will be automatically downloaded once ready.
+            </DialogDescription>
+          )}
+          {animationDone && (
+            <DialogDescription>
+              Your Fluss file was created and downloaded.
+            </DialogDescription>
+          )}
         </DialogHeader>
         <div>
           <Lottie
@@ -103,8 +110,8 @@ export const Export = ({
               </span>
             ) : (
               <span className="flex items-center justify-center gap-2">
-                {fileName}
                 <DownloadIcon className="size-4" />
+                {fileName} (downloaded)
               </span>
             )}
           </p>
