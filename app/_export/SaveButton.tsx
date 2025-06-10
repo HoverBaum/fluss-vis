@@ -23,9 +23,14 @@ export const SaveButton = ({
   const fileName = useFlussStore(
     (state) => `${stringToValidIdentifier(state.name)}.fluss.ts`
   )
+
+  const isFileSystemAccessAPIAvailable =
+    typeof window !== 'undefined' && 'showSaveFilePicker' in window
+
   const canSave = useMemo(
-    () => fileHandleKey && fileHandleKey !== '',
-    [fileHandleKey]
+    () =>
+      fileHandleKey && fileHandleKey !== '' && isFileSystemAccessAPIAvailable,
+    [fileHandleKey, isFileSystemAccessAPIAvailable]
   )
 
   const saveFluss = async () => {
@@ -35,7 +40,27 @@ export const SaveButton = ({
       return
     }
 
-    // Do a "Save To" operation.
+    if (!isFileSystemAccessAPIAvailable) {
+      // Fallback for browsers that do not support File System Access API (e.g., Safari)
+      try {
+        const blob = new Blob([code], { type: 'application/typescript' })
+        const url = URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.href = url
+        a.download = fileName
+        document.body.appendChild(a)
+        a.click()
+        document.body.removeChild(a)
+        URL.revokeObjectURL(url)
+        toast.success('Fluss downloaded successfully.')
+      } catch (error) {
+        console.error('Error downloading Fluss:', error)
+        toast.error('Failed to download Fluss.')
+      }
+      return
+    }
+
+    // Do a "Save To" operation if now file handle exists.
     if (!fileHandleKey || fileHandleKey === '') {
       const options = {
         suggestedName: fileName,
@@ -67,7 +92,7 @@ export const SaveButton = ({
       const fileHandle = await getFlussFilehandle(fileHandleKey)
       if (!fileHandle) {
         toast.error(
-          'File handle not found, please export and then re-open, sorry.'
+          'File handle not found. Please use "Save to" or re-open the file.'
         )
         return
       }
@@ -78,19 +103,33 @@ export const SaveButton = ({
       toast.success('Fluss saved successfully.')
     } catch (error) {
       console.error('Error saving Fluss:', error)
-      toast.error('Failed to save Fluss state.')
+      toast.error('Failed to save Fluss.')
     }
   }
 
   return (
-    <Button variant={variant} className={className} onClick={saveFluss}>
-      {canSave ? (
+    <Button
+      variant={variant}
+      className={className}
+      onClick={saveFluss}
+      suppressHydrationWarning
+    >
+      {canSave && (
         <>
-          Save <SaveIcon />
+          Save <SaveIcon className="size-4" />
         </>
-      ) : (
+      )}
+      {!canSave && (
         <>
-          Save to <DownloadIcon />
+          {isFileSystemAccessAPIAvailable ? (
+            <>
+              Save to <DownloadIcon className="size-4" />
+            </>
+          ) : (
+            <>
+              Download <DownloadIcon className="size-4" />
+            </>
+          )}
         </>
       )}
     </Button>

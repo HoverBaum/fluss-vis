@@ -5,7 +5,7 @@ import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { useReactFlow } from '@xyflow/react'
 import { FilePlus2 } from 'lucide-react'
 import { useZoom } from '@/components/useZoom'
-import { ExportOrSaveButton } from './_export/ExportOrSaveButton'
+import { SaveButton } from './_export/SaveButton'
 
 const isDev = process.env.NODE_ENV === 'development'
 
@@ -41,7 +41,7 @@ export const ToolPanel = () => {
         Add Node <FilePlus2 />
       </Button>
 
-      <ExportOrSaveButton />
+      <SaveButton />
       {isDev && <span>{zoom.toFixed(2)}</span>}
     </div>
   )
