@@ -88,8 +88,8 @@ Fluss-Vis is in Alpha 🚀
 - New project screen and flow into that application. Start with a blank editor, what do users see? how are start and end added?
 - Logging, tracing - after a Fluss ran it would be great if users could see what happened. Ideally also visually.
 - Re-Work save, load and example to be less disrupted by state related type changes.
-- Open files and save back to them.
 - Refactor Settings into distinct sections.
+- Indicate unsaved changes.
 
 ## Full Release
 
