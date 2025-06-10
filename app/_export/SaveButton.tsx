@@ -35,6 +35,25 @@ export const SaveButton = ({
         )
         return
       }
+
+      // Verify and request file permissions
+      let permission = await fileHandle.queryPermission({ mode: 'readwrite' })
+      console.log('File permission:', permission)
+      if (permission === 'denied') {
+        toast.error(
+          'Permission to write to the file was denied. You might need to re-open the file.'
+        )
+        return
+      }
+      if (permission === 'prompt') {
+        permission = await fileHandle.requestPermission({ mode: 'readwrite' })
+        if (permission !== 'granted') {
+          toast.error('Permission to write to the file was not granted.')
+          return
+        }
+      }
+      // At this point, permission should be 'granted'.
+
       const code = await flussExport()
       if (!code || code === '') {
         toast.error('Failed to export Fluss code, please try again.')

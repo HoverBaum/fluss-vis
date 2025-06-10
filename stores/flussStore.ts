@@ -142,6 +142,7 @@ export const initialState: FlussState = {
     isEditSidebarOpen: false,
     isTypeDialogOpen: false,
   },
+  fileHandleKey: undefined,
 }
 
 export const createFlussStore = (initState: FlussState = initialState) => {
