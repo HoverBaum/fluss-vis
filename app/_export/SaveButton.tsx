@@ -23,7 +23,7 @@ export const SaveButton = ({
     console.log('saving fluss, fileHandleKey:', fileHandleKey)
     if (!fileHandleKey || fileHandleKey === '') {
       toast.error(
-        'Connection to file lost, please export and then re-open, sorry 😔'
+        'Connection to file lost, please export and then re-open, sorry.'
       )
       return
     }
@@ -31,45 +31,23 @@ export const SaveButton = ({
       const fileHandle = await getFlussFilehandle(fileHandleKey)
       if (!fileHandle) {
         toast.error(
-          'File handle not found, please export and then re-open, sorry 😔'
+          'File handle not found, please export and then re-open, sorry.'
         )
         return
       }
-
-      // Verify and request file permissions
-      let permission = await fileHandle.queryPermission({ mode: 'readwrite' })
-      console.log('File permission:', permission)
-      if (permission === 'denied') {
-        toast.error(
-          'Permission to write to the file was denied. You might need to re-open the file.'
-        )
-        return
-      }
-      if (permission === 'prompt') {
-        permission = await fileHandle.requestPermission({ mode: 'readwrite' })
-        if (permission !== 'granted') {
-          toast.error('Permission to write to the file was not granted.')
-          return
-        }
-      }
-      // At this point, permission should be 'granted'.
-
       const code = await flussExport()
       if (!code || code === '') {
         toast.error('Failed to export Fluss code, please try again.')
         return
       }
-      console.log('file handle:', fileHandle)
+
       const writable = await fileHandle.createWritable()
-      console.log('Writing code to file handle...')
       await writable.write(code)
-      console.log('Fluss code written to file handle successfully.')
       await writable.close()
-      console.log('wow')
-      toast.success('Fluss state saved successfully! 🎉')
+      toast.success('Fluss saved successfully.')
     } catch (error) {
       console.error('Error saving Fluss:', error)
-      toast.error('Failed to save Fluss state 😔')
+      toast.error('Failed to save Fluss state.')
     }
   }
 
