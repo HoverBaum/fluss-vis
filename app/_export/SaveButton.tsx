@@ -5,7 +5,7 @@ import { DownloadIcon, SaveIcon } from 'lucide-react'
 import { useExport } from './useExport'
 import { toast } from 'sonner'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
-import { getFlussFilehandle } from '@/lib/useIndexDBUtils'
+import { getFlussFilehandle, saveFlussFilehandle } from '@/lib/useIndexDBUtils'
 import { useMemo } from 'react'
 import { stringToValidIdentifier } from '@/fluss-lib/nameConversion'
 
@@ -23,6 +23,7 @@ export const SaveButton = ({
   const fileName = useFlussStore(
     (state) => `${stringToValidIdentifier(state.name)}.fluss.ts`
   )
+  const setFileHandleKey = useFlussStore((state) => state.setFileHandleKey)
 
   const isFileSystemAccessAPIAvailable =
     typeof window !== 'undefined' && 'showSaveFilePicker' in window
@@ -76,6 +77,8 @@ export const SaveButton = ({
         const writable = await handle.createWritable()
         await writable.write(code)
         await writable.close()
+        const fileHandleKey = await saveFlussFilehandle(handle)
+        setFileHandleKey(fileHandleKey)
         toast.success('Fluss saved successfully.')
         return
       } catch (error) {
