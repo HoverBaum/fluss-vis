@@ -14,7 +14,6 @@ import { useMemo } from 'react'
 
 export function ModeToggle() {
   const { setTheme, theme } = useTheme()
-  console.log(theme)
 
   // Define the Icon to be used for system based on the users system.
   const SystemIcon = useMemo(() => {

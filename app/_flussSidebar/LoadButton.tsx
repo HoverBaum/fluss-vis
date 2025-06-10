@@ -1,3 +1,5 @@
+'use client'
+
 import { SidebarMenuButton } from '@/components/ui/sidebar'
 import { FlussTSStateJSONEnd, FlussTSStateJSONStart } from '@/lib/constants'
 import { FlussState } from '@/stores/flussStore'
@@ -8,7 +10,56 @@ import { toast } from 'sonner'
 export const LoadButton = () => {
   const loadFluss = useFlussStore((state) => state.loadFluss)
 
-  const handleFileSelect = () => {
+  /**
+   * Once we have file contents as string check that it is a valid fluss and load it.
+   * This "continue" function is needed because we have multiple entry points based on available APIs.
+   */
+  const handleLoadedContent = (content: string) => {
+    const hasMarkers =
+      content.includes(FlussTSStateJSONStart) &&
+      content.includes(FlussTSStateJSONEnd)
+    if (!hasMarkers) {
+      // TODO: direct users to a place where they can learn more.
+      toast.error('File does not contain the required markers.')
+      return
+    }
+    const afterStartMarker = content.split(FlussTSStateJSONStart)[1]
+    const beforeEndMarker = afterStartMarker.split(FlussTSStateJSONEnd)[0]
+    const jsonString = beforeEndMarker.trim()
+    const stateFromJSON = JSON.parse(jsonString)
+    console.log('Parsed state:', stateFromJSON)
+
+    // TODO: Check if the state is valid.
+
+    loadFluss(stateFromJSON as FlussState)
+    toast.success('Fluss loaded successfully.')
+  }
+
+  const handleFileSelect = async () => {
+    if ('showOpenFilePicker' in window) {
+      try {
+        const [fileHandle] = await window.showOpenFilePicker({
+          types: [
+            {
+              description: 'Fluss TypeScript Files',
+              accept: { 'application/typescript': ['.ts'] },
+            },
+          ],
+          excludeAcceptAllOption: true,
+        })
+        const file = await fileHandle.getFile()
+        const contents = await file.text()
+        handleLoadedContent(contents)
+      } catch (error) {
+        if (error instanceof DOMException && error.name !== 'AbortError') {
+          console.error('Error opening file:', error)
+          toast.error('Error opening file. Please try again.')
+        }
+      }
+      return
+    }
+
+    // If showOpenFilePicker is not available, use a fallback method.
     const input = document.createElement('input')
     input.type = 'file'
     input.accept = '.ts'
@@ -21,27 +72,7 @@ export const LoadButton = () => {
           const content = e.target?.result
           if (content) {
             const stringContent = content.toString()
-            const hasMarkers =
-              stringContent.includes(FlussTSStateJSONStart) &&
-              stringContent.includes(FlussTSStateJSONEnd)
-            if (!hasMarkers) {
-              // TODO: direct users to a place where they can learn more.
-              toast.error('File does not contain the required markers.')
-              return
-            }
-            const afterStartMarker = stringContent.split(
-              FlussTSStateJSONStart
-            )[1]
-            const beforeEndMarker =
-              afterStartMarker.split(FlussTSStateJSONEnd)[0]
-            const jsonString = beforeEndMarker.trim()
-            const stateFromJSON = JSON.parse(jsonString)
-            console.log('Parsed state:', stateFromJSON)
-
-            // TODO: Check if the state is valid.
-
-            loadFluss(stateFromJSON as FlussState)
-            toast.success('Fluss loaded successfully.')
+            handleLoadedContent(stringContent)
           } else {
             // No content
             toast.error('No content in the file.')
