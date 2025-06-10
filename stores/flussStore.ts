@@ -52,6 +52,7 @@ export type FlussState = {
     isEditSidebarOpen: boolean
     isTypeDialogOpen: boolean
   }
+  fileHandleKey?: string
 }
 
 export type FlussActions = {
@@ -90,6 +91,7 @@ export type FlussActions = {
   setCustomTypesDialogOpen: (isOpen: boolean) => void
   edgeSetState: (edgeId: string, state: AnimationState) => void
   loadFluss: (state: FlussState) => void
+  setFileHandleKey: (key: string) => void
 }
 
 export type FlussStore = FlussState & FlussActions
@@ -520,6 +522,9 @@ export const createFlussStore = (initState: FlussState = initialState) => {
             },
             loadFluss: (state) => {
               set({ ...state })
+            },
+            setFileHandleKey: (key) => {
+              set({ fileHandleKey: key })
             },
           }),
           { name: 'FlussStore' }

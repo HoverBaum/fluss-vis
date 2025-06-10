@@ -2,6 +2,7 @@
 
 import { SidebarMenuButton } from '@/components/ui/sidebar'
 import { FlussTSStateJSONEnd, FlussTSStateJSONStart } from '@/lib/constants'
+import { saveFlussFilehandle } from '@/lib/useIndexDBUtils'
 import { FlussState } from '@/stores/flussStore'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { FolderIcon } from 'lucide-react'
@@ -9,6 +10,7 @@ import { toast } from 'sonner'
 
 export const LoadButton = () => {
   const loadFluss = useFlussStore((state) => state.loadFluss)
+  const setFileHandleKey = useFlussStore((state) => state.setFileHandleKey)
 
   /**
    * Once we have file contents as string check that it is a valid fluss and load it.
@@ -21,13 +23,14 @@ export const LoadButton = () => {
     if (!hasMarkers) {
       // TODO: direct users to a place where they can learn more.
       toast.error('File does not contain the required markers.')
-      return
+      throw new Error(
+        'File does not contain the required markers for Fluss state.'
+      )
     }
     const afterStartMarker = content.split(FlussTSStateJSONStart)[1]
     const beforeEndMarker = afterStartMarker.split(FlussTSStateJSONEnd)[0]
     const jsonString = beforeEndMarker.trim()
     const stateFromJSON = JSON.parse(jsonString)
-    console.log('Parsed state:', stateFromJSON)
 
     // TODO: Check if the state is valid.
 
@@ -50,6 +53,9 @@ export const LoadButton = () => {
         const file = await fileHandle.getFile()
         const contents = await file.text()
         handleLoadedContent(contents)
+        // Save the file handle for future use.
+        const fileHandleKey = await saveFlussFilehandle(fileHandle)
+        setFileHandleKey(fileHandleKey)
       } catch (error) {
         if (error instanceof DOMException && error.name !== 'AbortError') {
           console.error('Error opening file:', error)
