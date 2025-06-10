@@ -13,13 +13,14 @@ import {
   SidebarMenuItem,
 } from '@/components/ui/sidebar'
 
-import { Export } from '../_export/Export'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { LoadButton } from './LoadButton'
 import { ExamplesDropdown } from './ExamplesDropdown'
 import { ResetButton } from './ResetButton'
 import { CodeIcon, SettingsIcon } from 'lucide-react'
 import { useSettingsStore } from '@/stores/SettingsStoreProvider'
+import { ExportOrSaveButton } from '../_export/ExportOrSaveButton'
+import { Export } from '../_export/Export'
 
 export const FlussSidebar = () => {
   const flussName = useFlussStore((state) => state.name)
@@ -28,6 +29,9 @@ export const FlussSidebar = () => {
   )
   const setCustomTypesDialogOpen = useFlussStore(
     (state) => state.setCustomTypesDialogOpen
+  )
+  const canSave = useFlussStore(
+    (state) => state.fileHandleKey && state.fileHandleKey !== ''
   )
 
   return (
@@ -77,8 +81,13 @@ export const FlussSidebar = () => {
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>
+          {canSave && (
+            <SidebarMenuItem>
+              <Export buttonClassName="w-full mb-4" />
+            </SidebarMenuItem>
+          )}
           <SidebarMenuItem>
-            <Export buttonVariant="default" buttonClassName="w-full" />
+            <ExportOrSaveButton variant="default" className="w-full" />
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>
