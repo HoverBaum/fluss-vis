@@ -19,8 +19,5 @@ export const ExportOrSaveButton = ({
     (state) => state.fileHandleKey && state.fileHandleKey !== ''
   )
 
-  if (canSave) {
-    return <SaveButton className={className} variant={variant} />
-  }
-  return <Export buttonVariant={variant} buttonClassName={className} />
+  return <SaveButton className={className} variant={variant} />
 }
