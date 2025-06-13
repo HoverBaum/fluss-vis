@@ -4,12 +4,23 @@ import { Button } from '@/components/ui/button'
 import { SidebarIcon, SparklesIcon } from 'lucide-react'
 import { ExamplesDropdown } from './_flussSidebar/ExamplesDropdown'
 import { Label } from '@/components/ui/label'
+import { useEditorStore } from '@/stores/EditorStoreProvider'
+import { useFlussStore } from '@/stores/FlussStoreProvider'
+import { initialState } from '@/stores/flussStore'
 
 type GreetingProps = {
   toggleFlussSidebar: () => void
 }
 
 export const Greeting = ({ toggleFlussSidebar }: GreetingProps) => {
+  const setShowGreeting = useEditorStore((state) => state.setShowGreeting)
+  const loadFluss = useFlussStore((state) => state.loadFluss)
+
+  const startFresh = () => {
+    setShowGreeting(false)
+    loadFluss(initialState)
+  }
+
   return (
     <div className="grid h-full w-full place-items-center p-4">
       <Button
@@ -33,7 +44,7 @@ export const Greeting = ({ toggleFlussSidebar }: GreetingProps) => {
                 <ExamplesDropdown />
               </div>
 
-              <Button>
+              <Button onClick={startFresh}>
                 <SparklesIcon /> Start new Fluss
               </Button>
             </div>

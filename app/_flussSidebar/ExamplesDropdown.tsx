@@ -32,6 +32,7 @@ import { useSettingsStore } from '@/stores/SettingsStoreProvider'
 import { bedtimeStoryExampleState } from '@/stores/examples/bedtimeStory.example'
 import { useReactFlow } from '@xyflow/react'
 import { ExampleDropdownItem } from './ExampleDropdownItem'
+import { useEditorStore } from '@/stores/EditorStoreProvider'
 
 export const ExamplesDropdown = () => {
   const { fitView } = useReactFlow()
@@ -42,6 +43,7 @@ export const ExamplesDropdown = () => {
   )
   const { isMobile } = useSidebar()
   const loadFluss = useFlussStore((state) => state.loadFluss)
+  const setShowGreeting = useEditorStore((state) => state.setShowGreeting)
   const setShowExampleOverwriteWarning = useSettingsStore(
     (store) => store.setShowExampleOverwriteWarning
   )
@@ -51,6 +53,7 @@ export const ExamplesDropdown = () => {
 
   const loadExample = (example: FlussState) => {
     loadFluss(example)
+    setShowGreeting(false)
     // Need to escape event loop so that state update can finish.
     setTimeout(() => fitView(), 1)
   }
