@@ -15,13 +15,20 @@ import { initialState } from '@/stores/flussStore'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { RotateCcwIcon } from 'lucide-react'
 
-export const ResetButton = () => {
+type ResetButtonProps = {
+  disabled?: boolean
+}
+
+export const ResetButton = ({ disabled }: ResetButtonProps) => {
   const loadFluss = useFlussStore((state) => state.loadFluss)
 
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <SidebarMenuButton className="flex w-full items-center">
+        <SidebarMenuButton
+          disabled={disabled}
+          className="flex w-full items-center"
+        >
           <RotateCcwIcon className="size-4" /> Reset Editor
         </SidebarMenuButton>
       </AlertDialogTrigger>

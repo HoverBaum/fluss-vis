@@ -3,6 +3,7 @@
 import { SidebarMenuButton } from '@/components/ui/sidebar'
 import { FlussTSStateJSONEnd, FlussTSStateJSONStart } from '@/lib/constants'
 import { saveFlussFilehandle } from '@/lib/useIndexDBUtils'
+import { useEditorStore } from '@/stores/EditorStoreProvider'
 import { FlussState } from '@/stores/flussStore'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { FolderIcon } from 'lucide-react'
@@ -11,6 +12,7 @@ import { toast } from 'sonner'
 export const LoadButton = () => {
   const loadFluss = useFlussStore((state) => state.loadFluss)
   const setFileHandleKey = useFlussStore((state) => state.setFileHandleKey)
+  const setShowGreeting = useEditorStore((state) => state.setShowGreeting)
 
   /**
    * Once we have file contents as string check that it is a valid fluss and load it.
@@ -35,6 +37,7 @@ export const LoadButton = () => {
     // TODO: Check if the state is valid.
 
     loadFluss(stateFromJSON as FlussState)
+    setShowGreeting(false)
     toast.success('Fluss loaded successfully.')
   }
 

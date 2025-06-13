@@ -20,9 +20,11 @@ import { ResetButton } from './ResetButton'
 import { CodeIcon, SettingsIcon } from 'lucide-react'
 import { useSettingsStore } from '@/stores/SettingsStoreProvider'
 import { SaveButton } from '../_export/SaveButton'
+import { useEditorStore } from '@/stores/EditorStoreProvider'
 
 export const FlussSidebar = () => {
   const flussName = useFlussStore((state) => state.name)
+  const isShowingGreeting = useEditorStore((state) => state.showGreeting)
   const setSettingsDialogOpen = useSettingsStore(
     (state) => state.setSettingsDialogOpen
   )
@@ -33,7 +35,7 @@ export const FlussSidebar = () => {
   return (
     <Sidebar side="left" variant="inset">
       <SidebarHeader className="flex flex-row items-center justify-between">
-        <h2 className="text-xl font-bold">Setting</h2>
+        <h2 className="text-xl font-bold">Fluss-Viz</h2>
       </SidebarHeader>
 
       <SidebarContent>
@@ -52,7 +54,7 @@ export const FlussSidebar = () => {
               </SidebarMenuItem>
 
               <SidebarMenuItem>
-                <ResetButton />
+                <ResetButton disabled={isShowingGreeting} />
               </SidebarMenuItem>
 
               <SidebarMenuItem>
@@ -62,26 +64,30 @@ export const FlussSidebar = () => {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        <SidebarGroup>
-          <SidebarGroupLabel>{flussName}</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  onClick={() => setCustomTypesDialogOpen(true)}
-                >
-                  <CodeIcon /> Custom Types
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        {!isShowingGreeting && (
+          <SidebarGroup>
+            <SidebarGroupLabel>{flussName}</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    onClick={() => setCustomTypesDialogOpen(true)}
+                  >
+                    <CodeIcon /> Custom Types
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>
-          <SidebarMenuItem>
-            <SaveButton variant="default" className="w-full" />
-          </SidebarMenuItem>
+          {!isShowingGreeting && (
+            <SidebarMenuItem>
+              <SaveButton variant="default" className="w-full" />
+            </SidebarMenuItem>
+          )}
         </SidebarMenu>
       </SidebarFooter>
     </Sidebar>

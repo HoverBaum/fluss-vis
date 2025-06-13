@@ -90,6 +90,7 @@ Fluss-Vis is in Alpha 🚀
 - Re-Work save, load and example to be less disrupted by state related type changes.
 - Refactor Settings into distinct sections.
 - Indicate unsaved changes.
+- LoadFluss should also hide Greeting to avoid indirect dependency.
 
 ## Full Release
 
