@@ -47,7 +47,9 @@ export const FlussSidebar = () => {
                 </SidebarMenuButton>
               </SidebarMenuItem>
 
-              <ExamplesDropdown />
+              <SidebarMenuItem>
+                <ExamplesDropdown />
+              </SidebarMenuItem>
 
               <SidebarMenuItem>
                 <ResetButton />

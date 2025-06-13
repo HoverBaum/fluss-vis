@@ -7,10 +7,12 @@ import { useState } from 'react'
 import { useCopyPaste } from './useCopyPaste'
 import { SettingsDialog } from './_flussSidebar/SettingsDialog'
 import { CustomTypesDialog } from './_flussSidebar/CustomTypesDialog'
+import { Greeting } from './Greeting'
 
 export default function Home() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   useCopyPaste()
+  const showGreeting = true
 
   return (
     <>
@@ -24,9 +26,16 @@ export default function Home() {
         <SidebarInset
           className={`overflow-hidden transition-all ${sidebarOpen ? '' : 'm-0! rounded-none!'}`}
         >
-          <FlowEditor
-            toggleFlussSidebar={() => setSidebarOpen((state) => !state)}
-          />
+          {showGreeting && (
+            <Greeting
+              toggleFlussSidebar={() => setSidebarOpen((state) => !state)}
+            />
+          )}
+          {!showGreeting && (
+            <FlowEditor
+              toggleFlussSidebar={() => setSidebarOpen((state) => !state)}
+            />
+          )}
         </SidebarInset>
       </SidebarProvider>
       <SettingsDialog />

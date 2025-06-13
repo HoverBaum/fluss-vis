@@ -5,11 +5,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import {
-  SidebarMenuButton,
-  SidebarMenuItem,
-  useSidebar,
-} from '@/components/ui/sidebar'
+import { SidebarMenuButton, useSidebar } from '@/components/ui/sidebar'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -123,43 +119,40 @@ export const ExamplesDropdown = () => {
       </AlertDialog>
 
       <DropdownMenu>
-        <SidebarMenuItem>
-          <DropdownMenuTrigger asChild>
-            <SidebarMenuButton className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
-              <BookOpenTextIcon />
-              Examples <MoreHorizontalIcon className="ml-auto" />
-            </SidebarMenuButton>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            side={isMobile ? 'bottom' : 'right'}
-            align={isMobile ? 'end' : 'start'}
-            className="min-w-56 rounded-lg"
-          >
-            <ExampleDropdownItem
-              name="Square a number"
-              description="A simple, two step process with custom types."
-              onClick={() => {
-                selectExample(squareNumberExampleState)
-              }}
-            />
+        <DropdownMenuTrigger asChild>
+          <SidebarMenuButton className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
+            <BookOpenTextIcon />
+            Examples <MoreHorizontalIcon className="ml-auto" />
+          </SidebarMenuButton>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent
+          side={isMobile ? 'bottom' : 'right'}
+          align={isMobile ? 'end' : 'start'}
+          className="min-w-56 rounded-lg"
+        >
+          <ExampleDropdownItem
+            name="Square a number"
+            description="A simple, two step process with custom types."
+            onClick={() => {
+              selectExample(squareNumberExampleState)
+            }}
+          />
 
-            <ExampleDropdownItem
-              name="Blogpost draft"
-              onClick={() => {
-                selectExample(BlogDraftExampleState)
-              }}
-              description="Parallel steps."
-            />
+          <ExampleDropdownItem
+            name="Blogpost draft"
+            onClick={() => {
+              selectExample(BlogDraftExampleState)
+            }}
+          />
 
-            <ExampleDropdownItem
-              name="Bedtime story"
-              onClick={() => {
-                selectExample(bedtimeStoryExampleState)
-              }}
-              description="Larger flow, targeted at GenAI storytelling."
-            />
-          </DropdownMenuContent>
-        </SidebarMenuItem>
+          <ExampleDropdownItem
+            name="Bedtime story"
+            onClick={() => {
+              selectExample(bedtimeStoryExampleState)
+            }}
+            description="Larger flow, targeted at GenAI storytelling."
+          />
+        </DropdownMenuContent>
       </DropdownMenu>
     </>
   )
