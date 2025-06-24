@@ -1,6 +1,6 @@
 'use client'
 
-import { SidebarMenuButton } from '@/components/ui/sidebar'
+import { Button } from '@/components/ui/button'
 import { FlussTSStateJSONEnd, FlussTSStateJSONStart } from '@/lib/constants'
 import { saveFlussFilehandle } from '@/lib/useIndexDBUtils'
 import { useEditorStore } from '@/stores/EditorStoreProvider'
@@ -8,8 +8,17 @@ import { FlussState } from '@/stores/flussStore'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { FolderIcon } from 'lucide-react'
 import { toast } from 'sonner'
+import { ComponentProps, ReactNode } from 'react'
+import { Slot } from '@radix-ui/react-slot'
 
-export const LoadButton = () => {
+type LoadButtonProps = {
+  // Variant from Button component.
+  variant?: ComponentProps<typeof Button>['variant']
+  asChild?: boolean
+  children?: ReactNode
+}
+
+export const LoadButton = ({ variant, asChild, ...props }: LoadButtonProps) => {
   const loadFluss = useFlussStore((state) => state.loadFluss)
   const setFileHandleKey = useFlussStore((state) => state.setFileHandleKey)
   const setShowGreeting = useEditorStore((state) => state.setShowGreeting)
@@ -96,12 +105,20 @@ export const LoadButton = () => {
     input.click()
   }
 
+  const Comp = asChild ? Slot : Button
+
   return (
-    <SidebarMenuButton
-      className="flex w-full items-center"
+    <Comp
+      className=""
+      variant={asChild ? undefined : variant}
       onClick={handleFileSelect}
+      {...props}
     >
-      <FolderIcon className="size-4" /> Open Fluss
-    </SidebarMenuButton>
+      {props.children || (
+        <div className="flex items-center gap-2">
+          <FolderIcon className="size-4" /> Open Fluss
+        </div>
+      )}
+    </Comp>
   )
 }

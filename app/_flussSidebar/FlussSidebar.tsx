@@ -17,7 +17,7 @@ import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { LoadButton } from './LoadButton'
 import { ExamplesDropdown } from './ExamplesDropdown'
 import { ResetButton } from './ResetButton'
-import { CodeIcon, SettingsIcon } from 'lucide-react'
+import { CodeIcon, FolderIcon, SettingsIcon } from 'lucide-react'
 import { useSettingsStore } from '@/stores/SettingsStoreProvider'
 import { SaveButton } from '../_export/SaveButton'
 import { useEditorStore } from '@/stores/EditorStoreProvider'
@@ -58,7 +58,11 @@ export const FlussSidebar = () => {
               </SidebarMenuItem>
 
               <SidebarMenuItem>
-                <LoadButton />
+                <LoadButton asChild>
+                  <SidebarMenuButton>
+                    <FolderIcon className="size-4" /> Open Fluss
+                  </SidebarMenuButton>
+                </LoadButton>
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>

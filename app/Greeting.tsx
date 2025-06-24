@@ -1,18 +1,15 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { SidebarIcon, SparklesIcon } from 'lucide-react'
+import { SparklesIcon } from 'lucide-react'
 import { ExamplesDropdown } from './_flussSidebar/ExamplesDropdown'
 import { Label } from '@/components/ui/label'
 import { useEditorStore } from '@/stores/EditorStoreProvider'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { initialState } from '@/stores/flussStore'
+import { LoadButton } from './_flussSidebar/LoadButton'
 
-type GreetingProps = {
-  toggleFlussSidebar: () => void
-}
-
-export const Greeting = ({ toggleFlussSidebar }: GreetingProps) => {
+export const Greeting = () => {
   const setShowGreeting = useEditorStore((state) => state.setShowGreeting)
   const loadFluss = useFlussStore((state) => state.loadFluss)
 
@@ -23,14 +20,6 @@ export const Greeting = ({ toggleFlussSidebar }: GreetingProps) => {
 
   return (
     <div className="grid h-full w-full place-items-center p-4">
-      <Button
-        onClick={toggleFlussSidebar}
-        size="icon"
-        variant="ghost"
-        className="absolute top-4 left-4"
-      >
-        <SidebarIcon />
-      </Button>
       <div>
         <h1 className="text-5xl font-semibold">Welcome to Fluss-Vis</h1>
         <div className="flex justify-center p-4">
@@ -38,11 +27,12 @@ export const Greeting = ({ toggleFlussSidebar }: GreetingProps) => {
             <div className="grid place-items-center">
               <span className="block text-9xl">🌊</span>
             </div>
-            <div className="flex flex-col justify-around">
+            <div className="flex flex-col justify-around gap-4">
               <div>
                 <Label className="mb-1">Start with an example Fluss</Label>
                 <ExamplesDropdown />
               </div>
+              <LoadButton variant="outline" />
 
               <Button onClick={startFresh}>
                 <SparklesIcon /> Start new Fluss

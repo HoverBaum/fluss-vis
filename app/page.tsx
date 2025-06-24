@@ -27,11 +27,7 @@ export default function Home() {
         <SidebarInset
           className={`overflow-hidden transition-all ${sidebarOpen ? '' : 'm-0! rounded-none!'}`}
         >
-          {showGreeting && (
-            <Greeting
-              toggleFlussSidebar={() => setSidebarOpen((state) => !state)}
-            />
-          )}
+          {showGreeting && <Greeting />}
           {!showGreeting && (
             <FlowEditor
               toggleFlussSidebar={() => setSidebarOpen((state) => !state)}
