@@ -53,6 +53,7 @@ export type FlussState = {
     isTypeDialogOpen: boolean
   }
   fileHandleKey?: string
+  hasHydrated: boolean
 }
 
 export type FlussActions = {
@@ -92,6 +93,7 @@ export type FlussActions = {
   edgeSetState: (edgeId: string, state: AnimationState) => void
   loadFluss: (state: FlussState) => void
   setFileHandleKey: (key: string) => void
+  setHasHydrated: (hasHydrated: boolean) => void
 }
 
 export type FlussStore = FlussState & FlussActions
@@ -143,6 +145,7 @@ export const initialState: FlussState = {
     isTypeDialogOpen: false,
   },
   fileHandleKey: undefined,
+  hasHydrated: false,
 }
 
 export const createFlussStore = (initState: FlussState = initialState) => {
@@ -527,8 +530,18 @@ export const createFlussStore = (initState: FlussState = initialState) => {
             setFileHandleKey: (key) => {
               set({ fileHandleKey: key })
             },
+            setHasHydrated: (hasHydrated) => {
+              set({ hasHydrated: hasHydrated })
+            },
           }),
-          { name: 'FlussStore' }
+          {
+            name: 'FlussStore',
+            onRehydrateStorage: (state) => {
+              // We need to escape the event loop here for some reason.
+              // Might be double rendering during dev.
+              return () => setTimeout(() => state.setHasHydrated(true), 0)
+            },
+          }
         ),
 
         { name: 'FlussStore' }
@@ -539,7 +552,7 @@ export const createFlussStore = (initState: FlussState = initialState) => {
         // Exclude some properties from the history.
         partialize: (state) => {
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          const { uiState, ...rest } = state
+          const { uiState, hasHydrated, ...rest } = state
           return rest
         },
         // Throttle history snapshots.

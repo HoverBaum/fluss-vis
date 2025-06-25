@@ -9,11 +9,17 @@ import { SettingsDialog } from './_flussSidebar/SettingsDialog'
 import { CustomTypesDialog } from './_flussSidebar/CustomTypesDialog'
 import { Greeting } from './Greeting'
 import { useEditorStore } from '@/stores/EditorStoreProvider'
+import { useFlussStore } from '@/stores/FlussStoreProvider'
 
 export default function Home() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   useCopyPaste()
   const showGreeting = useEditorStore((state) => state.showGreeting)
+  const hasHydrated = useFlussStore((state) => state.hasHydrated)
+
+  if (!hasHydrated) {
+    return null
+  }
 
   return (
     <>
