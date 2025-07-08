@@ -22,7 +22,7 @@ import {
 import { useSettingsStore } from '@/stores/SettingsStoreProvider'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { OctagonXIcon, UnplugIcon } from 'lucide-react'
-import { useZoom } from './useZoom'
+import { useZoom } from '../useZoom'
 
 const DropIndicator = ({ nodeId }: { nodeId: string }) => {
   const connection = useConnection()

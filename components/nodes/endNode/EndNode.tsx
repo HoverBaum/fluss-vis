@@ -4,7 +4,7 @@ import { Node, NodeProps } from '@xyflow/react'
 import { END_NODE_ID } from '@/stores/nodeHelpers'
 import { FlussNodeInput } from '../flussNode/FlussNodeInput'
 import { FlussStepEnd } from '@/fluss-lib/fluss'
-import { BaseNode, BaseNodeInputsContent } from '@/components/BaseNode'
+import { BaseNode, BaseNodeInputsContent } from '@/components/nodes/BaseNode'
 
 export const EndNode = ({ selected, data }: NodeProps<Node<FlussStepEnd>>) => {
   const { name, inputs, description } = data

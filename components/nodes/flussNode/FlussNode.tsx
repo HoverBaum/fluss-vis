@@ -8,7 +8,7 @@ import {
   BaseNode,
   BaseNodeInputsContent,
   BaseNodeOutputsContent,
-} from '@/components/BaseNode'
+} from '@/components/nodes/BaseNode'
 
 /**
  * A Node somewhere in the Fluss.

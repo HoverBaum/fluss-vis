@@ -6,7 +6,7 @@ import { FlussStepStart } from '@/fluss-lib/fluss'
 import { Button } from '@/components/ui/button'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { StartNodeOutput } from './StartNodeOutput'
-import { BaseNode, BaseNodeOutputsContent } from '@/components/BaseNode'
+import { BaseNode, BaseNodeOutputsContent } from '@/components/nodes/BaseNode'
 
 export const StartNode = ({
   data,
