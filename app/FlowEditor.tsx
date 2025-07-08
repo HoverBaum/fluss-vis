@@ -29,6 +29,7 @@ import { StepEditSidebar } from './StepEditSidebar'
 import { Button } from '@/components/ui/button'
 import { SidebarIcon } from 'lucide-react'
 import { useSettingsStore } from '@/stores/SettingsStoreProvider'
+import { useEditorStore } from '@/stores/EditorStoreProvider'
 
 const selector = (state: FlussStore) => ({
   nodes: state.nodes,
@@ -53,6 +54,7 @@ export const FlowEditor = ({ toggleFlussSidebar }: FlowEditorProps) => {
   const { theme } = useTheme()
   const { nodes, edges, onNodesChange, onEdgesChange, onConnect } =
     useFlussStore(useShallow(selector))
+  const showGreeting = useEditorStore((store) => store.showGreeting)
 
   // Hack to make sure we know the clients theme and only render on client.
   useEffect(() => {
@@ -121,6 +123,7 @@ export const FlowEditor = ({ toggleFlussSidebar }: FlowEditorProps) => {
         proOptions={{
           hideAttribution: true,
         }}
+        className={`${showGreeting ? 'opacity-70' : ''}`}
       >
         <Panel position="top-left">
           <Button size="icon" variant="ghost" onClick={toggleFlussSidebar}>
@@ -138,6 +141,7 @@ export const FlowEditor = ({ toggleFlussSidebar }: FlowEditorProps) => {
         </Panel>
         <Controls />
         <MiniMap />
+
         <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
       </ReactFlow>
 
