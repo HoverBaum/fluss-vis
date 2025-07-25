@@ -124,7 +124,7 @@ export const initialState: FlussState = {
     },
     {
       id: END_NODE_ID,
-      position: { x: 800, y: 200 },
+      position: { x: 900, y: 200 },
       type: 'endNode',
       deletable: false,
       data: {

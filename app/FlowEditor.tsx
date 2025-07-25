@@ -8,6 +8,7 @@ import {
   Controls,
   Edge,
   MiniMap,
+  Node,
   Panel,
   ReactFlow,
 } from '@xyflow/react'
@@ -30,6 +31,9 @@ import { Button } from '@/components/ui/button'
 import { SidebarIcon } from 'lucide-react'
 import { useSettingsStore } from '@/stores/SettingsStoreProvider'
 import { useEditorStore } from '@/stores/EditorStoreProvider'
+import { PortalNode, PortalNodeData } from '@/components/nodes/PortalNode'
+import { FlussStep } from '@/fluss-lib/fluss'
+import { Greeting } from './Greeting'
 
 const selector = (state: FlussStore) => ({
   nodes: state.nodes,
@@ -62,7 +66,12 @@ export const FlowEditor = ({ toggleFlussSidebar }: FlowEditorProps) => {
   }, [])
 
   const nodeTypes = useMemo(
-    () => ({ flussNode: FlussNode, startNode: StartNode, endNode: EndNode }),
+    () => ({
+      flussNode: FlussNode,
+      startNode: StartNode,
+      endNode: EndNode,
+      portalNode: PortalNode,
+    }),
     []
   )
   const edgeTypes = useMemo(
@@ -87,13 +96,29 @@ export const FlowEditor = ({ toggleFlussSidebar }: FlowEditorProps) => {
     return true
   }
 
+  const allNodes: Node<PortalNodeData | FlussStep>[] = useMemo(() => {
+    if (!showGreeting) return nodes
+    return [
+      ...nodes,
+      {
+        id: 'greeting',
+        type: 'portalNode',
+        position: { x: 370, y: 180 },
+        data: { children: <Greeting /> },
+        selectable: false,
+        hidden: false,
+      } as Node<PortalNodeData>,
+    ]
+  }, [nodes, showGreeting])
+
   if (!isMounted) return null
 
   return (
     <SidebarProvider open={isEditSidebarOpen} className="h-full min-h-auto">
       <ReactFlow
         // We handle all state related things through Zustand.
-        nodes={nodes}
+        // @ts-expect-error No idea where nodes is types to expect only FlussNodeType…
+        nodes={allNodes}
         edges={edges}
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
@@ -123,7 +148,6 @@ export const FlowEditor = ({ toggleFlussSidebar }: FlowEditorProps) => {
         proOptions={{
           hideAttribution: true,
         }}
-        className={`${showGreeting ? 'opacity-70' : ''}`}
       >
         <Panel position="top-left">
           <Button size="icon" variant="ghost" onClick={toggleFlussSidebar}>
