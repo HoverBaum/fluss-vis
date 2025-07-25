@@ -51,7 +51,6 @@ export type FlussState = {
   uiState: {
     isEditSidebarOpen: boolean
     isTypeDialogOpen: boolean
-    isShowingGreeting: boolean
   }
   fileHandleKey?: string
   hasHydrated: boolean
@@ -95,7 +94,6 @@ export type FlussActions = {
   loadFluss: (state: FlussState) => void
   setFileHandleKey: (key: string) => void
   setHasHydrated: (hasHydrated: boolean) => void
-  setIsShowingGreeting: (isShowing: boolean) => void
 }
 
 export type FlussStore = FlussState & FlussActions
@@ -145,7 +143,6 @@ export const initialState: FlussState = {
   uiState: {
     isEditSidebarOpen: false,
     isTypeDialogOpen: false,
-    isShowingGreeting: true,
   },
   fileHandleKey: undefined,
   hasHydrated: false,
@@ -535,13 +532,6 @@ export const createFlussStore = (initState: FlussState = initialState) => {
             },
             setHasHydrated: (hasHydrated) => {
               set({ hasHydrated: hasHydrated })
-            },
-            setIsShowingGreeting: (isShowing) => {
-              set(
-                produce((state: FlussStore) => {
-                  state.uiState.isShowingGreeting = isShowing
-                })
-              )
             },
           }),
           {

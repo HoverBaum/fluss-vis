@@ -57,7 +57,6 @@ export const FlowEditor = ({ toggleFlussSidebar }: FlowEditorProps) => {
   const { theme } = useTheme()
   const { nodes, edges, onNodesChange, onEdgesChange, onConnect } =
     useFlussStore(useShallow(selector))
-  const showGreeting = useFlussStore((store) => store.uiState.isShowingGreeting)
 
   // Hack to make sure we know the clients theme and only render on client.
   useEffect(() => {
@@ -95,7 +94,9 @@ export const FlowEditor = ({ toggleFlussSidebar }: FlowEditorProps) => {
     return true
   }
 
+  // Add greeting if editor is in initial state.
   const allNodes: Node<PortalNodeData | FlussStep>[] = useMemo(() => {
+    const showGreeting = nodes.length === 2 && edges.length === 0
     if (!showGreeting) return nodes
     return [
       ...nodes,
@@ -108,7 +109,7 @@ export const FlowEditor = ({ toggleFlussSidebar }: FlowEditorProps) => {
         hidden: false,
       } as Node<PortalNodeData>,
     ]
-  }, [nodes, showGreeting])
+  }, [nodes, edges])
 
   if (!isMounted) return null
 
