@@ -97,14 +97,14 @@ export const FlowEditor = ({ toggleFlussSidebar }: FlowEditorProps) => {
   // Add greeting if editor is in initial state.
   const allNodes: Node<PortalNodeData | FlussStep>[] = useMemo(() => {
     const showGreeting = nodes.length === 2 && edges.length === 0
-    if (!showGreeting) return nodes
+
     return [
       ...nodes,
       {
         id: 'greeting',
         type: 'portalNode',
-        position: { x: 370, y: 180 },
-        data: { children: <Greeting /> },
+        position: { x: 400, y: 180 },
+        data: { children: <Greeting showGreeting={showGreeting} /> },
         selectable: false,
         hidden: false,
       } as Node<PortalNodeData>,
