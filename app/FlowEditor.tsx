@@ -30,7 +30,6 @@ import { StepEditSidebar } from './StepEditSidebar'
 import { Button } from '@/components/ui/button'
 import { SidebarIcon } from 'lucide-react'
 import { useSettingsStore } from '@/stores/SettingsStoreProvider'
-import { useEditorStore } from '@/stores/EditorStoreProvider'
 import { PortalNode, PortalNodeData } from '@/components/nodes/PortalNode'
 import { FlussStep } from '@/fluss-lib/fluss'
 import { Greeting } from './Greeting'
@@ -58,7 +57,7 @@ export const FlowEditor = ({ toggleFlussSidebar }: FlowEditorProps) => {
   const { theme } = useTheme()
   const { nodes, edges, onNodesChange, onEdgesChange, onConnect } =
     useFlussStore(useShallow(selector))
-  const showGreeting = useEditorStore((store) => store.showGreeting)
+  const showGreeting = useFlussStore((store) => store.uiState.isShowingGreeting)
 
   // Hack to make sure we know the clients theme and only render on client.
   useEffect(() => {

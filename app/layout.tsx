@@ -6,7 +6,6 @@ import { ThemeProvider } from '@/components/ThemeProvider'
 import { Toaster } from '@/components/ui/sonner'
 import { SettingsStoreProvider } from '@/stores/SettingsStoreProvider'
 import { ReactFlowProvider } from '@xyflow/react'
-import { EditorStoreProvider } from '@/stores/EditorStoreProvider'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -41,13 +40,12 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <EditorStoreProvider>
-            <SettingsStoreProvider>
-              <FlussStoreProvider>
-                <ReactFlowProvider>{children}</ReactFlowProvider>
-              </FlussStoreProvider>
-            </SettingsStoreProvider>
-          </EditorStoreProvider>
+          <SettingsStoreProvider>
+            <FlussStoreProvider>
+              <ReactFlowProvider>{children}</ReactFlowProvider>
+            </FlussStoreProvider>
+          </SettingsStoreProvider>
+
           <Toaster />
         </ThemeProvider>
       </body>

@@ -20,11 +20,9 @@ import { ResetButton } from './ResetButton'
 import { CodeIcon, FolderIcon, SettingsIcon } from 'lucide-react'
 import { useSettingsStore } from '@/stores/SettingsStoreProvider'
 import { SaveButton } from '../_export/SaveButton'
-import { useEditorStore } from '@/stores/EditorStoreProvider'
 
 export const FlussSidebar = () => {
   const flussName = useFlussStore((state) => state.name)
-  const isShowingGreeting = useEditorStore((state) => state.showGreeting)
   const setSettingsDialogOpen = useSettingsStore(
     (state) => state.setSettingsDialogOpen
   )
@@ -54,7 +52,7 @@ export const FlussSidebar = () => {
               </SidebarMenuItem>
 
               <SidebarMenuItem>
-                <ResetButton disabled={isShowingGreeting} />
+                <ResetButton />
               </SidebarMenuItem>
 
               <SidebarMenuItem>
@@ -68,30 +66,26 @@ export const FlussSidebar = () => {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {!isShowingGreeting && (
-          <SidebarGroup>
-            <SidebarGroupLabel>{flussName}</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                <SidebarMenuItem>
-                  <SidebarMenuButton
-                    onClick={() => setCustomTypesDialogOpen(true)}
-                  >
-                    <CodeIcon /> Custom Types
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        )}
+        <SidebarGroup>
+          <SidebarGroupLabel>{flussName}</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  onClick={() => setCustomTypesDialogOpen(true)}
+                >
+                  <CodeIcon /> Custom Types
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>
-          {!isShowingGreeting && (
-            <SidebarMenuItem>
-              <SaveButton variant="default" className="w-full" />
-            </SidebarMenuItem>
-          )}
+          <SidebarMenuItem>
+            <SaveButton variant="default" className="w-full" />
+          </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>
     </Sidebar>
