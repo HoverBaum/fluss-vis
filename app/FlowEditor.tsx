@@ -94,10 +94,13 @@ export const FlowEditor = ({ toggleFlussSidebar }: FlowEditorProps) => {
     return true
   }
 
+  const showGreeting = useMemo(
+    () => nodes.length === 2 && edges.length === 0,
+    [nodes, edges]
+  )
+
   // Add greeting if editor is in initial state.
   const allNodes: Node<PortalNodeData | FlussStep>[] = useMemo(() => {
-    const showGreeting = nodes.length === 2 && edges.length === 0
-
     return [
       ...nodes,
       {
@@ -109,7 +112,7 @@ export const FlowEditor = ({ toggleFlussSidebar }: FlowEditorProps) => {
         hidden: false,
       } as Node<PortalNodeData>,
     ]
-  }, [nodes, edges])
+  }, [nodes, showGreeting])
 
   if (!isMounted) return null
 
@@ -154,15 +157,17 @@ export const FlowEditor = ({ toggleFlussSidebar }: FlowEditorProps) => {
             <SidebarIcon />
           </Button>
         </Panel>
-        <Panel position="bottom-center">
-          <ToolPanel />
-        </Panel>
         <Panel position="top-center">
           <FlussTitleDisplay />
         </Panel>
         <Panel position="top-right" className="flex gap-2">
           <ModeToggle />
         </Panel>
+
+        <Panel position="bottom-center">
+          <ToolPanel showGreeting={showGreeting} />
+        </Panel>
+
         <Controls />
         <MiniMap />
 
