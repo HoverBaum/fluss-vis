@@ -44,7 +44,9 @@ export const ResetButton = ({ disabled }: ResetButtonProps) => {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={() => loadFluss(initialState)}>
+          <AlertDialogAction
+            onClick={() => loadFluss({ ...initialState, hasHydrated: true })}
+          >
             Continue
           </AlertDialogAction>
         </AlertDialogFooter>
