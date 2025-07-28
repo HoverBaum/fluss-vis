@@ -17,7 +17,12 @@ import { useFlussStore } from '@/stores/FlussStoreProvider'
 import { LoadButton } from './LoadButton'
 import { ExamplesDropdown } from './ExamplesDropdown'
 import { ResetButton } from './ResetButton'
-import { CodeIcon, FolderIcon, SettingsIcon } from 'lucide-react'
+import {
+  CodeIcon,
+  ExternalLinkIcon,
+  FolderIcon,
+  SettingsIcon,
+} from 'lucide-react'
 import { useSettingsStore } from '@/stores/SettingsStoreProvider'
 import { SaveButton } from '../_export/SaveButton'
 
@@ -33,7 +38,7 @@ export const FlussSidebar = () => {
   return (
     <Sidebar side="left" variant="inset">
       <SidebarHeader className="flex flex-row items-center justify-between">
-        <h2 className="text-xl font-bold">Fluss-Viz</h2>
+        <h2 className="text-xl font-bold">Fluss-Vis</h2>
       </SidebarHeader>
 
       <SidebarContent>
@@ -41,26 +46,44 @@ export const FlussSidebar = () => {
           <SidebarGroupLabel>General</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
+              {/* Settings */}
               <SidebarMenuItem>
                 <SidebarMenuButton onClick={() => setSettingsDialogOpen(true)}>
                   <SettingsIcon /> Settings
                 </SidebarMenuButton>
               </SidebarMenuItem>
 
+              {/* Examples */}
               <SidebarMenuItem>
                 <ExamplesDropdown />
               </SidebarMenuItem>
 
+              {/* Reset Editor */}
               <SidebarMenuItem>
                 <ResetButton />
               </SidebarMenuItem>
 
+              {/* Load/Open Fluss */}
               <SidebarMenuItem>
                 <LoadButton asChild>
                   <SidebarMenuButton>
                     <FolderIcon className="size-4" /> Open Fluss
                   </SidebarMenuButton>
                 </LoadButton>
+              </SidebarMenuItem>
+
+              {/* Link People to GitHub */}
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <a
+                    href="https://github.com/HoverBaum/fluss-vis"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:underline"
+                  >
+                    <ExternalLinkIcon className="size-4" /> GitHub
+                  </a>
+                </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
