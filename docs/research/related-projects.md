@@ -1,6 +1,6 @@
 # Related Projects
 
-These projects somehow relate to Fluss-Viz.
+These projects somehow relate to Fluss-Vis.
 
 **https://n8n.io/**
 A visual programming tool for AI flows. I love how it visualizes during runtime. But it moves the entire programming to a visual layer and enforces a way of thinking for flow controls. We want to be more abstract, just doing flow orchestration and leave programming to code.

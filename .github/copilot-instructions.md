@@ -1,10 +1,10 @@
-# 🧭 Fluss-Viz Coding Guidelines
+# 🧭 Fluss-Vis Coding Guidelines
 
-## 🌊 What is Fluss Viz?
+## 🌊 What is Fluss Vis?
 
-**Fluss Viz** is a visual development toolkit for building data flows in TypeScript.
+**Fluss Vis** is a visual development toolkit for building data flows in TypeScript.
 
-This tool creates a visual frame that developers can fill with TypeScript logic. We aim to separate concerns by moving orchestration into a visual space while keeping implementation firmly rooted in fully typed, expressive TypeScript. Fluss Viz handles logic execution and automatically parallelizes async operations where possible.
+This tool creates a visual frame that developers can fill with TypeScript logic. We aim to separate concerns by moving orchestration into a visual space while keeping implementation firmly rooted in fully typed, expressive TypeScript. Fluss Vis handles logic execution and automatically parallelizes async operations where possible.
 
 ### 🔑 Key Principles
 
@@ -25,7 +25,7 @@ This is a living document to ensure our frontend code stays **consistent**, **re
 - Prioritize **readability and developer intent**
 - We believe in **fun**, **fluid UX** — we embrace micro animations, juice, and clarity
 
-> "Make it fun to use. If it feels good, it probably *is* good."
+> "Make it fun to use. If it feels good, it probably _is_ good."
 
 ---
 
@@ -40,12 +40,15 @@ Asking these questions first help us to see the bigger picture and find solution
 ## 🧱 Project Structure
 
 - **PascalCase** for React components: `MyComponent.tsx`
+
   > _Why?_ Distinguishes component files from utilities and matches React conventions
 
 - **camelCase** for utilities: `someUtility.ts`
+
   > _Why?_ Follows JavaScript conventions and clearly identifies non-component files
 
 - Feature-based folders in `/app`
+
   > _Why?_ Keeps related code together, making features easier to maintain and understand
 
 - Feature-based folders in `/app`, with colocated files whenever possible.
@@ -54,15 +57,11 @@ Asking these questions first help us to see the bigger picture and find solution
 - Shadcn-based components go into `/components/ui`.
 
 ```tsx
-app/
-  editor/
-    page.tsx
-    Editor.tsx
-    EditorCanvas.tsx
-components/
-  FlowNode.tsx
-components/ui/
-  Button.tsx // from Shadcn
+app / editor / page.tsx
+Editor.tsx
+EditorCanvas.tsx
+components / FlowNode.tsx
+components / ui / Button.tsx // from Shadcn
 ```
 
 ---
@@ -70,12 +69,15 @@ components/ui/
 ## 🧠 TypeScript
 
 - Use `type` over `interface`
+
   > _Why?_ More consistent behavior and better for union types
 
 - Avoid `enum`s
+
   > _Why?_ Union types are more idiomatic in TypeScript and have better runtime characteristics
 
 - Clear naming
+
   > _Why?_ Self-documenting code reduces maintenance burden and improves team communication
 
 - Always use `type` instead of `interface`
@@ -89,7 +91,7 @@ type Role = 'admin' | 'user' | 'guest'
 enum Role {
   Admin,
   User,
-  Guest
+  Guest,
 }
 ```
 
@@ -110,12 +112,15 @@ const priceAfterDiscount = basePrice + tax - discount // includes VAT
 ## ⚛️ React Conventions
 
 - Prefer `const Component = () => {}`
+
   > _Why?_ Consistent with modern React patterns and works better with TypeScript
 
 - Always use **named exports**
+
   > _Why?_ Makes imports explicit and improves tooling support
 
 - Import React hooks directly
+
   > _Why?_ Reduces verbosity and follows modern React patterns
 
 - Keep components **small and simple**.
@@ -148,7 +153,7 @@ const useFormErrors = (fields: string[]) => {
 // ✅ Shared state in Zustand store
 export const useFlowStore = create<FlowState>((set) => ({
   nodes: [],
-  addNode: (node) => set((state) => ({ nodes: [...state.nodes, node] }))
+  addNode: (node) => set((state) => ({ nodes: [...state.nodes, node] })),
 }))
 
 // ✅ Simple state reads with getState
@@ -163,9 +168,11 @@ const nodes = useFlowStore.getState().nodes
 ## 🎨 Styling Guidelines
 
 - TailwindCSS with class sorting
+
   > _Why?_ Ensures consistent class order and improves readability
 
 - Never modify Shadcn directly
+
   > _Why?_ Preserves upgradeability and maintains consistent component behavior
 
 - TailwindCSS v4 with automatic class sorting via Prettier plugin.
@@ -206,7 +213,8 @@ colors: {
 const hasPermission = user.role === 'admin' || user.permissions.includes('edit')
 
 // 🚫 Too clever
-const canEdit = user?.role === 'admin' || user?.permissions?.some(p => p === 'edit')
+const canEdit =
+  user?.role === 'admin' || user?.permissions?.some((p) => p === 'edit')
 ```
 
 ---
@@ -214,9 +222,11 @@ const canEdit = user?.role === 'admin' || user?.permissions?.some(p => p === 'ed
 ## 🧪 Testing Philosophy
 
 - TypeScript as first defense
+
   > _Why?_ Catches type-related bugs before runtime and provides better DX
 
 - Unit tests for pure logic
+
   > _Why?_ Easy to test, maintain, and provides fast feedback
 
 - Integration tests with testing-library

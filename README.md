@@ -8,7 +8,7 @@ Fluss Vis lifts the creation of logic flow for your Typescript application into 
 
 We believe that humans are visual and thus, lifting higher level orchestration into a visual space enables us to easier reason about it. By linking this diagrams to Typescript signatures, we use each tool for what it is best for. Visual editors for overviews and Typescript for implementing logic.
 
-Fluss Viz will handle the execution of your logic and parallelize async operations where applicable.
+Fluss Vis will handle the execution of your logic and parallelize async operations where applicable.
 
 **Currently in Alpha at: [alpha.fluss-vis.dev](https://alpha.fluss-vis.dev/)**
 
@@ -64,7 +64,7 @@ All steps done!
 
 ## Constraints
 
-This you should be aware off, when using Fluss-Viz.
+This you should be aware off, when using Fluss-Vis.
 
 - A Fluss always has one start and one end node.
 - The final result is always an object with one property per input defined for the end node.
@@ -83,19 +83,21 @@ Fluss-Vis is in Alpha 🚀
 - Lint Fluss for stepFunctions with same name or inputs with same name and notify user. Ideally with visual indication.
 - Normalize outputs to live in a list and nodes reference this list by id for inputs and outputs.
 - Re-evaluate system for custom types. We might want a tighter integration with users system. The user probably has types already in their codebase that they would love to use.
-  - Fluss-Viz wants to do things visually that are best done visually and leave things that are already great in other tools -> Typing is probably already great in Editors and more cumbersome digitally. Maybe only do display names and icons.
+  - Fluss-Vis wants to do things visually that are best done visually and leave things that are already great in other tools -> Typing is probably already great in Editors and more cumbersome digitally. Maybe only do display names and icons.
   - How to integrate with existing types from users projects?
-- New project screen and flow into that application. Start with a blank editor, what do users see? how are start and end added?
 - Logging, tracing - after a Fluss ran it would be great if users could see what happened. Ideally also visually.
 - Re-Work save, load and example to be less disrupted by state related type changes.
 - Refactor Settings into distinct sections.
 - Indicate unsaved changes.
-- LoadFluss should also hide Greeting to avoid indirect dependency.
+
+### Steps taken
+
+- New Greeting screen with a welcome message inside initial editor. Options to open example or existing fluss.
 
 ## Full Release
 
 - Explore how users should use the tool.
-  - Npm CLI that can be used to work with FLuss-Viz in your project. Probably the minimum thing because it is IDE independent.
+  - Npm CLI that can be used to work with FLuss-Vis in your project. Probably the minimum thing because it is IDE independent.
   - Plugins for popular IDEs like VS Code.
 
 ## Later Features
@@ -117,7 +119,7 @@ This we plan to do but don't know when, yet.
 These we might do, maybe not.
 
 - Nodes should be able to pre-create inputs that do not disappear upon edge deletion.
-- Fluss-Viz could create files for each node. Like define a function per file with signature.
+- Fluss-Vis could create files for each node. Like define a function per file with signature.
 - Enable users to provide custom nodes that handle recurring tasks they have in multiple flows. this could later enable a community to share steps in a flow.
 - Sub-Flows. One flow could depend on another flow for task completion. Currently out of scope!
 - Steps could be saved as templates. Or potentially re-used and linked (that is updated together) across multiple flows.
@@ -128,11 +130,11 @@ These we might do, maybe not.
 
 This is the current way of using Fluss-Vis (will change once we are more than a website).
 
-- Fluss-Viz will output a single file.
+- Fluss-Vis will output a single file.
 - The *.fluss.ts file will contain a config that can be used to create a fluss.
 - A fluss can be run with different arguments.
 - The *.fluss.ts will also export all custom types so users can use those for their logic. Think of intermediate functions.
-- The *.fluss.ts file can be read by Fluss-Viz to load an editor and continue working on the fluss.
+- The *.fluss.ts file can be read by Fluss-Vis to load an editor and continue working on the fluss.
 - All *.fluss.ts files should be checked into version control.
 - We highly discourage to edit the fluss.ts file manually.
 

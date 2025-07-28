@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Fluss Viz 🌊',
+  title: 'Fluss Vis 🌊',
   description: 'Design your TypeScript flow visually.',
 }
 

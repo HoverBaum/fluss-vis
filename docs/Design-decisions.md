@@ -11,7 +11,7 @@ Each decision has a date, decision text and optionally a description.
 
 >Juice is the non-essential visual, audio and haptic effects that enhance the player's experience.
 
-We follow this principle and want to make using Fluss-Viz a fun experience by introducing Juice. We believe that making the tool fun and engaging to use will lead to a higher engagement of users, helping us to spread the word. Ultimately enabling us to grow. For now we focus on a smaller feature set but make that super fun.
+We follow this principle and want to make using Fluss-Vis a fun experience by introducing Juice. We believe that making the tool fun and engaging to use will lead to a higher engagement of users, helping us to spread the word. Ultimately enabling us to grow. For now we focus on a smaller feature set but make that super fun.
 
 Aspect of Juice in our editor so far:
 
