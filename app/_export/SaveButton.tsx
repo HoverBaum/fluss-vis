@@ -113,8 +113,9 @@ export const SaveButton = ({
             'Failed to get writable stream, falling back to "save as".'
           )
           await deleteFlussFilehandle(fileHandleKey)
-          await setFileHandleKey('')
-          saveFluss()
+          setFileHandleKey('')
+          // Escape the current execution context to state update.
+          setTimeout(saveFluss, 0)
         }
       }, 500)
       const writable = await fileHandle.createWritable()
