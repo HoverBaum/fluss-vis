@@ -1,5 +1,5 @@
 import { END_NODE_ID, START_NODE_ID } from '@/stores/nodeHelpers'
-import { FlussArgument, FlussFunction } from './_export/useExport'
+import { FlussArgument, FlussFunction } from './useExport'
 import { FlussTSStateJSONEnd, FlussTSStateJSONStart } from '@/lib/constants'
 
 const ts = String.raw
@@ -113,7 +113,7 @@ async function executeStep<ID extends FlussStepId>(
 
     step.arguments.forEach((arg) => {
       const sourceStep = flowState[arg.sourceStepId]
-      if (sourceStep.status !== 'done' || sourceStep.result === undefined) {
+      if (sourceStep.status !== 'done') {
         throw new Error(
           'Source step ' + arg.sourceStepId + ' not complete for ' + String(arg.argumentName)
         )
@@ -155,7 +155,7 @@ function canStepRun<ID extends FlussStepId>(
 ): boolean {
   return step.arguments.every((arg) => {
     const sourceStep = flowState[arg.sourceStepId]
-    return sourceStep.status === 'done' && sourceStep.result !== undefined
+    return sourceStep.status === 'done'
   })
 }
 
