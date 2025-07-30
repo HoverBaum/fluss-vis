@@ -5,7 +5,11 @@ import { DownloadIcon, SaveIcon } from 'lucide-react'
 import { useExport } from './useExport'
 import { toast } from 'sonner'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
-import { getFlussFilehandle, saveFlussFilehandle } from '@/lib/useIndexDBUtils'
+import {
+  deleteFlussFilehandle,
+  getFlussFilehandle,
+  saveFlussFilehandle,
+} from '@/lib/useIndexDBUtils'
 import { useMemo } from 'react'
 import { stringToValidIdentifier } from '@/fluss-lib/nameConversion'
 
@@ -63,6 +67,7 @@ export const SaveButton = ({
 
     // Do a "Save To" operation if now file handle exists.
     if (!fileHandleKey || fileHandleKey === '') {
+      console.log('No file handle found, using File System Access API to save.')
       const options = {
         suggestedName: fileName,
         types: [
@@ -92,6 +97,7 @@ export const SaveButton = ({
 
     // Update already opened file.
     try {
+      console.log('Using existing file handle to save Fluss.')
       const fileHandle = await getFlussFilehandle(fileHandleKey)
       if (!fileHandle) {
         toast.error(
@@ -100,7 +106,20 @@ export const SaveButton = ({
         return
       }
 
+      let couldGetWriteable = false
+      setTimeout(async () => {
+        if (!couldGetWriteable) {
+          toast.error(
+            'Failed to get writable stream, falling back to "save as".'
+          )
+          await deleteFlussFilehandle(fileHandleKey)
+          setFileHandleKey('')
+          // Escape the current execution context to state update.
+          setTimeout(saveFluss, 0)
+        }
+      }, 500)
       const writable = await fileHandle.createWritable()
+      couldGetWriteable = true
       await writable.write(code)
       await writable.close()
       toast.success('Fluss saved successfully.')

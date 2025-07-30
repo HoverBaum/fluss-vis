@@ -16,3 +16,8 @@ export const getFlussFilehandle = async (
   const fileHandle = await get<FileSystemFileHandle>(key)
   return fileHandle
 }
+
+export const deleteFlussFilehandle = async (key: string): Promise<void> => {
+  console.log('Deleting file handle for key:', key)
+  await set(key, undefined)
+}
