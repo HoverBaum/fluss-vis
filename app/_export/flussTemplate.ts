@@ -121,7 +121,7 @@ async function executeStep<ID extends FlussStepId>(
 
       // If sourceProperty is undefined, use the entire result
       // Otherwise, extract the specified property
-      if (arg.sourceProperty === undefined) {
+      if (arg.sourceProperty === undefined || sourceStep.result === undefined) {
         input[arg.argumentName as keyof StepIO[ID]['input']] =
           sourceStep.result as StepIO[ID]['input'][keyof StepIO[ID]['input']]
       } else {
@@ -133,9 +133,9 @@ async function executeStep<ID extends FlussStepId>(
     })
 
     // Rest of the function remains the same
-    console.log('Executing with Input:', input)
+    console.log('Executing ' + step.id + ' with Input:', input)
     const result = await step.execute(input)
-    console.log('Result:', result)
+    console.log('Result for ' + step.id + ':', result)
     step.status = 'done'
     step.result = result
   } catch (err) {
@@ -214,8 +214,12 @@ export async function runFluss(params: {
         runnableSteps.map((s) => s.id)
       )
 
+      const currentlyRunning = Object.values(flowState).filter(
+        (step) => step.status === 'running'
+      )
+
       // Check if we're done or stuck
-      if (runnableSteps.length === 0) {
+      if (runnableSteps.length === 0 && currentlyRunning.length === 0) {
         if (Object.values(flowState).every((step) => step.status === 'done')) {
           console.log('All steps done!')
           if (!flowState.${END_NODE_ID}.result) {
@@ -230,18 +234,22 @@ export async function runFluss(params: {
       }
 
       // Execute all runnable steps
-      try {
-        await Promise.all(
-          runnableSteps.map((step) => {
-            step.status = 'running'
-            return executeStep(step as Step<FlussStepId>, flowState)
-          })
-        )
+      if (runnableSteps.length > 0) {
+        try {
+          await Promise.all(
+            runnableSteps.map(async (step) => {
+              step.status = 'running'
+              await executeStep(step as Step<FlussStepId>, flowState)
+              // After each step finishes, immediately try to process more steps
+              await processSteps()
+            })
+          )
 
-        // Continue processing
-        await processSteps()
-      } catch (error) {
-        reject(error)
+          // Continue processing
+          await processSteps()
+        } catch (error) {
+          reject(error)
+        }
       }
     }
 
