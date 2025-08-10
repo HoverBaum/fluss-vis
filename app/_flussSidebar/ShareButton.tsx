@@ -13,11 +13,11 @@ type ShareButtonProps = {
 
 export const ShareButton = ({ className = '' }: ShareButtonProps) => {
   const state = useFlussStore(
-    useShallow((s) => ({
-      name: s.name,
-      nodes: s.nodes,
-      edges: s.edges,
-      outputTypes: s.outputTypes,
+    useShallow((flussStore) => ({
+      name: flussStore.name,
+      nodes: flussStore.nodes,
+      edges: flussStore.edges,
+      outputTypes: flussStore.outputTypes,
     }))
   )
 

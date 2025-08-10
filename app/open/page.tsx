@@ -19,7 +19,7 @@ export default function OpenPage() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const encoded = searchParams.get('fluss')
-  const loadFluss = useFlussStore((s) => s.loadFluss)
+  const loadFluss = useFlussStore((flussStore) => flussStore.loadFluss)
 
   const shared = useMemo(() => {
     if (!encoded) return null
