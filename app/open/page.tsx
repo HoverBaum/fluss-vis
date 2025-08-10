@@ -32,21 +32,10 @@ export default function OpenPage() {
     }
   }, [encodedFluss])
 
-  const nodeTypes = useMemo(
-    () => ({
-      flussNode: FlussNode,
-      startNode: StartNode,
-      endNode: EndNode,
-    }),
-    []
-  )
+  const nodeTypes = { flussNode: FlussNode, startNode: StartNode, endNode: EndNode }
+  const edgeTypes = { flussEdge: FlussEdge }
 
-  const edgeTypes = useMemo(
-    () => ({
-      flussEdge: FlussEdge,
-    }),
-    []
-  )
+  console.log('Render')
 
   const handleUseThisFluss = () => {
     if (!sharedFluss) return
@@ -66,28 +55,13 @@ export default function OpenPage() {
     }
   }
 
-  if (!encodedFluss) {
-    return (
-      <div className="grid min-h-[80svh] place-items-center p-6">
-        <div className="max-w-xl text-center">
-          <h1 className="text-2xl font-bold">Open Shared Fluss</h1>
-          <p className="mt-2 text-muted-foreground">No shared fluss found in URL.</p>
-          <div className="mt-4">
-            <Button asChild>
-              <Link href="/">Back to Editor</Link>
-            </Button>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   if (!sharedFluss) {
     return (
       <div className="grid min-h-[80svh] place-items-center p-6">
         <div className="max-w-xl text-center">
           <h1 className="text-2xl font-bold flex items-center gap-2">Invalid Shared Fluss <FrownIcon /></h1>
-          <p className="mt-2 text-muted-foreground">The provided link is invalid or corrupted.</p>
+          {encodedFluss && <p className="mt-2 text-muted-foreground">The provided link is invalid or corrupted.</p>}
+          {!encodedFluss && <p className="mt-2 text-muted-foreground">No shared fluss found in URL.</p>}
           <div className="mt-4">
             <Button asChild>
               <Link href="/">Back to Editor</Link>
@@ -104,8 +78,8 @@ export default function OpenPage() {
     <div className="flex h-[calc(100svh-0.5rem)] flex-col gap-4 p-4">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">Shared Fluss</h1>
-          <p className="text-muted-foreground">{name}</p>
+          <h1 className="text-2xl font-bold">{name}</h1>
+          <p className="text-muted-foreground">Shared Fluss</p>
         </div>
         <div className="flex gap-2">
           <Button variant="secondary" asChild>
@@ -115,25 +89,16 @@ export default function OpenPage() {
         </div>
       </div>
       <div className="flex-1 overflow-hidden rounded-xl border">
-        {/* Make nodes and handles non-interactive in the preview */}
-        <style>
-          {`
-            .react-flow__node { pointer-events: none; }
-            .react-flow__handle { display: none !important; }
-          `}
-        </style>
         <ReactFlow
           nodes={nodes}
           edges={edges}
           nodeTypes={nodeTypes}
           edgeTypes={edgeTypes}
-          nodesDraggable={false}
           nodesConnectable={false}
           elementsSelectable={false}
           panOnScroll
           zoomOnScroll
           zoomOnPinch
-          zoomOnDoubleClick={false}
           fitView
           proOptions={{ hideAttribution: true }}
         >
