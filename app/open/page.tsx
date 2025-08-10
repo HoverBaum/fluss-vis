@@ -10,7 +10,7 @@ import { StartNode } from '@/components/nodes/startNode/StartNode'
 import { EndNode } from '@/components/nodes/endNode/EndNode'
 import { FlussEdge } from '@/components/FlussEdge'
 import { Button } from '@/components/ui/button'
-import { decodeSharedFluss, coerceToSharedPayload } from '@/lib/share'
+import { decodeSharedFluss } from '@/lib/share'
 import { FlussState } from '@/stores/flussStore'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { toast } from 'sonner'
@@ -25,7 +25,7 @@ export default function OpenPage() {
     if (!encoded) return null
     try {
       const decoded = decodeSharedFluss<FlussState>(encoded)
-      return coerceToSharedPayload<FlussState>(decoded)
+      return decoded
     } catch (e) {
       return null
     }
