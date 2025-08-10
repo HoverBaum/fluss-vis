@@ -25,6 +25,7 @@ import {
 } from 'lucide-react'
 import { useSettingsStore } from '@/stores/SettingsStoreProvider'
 import { SaveButton } from '../_export/SaveButton'
+import { ShareButton } from './ShareButton'
 
 export const FlussSidebar = () => {
   const flussName = useFlussStore((state) => state.name)
@@ -106,6 +107,9 @@ export const FlussSidebar = () => {
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>
+        <SidebarMenuItem>
+            <ShareButton className="w-full" />
+          </SidebarMenuItem>
           <SidebarMenuItem>
             <SaveButton variant="default" className="w-full" />
           </SidebarMenuItem>
