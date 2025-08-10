@@ -6,7 +6,9 @@ import { useFlussStore } from '@/stores/FlussStoreProvider'
 import {
   Handle,
   Position,
+  ReactFlowState,
   useNodeId,
+  useStore,
   useUpdateNodeInternals,
 } from '@xyflow/react'
 import { useEffect } from 'react'
@@ -15,12 +17,15 @@ type FlussNodeOutputProps = {
   output: FlussStepOutput
 }
 
+const isConnectableSelector = (state: ReactFlowState) => state.nodesConnectable
+
 export const FlussNodeOutput = ({ output }: FlussNodeOutputProps) => {
   const { isZoomedOut } = useZoom()
   const nodeId = useNodeId()
   const setOutputType = useFlussStore((state) => state.setOutputType)
   const setOutputName = useFlussStore((state) => state.setOutputName)
   const updateNodeInternals = useUpdateNodeInternals()
+  const isConnectable = useStore(isConnectableSelector)
 
   useEffect(() => {
     if (!nodeId) return undefined
@@ -51,6 +56,7 @@ export const FlussNodeOutput = ({ output }: FlussNodeOutputProps) => {
         position={Position.Right}
         style={{ position: 'absolute', right: '0px' }}
         className={`${isZoomedOut ? 'size-4!' : ''}`}
+        isConnectable={isConnectable}
       />
     </div>
   )
