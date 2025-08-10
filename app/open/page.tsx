@@ -2,6 +2,7 @@
 
 import { useMemo } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { ReactFlow, Background, BackgroundVariant, MiniMap, Controls } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
@@ -12,24 +13,24 @@ import { FlussEdge } from '@/components/FlussEdge'
 import { Button } from '@/components/ui/button'
 import { decodeSharedFluss } from '@/lib/share'
 import { FlussState } from '@/stores/flussStore'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { toast } from 'sonner'
+import { FrownIcon } from 'lucide-react'
 
 export default function OpenPage() {
   const searchParams = useSearchParams()
   const router = useRouter()
-  const encoded = searchParams.get('fluss')
+  const encodedFluss = searchParams.get('fluss')
   const loadFluss = useFlussStore((flussStore) => flussStore.loadFluss)
 
-  const shared = useMemo(() => {
-    if (!encoded) return null
+  const sharedFluss = useMemo(() => {
+    if (!encodedFluss) return null
     try {
-      const decoded = decodeSharedFluss<FlussState>(encoded)
-      return decoded
+      const decodedFluss = decodeSharedFluss<FlussState>(encodedFluss)
+      return decodedFluss
     } catch (e) {
       return null
     }
-  }, [encoded])
+  }, [encodedFluss])
 
   const nodeTypes = useMemo(
     () => ({
@@ -48,11 +49,11 @@ export default function OpenPage() {
   )
 
   const handleUseThisFluss = () => {
-    if (!shared) return
+    if (!sharedFluss) return
     try {
       // Ensure flags not meant for persistence are reset
       const nextState: FlussState = {
-        ...shared.state,
+        ...sharedFluss.state,
         uiState: { isEditSidebarOpen: false, isTypeDialogOpen: false },
         hasHydrated: true,
         fileHandleKey: undefined,
@@ -65,41 +66,39 @@ export default function OpenPage() {
     }
   }
 
-  if (!encoded) {
+  if (!encodedFluss) {
     return (
       <div className="grid min-h-[80svh] place-items-center p-6">
-        <Card className="max-w-xl">
-          <CardHeader>
-            <CardTitle>Open Shared Fluss</CardTitle>
-            <CardDescription>No shared fluss found in URL.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Button onClick={() => router.push('/')}>Back to Editor</Button>
-          </CardContent>
-        </Card>
+        <div className="max-w-xl text-center">
+          <h1 className="text-2xl font-bold">Open Shared Fluss</h1>
+          <p className="mt-2 text-muted-foreground">No shared fluss found in URL.</p>
+          <div className="mt-4">
+            <Button asChild>
+              <Link href="/">Back to Editor</Link>
+            </Button>
+          </div>
+        </div>
       </div>
     )
   }
 
-  if (!shared) {
+  if (!sharedFluss) {
     return (
       <div className="grid min-h-[80svh] place-items-center p-6">
-        <Card className="max-w-xl">
-          <CardHeader>
-            <CardTitle>Invalid Shared Fluss</CardTitle>
-            <CardDescription>
-              The provided link is invalid or corrupted.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Button onClick={() => router.push('/')}>Back to Editor</Button>
-          </CardContent>
-        </Card>
+        <div className="max-w-xl text-center">
+          <h1 className="text-2xl font-bold flex items-center gap-2">Invalid Shared Fluss <FrownIcon /></h1>
+          <p className="mt-2 text-muted-foreground">The provided link is invalid or corrupted.</p>
+          <div className="mt-4">
+            <Button asChild>
+              <Link href="/">Back to Editor</Link>
+            </Button>
+          </div>
+        </div>
       </div>
     )
   }
 
-  const { nodes, edges, name } = shared.state
+  const { nodes, edges, name } = sharedFluss.state
 
   return (
     <div className="flex h-[calc(100svh-0.5rem)] flex-col gap-4 p-4">
@@ -109,7 +108,9 @@ export default function OpenPage() {
           <p className="text-muted-foreground">{name}</p>
         </div>
         <div className="flex gap-2">
-          <Button variant="secondary" onClick={() => router.push('/')}>Cancel</Button>
+          <Button variant="secondary" asChild>
+            <Link href="/">Cancel</Link>
+          </Button>
           <Button onClick={handleUseThisFluss}>Use this Fluss</Button>
         </div>
       </div>
