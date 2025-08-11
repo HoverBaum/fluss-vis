@@ -8,6 +8,11 @@ type SettingsState = {
   edgesSelectedToFront: boolean
   edgesSelectionAnimated: boolean
   showExampleOverwriteWarning: boolean
+  /**
+   * At or below this zoom level the editor switches to overview mode.
+   * Example: 0.6 means overview at 60% or less.
+   */
+  overviewZoomThreshold: number
 }
 
 type SettingsActions = {
@@ -17,6 +22,7 @@ type SettingsActions = {
   toggleEdgesSelectionAnimated: () => void
   setShowExampleOverwriteWarning: (show: boolean) => void
   setSettingsDialogOpen: (isOpen: boolean) => void
+  setOverviewZoomThreshold: (value: number) => void
 }
 
 export type SettingsStore = SettingsState & SettingsActions
@@ -28,6 +34,7 @@ const initialState: SettingsState = {
   edgesSelectedToFront: true,
   edgesSelectionAnimated: true,
   showExampleOverwriteWarning: true,
+  overviewZoomThreshold: 0.6,
 }
 
 export const createSettingsStore = (
@@ -52,6 +59,11 @@ export const createSettingsStore = (
           },
           setShowExampleOverwriteWarning(show: boolean) {
             set({ showExampleOverwriteWarning: show })
+          },
+          setOverviewZoomThreshold(value: number) {
+            // Clamp to reasonable bounds used in UI (0.3–1.0)
+            const clamped = Math.max(0.3, Math.min(1, value))
+            set({ overviewZoomThreshold: clamped })
           },
           setSettingsDialogOpen(isOpen) {
             set({ settingsDialogOpen: isOpen })
