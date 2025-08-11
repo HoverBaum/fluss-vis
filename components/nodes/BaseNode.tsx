@@ -122,7 +122,7 @@ export const BaseNode = ({
         className={`relative w-[275px] shadow-xs transition-shadow ${selected ? 'border-foreground shadow-lg' : ''} ${state === 'entering' ? 'border-positive shadow-xl' : ''} ${state === 'exiting' ? 'border-danger border-dashed' : ''} ${className}`}
         onDoubleClick={(e) => {
           // Abort if user double clicked an input.
-          // They probably want to mark text and not opent he sidebar.
+          // They probably want to mark text and not open the sidebar.
           if (e.target.toString().includes('Input')) return undefined
           openEditSidebar()
         }}
