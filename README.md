@@ -2,7 +2,7 @@
 
 Flow Editor that couples your diagrams to your code.
 
->Diagram first development for TypeScript applications 🌊
+> Diagram first development for TypeScript applications 🌊
 
 Fluss Vis lifts the creation of logic flow for your Typescript application into a visual space. Start with a diagram, the same way you probably do already and then fill in the boxes with Typescript functions. Fluss Vis creates the signatures for functions in the flow and handles orchestration (running what can be run). You take care of detailed logic using Typescript.
 
@@ -20,7 +20,7 @@ Below is a minimal example where our Fluss only squares a number.
 
 This Fluss then needs to be filled with inputs and step functions in order to run.
 
->Note: any stepFunction can be async.
+> Note: any stepFunction can be async.
 
 ```typescript
 import { runFluss, SquareNumberStepFunction } from './squaredNumber.fluss'
@@ -41,7 +41,7 @@ runFluss({
 This will currently produce the following output in your terminal.
 
 ```bash
-npx tsx docs/example/runSquareNumber.ts 
+npx tsx docs/example/runSquareNumber.ts
 
 Currently runnable: [ 'squareNumber' ]
 Executing with Input: { baseNumber: { baseNumber: 2 } }
@@ -52,7 +52,6 @@ Result: { squaredNumber: NaN }
 Currently runnable: []
 All steps done!
 ```
-
 
 ## Key Principles
 
@@ -131,11 +130,11 @@ These we might do, maybe not.
 This is the current way of using Fluss-Vis (will change once we are more than a website).
 
 - Fluss-Vis will output a single file.
-- The *.fluss.ts file will contain a config that can be used to create a fluss.
+- The \*.fluss.ts file will contain a config that can be used to create a fluss.
 - A fluss can be run with different arguments.
-- The *.fluss.ts will also export all custom types so users can use those for their logic. Think of intermediate functions.
-- The *.fluss.ts file can be read by Fluss-Vis to load an editor and continue working on the fluss.
-- All *.fluss.ts files should be checked into version control.
+- The \*.fluss.ts will also export all custom types so users can use those for their logic. Think of intermediate functions.
+- The \*.fluss.ts file can be read by Fluss-Vis to load an editor and continue working on the fluss.
+- All \*.fluss.ts files should be checked into version control.
 - We highly discourage to edit the fluss.ts file manually.
 
 Custom Types

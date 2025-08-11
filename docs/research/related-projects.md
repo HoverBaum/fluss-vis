@@ -8,7 +8,6 @@ A visual programming tool for AI flows. I love how it visualizes during runtime.
 **https://mastra.ai/**
 Framework targeted as TypeScript users. You can build logic in code and have it visualized before running it. Almost where we want to be but we we want the visual to be the starting point and not just a checkpoint.
 
-
 https://gorules.io/
 
 LangChain

@@ -1,9 +1,9 @@
 // State for a single step.
 // FIXED
-type FlussRunStatus = "waiting" | "running" | "done" | "error"
+type FlussRunStatus = 'waiting' | 'running' | 'done' | 'error'
 
 // CUSTOM type provided by user
-export type Locale = "en" | "de"
+export type Locale = 'en' | 'de'
 export type Person = { name: string; age: number }
 
 // Input type for the flow
@@ -40,9 +40,9 @@ type FlussStepId = keyof StepIO
 // Step function types mapped from StepIO
 // FIXED - assumign start and end identifiers do not change.
 type StepFunctions = {
-  [K in Exclude<FlussStepId, "start" | "end">]: (
-    args: StepIO[K]["input"],
-  ) => Promise<StepIO[K]["output"]> | StepIO[K]["output"]
+  [K in Exclude<FlussStepId, 'start' | 'end'>]: (
+    args: StepIO[K]['input']
+  ) => Promise<StepIO[K]['output']> | StepIO[K]['output']
 }
 
 // Step definition with result based on status
@@ -51,14 +51,14 @@ type Step<ID extends FlussStepId> = {
   id: ID
   status: FlussRunStatus
   execute: (
-    args: StepIO[ID]["input"],
-  ) => Promise<StepIO[ID]["output"]> | StepIO[ID]["output"]
+    args: StepIO[ID]['input']
+  ) => Promise<StepIO[ID]['output']> | StepIO[ID]['output']
   arguments: Array<{
     sourceStepId: FlussStepId
-    argumentName: keyof StepIO[ID]["input"]
+    argumentName: keyof StepIO[ID]['input']
     sourceProperty?: string
   }>
-  result?: StepIO[ID]["output"]
+  result?: StepIO[ID]['output']
   error?: Error
 }
 
@@ -74,30 +74,30 @@ type FlowState = {
  */
 async function executeStep<ID extends FlussStepId>(
   step: Step<ID>,
-  flowState: FlowState,
+  flowState: FlowState
 ): Promise<void> {
   try {
     // Build input object from dependencies
-    const input = {} as StepIO[ID]["input"]
+    const input = {} as StepIO[ID]['input']
 
     step.arguments.forEach((arg) => {
       const sourceStep = flowState[arg.sourceStepId]
-      if (sourceStep.status !== "done" || sourceStep.result === undefined) {
+      if (sourceStep.status !== 'done' || sourceStep.result === undefined) {
         throw new Error(
-          "Source step " +
+          'Source step ' +
             arg.sourceStepId +
-            " not complete for " +
-            String(arg.argumentName),
+            ' not complete for ' +
+            String(arg.argumentName)
         )
       }
 
       // If sourceProperty is undefined, use the entire result
       // Otherwise, extract the specified property
       if (arg.sourceProperty === undefined) {
-        input[arg.argumentName as keyof StepIO[ID]["input"]] =
-          sourceStep.result as StepIO[ID]["input"][keyof StepIO[ID]["input"]]
+        input[arg.argumentName as keyof StepIO[ID]['input']] =
+          sourceStep.result as StepIO[ID]['input'][keyof StepIO[ID]['input']]
       } else {
-        input[arg.argumentName as keyof StepIO[ID]["input"]] =
+        input[arg.argumentName as keyof StepIO[ID]['input']] =
           sourceStep.result[
             arg.sourceProperty as keyof typeof sourceStep.result
           ]
@@ -105,13 +105,13 @@ async function executeStep<ID extends FlussStepId>(
     })
 
     // Rest of the function remains the same
-    console.log("Executing with Input:", input)
+    console.log('Executing with Input:', input)
     const result = await step.execute(input)
-    console.log("Result:", result)
-    step.status = "done"
+    console.log('Result:', result)
+    step.status = 'done'
     step.result = result
   } catch (err) {
-    step.status = "error"
+    step.status = 'error'
     step.error = err instanceof Error ? err : new Error(String(err))
     throw step.error
   }
@@ -123,11 +123,11 @@ async function executeStep<ID extends FlussStepId>(
  */
 function canStepRun<ID extends FlussStepId>(
   step: Step<ID>,
-  flowState: FlowState,
+  flowState: FlowState
 ): boolean {
   return step.arguments.every((arg) => {
     const sourceStep = flowState[arg.sourceStepId]
-    return sourceStep.status === "done" && sourceStep.result !== undefined
+    return sourceStep.status === 'done' && sourceStep.result !== undefined
   })
 }
 
@@ -137,84 +137,84 @@ function canStepRun<ID extends FlussStepId>(
 export async function runFluss(params: {
   inputs: FlussInputs
   stepFunctions: StepFunctions
-}): Promise<StepIO["end"]["output"]> {
+}): Promise<StepIO['end']['output']> {
   const { inputs, stepFunctions } = params
 
   // Initialize the flow state with typed steps
   // This is generated new for each flow.
   const flowState: FlowState = {
     start: {
-      id: "start",
-      status: "done",
+      id: 'start',
+      status: 'done',
       execute: (args) => args,
       arguments: [],
       result: inputs,
     },
     squareNumber: {
-      id: "squareNumber",
-      status: "waiting",
+      id: 'squareNumber',
+      status: 'waiting',
       execute: stepFunctions.squareNumber,
       arguments: [
         {
-          sourceStepId: "start",
-          argumentName: "baseNumber",
-          sourceProperty: "baseNumber",
+          sourceStepId: 'start',
+          argumentName: 'baseNumber',
+          sourceProperty: 'baseNumber',
         },
       ],
     },
     createString: {
-      id: "createString",
-      status: "waiting",
+      id: 'createString',
+      status: 'waiting',
       execute: stepFunctions.createString,
       arguments: [
         {
-          sourceStepId: "start",
-          argumentName: "locale",
-          sourceProperty: "locale",
+          sourceStepId: 'start',
+          argumentName: 'locale',
+          sourceProperty: 'locale',
         },
         {
-          sourceStepId: "squareNumber",
-          argumentName: "squaredNumber",
+          sourceStepId: 'squareNumber',
+          argumentName: 'squaredNumber',
         },
       ],
     },
     end: {
-      id: "end",
-      status: "waiting",
+      id: 'end',
+      status: 'waiting',
       execute: (args) => args,
       arguments: [
         {
-          sourceStepId: "createString",
-          argumentName: "writtenEquation",
+          sourceStepId: 'createString',
+          argumentName: 'writtenEquation',
         },
       ],
     },
   }
 
-  return new Promise<StepIO["end"]["output"]>((resolve, reject) => {
+  return new Promise<StepIO['end']['output']>((resolve, reject) => {
     // Process runnable steps
     const processSteps = async () => {
       // Find all steps that can run now
       const runnableSteps = Object.values(flowState)
-        .filter((step) => step.status === "waiting")
+        .filter((step) => step.status === 'waiting')
         .filter((step) => canStepRun(step as Step<FlussStepId>, flowState))
 
       console.log(
-        "Currently runnable:",
-        runnableSteps.map((s) => s.id),
+        'Currently runnable:',
+        runnableSteps.map((s) => s.id)
       )
 
       // Check if we're done or stuck
       if (runnableSteps.length === 0) {
-        if (Object.values(flowState).every((step) => step.status === "done")) {
-          console.log("All steps done!")
+        if (Object.values(flowState).every((step) => step.status === 'done')) {
+          console.log('All steps done!')
           if (!flowState.end.result) {
-            return reject(new Error("End step has no result"))
+            return reject(new Error('End step has no result'))
           }
           return resolve(flowState.end.result)
         } else {
           return reject(
-            new Error("No steps can be run and not all steps are done"),
+            new Error('No steps can be run and not all steps are done')
           )
         }
       }
@@ -223,9 +223,9 @@ export async function runFluss(params: {
       try {
         await Promise.all(
           runnableSteps.map((step) => {
-            step.status = "running"
+            step.status = 'running'
             return executeStep(step as Step<FlussStepId>, flowState)
-          }),
+          })
         )
 
         // Continue processing

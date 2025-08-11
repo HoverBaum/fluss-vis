@@ -111,7 +111,9 @@ export const SettingsDialog = () => {
 
             <div className="flex flex-row items-center justify-between gap-2 p-4">
               <div>
-                <Label className="text-base font-bold">Always show delete</Label>
+                <Label className="text-base font-bold">
+                  Always show delete
+                </Label>
                 <div>
                   <small>Permanently shows delete buttons for Inputs.</small>
                 </div>
@@ -132,8 +134,8 @@ export const SettingsDialog = () => {
                 </Label>
                 <div>
                   <small>
-                    Switch to overview when zoom is at or below this value. Range
-                    0.3–1.0.
+                    Switch to overview when zoom is at or below this value.
+                    Range 0.3–1.0.
                   </small>
                 </div>
               </div>
@@ -151,7 +153,6 @@ export const SettingsDialog = () => {
                     }}
                   />
                 </div>
-
               </div>
               <Input
                 type="number"
@@ -160,13 +161,16 @@ export const SettingsDialog = () => {
                 max={1}
                 step={0.05}
                 className="w-20 text-right"
-                value={Number.isFinite(overviewZoomThreshold) ? overviewZoomThreshold : 0.6}
+                value={
+                  Number.isFinite(overviewZoomThreshold)
+                    ? overviewZoomThreshold
+                    : 0.6
+                }
                 onChange={(e) => {
                   const next = parseFloat(e.target.value)
                   if (Number.isFinite(next)) setOverviewZoomThreshold(next)
                 }}
               />
-
             </div>
           </TabsContent>
 
@@ -193,7 +197,7 @@ export const SettingsDialog = () => {
             </div>
           </TabsContent>
         </Tabs>
-      </DialogContent >
-    </Dialog >
+      </DialogContent>
+    </Dialog>
   )
 }

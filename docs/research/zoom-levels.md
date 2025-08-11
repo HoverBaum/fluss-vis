@@ -29,26 +29,24 @@ export const useZoom = () => {
 I then used that hook to display placeholders for the cards description. Trick here is that I know how high the description can be, because it is limited in length and can thus just overlay an element that fills the space.
 
 ```tsx
- <CardDescription>
-            <div className="relative">
-              <div
-                className={`transition-opacity ${isZoomedOut ? 'opacity-0' : ''}`}
-              >
-                {descriptionIsEmpty && 'Double click node to edit'}
-                {descriptionIsTruncated &&
-                  description?.substring(0, TruncatedDescriptionLength) + '…'}
-                {description && !descriptionIsTruncated && description}
-              </div>
+<CardDescription>
+  <div className="relative">
+    <div className={`transition-opacity ${isZoomedOut ? 'opacity-0' : ''}`}>
+      {descriptionIsEmpty && 'Double click node to edit'}
+      {descriptionIsTruncated &&
+        description?.substring(0, TruncatedDescriptionLength) + '…'}
+      {description && !descriptionIsTruncated && description}
+    </div>
 
-              <div
-                className={`absolute top-0 left-0 grid h-full w-full gap-2 overflow-hidden bg-transparent transition-opacity ${isZoomedOut ? '' : 'opacity-0'}`}
-              >
-                <Placeholder />
-                <Placeholder />
-                <Placeholder />
-              </div>
-            </div>
-          </CardDescription>
+    <div
+      className={`absolute top-0 left-0 grid h-full w-full gap-2 overflow-hidden bg-transparent transition-opacity ${isZoomedOut ? '' : 'opacity-0'}`}
+    >
+      <Placeholder />
+      <Placeholder />
+      <Placeholder />
+    </div>
+  </div>
+</CardDescription>
 ```
 
 I already noticed that animating between things felt weird. It meant that growing was triggered through a zoom point but then coupled to time and not zoom level. That felt off.

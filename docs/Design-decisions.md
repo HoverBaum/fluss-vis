@@ -3,13 +3,13 @@
 This document keeps track of design decisions made.
 Each decision has a date, decision text and optionally a description.
 
->Interaction design should follow users intend. I want to remove an input -> x button on input even though edge could be deleted but that is not how user thinks about what they want to do.
+> Interaction design should follow users intend. I want to remove an input -> x button on input even though edge could be deleted but that is not how user thinks about what they want to do.
 
 ## 2025-03-28 Adding Juice to interactions
 
 [Juice](https://garden.bradwoods.io/notes/design/juice) is used in game development to refer to:
 
->Juice is the non-essential visual, audio and haptic effects that enhance the player's experience.
+> Juice is the non-essential visual, audio and haptic effects that enhance the player's experience.
 
 We follow this principle and want to make using Fluss-Vis a fun experience by introducing Juice. We believe that making the tool fun and engaging to use will lead to a higher engagement of users, helping us to spread the word. Ultimately enabling us to grow. For now we focus on a smaller feature set but make that super fun.
 

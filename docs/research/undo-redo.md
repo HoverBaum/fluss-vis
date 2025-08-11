@@ -53,7 +53,7 @@ export const useFlussTemporalStore = () => {
 ```
 
 ```typescript
-const {undo} = useFlussTemporalStore()
+const { undo } = useFlussTemporalStore()
 ```
 
 Had to call undo twice to skip irrelevant react flow events. Like focus.

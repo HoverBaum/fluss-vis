@@ -35,8 +35,9 @@ const DropIndicator = ({ nodeId }: { nodeId: string }) => {
   )
   return (
     <div
-      className={`absolute top-0 left-0 z-50 grid h-full w-full place-items-center overflow-hidden opacity-0 backdrop-blur-xs transition-opacity hover:opacity-100 ${isAlreadyConnected ? 'bg-fluss-pink/5' : 'bg-fluss-blue-light/5'
-        }`}
+      className={`absolute top-0 left-0 z-50 grid h-full w-full place-items-center overflow-hidden opacity-0 backdrop-blur-xs transition-opacity hover:opacity-100 ${
+        isAlreadyConnected ? 'bg-fluss-pink/5' : 'bg-fluss-blue-light/5'
+      }`}
     >
       {!isAlreadyConnected && (
         <Handle

@@ -53,7 +53,7 @@ type StepArgument<
   TTargetStep extends FlussStepId,
   TSourceStep extends FlussStepId,
   TSourceField extends keyof StepIO[TSourceStep]['output'],
-  TTargetField extends keyof StepIO[TTargetStep]['input']
+  TTargetField extends keyof StepIO[TTargetStep]['input'],
 > = {
   sourceStepId: TSourceStep
   sourceField: TSourceField
@@ -157,7 +157,7 @@ function createStepArgument<
   TTargetStep extends FlussStepId,
   TSourceStep extends FlussStepId,
   TSourceField extends keyof StepIO[TSourceStep]['output'],
-  TTargetField extends keyof StepIO[TTargetStep]['input']
+  TTargetField extends keyof StepIO[TTargetStep]['input'],
 >(
   targetStep: TTargetStep,
   sourceStep: TSourceStep,

@@ -8,11 +8,11 @@ This might impose a larger burden on runtime-memory usage but enables us to writ
 
 ## 2025-03-27 Lucid Icons are used as XYIcon
 
-Instead of using `<Cirecle />`  we will use `<CircleIcon />`. This increases clarity, that these components are icons and nothing else. It eases readability wile mildly inconveniencing developers during creation. A trade-off we are happy to take.
+Instead of using `<Cirecle />` we will use `<CircleIcon />`. This increases clarity, that these components are icons and nothing else. It eases readability wile mildly inconveniencing developers during creation. A trade-off we are happy to take.
 
-## 2025-03-14 Outputs are postfixed with _nodeId - DEPRECATED
+## 2025-03-14 Outputs are postfixed with \_nodeId - DEPRECATED
 
-In the created code, Results/Outputs are always postfixed with _id of their producing node.
+In the created code, Results/Outputs are always postfixed with \_id of their producing node.
 This ensure uniqueness of variable names.
 It enables users to use the same name twice without creating a conflict.
 
