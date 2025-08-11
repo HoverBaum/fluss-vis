@@ -118,7 +118,7 @@ export const StepEditSidebar = () => {
             </ButtonDanger>
           )}
         <small className="w-full text-center opacity-75">
-          Click outside a node to close.
+          Click outside a step to close.
         </small>
       </SidebarFooter>
     </Sidebar>

@@ -43,7 +43,7 @@ export const ToolPanel = ({ showGreeting }: ToolPanelProps) => {
           )
         }
       >
-        Add Node <FilePlus2 />
+        Add Step <FilePlus2 />
         <AnimatePresence>
           {showGreeting && (
             <motion.div

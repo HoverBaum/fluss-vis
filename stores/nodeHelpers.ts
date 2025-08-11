@@ -22,7 +22,7 @@ export const createFlussNode = (
     type: 'step',
     id,
     description: '',
-    name: 'New Node',
+    name: 'New Step',
     inputs: [],
     outputs: [
       {
