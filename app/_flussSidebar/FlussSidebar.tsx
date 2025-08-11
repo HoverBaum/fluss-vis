@@ -25,6 +25,7 @@ import {
 } from 'lucide-react'
 import { useSettingsStore } from '@/stores/SettingsStoreProvider'
 import { SaveButton } from '../_export/SaveButton'
+import { Badge } from '@/components/ui/badge'
 
 export const FlussSidebar = () => {
   const flussName = useFlussStore((state) => state.name)
@@ -38,7 +39,14 @@ export const FlussSidebar = () => {
   return (
     <Sidebar side="left" variant="inset">
       <SidebarHeader className="flex flex-row items-center justify-between">
-        <h2 className="text-xl font-bold">Fluss-Vis</h2>
+        <h2 className="text-xl font-bold">
+          Fluss-Vis
+          <span className="relative">
+            <Badge variant="secondary" className="absolute top-0 left-2">
+              Alpha
+            </Badge>
+          </span>
+        </h2>
       </SidebarHeader>
 
       <SidebarContent>
