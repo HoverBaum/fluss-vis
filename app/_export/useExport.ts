@@ -174,7 +174,10 @@ export const useExport = () => {
               )
               if (!sourceNode)
                 throw new Error(`No source node found for ${input.edge.source}`)
-              const usesEntireOutput = sourceNode.data.outputs.length === 1
+              let usesEntireOutput = sourceNode.data.outputs.length === 1
+
+              // Never use the entire output of the start node, always pick from it.
+              if (sourceNode.id === START_NODE_ID) usesEntireOutput = false
               return {
                 source: stepToValidIdentifier(sourceNode.data),
                 sourceOutput: input.output.id,
