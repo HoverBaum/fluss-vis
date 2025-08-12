@@ -8,3 +8,4 @@ Things we or users notice during usage so we can improve upon them.
 - The .fluss.ts could have a hin about how to use it. Devs might forget and this would enable GenAI agents to pick up what to do as long, as users add the .fluss.ts to their context.
 - we need Alpha labels.
 - opening a Fluss should zoom editor to fit
+- Start Step could have no function at all.
