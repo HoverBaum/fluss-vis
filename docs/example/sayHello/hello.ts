@@ -16,4 +16,4 @@ const result = runFluss({
 })
 
 console.log(result)
-// "Hello, World!"
+// { greeting: 'Hello, World!' }
