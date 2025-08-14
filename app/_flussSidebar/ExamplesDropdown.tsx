@@ -143,6 +143,7 @@ export const ExamplesDropdown = () => {
             onClick={() => {
               selectExample(BlogDraftExampleState)
             }}
+            description="Powering ai-blog-draft.flussvis.dev"
           />
 
           <ExampleDropdownItem
