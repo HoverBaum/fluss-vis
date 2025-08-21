@@ -1,9 +1,10 @@
 'use client'
 
 import { Badge } from '@/components/ui/badge'
-import { ExamplesDropdown } from './_flussSidebar/ExamplesDropdown'
-import { LoadButton } from './_flussSidebar/LoadButton'
+import { ExamplesDropdown } from '../_flussSidebar/ExamplesDropdown'
+import { LoadButton } from '../_flussSidebar/LoadButton'
 import { AnimatePresence, motion } from 'motion/react'
+import { VideoModal } from './VideoModal'
 
 type GreetingProps = {
   showGreeting: boolean
@@ -36,6 +37,10 @@ export const Greeting = ({ showGreeting }: GreetingProps) => {
                 <div>
                   <p className="mb-1">Start with an example</p>
                   <ExamplesDropdown />
+                </div>
+                <div>
+                  <p className="mb-1">Watch an example</p>
+                  <VideoModal />
                 </div>
                 <div>
                   <p className="mb-1">Open an exiting Fluss</p>

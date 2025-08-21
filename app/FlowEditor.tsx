@@ -32,7 +32,7 @@ import { SidebarIcon } from 'lucide-react'
 import { useSettingsStore } from '@/stores/SettingsStoreProvider'
 import { PortalNode, PortalNodeData } from '@/components/nodes/PortalNode'
 import { FlussStep } from '@/fluss-lib/fluss'
-import { Greeting } from './Greeting'
+import { Greeting } from './_greeting/Greeting'
 
 const selector = (state: FlussStore) => ({
   nodes: state.nodes,
