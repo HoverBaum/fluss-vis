@@ -35,7 +35,7 @@ export const SettingsDialog = () => {
 
   return (
     <Dialog open={isOpen} onOpenChange={setSettingsDialogOpen}>
-      <DialogContent>
+      <DialogContent className="flex h-[520px] flex-col">
         <DialogHeader>
           <DialogTitle>Editor Settings</DialogTitle>
           <DialogDescription>
@@ -46,156 +46,165 @@ export const SettingsDialog = () => {
           </DialogDescription>
         </DialogHeader>
 
-        <Tabs defaultValue="editor">
+        <Tabs defaultValue="editor" className="flex min-h-0 flex-1 flex-col">
           <TabsList>
             <TabsTrigger value="editor">Editor</TabsTrigger>
             <TabsTrigger value="zoom">Zoom</TabsTrigger>
             <TabsTrigger value="advanced">Advanced</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="editor" className="mt-2">
-            <div className="flex flex-row items-center justify-between gap-2 p-4">
-              <div>
-                <Label className="text-base font-bold">Display ID</Label>
+          {/* Scroll container for tab contents */}
+          <div className="min-h-0 flex-1 overflow-y-auto">
+            <TabsContent value="editor" className="mt-2">
+              <div className="flex flex-row items-center justify-between gap-2 p-4">
                 <div>
-                  <small>Displays a Steps ID in the top right corner.</small>
+                  <Label className="text-base font-bold">Display ID</Label>
+                  <div>
+                    <small>Displays a Steps ID in the top right corner.</small>
+                  </div>
                 </div>
+
+                <Switch
+                  checked={displayIds}
+                  onCheckedChange={toggleDisplayIds}
+                />
               </div>
 
-              <Switch checked={displayIds} onCheckedChange={toggleDisplayIds} />
-            </div>
+              <hr />
 
-            <hr />
-
-            <div className="flex flex-row items-center justify-between gap-2 p-4">
-              <div>
-                <Label className="text-base font-bold">
-                  Selected Edges To Front
-                </Label>
+              <div className="flex flex-row items-center justify-between gap-2 p-4">
                 <div>
-                  <small>
-                    Brings Edges to the front when they or a connected Step are
-                    selected.
-                  </small>
+                  <Label className="text-base font-bold">
+                    Selected Edges To Front
+                  </Label>
+                  <div>
+                    <small>
+                      Brings Edges to the front when they or a connected Step
+                      are selected.
+                    </small>
+                  </div>
                 </div>
+
+                <Switch
+                  checked={edgesSelectedToFront}
+                  onCheckedChange={toggleEdgesSelectedToFront}
+                />
               </div>
 
-              <Switch
-                checked={edgesSelectedToFront}
-                onCheckedChange={toggleEdgesSelectedToFront}
-              />
-            </div>
+              <hr />
 
-            <hr />
-
-            <div className="flex flex-row items-center justify-between gap-2 p-4">
-              <div>
-                <Label className="text-base font-bold">
-                  Animate selected Edges
-                </Label>
+              <div className="flex flex-row items-center justify-between gap-2 p-4">
                 <div>
-                  <small>
-                    Edges will be animated upon selection to visualize data flow
-                    direction.
-                  </small>
+                  <Label className="text-base font-bold">
+                    Animate selected Edges
+                  </Label>
+                  <div>
+                    <small>
+                      Edges will be animated upon selection to visualize data
+                      flow direction.
+                    </small>
+                  </div>
                 </div>
+
+                <Switch
+                  checked={edgesSelectionAnimated}
+                  onCheckedChange={toggleEdgesSelectionAnimated}
+                />
               </div>
 
-              <Switch
-                checked={edgesSelectionAnimated}
-                onCheckedChange={toggleEdgesSelectionAnimated}
-              />
-            </div>
+              <hr />
 
-            <hr />
-
-            <div className="flex flex-row items-center justify-between gap-2 p-4">
-              <div>
-                <Label className="text-base font-bold">
-                  Always show delete
-                </Label>
+              <div className="flex flex-row items-center justify-between gap-2 p-4">
                 <div>
-                  <small>Permanently shows delete buttons for Inputs.</small>
+                  <Label className="text-base font-bold">
+                    Always show delete
+                  </Label>
+                  <div>
+                    <small>Permanently shows delete buttons for Inputs.</small>
+                  </div>
                 </div>
+
+                <Switch
+                  checked={alwaysShowDelete}
+                  onCheckedChange={toggleAlwaysShowDelete}
+                />
               </div>
+            </TabsContent>
 
-              <Switch
-                checked={alwaysShowDelete}
-                onCheckedChange={toggleAlwaysShowDelete}
-              />
-            </div>
-          </TabsContent>
-
-          <TabsContent value="zoom" className="mt-2">
-            <div className="flex flex-col gap-2 p-4">
-              <div>
-                <Label className="text-base font-bold">
-                  Overview mode zoom threshold
-                </Label>
+            <TabsContent value="zoom" className="mt-2">
+              <div className="flex flex-col gap-2 p-4">
                 <div>
-                  <small>
-                    Switch to overview when zoom is at or below this value.
-                    Range 0.3–1.0.
-                  </small>
+                  <Label className="text-base font-bold">
+                    Overview mode zoom threshold
+                  </Label>
+                  <div>
+                    <small>
+                      Switch to overview when zoom is at or below this value.
+                      Range 0.3–1.0.
+                    </small>
+                  </div>
                 </div>
-              </div>
 
-              <div className="flex items-center gap-3">
-                <div className="w-full">
-                  <Slider
-                    min={0.3}
-                    max={1}
-                    step={0.05}
-                    value={[overviewZoomThreshold]}
-                    onValueChange={(vals) => {
-                      const next = Array.isArray(vals) ? vals[0] : Number(vals)
-                      if (Number.isFinite(next)) setOverviewZoomThreshold(next)
-                    }}
-                  />
+                <div className="flex items-center gap-3">
+                  <div className="w-full">
+                    <Slider
+                      min={0.3}
+                      max={1}
+                      step={0.05}
+                      value={[overviewZoomThreshold]}
+                      onValueChange={(vals) => {
+                        const next = Array.isArray(vals)
+                          ? vals[0]
+                          : Number(vals)
+                        if (Number.isFinite(next))
+                          setOverviewZoomThreshold(next)
+                      }}
+                    />
+                  </div>
                 </div>
+                <Input
+                  type="number"
+                  inputMode="decimal"
+                  min={0.3}
+                  max={1}
+                  step={0.05}
+                  className="w-20 text-right"
+                  value={
+                    Number.isFinite(overviewZoomThreshold)
+                      ? overviewZoomThreshold
+                      : 0.6
+                  }
+                  onChange={(e) => {
+                    const next = parseFloat(e.target.value)
+                    if (Number.isFinite(next)) setOverviewZoomThreshold(next)
+                  }}
+                />
               </div>
-              <Input
-                type="number"
-                inputMode="decimal"
-                min={0.3}
-                max={1}
-                step={0.05}
-                className="w-20 text-right"
-                value={
-                  Number.isFinite(overviewZoomThreshold)
-                    ? overviewZoomThreshold
-                    : 0.6
-                }
-                onChange={(e) => {
-                  const next = parseFloat(e.target.value)
-                  if (Number.isFinite(next)) setOverviewZoomThreshold(next)
-                }}
-              />
-            </div>
-          </TabsContent>
+            </TabsContent>
 
-          <TabsContent value="advanced" className="mt-2">
-            <div className="flex flex-row items-center justify-between gap-2 p-4">
-              <div>
-                <Label className="text-base font-bold">
-                  Example overwrite warning
-                </Label>
+            <TabsContent value="advanced" className="mt-2">
+              <div className="flex flex-row items-center justify-between gap-2 p-4">
                 <div>
-                  <small>
-                    Show a warning that loading an example will overwrite the
-                    editor.
-                  </small>
+                  <Label className="text-base font-bold">
+                    Example overwrite warning
+                  </Label>
+                  <div>
+                    <small>
+                      Show a warning that loading an example will overwrite the
+                      editor.
+                    </small>
+                  </div>
                 </div>
-              </div>
 
-              <Switch
-                checked={showExampleOverwriteWarning}
-                onCheckedChange={() =>
-                  setShowExampleOverwriteWarning(!showExampleOverwriteWarning)
-                }
-              />
-            </div>
-          </TabsContent>
+                <Switch
+                  checked={showExampleOverwriteWarning}
+                  onCheckedChange={() =>
+                    setShowExampleOverwriteWarning(!showExampleOverwriteWarning)
+                  }
+                />
+              </div>
+            </TabsContent>
+          </div>
         </Tabs>
       </DialogContent>
     </Dialog>
