@@ -9,3 +9,6 @@ Things we or users notice during usage so we can improve upon them.
 - we need Alpha labels.
 - opening a Fluss should zoom editor to fit
 - Start Step could have no function at all.
+- Naming should be nodes and not steps. i think that is more widely used in the community and other tools.
+- add more ways to add nodes, like N as hotekey, double click on canvas or dropping an edge
+- Export should have config for prettier and ideally adhere to userspace prettier config.
