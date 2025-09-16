@@ -93,40 +93,6 @@ type FlowState = {
 function canStepRun<ID extends FlussStepId>(step: Step<ID>, flowState: FlowState): boolean {
   return step.arguments.every((arg) => flowState[arg.sourceStepId].status === 'done')
 }
-
-async function executeStep<ID extends FlussStepId>(step: Step<ID>, flowState: FlowState) {
-  try {
-    const input = {} as StepIO[ID]['input']
-
-    // Build inputs from declared argument wiring
-    for (const arg of step.arguments) {
-      const sourceStep = flowState[arg.sourceStepId]
-      if (sourceStep.status !== 'done') {
-        throw new Error('Source step ' + arg.sourceStepId + ' not complete for ' + String(arg.argumentName))
-      }
-      if (arg.sourceProperty === undefined || sourceStep.result === undefined) {
-        input[arg.argumentName as keyof StepIO[ID]['input']] =
-          sourceStep.result as StepIO[ID]['input'][keyof StepIO[ID]['input']]
-      } else {
-        input[arg.argumentName as keyof StepIO[ID]['input']] =
-          sourceStep.result[arg.sourceProperty as keyof typeof sourceStep.result]
-      }
-    }
-
-  // Log the exact input used to start this step
-  console.log('Executing', String(step.id), 'with input:', input)
-
-    const result = await step.execute(input)
-  // Log the output produced by this step
-  console.log('Result for', String(step.id), ':', result)
-    step.status = 'done'
-    step.result = result
-  } catch (err) {
-    step.status = 'error'
-    step.error = err instanceof Error ? err : new Error(String(err))
-    throw step.error
-  }
-}
 `
 
 const renderFlowStateInit = (flussFunctions: FlussFunction[]) => ts`{
@@ -169,66 +135,7 @@ export async function runFluss(params: {
   // Initialize all steps for this flow instance
   const flowState: FlowState = ${renderFlowStateInit(flussFunctions)}
 
-  // Event-driven iterative scheduler: start steps as soon as they become runnable
-  const running = new Map<FlussStepId, Promise<void>>()
-
-  const tryStartRunnable = () => {
-    // Find all steps that can be started right now
-    const runnableNow: FlussStepId[] = []
-    for (const step of Object.values(flowState) as Array<Step<FlussStepId>>) {
-      if (step.status !== 'waiting') continue
-      if (running.has(step.id)) continue
-      if (!canStepRun(step, flowState)) continue
-      runnableNow.push(step.id)
-    }
-
-    if (runnableNow.length > 0) {
-      console.log('Runnable now:', runnableNow)
-    }
-
-    // Start them immediately
-    let started = 0
-    for (const id of runnableNow) {
-      const step = flowState[id] as Step<FlussStepId>
-      console.log('Starting step:', step.id)
-      step.status = 'running'
-      const p = executeStep(step, flowState).finally(() => {
-        running.delete(step.id)
-        console.log('Finished step:', step.id)
-      })
-      running.set(step.id, p)
-      started++
-    }
-
-    if (running.size > 0) {
-      console.log('Currently running:', Array.from(running.keys()))
-    }
-
-    return started
-  }
-
-  // Kick off any steps that are immediately runnable
-  tryStartRunnable()
-
-  while (true) {
-    // If all done, return end result
-    const allDone = Object.values(flowState).every((s) => s.status === 'done')
-    if (allDone) {
-      if (!flowState.${END_NODE_ID}.result) throw new Error('End step has no result')
-      return flowState.${END_NODE_ID}.result
-    }
-
-    // If we can start new work right away, do it and loop without waiting
-    if (tryStartRunnable() > 0) continue
-
-    // Nothing to start right now. If nothing is running, we are stuck.
-    if (running.size === 0) {
-      throw new Error('No steps can be run and not all steps are done')
-    }
-
-    // Wait until one running step completes, then loop to start newly-unblocked ones immediately
-    await Promise.race(running.values())
-  }
+  
 }
 `
 

@@ -2,8 +2,6 @@
  * Executor for Fluss flows, pumping data through the fluss.
  */
 
-import { END_NODE_ID } from '@/stores/nodeHelpers'
-
 type PumpStepStatus = 'waiting' | 'running' | 'done' | 'error'
 type PumpStepConfig = {
   id: string
@@ -19,7 +17,7 @@ type PumpStepConfig = {
   error?: Error
 }
 
-type PumpFluss = {
+export type PumpFluss = {
   name: string
   steps: PumpStepConfig[]
 }
@@ -31,7 +29,7 @@ type PumpOptions = {
 
 const defaultOptions: PumpOptions = {
   shouldLogToConsole: false,
-  endStepId: END_NODE_ID,
+  endStepId: 'end',
 }
 
 /**
@@ -65,7 +63,7 @@ const executeStep = async (
   console.log(`Executing ${step.id}`)
   const result = await step.execute(input)
   // Log the output produced by this step
-  console.log('Result for', String(step.id), ':', result)
+  console.log('Result for', String(step.id), ':\n', result)
   return result
 }
 
@@ -95,25 +93,34 @@ export const pumpFluss = async (
       const canStepRun = stepsThatNeedToBeDone.every((needsToBeDoneId) =>
         doneStepsIds.includes(needsToBeDoneId)
       )
-      if (!canStepRun) return
+      if (!canStepRun) continue
 
       // Run this step.
+      console.log('Starting', step.id)
       step.status = 'running'
       const stepPromis = executeStep(
         step,
         pumpState.filter((step) => stepsThatNeedToBeDone.includes(step.id))
-      ).then((result) => {
-        step.result = result
-        step.status = 'done'
-        console.log(`Finsihed ${step.id}`, result)
-      })
+      )
+        .then((result) => {
+          step.result = result
+          step.status = 'done'
+        })
+        .catch((error) => {
+          step.error = error
+          step.status = 'error'
+        })
+        .finally(() => {
+          runningStepsPromises.delete(step.id)
+          console.log(`Finsihed ${step.id}`)
+        })
       runningStepsPromises.set(step.id, stepPromis)
     }
   }
-  startRunnableSteps()
 
   while (true) {
     startRunnableSteps()
+    console.log('Running Steps ', runningStepsPromises.keys())
     if (endStep.status === 'done') {
       return endStep.result
     }
