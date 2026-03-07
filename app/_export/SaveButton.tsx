@@ -65,9 +65,8 @@ export const SaveButton = ({
       return
     }
 
-    // Do a "Save To" operation if now file handle exists.
+    // Do a "Save To" operation if no file handle exists.
     if (!fileHandleKey || fileHandleKey === '') {
-      console.log('No file handle found, using File System Access API to save.')
       const options = {
         suggestedName: fileName,
         types: [
@@ -82,8 +81,8 @@ export const SaveButton = ({
         const writable = await handle.createWritable()
         await writable.write(code)
         await writable.close()
-        const fileHandleKey = await saveFlussFilehandle(handle)
-        setFileHandleKey(fileHandleKey)
+        const newFileHandleKey = await saveFlussFilehandle(handle)
+        setFileHandleKey(newFileHandleKey)
         toast.success('Fluss saved successfully.')
         return
       } catch (error) {
@@ -97,7 +96,6 @@ export const SaveButton = ({
 
     // Update already opened file.
     try {
-      console.log('Using existing file handle to save Fluss.')
       const fileHandle = await getFlussFilehandle(fileHandleKey)
       if (!fileHandle) {
         toast.error(
@@ -106,26 +104,16 @@ export const SaveButton = ({
         return
       }
 
-      let couldGetWriteable = false
-      setTimeout(async () => {
-        if (!couldGetWriteable) {
-          toast.error(
-            'Failed to get writable stream, falling back to "save as".'
-          )
-          await deleteFlussFilehandle(fileHandleKey)
-          setFileHandleKey('')
-          // Escape the current execution context to state update.
-          setTimeout(saveFluss, 0)
-        }
-      }, 500)
       const writable = await fileHandle.createWritable()
-      couldGetWriteable = true
       await writable.write(code)
       await writable.close()
       toast.success('Fluss saved successfully.')
     } catch (error) {
-      console.error('Error saving Fluss:', error)
-      toast.error('Failed to save Fluss.')
+      console.error('Error saving Fluss with existing file handle:', error)
+      // If writing to the old handle fails, clear it and retry via Save As picker.
+      await deleteFlussFilehandle(fileHandleKey)
+      setFileHandleKey('')
+      setTimeout(saveFluss, 0)
     }
   }
 

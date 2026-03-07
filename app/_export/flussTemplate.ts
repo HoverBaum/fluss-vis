@@ -31,6 +31,7 @@ export type FlussInputs = {
 
 const renderStepFunctionTypes = (flussFunctions: FlussFunction[]) =>
   flussFunctions
+    .filter((fn) => fn.stepId !== END_NODE_ID)
     .map(
       (fn) => ts`
 export type ${fn.functionTypeIdentifier} = (args: {
@@ -47,7 +48,16 @@ type StepIO = {
     output: FlussInputs
   }${functions
     .map(
-      (fn) => ts`
+      (fn) =>
+        fn.stepId === END_NODE_ID
+          ? ts`
+  ${fn.functionName}: {
+    input: {
+      ${fn.arguments.map((arg) => `${arg.name}: ${arg.type}`).join(';\n      ')}
+    }
+    output: ${fn.returnType}
+  }`
+          : ts`
   ${fn.functionName}: {
     input: Parameters<${fn.functionTypeIdentifier}>[0]
     output: ReturnType<${fn.functionTypeIdentifier}>
@@ -57,73 +67,29 @@ type StepIO = {
 }`
 
 const renderRuntimeCore = () => ts`
-type FlussRunStatus = 'waiting' | 'running' | 'done' | 'error'
-
-// Step IDs derive directly from StepIO keys
 type FlussStepId = keyof StepIO
 
-// Mapping of step id to executable function (excludes start/end)
 type StepFunctions = {
   [K in Exclude<FlussStepId, '${START_NODE_ID}' | '${END_NODE_ID}'>]: (
     args: StepIO[K]['input']
   ) => Promise<StepIO[K]['output']> | StepIO[K]['output']
 }
-
-// A single step instance within the running flow
-type Step<ID extends FlussStepId> = {
-  id: ID
-  status: FlussRunStatus
-  execute: (
-    args: StepIO[ID]['input']
-  ) => Promise<StepIO[ID]['output']> | StepIO[ID]['output']
-  arguments: Array<{
-    sourceStepId: FlussStepId
-    argumentName: keyof StepIO[ID]['input']
-    sourceProperty?: string
-  }>
-  result?: StepIO[ID]['output']
-  error?: Error
-}
-
-// Entire runtime state keyed by step id
-type FlowState = {
-  [K in FlussStepId]: Step<K>
-}
-
-function canStepRun<ID extends FlussStepId>(step: Step<ID>, flowState: FlowState): boolean {
-  return step.arguments.every((arg) => flowState[arg.sourceStepId].status === 'done')
-}
 `
 
-const renderFlowStateInit = (flussFunctions: FlussFunction[]) => ts`{
-  ${START_NODE_ID}: {
-    id: '${START_NODE_ID}',
-    status: 'done',
-    execute: (args) => args,
-    arguments: [],
-    result: inputs,
-  },
-  ${flussFunctions
-    .map(
-      (fn) => ts`${fn.functionName}: {
-    id: '${fn.functionName}',
-    status: 'waiting',
-    execute: ${fn.stepId === END_NODE_ID ? '(args) => args' : `stepFunctions.${fn.functionName}`},
-    arguments: [
-      ${fn.arguments
-        .map(
-          (arg) => ts`{
-        sourceStepId: '${arg.source}',
-        argumentName: '${arg.name}',
-        ${arg.usesEntireOutput ? '' : `sourceProperty: '${arg.name}'`}
-      }`
-        )
-        .join(',\n')}
-    ]
-  }`
-    )
-    .join(',\n')}
+const renderInputAssignments = (fn: FlussFunction) => {
+  if (fn.arguments.length === 0) return '{}'
+  return ts`{
+  ${fn.arguments
+    .map((arg) => {
+      const sourceReference = `${arg.source}Result`
+      const valueReference = arg.usesEntireOutput
+        ? sourceReference
+        : `${sourceReference}.${arg.name}`
+      return `${arg.name}: ${valueReference}`
+    })
+    .join(',\n  ')}
 }`
+}
 
 const renderRunner = (flussFunctions: FlussFunction[]) => ts`
 export async function runFluss(params: {
@@ -132,10 +98,25 @@ export async function runFluss(params: {
 }): Promise<StepIO['${END_NODE_ID}']['output']> {
   const { inputs, stepFunctions } = params
 
-  // Initialize all steps for this flow instance
-  const flowState: FlowState = ${renderFlowStateInit(flussFunctions)}
+  const ${START_NODE_ID}Result: StepIO['${START_NODE_ID}']['output'] = inputs
+${flussFunctions
+  .map((fn) => {
+    const inputVariable = `${fn.functionName}Input`
+    const resultVariable = `${fn.functionName}Result`
+    if (fn.stepId === END_NODE_ID) {
+      return ts`
+  const ${inputVariable}: StepIO['${END_NODE_ID}']['input'] = ${renderInputAssignments(fn)}
+  const ${resultVariable}: StepIO['${END_NODE_ID}']['output'] = ${inputVariable}
+  return ${resultVariable}`
+    }
+    return ts`
+  const ${inputVariable}: StepIO['${fn.functionName}']['input'] = ${renderInputAssignments(fn)}
+  const ${resultVariable}: Awaited<StepIO['${fn.functionName}']['output']> =
+    await stepFunctions.${fn.functionName}(${inputVariable})`
+  })
+  .join('\n')}
 
-  
+  throw new Error('Generated flow has no end step.')
 }
 `
 

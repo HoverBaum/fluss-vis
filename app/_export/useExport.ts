@@ -62,6 +62,35 @@ export type FlussFunction = {
   arguments: FlussFunctionArgument[]
 }
 
+const orderFlussFunctionsForGeneration = (functions: FlussFunction[]) => {
+  const done = new Set<string>()
+  const ordered: FlussFunction[] = []
+
+  while (ordered.length < functions.length) {
+    const runnable = functions.filter((fn) => {
+      if (done.has(fn.functionName)) return false
+
+      const unresolvedDependencyExists = fn.arguments.some(
+        (arg) => arg.source !== START_NODE_ID && !done.has(arg.source)
+      )
+      return !unresolvedDependencyExists
+    })
+
+    if (runnable.length === 0) {
+      throw new Error(
+        'Could not generate linear flow execution order from graph dependencies.'
+      )
+    }
+
+    runnable.forEach((fn) => {
+      done.add(fn.functionName)
+      ordered.push(fn)
+    })
+  }
+
+  return ordered
+}
+
 export const useExport = () => {
   const nodes = useFlussStore((store) => store.nodes)
   const edges = useFlussStore((store) => store.edges)
@@ -81,8 +110,6 @@ export const useExport = () => {
   }
 
   const flussExport = async () => {
-    console.log('new export....')
-
     const allOutputs = nodes.flatMap((node) => node.data.outputs)
     const populatedInputs: PopulatedInput[] = nodes
       .filter((node) => node.data.type !== 'start')
@@ -119,8 +146,6 @@ export const useExport = () => {
           typeName,
         }
       })
-    console.log('populatedInputs', populatedInputs)
-
     const flussFunctions: FlussFunction[] = nodes
       .filter((node) => node.data.type !== 'start')
       .map((node) => {
@@ -188,10 +213,8 @@ export const useExport = () => {
             }),
         }
       })
-    console.log('flussFunctions', flussFunctions)
 
     const typeScriptTypes = createTypescriptTypes(outputTypes)
-    console.log(typeScriptTypes)
 
     const startNode = nodes.find((node) => node.id === START_NODE_ID)
     if (!startNode || startNode.data.type !== 'start')
@@ -210,10 +233,12 @@ export const useExport = () => {
       }
     )
 
+    const orderedFlussFunctions = orderFlussFunctionsForGeneration(flussFunctions)
+
     const formattedCode = await prettier.format(
       flussTemplate({
         customTypes: typeScriptTypes,
-        flussFunctions,
+        flussFunctions: orderedFlussFunctions,
         flussInputs,
         entireStateJSON: JSON.stringify({ name, edges, nodes, outputTypes }),
       }),
