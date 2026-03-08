@@ -41,40 +41,33 @@ export type ${fn.functionTypeIdentifier} = (args: {
     )
     .join('\n')
 
-const renderStepIO = (functions: FlussFunction[]) => ts`
-type StepIO = {
-  ${START_NODE_ID}: {
-    input: FlussInputs
-    output: FlussInputs
-  }${functions
-    .map(
-      (fn) =>
-        fn.stepId === END_NODE_ID
-          ? ts`
-  ${fn.functionName}: {
-    input: {
-      ${fn.arguments.map((arg) => `${arg.name}: ${arg.type}`).join(';\n      ')}
-    }
-    output: ${fn.returnType}
-  }`
-          : ts`
-  ${fn.functionName}: {
-    input: Parameters<${fn.functionTypeIdentifier}>[0]
-    output: ReturnType<${fn.functionTypeIdentifier}>
-  }`
-    )
-    .join('')}
+const renderStepFunctionsContract = (flussFunctions: FlussFunction[]) => {
+  const executableFunctions = flussFunctions.filter((fn) => fn.stepId !== END_NODE_ID)
+  if (executableFunctions.length === 0) {
+    return ts`
+export type StepFunctions = {}`
+  }
+  return ts`
+export type StepFunctions = {
+  ${executableFunctions
+    .map((fn) => `${fn.functionName}: ${fn.functionTypeIdentifier}`)
+    .join(';\n  ')}
 }`
-
-const renderRuntimeCore = () => ts`
-type FlussStepId = keyof StepIO
-
-type StepFunctions = {
-  [K in Exclude<FlussStepId, '${START_NODE_ID}' | '${END_NODE_ID}'>]: (
-    args: StepIO[K]['input']
-  ) => Promise<StepIO[K]['output']> | StepIO[K]['output']
 }
-`
+
+const renderEndTypes = (flussFunctions: FlussFunction[]) => {
+  const endFunction = flussFunctions.find((fn) => fn.stepId === END_NODE_ID)
+  if (!endFunction) {
+    return ts`
+type EndInput = never
+type EndOutput = never`
+  }
+  return ts`
+type EndInput = {
+  ${endFunction.arguments.map((arg) => `${arg.name}: ${arg.type}`).join(';\n  ')}
+}
+type EndOutput = ${endFunction.returnType}`
+}
 
 const renderInputAssignments = (fn: FlussFunction) => {
   if (fn.arguments.length === 0) return '{}'
@@ -98,10 +91,10 @@ const renderRunner = (flussFunctions: FlussFunction[]) => ts`
 export async function runFluss(params: {
   inputs: FlussInputs
   stepFunctions: StepFunctions
-}): Promise<StepIO['${END_NODE_ID}']['output']> {
+}): Promise<EndOutput> {
   const { inputs, stepFunctions } = params
 
-  const ${START_NODE_ID}ResultPromise: Promise<StepIO['${START_NODE_ID}']['output']> =
+  const ${START_NODE_ID}ResultPromise: Promise<FlussInputs> =
     Promise.resolve(inputs)
 ${flussFunctions
   .map((fn) => {
@@ -109,15 +102,15 @@ ${flussFunctions
     const resultVariable = `${fn.functionName}ResultPromise`
     if (fn.stepId === END_NODE_ID) {
       return ts`
-  const ${resultVariable}: Promise<StepIO['${END_NODE_ID}']['output']> = (async () => {
-    const ${inputVariable}: StepIO['${END_NODE_ID}']['input'] = ${renderInputAssignments(fn)}
+  const ${resultVariable}: Promise<EndOutput> = (async () => {
+    const ${inputVariable}: EndInput = ${renderInputAssignments(fn)}
     return ${inputVariable}
   })()
   return await ${resultVariable}`
     }
     return ts`
-  const ${resultVariable}: Promise<Awaited<StepIO['${fn.functionName}']['output']>> = (async () => {
-    const ${inputVariable}: StepIO['${fn.functionName}']['input'] = ${renderInputAssignments(fn)}
+  const ${resultVariable}: Promise<Awaited<ReturnType<${fn.functionTypeIdentifier}>>> = (async () => {
+    const ${inputVariable}: Parameters<${fn.functionTypeIdentifier}>[0] = ${renderInputAssignments(fn)}
     return await stepFunctions.${fn.functionName}(${inputVariable})
   })()`
   })
@@ -144,11 +137,9 @@ ${renderFlussInputs(flussInputs)}
 // ===== Section: Step Function Signatures (from node definitions) =====
 ${renderStepFunctionTypes(flussFunctions)}
 
-// ===== Section: StepIO (wires inputs/outputs per step) =====
-${renderStepIO(flussFunctions)}
-
-// ===== Section: Runtime Types and Engine =====
-${renderRuntimeCore()}
+// ===== Section: Runtime Contracts =====
+${renderStepFunctionsContract(flussFunctions)}
+${renderEndTypes(flussFunctions)}
 
 // ===== Section: Runner =====
 ${renderRunner(flussFunctions)}
