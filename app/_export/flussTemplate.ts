@@ -81,7 +81,10 @@ const renderInputAssignments = (fn: FlussFunction) => {
   return ts`{
   ${fn.arguments
     .map((arg) => {
-      const sourceReference = `${arg.source}Result`
+      const sourceReference =
+        arg.source === START_NODE_ID
+          ? `(await ${START_NODE_ID}ResultPromise)`
+          : `(await ${arg.source}ResultPromise)`
       const valueReference = arg.usesEntireOutput
         ? sourceReference
         : `${sourceReference}.${arg.name}`
@@ -98,21 +101,25 @@ export async function runFluss(params: {
 }): Promise<StepIO['${END_NODE_ID}']['output']> {
   const { inputs, stepFunctions } = params
 
-  const ${START_NODE_ID}Result: StepIO['${START_NODE_ID}']['output'] = inputs
+  const ${START_NODE_ID}ResultPromise: Promise<StepIO['${START_NODE_ID}']['output']> =
+    Promise.resolve(inputs)
 ${flussFunctions
   .map((fn) => {
     const inputVariable = `${fn.functionName}Input`
-    const resultVariable = `${fn.functionName}Result`
+    const resultVariable = `${fn.functionName}ResultPromise`
     if (fn.stepId === END_NODE_ID) {
       return ts`
-  const ${inputVariable}: StepIO['${END_NODE_ID}']['input'] = ${renderInputAssignments(fn)}
-  const ${resultVariable}: StepIO['${END_NODE_ID}']['output'] = ${inputVariable}
-  return ${resultVariable}`
+  const ${resultVariable}: Promise<StepIO['${END_NODE_ID}']['output']> = (async () => {
+    const ${inputVariable}: StepIO['${END_NODE_ID}']['input'] = ${renderInputAssignments(fn)}
+    return ${inputVariable}
+  })()
+  return await ${resultVariable}`
     }
     return ts`
-  const ${inputVariable}: StepIO['${fn.functionName}']['input'] = ${renderInputAssignments(fn)}
-  const ${resultVariable}: Awaited<StepIO['${fn.functionName}']['output']> =
-    await stepFunctions.${fn.functionName}(${inputVariable})`
+  const ${resultVariable}: Promise<Awaited<StepIO['${fn.functionName}']['output']>> = (async () => {
+    const ${inputVariable}: StepIO['${fn.functionName}']['input'] = ${renderInputAssignments(fn)}
+    return await stepFunctions.${fn.functionName}(${inputVariable})
+  })()`
   })
   .join('\n')}
 
