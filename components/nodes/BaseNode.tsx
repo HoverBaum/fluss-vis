@@ -128,8 +128,8 @@ export const BaseNode = ({
         }}
       >
         {isZoomedOut && (
-          <div className="bg-card absolute top-0 left-0 z-10 grid h-full w-full place-items-center rounded-xl p-8">
-            <span className="text-4xl">{name}</span>
+          <div className="bg-card absolute top-0 left-0 z-10 h-full w-full rounded-xl p-8">
+            <CardTitle className="text-4xl">{name}</CardTitle>
           </div>
         )}
         {state === 'exiting' && (
