@@ -17,6 +17,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
 
+import { clearCurrentFile } from '@/lib/flussFileHandle'
 import { BlogDraftExampleState } from '@/stores/examples/blogDraft.example'
 import { squareNumberExampleState } from '@/stores/examples/squareNumber.example'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
@@ -42,6 +43,9 @@ export const ExamplesDropdown = () => {
   )
   const { isMobile } = useSidebar()
   const loadFluss = useFlussStore((state) => state.loadFluss)
+  const fileHandleKey = useFlussStore((state) => state.fileHandleKey)
+  const setFileHandleKey = useFlussStore((state) => state.setFileHandleKey)
+  const setSavedFileName = useFlussStore((state) => state.setSavedFileName)
   const setShowExampleOverwriteWarning = useSettingsStore(
     (store) => store.setShowExampleOverwriteWarning
   )
@@ -49,8 +53,18 @@ export const ExamplesDropdown = () => {
     (store) => store.showExampleOverwriteWarning
   )
 
-  const loadExample = (example: FlussState) => {
-    loadFluss(example)
+  const loadExample = async (example: FlussState) => {
+    if (fileHandleKey) {
+      await clearCurrentFile(fileHandleKey, {
+        setFileHandleKey,
+        setSavedFileName,
+      })
+    }
+    loadFluss({
+      ...example,
+      fileHandleKey: undefined,
+      savedFileName: undefined,
+    })
     // Need to escape event loop so that state update can finish.
     setTimeout(() => fitView(), 1)
   }

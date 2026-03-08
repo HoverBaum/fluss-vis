@@ -53,6 +53,7 @@ export type FlussState = {
     isTypeDialogOpen: boolean
   }
   fileHandleKey?: string
+  savedFileName?: string
   hasHydrated: boolean
 }
 
@@ -92,7 +93,8 @@ export type FlussActions = {
   setCustomTypesDialogOpen: (isOpen: boolean) => void
   edgeSetState: (edgeId: string, state: AnimationState) => void
   loadFluss: (state: FlussState) => void
-  setFileHandleKey: (key: string) => void
+  setFileHandleKey: (key: string | undefined) => void
+  setSavedFileName: (name: string | undefined) => void
   setHasHydrated: (hasHydrated: boolean) => void
 }
 
@@ -145,6 +147,7 @@ export const initialState: FlussState = {
     isTypeDialogOpen: false,
   },
   fileHandleKey: undefined,
+  savedFileName: undefined,
   hasHydrated: false,
 }
 
@@ -529,6 +532,9 @@ export const createFlussStore = (initState: FlussState = initialState) => {
             },
             setFileHandleKey: (key) => {
               set({ fileHandleKey: key })
+            },
+            setSavedFileName: (name) => {
+              set({ savedFileName: name })
             },
             setHasHydrated: (hasHydrated) => {
               set({ hasHydrated: hasHydrated })

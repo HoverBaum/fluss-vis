@@ -25,6 +25,7 @@ import {
 } from 'lucide-react'
 import { useSettingsStore } from '@/stores/SettingsStoreProvider'
 import { SaveButton } from '../_export/SaveButton'
+import { SaveToButton } from '../_export/SaveToButton'
 import { Badge } from '@/components/ui/badge'
 
 export const FlussSidebar = () => {
@@ -114,6 +115,9 @@ export const FlussSidebar = () => {
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>
+          <SidebarMenuItem>
+            <SaveToButton variant="secondary" className="w-full" />
+          </SidebarMenuItem>
           <SidebarMenuItem>
             <SaveButton variant="default" className="w-full" />
           </SidebarMenuItem>

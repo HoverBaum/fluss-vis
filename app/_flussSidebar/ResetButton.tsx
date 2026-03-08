@@ -13,6 +13,7 @@ import {
 import { SidebarMenuButton } from '@/components/ui/sidebar'
 import { initialState } from '@/stores/flussStore'
 import { useFlussStore } from '@/stores/FlussStoreProvider'
+import { clearCurrentFile } from '@/lib/flussFileHandle'
 import { RotateCcwIcon } from 'lucide-react'
 
 type ResetButtonProps = {
@@ -21,6 +22,19 @@ type ResetButtonProps = {
 
 export const ResetButton = ({ disabled }: ResetButtonProps) => {
   const loadFluss = useFlussStore((state) => state.loadFluss)
+  const fileHandleKey = useFlussStore((state) => state.fileHandleKey)
+  const setFileHandleKey = useFlussStore((state) => state.setFileHandleKey)
+  const setSavedFileName = useFlussStore((state) => state.setSavedFileName)
+
+  const handleReset = async () => {
+    if (fileHandleKey) {
+      await clearCurrentFile(fileHandleKey, {
+        setFileHandleKey,
+        setSavedFileName,
+      })
+    }
+    loadFluss({ ...initialState, hasHydrated: true })
+  }
 
   return (
     <AlertDialog>
@@ -44,9 +58,7 @@ export const ResetButton = ({ disabled }: ResetButtonProps) => {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction
-            onClick={() => loadFluss({ ...initialState, hasHydrated: true })}
-          >
+          <AlertDialogAction onClick={handleReset}>
             Continue
           </AlertDialogAction>
         </AlertDialogFooter>
